@@ -1096,17 +1096,6 @@ noremap <M-F12> :<C-u>call IncreaseTrancyLevel()<CR>
 
 
 "---------------------------------------------------------------------------
-" Project毎のルートディレクトリ
-"
-command! -nargs=0 CDK01  cd C:\develop\ISP-K01\ISP-K01\trunk\GRSAll\GRS
-command! -nargs=0 CDK01A cd C:\develop\ISP-K01A\CLR_TYPE_COIN\GRSAll.root\GRSAll\GRS
-command! -nargs=0 CDK01B cd C:\develop\ISP-K01\ISP-K01B\trunk\GRSAll\GRS
-command! -nargs=0 CDK01LOCKER cd C:\develop\ISP-K01\ISP-K01B\branches\SecurityLocker\GRSAll\GRS
-" command! -nargs=0 CDK0602  cd C:\develop\CI100_WF_K0602\CI100TM
-" command! -nargs=0 CDK0603  cd C:\develop\CI100_WF_K0603\CI100TM
-
-
-"---------------------------------------------------------------------------
 " 起動前処理
 "
 " ディレクトリ作成 (vim-user.jp hack-202)
@@ -1124,6 +1113,14 @@ if has('vim_starting')
   if has('persistent_undo')
     call s:auto_mkdir(&undodir, 1)
   endif
+endif
+
+
+"---------------------------------------------------------------------------
+" 環境ごとの設定読み込み
+"
+if filereadable(s:get_rc_file('vimlocal'))
+  exe 'source '.s:get_rc_file('vimlocal')
 endif
 
 
