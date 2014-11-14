@@ -1,0 +1,866 @@
+"
+" _pluginrc
+"
+" プラグイン毎の設定
+"
+
+"---------------------------------------------------------------------------
+" neobundle.vim
+"
+" neobundle自体をインストールするコマンド
+command! -nargs=0 NeoBundleInitialize exe
+      \ '!git clone http://github.com/Shougo/neobundle.vim.git '.$VIMLOCAL.'/bundle/neobundle.vim'
+
+" 起動時読み込み処理
+if has('vim_starting')
+  set runtimepath+=$VIMLOCAL/bundle/neobundle.vim
+endif
+
+call neobundle#begin(expand('$VIMLOCAL/bundle'))
+
+" プラグイン管理
+NeoBundleFetch 'Shougo/neobundle.vim'
+" NeoBundle 'tpope/vim-pathogen'
+
+" 補完
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neosnippet', { 'depends' : 'Shougo/neocomplete.vim' }
+NeoBundle 'Shougo/neosnippet-snippets', { 'depends' : 'Shougo/neosnippet' }
+NeoBundle 'honza/vim-snippets.git', { 'depends' : 'Shougo/neosnippet' }
+NeoBundleLazy 'Rip-Rip/clang_complete'
+" NeoBundleLazy 'Rip-Rip/clang_complete', {
+"             \ 'autoload' : {'filetypes' : ['c', 'cpp']}
+"             \ }
+
+" 編集支援
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'taku-o/vim-fix-numbering'
+NeoBundle 'vim-scripts/Align'
+NeoBundle 'vim-scripts/ShowMarks7'
+NeoBundle 'vim-scripts/taglist.vim'
+NeoBundle 't9md/vim-quickhl'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'osyo-manga/vim-over'
+NeoBundleLazy 'alpaca-tc/alpaca_tags', {
+      \ 'depends': ['Shougo/vimproc'],
+      \ 'autoload' : {
+      \   'commands' : [
+      \     { 'name' : 'AlpacaTagsBundle', 'complete': 'customlist,alpaca_tags#complete_source' },
+      \     { 'name' : 'AlpacaTagsUpdate', 'complete': 'customlist,alpaca_tags#complete_source' },
+      \     'AlpacaTagsSet', 'AlpacaTagsCleanCache', 'AlpacaTagsEnable', 'AlpacaTagsDisable', 'AlpacaTagsKillProcess', 'AlpacaTagsProcessStatus',
+      \ ],
+      \ }}
+
+" C/C++
+NeoBundle 'vim-scripts/a.vim'
+NeoBundleLazy 'vim-scripts/c.vim'
+NeoBundleLazy 'vim-scripts/TagHighlight'
+
+" ruby
+" NeoBundle 'vim-ruby/vim-ruby'
+
+" Unite
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim', { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'tsukkee/unite-help', { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'tsukkee/unite-tag', { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'tacroe/unite-mark', { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'h1mesuke/unite-outline', { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'zhaocai/unite-scriptnames', { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'ujihisa/unite-colorscheme', { 'depends' : 'Shougo/unite.vim' }
+" NeoBundle 'choplin/unite-vim_hacks'
+
+" WEBアクセス
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mattn/excitetranslate-vim'
+NeoBundleLazy 'yuratomo/w3m.vim'
+NeoBundleLazy 'koron/chalice'
+
+" その他
+NeoBundle 'vim-jp/vimdoc-ja'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vimproc'
+" NeoBundle 'Shougo/vimproc', {
+"       \ 'build' : {
+"       \     'windows' : 'nmake -f make_msvc.mak nodebug=1',
+"       \     'cygwin' : 'make -f make_cygwin.mak',
+"       \     'mac' : 'make -f make_mac.mak',
+"       \     'unix' : 'make -f make_unix.mak',
+"       \    },
+"       \ }
+
+" NeoBundle 'ujihisa/vimshell-ssh'
+" NeoBundle 'thinca/vim-openbuf'
+" NeoBundle 'vim-scripts/L9'
+
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'xolox/vim-session'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-ref'
+" NeoBundleLazy 'mattn/benchvimrc-vim'
+" NeoBundle 'vim-scripts/Color-Sampler-Pack'
+" NeoBundleLazy 'Lokaltog/vim-powerline'
+" NeoBundleLazy 'koron/minimap-vim'
+" NeoBundle 'w0ng/vim-hybrid'
+
+" ローカル管理のプラグイン
+NeoBundleLocal $VIMLOCAL/bundle_local
+
+call neobundle#end()
+
+" Check plugins installation. If plugins are not installed,
+" it will execute :NeoBundleInstall automatically.
+NeoBundleCheck
+
+
+"---------------------------------------------------------------------------
+" neocomplete
+"
+" 自動的に起動 (default 0)
+let g:neocomplete#enable_at_startup = 1
+" AutoComplPopのように最初の候補を選択する (default 0)
+let g:neocomplete#enable_auto_select = 0
+" neocomplcacheのsmart case機能を有効化 (default infercase)
+let g:neocomplete#enable_smart_case = 1
+" 自動補完開始までの待ち時間 (default 2)
+" g:neocomplete#skip_auto_completion_time = 2
+
+" 補完候補最大表示件数 (default 100)
+let g:neocomplete#max_list = 100
+
+" シンタックスをキャッシュするときの最小文字長 (default 4)
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+" neocomplcacheを自動的にロックするバッファ名のパターンを指定
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" 辞書ディレクトリ
+" let g:neocomplete#sources#dictionary#dictionaries = {
+"     \ 'default' : '',
+"     \ 'vimshell' : $HOME.'/.vimshell_hist',
+"     \ 'scheme' : $HOME.'/.gosh_completions'
+"         \ }
+
+" cache directory
+let g:neocomplete#data_directory = $VIMLOCAL.'/tmp/cache/neocomplete'
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" オムニ補完キーワード
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" neocomplcache-clang_completeを使用する為の設定 (TODO:実験中)
+let s:use_clang = 0
+if s:use_clang
+  exe 'NeoBundleSource clang_complete'
+  let g:neocomplete#force_overwrite_completefunc = 1
+  if !exists("g:neocomplete#force_omni_patterns")
+    let g:neocomplete#force_omni_patterns = {}
+  endif
+  let g:neocomplete#force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+  let g:neocomplete#force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+  let g:neocomplete#force_omni_patterns.objc = '[^.[:digit:] *\t]\%(\.\|->\)'
+  let g:neocomplete#force_omni_patterns.objcpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+  " clang_complete
+  let g:clang_complete_auto = 1
+  let g:clang_complete_copen = 1
+  let g:clang_use_library = 1
+  let g:clang_debug = 1
+  " let g:clang_exec = '"'.$VIMLOCAL.'/bin/clang/clang.exe'
+  let g:clang_library_path = $VIMLOCAL.'\bin\clang'
+  " let g:clang_auto_user_options = 'path, .clang_complete'
+  " let g:clang_user_options = '2> NUL || exit 0"'
+  " let g:clang_user_options = '-std=c++11 2> NUL || exit 0"'
+  " http://d.hatena.ne.jp/ohtorii/20110319/1300514225
+  " let g:clang_user_options = '-DWIN32 -D_WINDOWS -DNDEBUG
+  "                           \ -D_MSC_VER=1400 -D__MSVCRT_VERSION__=0x700 -D_WIN32_WINNT=0x0500
+  "                           \ -cc1 -fsyntax-only -x c++ -fno-caret-diagnostics
+  "                           \ -fdiagnostics-print-source-range-info -std=c++11
+  "                           \ -fms-extensions -fmsc-version=1400 -fgnu-runtime
+  "                           \ 2> NUL || exit 0"'
+  " let g:clang_user_options = '"-IC:\Program Files\Microsoft Visual Studio 8\VC\include"
+  "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\VC\atlmfc\include"
+  "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Include"
+  "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\include"
+  "                           \ 2> NUL || exit 0"'
+endif
+
+" キーマップ
+" キーワード補完
+inoremap <expr><C-n> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+inoremap <expr><C-p> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+
+" 前回の保管候補をキャンセル
+inoremap <expr><C-g> neocomplete#undo_completion()
+" 補完候補のなかから、共通する部分を補完
+inoremap <expr><C-l> neocomplete#complete_common_string()
+
+" Enterでポップアップを閉じて改行
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+
+" TABキーでキーワード補完
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" neocompleteの補完を選択し、ポップアップメニューを閉じる
+inoremap <expr><C-y> neocomplete#close_popup()
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+" neocompleteの補完をキャンセルし、ポップアップメニューを閉じる
+inoremap <expr><C-e> neocomplete#cancel_popup()
+
+
+"---------------------------------------------------------------------------
+" neosnippet
+"
+" cache directory
+let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
+" Plugin key-mappings.
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)"
+      \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)"
+      \: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory=$VIMLOCAL.'/bundle/vim-snippets/snippets'
+
+
+"---------------------------------------------------------------------------
+" unite.vim
+"
+" 入力モードで開始する
+let g:unite_enable_start_insert = 1
+" Uniteを縦分割で開始する
+"let g:unite_enable_split_vertically
+" history/yankの有効化
+let g:unite_source_history_yank_enable = 1
+" cache directory
+let g:unite_data_directory = $VIMLOCAL.'/tmp/cache/unite'
+let g:neomru#file_mru_path = $VIMLOCAL.'/tmp/cache/neomru/file'
+let g:neomru#directory_mru_path = $VIMLOCAL.'/tmp/cache/neomru/directory'
+
+" default actionの変更
+call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
+call unite#custom_default_action('vimshell/history', 'insert')
+" call unite#custom_default_action('guicmd', 'start')
+
+" unite-grepに関する設定
+if has('win32')
+  let g:unite_source_grep_command = "grep"
+  let g:unite_source_grep_recursive_opt = "-r"
+  let g:unite_source_grep_default_opts = "-Hn"
+endif
+
+function! s:chg_unite_keymap()
+  " 普通に開く
+  nnoremap <silent><buffer><expr>o unite#do_action('open')
+  inoremap <silent><buffer><expr>o unite#smart_map("o", unite#do_action('open'))
+  " 横に分割して開く
+  nnoremap <silent><buffer><expr>s unite#do_action('split')
+  inoremap <silent><buffer><expr>s unite#smart_map("s", unite#do_action('split'))
+  " 縦に分割して開く
+  nnoremap <silent><buffer><expr>v unite#do_action('vsplit')
+  inoremap <silent><buffer><expr>v unite#smart_map("v", unite#do_action('vsplit'))
+  " タブで開く
+  nnoremap <silent><buffer><expr>t unite#do_action('tabopen')
+  inoremap <silent><buffer><expr>t unite#smart_map("t", unite#do_action('tabopen'))
+endfunction
+augroup ag_unite_chg_keymap
+  au! FileType unite call s:chg_unite_keymap()
+augroup END
+
+" ESCキーを2回押すと終了する
+augroup ag_unite_esc_esc_quit
+  au!
+  au FileType unite nnoremap <silent><buffer><ESC><ESC> :<C-u>q<CR>
+  au FileType unite inoremap <silent><buffer><ESC><ESC> <ESC>:<C-u>q<CR>
+augroup END
+
+" キーマップ一覧
+command! -nargs=0 UniteKeyMap Unite output:map|map!|lmap
+" カラースキーマー検索 自動プレビュー付き
+command! -nargs=0 UniteColorSchemePreview Unite colorscheme -auto-preview
+
+" キーマップ定義
+nnoremap [unite] <Nop>
+nmap     <LEADER>u [unite]
+" 常用セット
+nnoremap <silent>[unite]u  :<C-u>Unite -buffer-name=files buffer file file_mru bookmark<CR>
+" レジューム
+nnoremap <silent>[unite]U   :<C-u>UniteResume<CR>
+" バッファ一覧
+nnoremap <silent>[unite]b  :<C-u>Unite buffer<CR>
+" バッファ一覧(カレントタブ)
+nnoremap <silent>[unite]B  :<C-u>Unite buffer_tab<CR>
+" ファイル一覧
+nnoremap <silent>[unite]f  :<C-u>Unite -buffer-name=files file<CR>
+" ファイル一覧(再帰)
+nnoremap <silent>[unite]ff  :<C-u>Unite -buffer-name=files file_rec<CR>
+" ファイル一覧(現在開いているファイルのディレクトリ)
+nnoremap <silent>[unite]F :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" ファイル一覧(再帰 現在開いているファイルのディレクトリ)
+"nnoremap <silent> [unite]FF :<C-u>UniteWithBufferDir -buffer-name=files file_rec<CR> " 現状動かない(バグ？)
+nnoremap <silent>[unite]FF :<C-u>Unite -buffer-name=files file_rec:<C-r>=expand('%:p:h:gs?[ :]?\\\0?')<CR><CR>
+" ディレクトリ一覧
+nnoremap <silent>[unite]d  :<C-u>Unite -buffer-name=files directory<CR>
+" ディレクトリ一覧(現在開いているファイルのディレクトリ)
+nnoremap <silent>[unite]D :<C-u>UniteWithBufferDir -buffer-name=files directory<CR>
+" 最近使用したファイル一覧
+nnoremap <silent>[unite]fm :<C-u>Unite -buffer-name=files file_mru<CR>
+" 最近使用したディレクトリ一覧
+nnoremap <silent>[unite]dm :<C-u>Unite -buffer-name=files directory_mru<CR>
+" ブックマーク一覧
+nnoremap <silent>[unite]bm :<C-u>Unite -buffer-name=files bookmark<CR>
+" ファイル/バッファ全部乗せ
+nnoremap <silent>[unite]a :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+" レジスタ一覧
+nnoremap <silent>[unite]r  :<C-u>Unite -buffer-name=register register<CR>
+" ヤンク履歴
+nnoremap <silent>[unite]y  :<C-u>Unite -buffer-name=register history/yank<CR>
+" コマンド一覧
+nnoremap <silent>[unite]co :<C-u>Unite command<CR>
+" Find
+nnoremap <silent>[unite]fi :<C-u>Unite find<CR>
+" Grep
+nnoremap <silent>[unite]gr :<C-u>Unite grep<CR>
+" neoBundle/install
+nnoremap <silent>[unite]ni :<C-u>Unite neobundle/install<CR>
+" neoBundle/update
+nnoremap <silent>[unite]nu :<C-u>Unite neobundle/update<CR>
+" neoBundle/log
+nnoremap <silent>[unite]nl :<C-u>Unite neobundle/log<CR>
+" neoBundle/search
+nnoremap <silent>[unite]ns :<C-u>Unite neobundle/log<CR>
+" 以下、追加source
+" ヘルプ (unite-help)
+nnoremap <silent>[unite]h  :<C-u>Unite help<CR>
+" アウトライン (unite-outline)
+nnoremap <silent>[unite]o :<C-u>Unite outline<CR>
+" マーク一覧 (unite-mark)
+nnoremap <silent>[unite]m :<C-u>Unite mark<CR>
+" タグ (unite-tag)
+nnoremap <silent>[unite]t  :<C-u>Unite tag<CR>
+nnoremap <silent>[unite]tf :<C-u>Unite tag/file<CR>
+nnoremap <silent>[unite]ti :<C-u>Unite tag/include<CR>
+" 読み込んだプラグイン一覧 (unite-scriptnames)
+nnoremap <silent>[unite]sn :<C-u>Unite scriptnames<CR>
+
+
+"---------------------------------------------------------------------------
+" vimfiler
+"
+let g:vimfiler_as_default_explorer = 1
+" Enable file operation commands.
+let g:vimfiler_safe_mode_by_default = 0
+" Use trashbox.
+let g:unite_kind_file_use_trashbox = 1
+" cache directory
+let g:vimfiler_data_directory = $VIMLOCAL.'/tmp/cache/vimfiler'
+
+" 関連付け
+call vimfiler#set_execute_file('vim', 'vim')
+call vimfiler#set_execute_file('txt', 'vim')
+
+" 自動的にカーソルラインをオン
+augroup ag_vimfiler_curline_on
+  au!
+  au FileType vimfiler setlocal cursorline
+  au FileType vimfiler hi CursorLine gui=underline
+augroup END
+
+function! s:chg_vimfiler_keymap()
+  " Enterでディレクトリはツリー展開、ファイルは開く
+  nmap <silent><buffer><expr><CR> vimfiler#smart_cursor_map(
+        \ "\<Plug>(vimfiler_expand_tree)", "\<Plug>(vimfiler_edit_file)")
+  " 普通に開く
+  nmap <silent><buffer><expr>o vimfiler#smart_cursor_map(
+        \ "\<Plug>(vimfiler_expand_tree)", vimfiler#do_action('open'))
+  " 横に分割して開く
+  nmap <silent><buffer><expr>s vimfiler#smart_cursor_map(
+        \ "\<Plug>(vimfiler_expand_tree)", vimfiler#do_action('split'))
+  " 縦に分割して開く
+  nmap <silent><buffer><expr>v vimfiler#smart_cursor_map(
+        \ "\<Plug>(vimfiler_expand_tree)", vimfiler#do_action('vsplit'))
+  " タブで開く
+  nnoremap <silent><buffer><expr>t vimfiler#do_action('tabopen')
+  " Unite bookmarkを開く
+  nnoremap <buffer>b :<C-u>Unite -buffer-name=files bookmark<CR>
+"  map <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
+"  map <End> <Plug>(vimfiler_clear_mark_all_lines)
+"  map <buffer> @ <Plug>(vimfiler_set_current_mask)
+endfunction
+augroup ag_vimfiler_chg_keymap
+  au! FileType vimfiler call s:chg_vimfiler_keymap()
+augroup END
+
+nnoremap [vimfiler] <Nop>
+nmap     <LEADER>vf [vimfiler]
+nnoremap [vimfiler] :<C-u>VimFiler<CR>
+
+
+"---------------------------------------------------------------------------
+" vimshell
+"
+" cache directory
+let g:vimshell_data_directory = $VIMLOCAL.'/tmp/cache/vimshell'
+
+nnoremap [vimshell] <Nop>
+nmap     <LEADER>vs [vimshell]
+nnoremap [vimshell] :<C-u>VimShell<CR>
+
+
+"---------------------------------------------------------------------------
+" NERDTree
+"
+" NERDTreeの幅
+let g:NERDTreeWinSize=40
+" 左側にNERDTreeを表示
+let g:NERDTreeWinPos = "left"
+" 隠しファイルを表示する
+let g:NERDTreeShowHidden = 1
+" NERDTreeのウインドウだけならvimを閉じる
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" NERDTree開閉トグル
+nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
+
+
+"---------------------------------------------------------------------------
+" taglist.vim
+"
+" 現在表示中のファイルのみのタグしか表示しない
+let Tlist_Show_One_File = 1
+" taglisの幅
+let Tlist_WinWidth = 40
+" 右側にtaglistを表示
+let Tlist_Use_Right_Window = 1
+" taglistのウインドウだけならvimを閉じる
+let Tlist_Exit_OnlyWindow = 1
+" taglist開閉トグル
+nnoremap <silent>[toggle]t :TlistToggle<CR>
+
+
+"---------------------------------------------------------------------------
+" alpaca_tags
+"
+let g:alpaca_tags#config = {
+      \ '_' : '-R --sort=yes',
+      \ 'js' : '--languages=+js',
+      \ '-js' : '--languages=-js,JavaScript',
+      \ 'vim' : '--languages=+Vim,vim',
+      \ 'php' : '--languages=+php',
+      \ '-vim' : '--languages=-Vim,vim',
+      \ '-style': '--languages=-css,scss,js,JavaScript,html',
+      \ 'scss' : '--languages=+scss --languages=-css',
+      \ 'css' : '--languages=+css',
+      \ 'java' : '--languages=+java $JAVA_HOME/src',
+      \ 'ruby': '--languages=+Ruby',
+      \ 'coffee': '--languages=+coffee',
+      \ '-coffee': '--languages=-coffee',
+      \ 'bundle': '--languages=+Ruby',
+      \ }
+
+" Specify directories to store generated tags.
+let g:alpaca_tags#cache_dir = $VIMLOCAL.'/tmp/cache/alpaca_tags'
+" If it is as following, debug is shown.
+let g:alpaca_tags#console = { 'report' : 1 }
+
+augroup AlpacaTags
+  au!
+  if exists(':AlpacaTags')
+    au BufWritePost Gemfile AlpacaTagsBundle
+    au BufEnter * AlpacaTagsSet
+    au BufWritePost * AlpacaTagsUpdate
+  endif
+augroup END
+
+
+"---------------------------------------------------------------------------
+" tcomment.vim
+"
+" <LEADER>cでコメントのトグル
+" 一行コメントは<LEADER>cでトグル
+let g:tcommentMapLeaderOp1 = '<LEADER>c'
+let g:tcommentMapLeaderOp2 = '<LEADER>C'
+
+
+"---------------------------------------------------------------------------
+" a.vim
+"
+nnoremap [avim] <Nop>
+nmap     <LEADER>a [avim]
+" C/C++のヘッダーとソースを切り替える
+nnoremap <silent>[avim] :<C-u>A<CR>
+" 縦分割で開く
+nnoremap <silent>[avim]v :<C-u>AV<CR>
+" 横分割で開く
+nnoremap <silent>[avim]s :<C-u>AS<CR>
+" 新規タブで開く
+nnoremap <silent>[avim]t :<C-u>AT<CR>
+" 以下はマッピング済み
+" <Leader>ih  カーソル下のファイルを開く
+" <Leader>is  カーソル下のファイルに対応するヘッダー/ソースを分割して開く
+" <Leader>ihn 循環マッチ?
+
+
+"---------------------------------------------------------------------------
+" surround.vim
+"
+" surround.vim導入でsコマンドが使えなくなるため、復活させる
+augroup ag_reset_smap
+  au! VimEnter xunmap s
+augroup END
+
+
+"---------------------------------------------------------------------------
+" Align.vim
+"
+" 日本語など幅広文字に対応
+let g:Align_xstrlen=3
+" Align.vimは大量のキーマップを提供する
+" 干渉を避けるためにデフォルトキーマップの読み込みは行わない
+let g:loaded_AlignMapsPlugin = 1
+" change keymap
+" map <LEADER>am= <Plug>AM_m=
+
+
+"---------------------------------------------------------------------------
+" matchit.vim
+"
+" 有効化
+runtime macros/matchit.vim
+" 大文字小文字を区別しない
+let b:match_ignorecase = 1
+" 対応するペアのパターン
+let b:match_words = &matchpairs . ',' .
+      \ 'if:endif,'.
+      \ 'function:endfunction,'.
+      \ 'begin:end'
+
+
+"---------------------------------------------------------------------------
+" showmarks.vim
+"
+let showmarks_enable = 1
+" Show which marks
+let showmarks_include = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+" help、quickfixと編集不可のバッファのマークを表示しない
+let showmarks_ignore_type = 'hqm'
+" Hilight lower & upper marks
+" let showmarks_hlline_lower = 1
+" let showmarks_hlline_upper = 1
+
+" change keymap
+map mt <Plug>ShowmarksShowMarksToggle
+map mo <Plug>ShowmarksShowMarksOn
+map mm <Plug>ShowmarksPlaceMark
+map mc <Plug>ShowmarksClearMark
+map mM <Plug>ShowmarksClearAll
+nnoremap <silent><Plug>ShowmarksShowMarksToggle :<C-u>ShowMarksToggle<CR>
+nnoremap <silent><Plug>ShowmarksShowMarksOn :<C-u>ShowMarksOn<CR>
+nnoremap <silent><Plug>ShowmarksPlaceMark :<C-u>ShowMarksPlaceMark<CR>
+nnoremap <silent><Plug>ShowmarksClearMark :<C-u>ShowMarksClearMark<CR>
+nnoremap <silent><Plug>ShowmarksClearAll :<C-u>ShowMarksClearAll<CR>
+
+
+" color setting
+function! s:chg_showmarks_color()
+  hi! link SignColumn LineNr
+  hi! link ShowMarksHLl LineNr
+  hi! link ShowMarksHLu LineNr
+  hi! link ShowMarksHLo LineNr
+  hi! link ShowMarksHLm LineNr
+endfunction
+augroup ag_chg_showmarks_colors
+  au!
+  au ColorScheme * call s:chg_showmarks_color()
+augroup END
+
+
+"---------------------------------------------------------------------------
+" quickhl.vim
+"
+" カーソル下の単語、または選択範囲をハイライト
+nmap <LEADER>m <Plug>(quickhl-manual-this)
+xmap <LEADER>m <Plug>(quickhl-manual-this)
+" すべてのハイライトをクリア
+nmap <LEADER>M <Plug>(quickhl-manual-reset)
+xmap <LEADER>M <Plug>(quickhl-manual-reset)
+
+
+"---------------------------------------------------------------------------
+" vim-over
+"
+nnoremap <silent><LEADER>: :OverCommandLine<CR>
+" カーソル下の単語をハイライト付きで置換
+" nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+" コピーした文字列をハイライト付きで置換
+" nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+
+
+"---------------------------------------------------------------------------
+" indent-guides
+"
+" デフォルトは無効にしておく <LEADER><LEADER>iで有効化
+let g:indent_guides_enable_on_vim_startup = 0
+" ガイドを見やすく
+let g:indent_guides_color_change_percent = 5
+let g:indent_guides_guide_size = 1
+" 有効/無効トグル
+noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
+
+
+"---------------------------------------------------------------------------
+" quickrun.vim
+"
+let g:quickrun_config = {}
+
+" all
+" let g:quickrun_config['_'] = {
+"       \   'split': '',
+"       \ }
+let g:quickrun_config['_'] = {
+      \   'outputter': 'multi:buffer:quickfix',
+      \   'outputter/buffer/split': ':rightbelow 5sp',
+      \   'runner': 'vimproc',
+      \   'runner/vimproc/updatetime' : 50,
+      \ }
+
+" ruby
+let g:quickrun_config['ruby'] = {
+      \   'command': 'ruby',
+      \   'exec': '%C "%S"',
+      \ }
+
+" dosbat
+let g:quickrun_config['dosbatch'] = {
+      \   'exec': '"%S"',
+      \ }
+
+" vbs
+let g:quickrun_config['vb'] = {
+      \   'command': 'cscript.exe',
+      \   'exec': '%C "%S"',
+      \ }
+
+" sql (SqlServer)
+let g:quickrun_config['sql'] = {
+      \   'command': 'sqlcmd',
+      \   'cmdopt': '-S "localhost\SQLEXPRESS" -U "sa" -P "Glory110" -W',
+      \   'exec': '%C %o -i "%S"',
+      \   'runner': 'system',
+      \ }
+
+" xml
+let g:quickrun_config['xml'] = {
+      \   'type': 'open_browser',
+      \ }
+
+" html
+let g:quickrun_config['html'] = {
+      \   'type': 'open_browser',
+      \ }
+
+let g:quickrun_config['open_browser'] = {
+      \   'exec': '"%S"',
+      \   'runner': 'system',
+      \   'outputter': 'browser',
+      \ }
+
+" c++
+let s:hook = {
+      \   'name': 'ccompiler',
+      \   'kind': 'hook',
+      \   'config': {
+      \     'enable': 0,
+      \   },
+      \   'backup_env': '',
+      \ }
+
+function! s:hook.init(...)
+  if !self.config.enable
+    return
+  endif
+endfunction
+
+function! s:hook.sweep(...)
+  if !self.config.enable
+    return
+  endif
+endfunction
+
+call quickrun#module#register(s:hook, 1)
+unlet s:hook
+
+if has('win32')
+  let g:quickrun_config['cpp'] = {
+        \   'type': 'cpp/msvc2005',
+        \ }
+endif
+if has('unix')
+  let g:quickrun_config['cpp'] = {
+        \   'type': 'cpp/gcc',
+        \ }
+endif
+let g:quickrun_config['cpp/gcc'] = {
+      \   'command': 'g++',
+      \   'cmdopt': '-std=c++0x -Wall',
+      \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
+      \   'hook/ccompiler/enable': 1,
+      \   'hook/output_encode/encoding': 'utf-8',
+      \ }
+let g:quickrun_config['cpp/mingw'] = {
+      \   'command': 'g++',
+      \   'cmdopt': '-std=c++0x -Wall',
+      \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
+      \   'hook/ccompiler/enable': 1,
+      \   'hook/output_encode/encoding': 'sjis',
+      \ }
+let g:quickrun_config['cpp/cygwin'] = {
+      \   'command': 'g++',
+      \   'cmdopt': '-Wall',
+      \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
+      \   'hook/ccompiler/enable': 1,
+      \   'hook/output_encode/encoding': 'sjis',
+      \ }
+let g:quickrun_config['cpp/msvc2005'] = {
+      \   'command': 'cl',
+      \   'cmdopt': '/EHsc',
+      \   'exec': ['%C %o "%S" /nologo /Fo"%S:p:r.obj" /Fe"%S:p:r.exe"',
+      \            '"%S:p:r.exe"'],
+      \   'hook/ccompiler/enable': 1,
+      \ }
+
+
+"---------------------------------------------------------------------------
+" vim-ref
+"
+" キャッシュディレクトリ
+let g:ref_cache_dir = $VIMLOCAL.'/tmp/cache/vim_ref_cache'
+let g:ref_refe_encoding = 'utf-8'
+
+
+"---------------------------------------------------------------------------
+" session.vim
+"
+" Sessionの保存先 設定するかどうかは任意
+let g:session_directory = $VIMLOCAL.'/tmp/cache/sessions'
+"Windowサイズを覚えない:1 覚える:0
+let g:session_winsize_not_remember = 0
+"let g:session_vimstartup_columns = 100
+"let g:session_vimstartup_lines = 50
+
+" セッションの自動保存をしない
+" SaveSession / OpenSessionを使用してSessionの保存と読み込みを行う
+let g:session_autoload = 0
+let g:session_autosave = 0
+
+" 引数を指定しなかった時のみ、Sessionを有効にする
+" if argc() == 0
+"  " 起動時にSessionを読み込む
+"  let g:session_autoload = 1
+"  " Sessionファイル名を聞かず勝手に読み書きする
+"  let g:session_autosave = 1
+"  " vim終了時にsessionを保存する
+"  augroup ag_auto_save_session
+"    au! VimLeave * SaveSession
+"  augroup END
+" else
+"  let g:session_autoload = 0
+"  let g:session_autosave = 0
+" endif
+
+
+"---------------------------------------------------------------------------
+" vim-powerline
+"
+" cuiだと表示が崩れるため、gui使用時のみ読み込む
+" if has('gui_running')
+"   exe 'NeoBundleSource vim-powerline'
+" endif
+
+
+"---------------------------------------------------------------------------
+" project.vim
+"
+if neobundle#is_installed('project.vim')
+  "  Default: "imst"
+  "  Various flags to control the behavior of the Project Plugin.  This
+  "  variable can contain any of the following character flags.
+  let g:proj_flags = 'imstg'
+  " Project Windowの開閉トグル (デフォルト F12)
+  nmap <silent>\\ <Plug>ToggleProject
+endif
+
+
+"---------------------------------------------------------------------------
+" sourceSafe.vim
+"
+if neobundle#is_installed('sourceSafe.vim')
+  let $SSDIR='//sd3-svr.glory.local/ISP-K01(BOA)/VSS'
+  let ssLocalTree='D:.develop.ISP-K01'
+  let ssUserName="Tsujino"
+  if has('vim_starting')
+    let $PATH=$PATH.';'.'C:\Program Files\Microsoft Visual SourceSafe;'
+  endif
+endif
+
+
+"---------------------------------------------------------------------------
+" open-browser.vim
+"
+" カーソル下のURLをブラウザで開く
+nmap <Leader>o <Plug>(openbrowser-open)
+vmap <Leader>o <Plug>(openbrowser-open)
+" ググる
+nmap <Leader>g <Plug>(openbrowser-smart-search)
+vmap <Leader>g <Plug>(openbrowser-smart-search)
+
+
+"---------------------------------------------------------------------------
+" w3m.vim
+"
+let g:w3m#command = expand('$VIMLOCAL/bin/w3m/w3m.exe')
+
+
+"---------------------------------------------------------------------------
+" chalice
+"
+let g:chalice_cachedir = $VIMLOCAL.'/tmp/cache/chalice_cache'
+" 自動プレビューのOFF
+let g:chalice_preview = 0
+
+
+" vim:set expandtab ft=vim ts=2 sts=2 sw=2:

@@ -1,0 +1,1130 @@
+"
+" _vimrc
+"
+" To use it, copy it to
+"  for Unix and OS/2:  ~/.vimrc
+"  for Amiga:  s:.vimrc
+"  for MS-DOS and Windows:  $VIM\_vimrc
+"  for OpenVMS:  sys$login:.vimrc
+"
+" Naming convention.
+"   Command name
+"     - CamelCase
+"   Global function name
+"     - CamelCase
+"   Local function name
+"     - s:split_by_underbar
+"   Group name for autocmd
+"     - ag_split_by_underbar
+"
+
+"---------------------------------------------------------------------------
+" 基本設定
+"
+" 起動時間の計測
+if has('vim_starting') && has('reltime')
+  let g:startuptime = reltime()
+  augroup ag_vimrc_startuptime
+    au! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw |
+                 \ echomsg 'startuptime: ' . reltimestr(g:startuptime)
+  augroup END
+endif
+
+" Vi互換モードをオフ（Vimの拡張機能を有効）
+set nocompatible
+
+" エラー時の音とビジュアルベルの抑制(gvimは.gvimrcで設定)
+set noerrorbells
+set novisualbell
+" set visualbell t_vb=
+
+" <LEADER>の変更
+let mapleader = ','
+
+
+"---------------------------------------------------------------------------
+" 環境変数の設定
+"
+" $VIMLOCALはユーザーランタイムディレクトリを示す。
+if has('vim_starting')
+  " Windows
+  if has('win32')
+    let $VIMLOCAL=$VIM.'\vimfiles'
+    " 諸々のバイナリ
+    if isdirectory($VIMLOCAL.'\bin')
+      let $PATH=$PATH.';'.$VIMLOCAL.'\bin'
+    endif
+    " PATHにMinGWかCygwinが存在しない場合、
+    " 別のコマンドラインツールの読み込みを試みる
+    if matchstr($PATH, '\MinGW\') == '' &&
+     \ matchstr($PATH, '\cygwin\') == ''
+      " GNU on Windows
+      " vimと同じ階層にgowがあれば読み込む
+      if isdirectory($VIM.'\..\gow')
+        let $PATH=$PATH.';'.$VIM.'\..\gow'
+      endif
+    endif
+  " Linux
+  elseif has('unix')
+    let $VIMLOCAL=$HOME.'/.vim'
+  endif
+endif
+
+
+"---------------------------------------------------------------------------
+" 共通関数
+"
+" 設定ファイルのディレクトリパス取得
+function! s:get_rc_dir()
+  return has('win32') ? $VIM : $HOME
+endfunction
+
+" 設定ファイルのフルパス取得
+function! s:get_rc_file(name)
+  return s:get_rc_dir().(has('win32') ? '\_' : '/.').a:name
+endfunction
+
+" プラグイン存在チェック
+function! s:has_plugin(name)
+  return globpath(&runtimepath, 'plugin/' . a:name) !=# '' ||
+       \ globpath(&runtimepath, 'autoload/' . a:name) !=# '' ||
+       \ (exists('*neobundle#is_installed') && neobundle#is_installed(a:name))
+endfunction
+
+
+"---------------------------------------------------------------------------
+" エンコーディング設定
+"
+if filereadable($VIMLOCAL.'/plugin/encode.vim')
+  " encode.vimを使用して行う (fudist版vimから拝借)
+  silent! source $VIMLOCAL/plugin/encode.vim
+else
+  " encode.vimが無い場合のエンコード設定
+  " (http://d.hatena.ne.jp/over80/20080907/1220794834)
+  set encoding=utf-8
+  set fileencodings=ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932,utf-8
+endif
+
+" デフォルト使用するエンコードと改行コード
+" それぞれ設定値が空の場合に設定する
+if has('vim_starting')
+  " encoding
+  if &encoding ==# ''
+    set encoding=utf-8
+  endif
+  " fileencoding
+  if &fileencoding ==# ''
+    if has('win32')
+      set fileencoding=cp932
+      " set fileencoding=utf-8
+    elseif has('unix')
+      set fileencoding=utf-8
+    else
+      set fileencoding=utf-8
+    endif
+  endif
+  " termencoding
+  if &termencoding ==# ''
+    if has('win32')
+      set termencoding=cp932
+    elseif has('unix')
+      set termencoding=utf-8
+    else
+      set termencoding=utf-8
+    endif
+  endif
+endif
+
+
+"---------------------------------------------------------------------------
+" プラグインの読み込み
+"
+let s:use_plugin = 1
+if s:use_plugin
+  filetype off
+  exe 'source '.s:get_rc_file('pluginrc')
+endif
+
+" ファイルタイププラグインを有効にする
+filetype indent plugin on
+
+
+"---------------------------------------------------------------------------
+" GUI固有ではない画面表示の設定:
+"
+" 行番号を表示 (nonumber:非表示)
+set number
+" 相対行番号表示(7.3)
+" if version >= 703
+"   set relativenumber
+" endif
+" ルーラーを表示 (noruler:非表示)
+set ruler
+" 長い行を折り返して表示 (nowrap:折り返さない)
+set wrap
+" 常にステータス行を表示 (詳細は:he laststatus)
+set laststatus=2
+"ステータスラインの表示フォーマット
+"set statusline=%<%f\ %m%r%h%w[ft:%{&ft}][fenc:%{&fenc}][ffmt:%{&ff}][bomb:%{&bomb}][ascii:\%03.3b][hex:\%02.2B]%=%c,%l/%L%10p%%
+set statusline=%<%t\ %m%r%h%w[buf:%n][ftyp:%{&ft}][fenc:%{&fenc}][ffmt:%{&ff}][bomb:%{&bomb}][ascii:\%03.3b]%=%c,%l/%L%4p%%
+" コマンドをステータス行に表示
+set showcmd
+" コマンドラインの高さ (gvimはgvimrcで指定)
+set cmdheight=2
+" Windowsでディレクトリパスの区切り文字表示に / を使えるようにする
+set shellslash
+" 画面最後の行をできる限り表示する
+set display=lastline
+" タイトルを表示
+set title
+" カーソルライン非表示
+set nocursorline
+" スプラッシュ(起動時のメッセージ)を表示しない
+set shortmess+=I
+" 全てのウィンドウのサイズを同じにする
+" set equalalways
+" マクロ実行中などの画面再描画を行わない
+" WindowsXpまたはWindowテーマが「Windowsクラシック」で
+" Google日本語入力を使用するとIビームカーソルが残る場合にも有効
+set lazyredraw
+
+" 文字表示に関する設定
+"
+" タブ、空白、改行等の不可視文字を表示する (nolist:非表示)
+set nolist
+" どの文字でタブや改行を表示するかを設定
+"set listchars=tab:^\ ,trail:_,extends:»,precedes:«,nbsp:%
+set listchars=tab:^\ ,trail:_,nbsp:%
+" 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
+set showmatch matchtime=1
+" □とか○の文字があってもカーソル位置がずれないようにする
+if exists('&ambiwidth')
+  set ambiwidth=double
+endif
+
+" シンタックスハイライトを有効にする
+if &t_Co > 2 || has('gui_running')
+  syntax on
+endif
+
+if !has('gui_running')
+  " コンソールでのカラー表示設定
+  if stridx($TERM, "xterm-256color") >= 0
+    set t_Co=256
+  else
+    set t_Co=16
+  endif
+  " コンソールモードで使用するカラースキーマ
+  colorschem default
+endif
+
+
+"---------------------------------------------------------------------------
+" 編集に関する設定:
+"
+" タブの画面上での幅
+set tabstop=4
+" Tabキーを押した時に挿入される空白の量 (0の場合はtabstopに合わせる)
+set softtabstop=0
+" シフト幅
+set shiftwidth=4
+" タブをスペースに展開しない (expandtab:展開する)
+"set noexpandtab
+set expandtab
+" 自動的にインデントする (noautoindent:インデントしない)
+set autoindent
+" 新しい行を作ったときに高度な自動インデントを行う
+set smartindent
+"行頭の余白内で Tab を打ち込むと'shiftwidth' の数だけインデントする。
+set smarttab
+" バックスペースでインデントや改行を削除できるようにする
+set backspace=indent,eol,start
+" カーソルキーで行末／行頭の移動可能に設定
+"set whichwrap=b,s,[,],<,>
+" Visual blockモードでフリーカーソルを有効にする
+set virtualedit+=block
+" w,bの移動で認識する文字
+" set iskeyword=a-z,A-Z,48-57,_,.,-,>
+" コマンドライン補完するときに強化されたものを使う(参照 :help wildmenu)
+set wildmenu
+" コードの折りたたみの設定 デフォルト無効とする (ziで有効/無効をトグルできる)
+set nofoldenable
+set foldmethod=syntax
+set foldlevel=50
+" 8進数を無効にする。<C-a>,<C-x>に影響する
+set nrformats-=octal
+" キーコードやマッピングされたキー列が完了するのを待つ時間(ミリ秒)
+"set timeout timeoutlen=3000 ttimeoutlen=100
+" 編集結果非保存のバッファから、新しいバッファを開くときに警告を出さない
+set hidden
+" ヒストリの保存数
+set history=50
+" ビジュアルモードで選択したテキストが、クリップボードに入るようにする
+" set clipboard+=autoselect
+" 無名レジスタに入るデータを*レジスタにも入れる(クリップボード使用)
+set clipboard+=unnamed
+if has("unix")
+  set clipboard=unnamedplus
+endif
+" IMEOFFで起動する
+set iminsert=0 imsearch=0
+" tagsファイルを検索する際に、カレントバッファから上に辿って探す
+set tags+=./tags
+" 横分割で新しいウィンドウを下に開く
+set splitbelow
+" 縦分割で右に新しいウィンドウを開く
+set splitright
+
+
+"---------------------------------------------------------------------------
+" 検索の挙動に関する設定:
+"
+" 検索時に大文字小文字を無視 (noignorecase:無視しない)
+set ignorecase
+" 大文字小文字の両方が含まれている場合は大文字小文字を区別
+set smartcase
+" インクリメンタルサーチ
+set incsearch
+" 検索時にファイルの最後まで行ったら最初に戻る (nowrapscan:戻らない)
+set wrapscan
+" 検索結果をハイライト
+set hlsearch
+
+
+"---------------------------------------------------------------------------
+" ファイル操作に関する設定:
+"
+" 外部のエディタで編集中のファイルが変更されたら自動的に読み直す
+set autoread
+" バックアップファイルを作成する (作成しない:nobackup)
+set backup
+" バックアップファイルディレクトリ
+set backupdir=$VIMLOCAL/tmp/backup
+" スワップファイルの保存先
+let &directory=$VIMLOCAL.'/tmp/swap'
+" 再読込、vim終了後も継続するアンドゥ  (vim-user.jp hack-162)
+if has('persistent_undo')
+  set undodir=$VIMLOCAL/tmp/undo
+  " 全ファイルでpersistent_undoを有効
+  set undofile
+  " 特定ファイルのみpersistent_undoを有効
+"  augroup vimrc_undofile
+"    au!
+"    au BufReadPre ~/* setlocal undofile
+"  augroup END
+endif
+
+
+"---------------------------------------------------------------------------
+" キーマッピング
+"
+" スペースキーでスクロール
+nnoremap <Space>   <C-e>
+nnoremap <S-Space> <C-y>
+vnoremap <Space>   <C-e>
+vnoremap <S-Space> <C-y>
+
+" Ctrl+SpaceでIME切り替え
+inoremap <C-Space> <C-^>
+cnoremap <C-Space> <C-^>
+" ノーマルモードでは何もしない
+nnoremap <C-Space> <Nop>
+vnoremap <C-Space> <Nop>
+
+" 折り返し行でも見た目の次の行へ移動する
+nnoremap gj j
+nnoremap gk k
+nnoremap g$ $
+vnoremap gj j
+vnoremap gk k
+vnoremap g$ $
+" デフォルトのj,k,$をgj,gk,g$に割り当てる
+nnoremap j gj
+nnoremap k gk
+nnoremap $ g$
+vnoremap j gj
+vnoremap k gk
+vnoremap $ g$
+" h,lは行末、行頭を超えることが可能に設定(whichwrap)
+nnoremap h <Left>zv
+nnoremap l <Right>zv
+
+" Yで行末までコピー
+nnoremap Y y$
+
+" ヤンクした文字列とカーソル位置の単語を置換する
+nnoremap <silent>cy  ce<C-r>0<Esc>:let@/=@"<CR>:noh<CR>
+vnoremap <silent>cy  c<C-r>0<Esc>:let@/=@"<CR>:noh<CR>
+nnoremap <silent>ciy ciw<C-r>0<Esc>:let@/=@"<CR>:noh<CR>
+" 押しやすいキーシーケンスに割り当てる
+nnoremap <silent>yii yiw
+nnoremap <silent>cii ciw<C-r>0<Esc>:let@/=@"<CR>:noh<CR>
+
+" ビジュアルモード時vで行末まで選択
+vnoremap v $h
+
+" ビジュアルモード時aで全選択
+vnoremap a <ESC>gg0vG$h
+
+" ビジュアルモード選択範囲を検索する
+vnoremap / <ESC>/\%V
+vnoremap ? <ESC>?\%V
+
+" ビジュアルモード選択中の単語を検索
+vnoremap <silent>* "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
+
+" 検索結果のハイライトをEsc連打でリセットする
+noremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
+
+" Ctrl+h,j,k,lで分割ウィンドウ移動
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+" タブキーで分割画面移動
+nnoremap <Tab>   <C-w>w
+nnoremap <S-Tab> <C-w><S-w>
+
+" Ctrl+矢印で分割画面のサイズ変更
+noremap <C-Up>    <C-w>+
+noremap <C-Down>  <C-w>-
+noremap <C-Right> <C-w>>
+noremap <C-Left>  <C-w><
+
+" Qでウィンドウを閉じる
+noremap <silent><S-Q> :<C-u>close<CR>
+
+" Ctrl+Enterで保存
+noremap <silent><C-CR> :<C-u>w<CR>
+inoremap <silent><C-CR> <ESC>:<C-u>w<CR>
+vnoremap <silent><C-CR> <ESC>:<C-u>w<CR>
+
+" Alt+n 新しいタブ
+noremap <silent><M-n> :<C-u>tabnew<CR>
+" Alt+l / Alt+h でタブ切り替え
+noremap <silent><M-l> :<C-u>tabnext<CR>
+noremap <silent><M-h> :<C-u>tabprevious<CR>
+" Alt+c タブを閉じる
+noremap <silent><M-c> :<C-u>tabclose<CR>
+
+" Shift+Alt+lでタブを右へ移動
+function! s:tabmove_next()
+  exe 'tabmove' . (tabpagenr() % tabpagenr('$'))
+endfunction
+noremap <silent><S-M-l> :<C-u>call <SID>tabmove_next()<CR>
+
+" Shift+Alt+lでタブを左へ移動
+function! s:tabmove_previous()
+  exe 'tabmove' . (tabpagenr() == 1 ? tabpagenr('$') : tabpagenr()-2)
+endfunction
+noremap <silent><S-M-h> :<C-u>call <SID>tabmove_previous()<CR>
+
+" バッファ一覧
+nnoremap <silent><LEADER>l :<C-u>ls<CR>
+
+" バッファ切り替え
+nnoremap <silent><LEADER>n :<C-u>bnext<CR>
+nnoremap <silent><LEADER>p :<C-u>bprevious<CR>
+nnoremap <silent><LEADER>1 :<C-u>e #1<CR>
+nnoremap <silent><LEADER>2 :<C-u>e #2<CR>
+nnoremap <silent><LEADER>3 :<C-u>e #3<CR>
+nnoremap <silent><LEADER>4 :<C-u>e #4<CR>
+nnoremap <silent><LEADER>5 :<C-u>e #5<CR>
+nnoremap <silent><LEADER>6 :<C-u>e #6<CR>
+nnoremap <silent><LEADER>7 :<C-u>e #7<CR>
+nnoremap <silent><LEADER>8 :<C-u>e #8<CR>
+nnoremap <silent><LEADER>9 :<C-u>e #9<CR>
+
+" 条件'pred'を満たすウィンドウが開いているなら、そのウィンドウ番号を返す
+" 開いていないなら 0 を返す
+function! s:find_window_if(pred)
+  let winnr_save = winnr()
+  let wincount = winnr("$")
+  let i = 1
+  while i <= wincount
+    exe i . "wincmd w"
+    if eval(a:pred)
+      exe winnr_save . "wincmd w"
+      return i
+    endif
+    let i = i + 1
+  endwhile
+  exe winnr_save . "wincmd w"
+  return 0
+endfunction
+
+function! s:quickfix_operation(direction)
+  if s:find_window_if("&filetype == 'qf'")
+    exe a:direction == 'd' ? 'cnext' : 'cprevious'
+  else
+    exe 'copen'
+  endif
+endfunction
+" Ctrl+n Ctrl+n QuickFixで次へ
+noremap <silent><C-n><C-n> :<C-u>call <SID>quickfix_operation('d')<CR>
+" Ctrl+p Ctrl+p QuickFixで前へ
+noremap <silent><C-p><C-p> :<C-u>call <SID>quickfix_operation('u')<CR>
+
+" 括弧入力時に自動的に括弧の内側にカーソルを移動する
+"inoremap {} {}<Left>
+"inoremap [] []<Left>
+"inoremap () ()<Left>
+"inoremap “” “”<Left>
+"inoremap ” ”<Left>
+"inoremap <> <><Left>
+"inoremap “ “<Left>
+
+nnoremap [toggle] <Nop>
+nmap     <LEADER><LEADER> [toggle]
+" 不可視文字表示のトグル
+noremap <silent>[toggle]l :<C-u>set list!<CR>
+" カーソルライン表示のトグル
+noremap <silent>[toggle]c :<C-u>set cursorline!<CR>
+" タブ展開のトグル
+noremap <silent>[toggle]e :<C-u>set expandtab!<CR>
+
+" emacsキーバインド (インサートモード)
+" inoremap <C-p> <Up>
+" inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-h> <Backspace>
+inoremap <C-d> <Del>
+
+" emacsキーバインド (コマンドモード)
+" cnoremap <C-p> <Up>
+" cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-e> <End>
+cnoremap <C-a> <Home>
+cnoremap <C-h> <Backspace>
+cnoremap <C-d> <Del>
+
+" disable keymaps
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+noremap <C-z> <Nop>
+
+
+"---------------------------------------------------------------------------
+" smooth scroll (smooth_scroll.vim)
+"
+let g:scroll_factor = 5000
+function! s:smooth_scroll(dir, windiv, factor)
+   let wh=winheight(0)
+   let i=0
+   while i < wh / a:windiv
+      let t1=reltime()
+      let i = i + 1
+      if a:dir=="d"
+         silent normal! j
+      else
+         silent normal! k
+      end
+      redraw
+      while 1
+         let t2=reltime(t1,reltime())
+         if t2[1] > g:scroll_factor * a:factor
+            break
+         endif
+      endwhile
+   endwhile
+endfunction
+" 重く感じるので無効...
+" noremap <silent><C-D> :<C-u>call <SID>smooth_scroll("d",2, 2)<CR>
+" noremap <silent><C-U> :<C-u>call <SID>smooth_scroll("u",2, 2)<CR>
+" noremap <silent><C-F> :<C-u>call <SID>smooth_scroll("d",1, 1)<CR>
+" noremap <silent><C-B> :<C-u>call <SID>smooth_scroll("u",1, 1)<CR>
+
+
+"---------------------------------------------------------------------------
+" grep
+"
+" 使用するgrepの指定
+let mygrepprg = 'internal'
+
+" ビジュアルモード選択文字列取得
+function! s:get_selected_string()
+  let old_reg = getreg('a')
+  let old_regmode = getregtype('a')
+  silent normal! gv"ay
+  let selected = @a
+  call setreg('a', old_reg, old_regmode)
+  return selected
+endfunction
+
+" grep関数共通処理
+function! s:grep_func_main(word, target, option)
+  if a:option == ''
+    " no action
+  endif
+  if a:option == 's'
+    split
+  endif
+  if a:option == 'v'
+    vsplit
+  endif
+  if a:option == 't'
+    tabnew
+  endif
+  echo 'grep 'a:word ' target 'a:target
+  exe 'vimgrep /'.a:word.'/ 'a:target' | cw'
+endfunction
+
+function! s:grep_func(option)
+  let word = expand("<cword>")
+  let target = b:grep_target_file
+  call s:grep_func_main(word, target, a:option)
+endfunction
+
+function! s:v_grep_func(option)
+  let word = s:get_selected_string()
+  let target = b:grep_target_file
+  call s:grep_func_main(word, target, a:option)
+endfunction
+
+" g r でカーソル位置の単語をgrep
+nnoremap gr :<C-u>call <SID>grep_func('')
+" g s でカーソル位置の単語をgrep → 分割して開く
+nnoremap gs :<C-u>call <SID>grep_func('s')
+" g v でカーソル位置の単語をgrep → 縦分割して開く
+nnoremap gv :<C-u>call <SID>grep_func('v')
+" g t でカーソル位置の単語をgrep → 新しいタブで開く
+nnoremap gt :<C-u>call <SID>grep_func('t')
+" ビジュアルモード選択中文字列をgrep
+vnoremap gr :<C-u>call <SID>v_grep_func('')
+" ビジュアルモード選択中文字列をgrep → 分割して開く
+vnoremap gs :<C-u>call <SID>v_grep_func('s')
+" ビジュアルモード選択中文字列をgrep → 縦分割して開く
+vnoremap gv :<C-u>call <SID>v_grep_func('v')
+" ビジュアルモード選択中文字列をgrep → 新しいタブで開く
+vnoremap gt :<C-u>call <SID>v_grep_func('t')
+
+
+"---------------------------------------------------------------------------
+" タグジャンプ
+"
+" 分割ウィンドウでタグジャンプ
+function! s:split_tagjump()
+  exe "normal! \<C-w>\<C-]>"
+  "http://d.hatena.ne.jp/thinca/20110202
+  "UniteWithCursorWord -immediately -no-start-insert -auto-preview -default-action=split tag
+endfunction
+nnoremap <silent><C-]> :<C-u>call <SID>split_tagjump()<CR>
+
+" Enterでタグジャンプ
+function! s:tagjump_or_cr()
+  if bufname('%') == '[Command Line]' || &buftype == 'quickfix'
+    exe "normal! \<CR>"
+  else
+    try
+      exe "normal! \<C-]>"
+      " http://d.hatena.ne.jp/thinca/20110202
+      " UniteWithCursorWord -immediately -no-start-insert -auto-preview tag
+    catch
+      " ...
+    endtry
+  endif
+endfunction
+nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
+
+
+"---------------------------------------------------------------------------
+" ユーザー定義コマンド
+"
+" ディレクトリ移動
+command! -nargs=0 CC cd %:h
+command! -nargs=0 CDV cd $VIM
+
+" 全終了
+command! -nargs=0 QQQ qall!
+
+" 設定ファイルの再読み込み
+if has('vim_starting')
+  " 本関数の実行中にvimrcの読み込みが行われ、
+  " 関数の再定義が失敗するため、起動時だけ定義するようにする
+  function s:reload_rc(name)
+    exe 'source '.s:get_rc_file(a:name)
+  endfunction
+endif
+command! -nargs=0 Reloadrc call <SID>reload_rc('vimrc') |
+                         \ call <SID>reload_rc('gvimrc')
+
+" 設定ファイルを開く
+function! s:open_rc(name)
+  exe 'edit '.s:get_rc_file(a:name)
+endfunction
+command! -nargs=0 Openvimrc call <SID>open_rc('vimrc')
+command! -nargs=0 Opengvimrc call <SID>open_rc('gvimrc')
+command! -nargs=0 Openpluginrc call <SID>open_rc('pluginrc')
+
+" 保存前の状態とdiffをとる
+command! -nargs=0 DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+
+" VDsplit (kaoriya - cmdex.vim)
+command! -nargs=1 -complete=file VDsplit vertical diffsplit <args>
+
+" 一時ファイルを作ることなくサクッと2つの範囲のdiffをとる方法。(VimWiki tips49)
+" http://vimwiki.net/?tips%2F49
+function! s:diff_clip(reg) range
+  exe "let @a=@" . a:reg
+  exe a:firstline  . "," . a:lastline . "y b"
+  new
+  " このウィンドウを閉じたらバッファを消去するようにする
+  set buftype=nofile bufhidden=wipe
+  put a
+  diffthis
+  vnew
+  set buftype=nofile bufhidden=wipe
+  put b
+  diffthis
+endfunction
+command! -nargs=0 -range DiffClip <line1>, <line2>:call s:diff_clip('0')
+
+" Undiff (kaoriya - cmdex.vim)
+" カレントバッファのdiffモードを解除
+command! -nargs=0 Undiff set nodiff noscrollbind wrap nocursorbind
+
+" Scratch (kaoriya - cmdex.vim)
+" 保存できない一時領域を作成
+command! -nargs=0 Scratch new | setlocal bt=nofile noswf | let b:cmdex_scratch = 1
+function! s:check_scratch_written()
+  if &buftype ==# 'nofile' && expand('%').'x' !=# 'x' && exists('b:cmdex_scratch') && b:cmdex_scratch == 1
+    setlocal buftype = swapfile
+    unlet b:cmdex_scratch
+  endif
+endfunction
+augroup CmdexScratch
+  au!
+  au BufWritePost * call <SID>check_scratch_written()
+augroup END
+
+" BufOnly (BufOnly.vim 簡易版)
+" カレントバッファ以外を閉じる
+function! BufOnly(buffer, bang)
+  if a:buffer == ''
+    let buffer = bufnr('%')
+  elseif (a:buffer + 0) > 0
+    let buffer = bufnr(a:buffer + 0)
+  else
+    let buffer = bufnr(a:buffer)
+  endif
+  if buffer == -1
+    return
+  endif
+  let last_buffer = bufnr('$')
+  let n = 1
+  while n <= last_buffer
+    if n != buffer && buflisted(n)
+      if a:bang == '' && getbufvar(n, '&modified')
+        " modified buffer
+      else
+        silent exe 'bdel' . a:bang . ' ' . n
+      endif
+    endif
+    let n = n+1
+  endwhile
+  redraw!
+endfunction
+command! -nargs=? -complete=buffer -bang BufOnly :call BufOnly('<args>', '<bang>')
+
+" タグファイル生成
+function! s:ctags_r()
+  let cmdname = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
+  exe cmdname 'ctags -R'
+  if s:has_plugin('neocomplete.vim')
+    NeoCompleteTagMakeCache
+  endif
+endfunction
+command! -nargs=0 Ctags call <SID>ctags_r()
+
+" 行末の不要スペースを削除する
+function! s:rtrim()
+  let s:cursor = getpos(".")
+  %s/\s\+$//e
+  call setpos(".", s:cursor)
+endfunction
+command! -nargs=0 RTrim call <SID>rtrim()
+
+" 定義されているマッピングを調べる (vim-user.jp hack-203)
+" 全てのマッピングを表示
+"   :AllMaps
+" 現在のバッファで定義されたマッピングのみ表示
+"   :AllMaps <buffer>
+" どのスクリプトで定義されたかの情報も含め表示
+"   :verbose AllMaps <buffer>
+command! -nargs=* -complete=mapping AllMaps map <args> | map! <args> | lmap <args>
+
+" vimrcの行数を数える
+function! s:count_vimrc()
+  let cmdname = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
+  exe cmdname 'wc -l'.' '.(s:get_rc_file('vimrc')).
+                    \ ' '.(s:get_rc_file('gvimrc')).
+                    \ ' '.(s:get_rc_file('pluginrc'))
+endfunction
+command! -nargs=0 CountVimrc call <SID>count_vimrc()
+
+" 開発環境の切り替え
+if has('vim_starting')
+  let DevEnvChanger = {}
+  let DevEnvChanger.default = {
+      \   'path': $PATH,
+      \   'lib': $LIB,
+      \   'libpath': $LIBPATH,
+      \   'library_path': $LIBRARY_PATH,
+      \   'include': $INCLUDE,
+      \   'c_include_path': $C_INCLUDE_PATH,
+      \   'cplus_include_path': $CPLUS_INCLUDE_PATH,
+      \   'pa': &path,
+      \ }
+endif
+let DevEnvChanger.current_name = ''
+let DevEnvChanger.environment = {
+      \   'linux': {
+      \     'path':
+      \         '/usr/local/bin:'.
+      \         '/usr/bin:'.
+      \         '/bin:',
+      \     'lib':
+      \         '/usr/local/lib:'.
+      \         '/usr/lib:'.
+      \         '/lib:',
+      \     'include':
+      \         '/usr/local/include:'.
+      \         '/usr/include:',
+      \   },
+      \   'mingw': {
+      \     'path':
+      \         'C:\Opt\MinGW\bin;'.
+      \         'C:\Opt\MinGW\msys\1.0\bin;',
+      \     'lib':
+      \         'C:\Opt\MinGW\lib;',
+      \     'include':
+      \         'C:\Opt\MinGW\include;',
+      \   },
+      \   'cygwin': {
+      \     'path':
+      \         'C:\Opt\cygwin\bin;'.
+      \         'C:\Opt\cygwin\usr\sbin;',
+      \     'lib':
+      \         'C:\Opt\cygwin\lib;',
+      \     'include':
+      \         'C:\Opt\cygwin\usr\include;',
+      \   },
+      \   'msvc_2005': {
+      \     'path':
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\IDE;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Bin;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\Bin;',
+      \     'lib':
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\lib;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\lib;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Lib;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\Lib;',
+      \     'include':
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\include;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\include;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Include;'.
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\include;',
+      \   },
+      \ }
+
+function! DevEnvChanger.set_default()
+  let $PATH = get(self.default, 'path')
+  let $LIB = get(self.default, 'lib')
+  let $LIBPATH = get(self.default, 'libpath')
+  let $LIBRARY_PATH = get(self.default, 'library_path')
+  let $INCLUDE = get(self.default, 'include')
+  let $C_INCLUDE_PATH = get(self.default, 'c_include_path')
+  let $CPLUS_INCLUDE_PATH = get(self.default, 'cplus_include_path')
+  let &l:path = get(self.default, 'pa')
+endfunction
+
+function! DevEnvChanger.change(name)
+  " set to default
+  call self.set_default()
+  " append parameter path
+  let sp = has('win32') ? ';' : ':'
+  let target = get(self.environment, a:name)
+  let $PATH = $PATH.sp.get(target, 'path')
+  let $LIB = $LIB.sp.get(target, 'lib')
+  let $LIBPATH = $LIBPATH.sp.get(target, 'lib')
+  let $LIBRARY_PATH = $LIBRARY_PATH.sp.get(target, 'lib')
+  let $INCLUDE = $INCLUDE.sp.get(target, 'include')
+  let $C_INCLUDE_PATH = $C_INCLUDE_PATH.sp.get(target, 'include')
+  let $CPLUS_INCLUDE_PATH = $CPLUS_INCLUDE_PATH.sp.get(target, 'include')
+  let &l:path = &path.substitute($INCLUDE,sp,',','g')
+  let self.current_name = a:name
+  unlet sp
+  unlet target
+endfunction
+
+command! -nargs=0 DevEnvDefault  call DevEnvChanger.set_default()
+command! -nargs=0 DevEnvLinux  call DevEnvChanger.change('linux')
+command! -nargs=0 DevEnvMinGW  call DevEnvChanger.change('mingw')
+command! -nargs=0 DevEnvCygwin  call DevEnvChanger.change('cygwin')
+command! -nargs=0 DevEnvMSVC2005 call DevEnvChanger.change('msvc_2005')
+
+" Dropbox Update
+command! -nargs=0 DBoxUpdatePush exe '!ruby dropbox_update.rb push'
+command! -nargs=0 DBoxUpdatePull exe '!ruby dropbox_update.rb pull'
+
+
+"---------------------------------------------------------------------------
+" Auto Command
+"
+" ファイルタイプごとのインデント設定
+augroup ag_indent_filetype
+  au!
+  au FileType c,cpp,cs,java setlocal ts=4 sts=0 sw=4
+                          \ cindent cinoptions=:4
+  au FileType ruby,perl setlocal ts=2 sts=0 sw=2
+  au FileType python setlocal expandtab
+  au FileType vim setlocal ts=2 sts=0 sw=2
+  au FileType html,xml,xhtml,markdown setlocal ts=2 sts=0 sw=2 expandtab
+augroup END
+
+" ファイルタイプごとのテキスト整形設定
+" デフォルトは"tcq"  (参照 :help fo-table)
+augroup ag_formatoptions_filetype
+  au!
+  " 挿入モードでの自動折り返しを行わない
+  au FileType * setlocal formatoptions+=l
+  " マルチバイト文字の行連結時に空白を挿入しない
+  au FileType * setlocal formatoptions+=MB
+  " 改行後に自動的にコメントを挿入するのをやめさせる
+  au FileType * setlocal formatoptions-=ro
+  " 日本語の行の連結時には空白を入力しない
+  au FileType * setlocal formatoptions+=mM
+  " 自動改行を無効
+  au FileType * setlocal formatoptions-=t
+augroup END
+
+" ファイルタイプごとのオムニ補完関数設定
+augroup ag_omnifunc_filetype
+  au!
+  " 未定義のFileTypeはSyntaxCompleteを使用する
+  au FileType * setlocal omnifunc=syntaxcomplete#Complete
+  au FileType c,cpp setlocal omnifunc=ccomplete#Complete
+  au FileType ruby setlocal omnifunc=rubycomplete#Complete
+  au FileType perl setlocal omnifunc=perlcomplete#CompletePERL
+  au FileType python setlocal omnifunc=pythoncomplete#Complete
+  au FileType php setlocal omnifunc=phpcomplete#CompletePHP
+  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  au FileType xhtml setlocal omnifunc=htmlcomplete#CompleteTags
+  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
+
+" ファイルタイプごとのgrep_func関数の検索対象ファイルパターン
+augroup ag_grep_filetype
+  au!
+  au FileType *
+              \ let b:grep_target_file = '**/*'
+  au FileType c,cpp
+              \ let b:grep_target_file = '**/*.c **/*.cpp **/*.cxx **/*.cc **/*.hpp **/*.h'
+  au FileType cs
+              \ let b:grep_target_file = '**/*.cs'
+  au FileType java
+              \ let b:grep_target_file = '**/*.java'
+  au FileType ruby
+              \ let b:grep_target_file = '**/*.rb'
+  au FileType perl
+              \ let b:grep_target_file = '**/*.pl'
+  au FileType python
+              \ let b:grep_target_file = '**/*.py'
+  au FileType vim
+              \ let b:grep_target_file = '**/*.vim'
+augroup END
+
+" c/c++向けパス設定
+function! s:set_cpp_env_path()
+  if has('win32')
+    call g:DevEnvChanger.change('msvc_2005')
+  elseif has('unix')
+    call g:DevEnvChanger.change('linux')
+  endif
+endfunction
+augroup ag_cpp_env_path
+  au! FileType c,cpp call s:set_cpp_env_path()
+augroup END
+
+" ファイルを開いた時にカーソル位置を復元する
+augroup ag_restore_cursor
+  au! BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal g`\"" |
+        \ endif
+augroup END
+
+" Insert mode開始/終了時の動作
+augroup ag_ins_enter_leave
+  au!
+  " Normal modeに戻る時に自動的にIMEOFF
+  " au InsertLeave * set iminsert=0 imsearch=0
+  " Normal modeに戻る時に自動的にIMEOFF
+  " 再度Insert modeに入るときは元のIME状態に戻す
+  let g:IMState = 0
+  au InsertEnter * let &iminsert = g:IMState
+  au InsertLeave * let g:IMState = &iminsert | set iminsert=0 imsearch=0
+augroup END
+
+" 以下のコマンドの結果は常にQuickFixで表示
+" augroup ag_cmd_qfopen
+  " au! QuickfixCmdPost grep,vimgrep,make,copen cw
+" augroup END
+
+"function! s:file_enc_check()
+"  日本語を含まない場合はfileencoding にencoding を使うようにする
+"  if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
+"    let &fileencoding=&encoding
+"  endif
+"endfunction
+" VC2005でBOM無しUTF-8を扱うとSJISとして認識されるためBOMを付ける
+function! s:set_utf8_bom()
+  if has('win32') && &fileencoding ==# 'utf-8'
+    set bomb
+  endif
+endfunction
+" バッファオープン時のエンコード再チェック
+augroup ag_file_enc_check
+  au!
+"  au BufReadPost * call s:file_enc_check()
+  au FileType c,cpp,cs call s:set_utf8_bom()
+"  au FileType dosini set fileencoding=utf-16le
+augroup END
+
+" 全角スペースを視覚化
+function! s:zenkaku_space()
+"  highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
+  highlight ZenkakuSpace ctermbg=darkgrey guibg=darkgrey
+endfunction
+if has('syntax')
+  augroup ag_zenkaku_space
+    au!
+    au ColorScheme       * call s:zenkaku_space()
+    au VimEnter,WinEnter * match ZenkakuSpace /　/
+  augroup END
+  call s:zenkaku_space()
+endif
+
+" ファイルオープン時にカレントディレクトリを自動的に移動
+" augroup ag_buf_lcd
+"   au! BufEnter * lcd %:p:h
+" augroup END
+
+" ファイル保存時に行末の不要スペースを削除する
+" augroup ag_rtrim
+"   au! BufWritePre *.c,*.cpp,*.rb,*.php,*.js,*.vim,*.bat call s:rtrim()
+" augroup END
+
+" shファイルの保存時にはファイルのパーミッションを755にする
+if has("unix")
+  function! s:chg_sh_permission()
+    if &ft =~ "\\(z\\|c\\|ba\\)\\?sh"
+      call system("chmod 755 " . shellescape(expand('%:p')))
+      echo "Set permission 755"
+    endif
+  endfunction
+  augroup ag_chg_sh_permission
+    au! BufWritePost *.sh call s:chg_sh_permission()
+  augroup END
+endif
+
+
+"---------------------------------------------------------------------------
+" <Fn> 短縮キーマップ
+"
+noremap <F1>    :<C-u>Unite help<CR>
+noremap <F2>    :<C-u>Unite outline<CR>
+noremap <F3>    :<C-u>Unite mark<CR>
+noremap <F4>    :<C-u>Unite -buffer-name=register history/yank<CR>
+noremap <F5>    :<C-u>Unite buffer<CR>
+noremap <F6>    :<C-u>Unite buffer_tab<CR>
+noremap <F7>    :<C-u>Unite -buffer-name=files file<CR>
+noremap <F8>    :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+noremap <F9>    :<C-u>Unite -buffer-name=files file_rec<CR>
+noremap <F10>   :<C-u>Unite -buffer-name=files file_rec:<C-r>=expand('%:p:h:gs?[ :]?\\\0?')<CR><CR>
+noremap <F11>   :<C-u>Unite -buffer-name=files file_mru<CR>
+noremap <F12>   :<C-u>Unite -buffer-name=files directory_mru<CR>
+
+noremap <S-F1>  <Nop>
+noremap <S-F2>  :<C-u>Unite tag<CR>
+noremap <S-F3>  :<C-u>Unite grep<CR>
+noremap <S-F4>  :<C-u>Unite find<CR>
+noremap <S-F5>  :<C-u>Unite command<CR>
+noremap <S-F6>  <Nop>
+noremap <S-F7>  <Nop>
+noremap <S-F8>  :<C-u>UniteResume<CR>
+noremap <S-F9>  <Nop>
+noremap <S-F10> <Nop>
+noremap <S-F11> :<C-u>Unite -buffer-name=files bookmark<CR>
+noremap <S-F12> :<C-u>UniteBookmarkAdd<CR>
+
+noremap <C-F1>  :<C-u>Openvimrc<CR>
+noremap <C-F2>  :<C-u>Opengvimrc<CR>
+noremap <C-F3>  :<C-u>Openpluginrc<CR>
+noremap <C-F4>  :<C-u>Reloadrc<CR>
+noremap <C-F5>  :<C-u>VimFiler<CR>
+noremap <C-F6>  :<C-u>VimFilerBufferDir<CR>
+noremap <C-F7>  :<C-u>VimFiler -buffer-name=explorer -split -simple -winwidth=30 -toggle -no-quit<CR>
+noremap <C-F8>  :<C-u>VimFilerBufferDir -buffer-name=explorer -split -simple -winwidth=30 -toggle -no-quit<CR>
+noremap <C-F9>  :<C-u>VimShell<CR>
+noremap <C-F10> :<C-u>VimShellBufferDir<CR>
+noremap <C-F11> :<C-u>VimShellPop<CR>
+noremap <C-F12> :<C-u>VimShellBufferDir -popup<CR>
+
+noremap <M-F1>  :<C-u>NeoBundleInstall<CR>
+noremap <M-F2>  :<C-u>NeoBundleUpdate<CR>
+noremap <M-F3>  :<C-u>NeoBundleLog<CR>
+noremap <M-F4>  <Nop>
+noremap <M-F5>  :<C-u>NeoBundleSource<CR>
+noremap <M-F6>  <Nop>
+noremap <M-F7>  <Nop>
+noremap <M-F8>  <Nop>
+noremap <M-F9>  :<C-u>call ColorRoller.unroll()<CR>
+noremap <M-F10> :<C-u>call ColorRoller.roll()<CR>
+noremap <M-F11> :<C-u>call DecreaseTrancyLevel()<CR>
+noremap <M-F12> :<C-u>call IncreaseTrancyLevel()<CR>
+
+
+"---------------------------------------------------------------------------
+" Project毎のルートディレクトリ
+"
+command! -nargs=0 CDK01  cd C:\develop\ISP-K01\ISP-K01\trunk\GRSAll\GRS
+command! -nargs=0 CDK01A cd C:\develop\ISP-K01A\CLR_TYPE_COIN\GRSAll.root\GRSAll\GRS
+command! -nargs=0 CDK01B cd C:\develop\ISP-K01\ISP-K01B\trunk\GRSAll\GRS
+command! -nargs=0 CDK01LOCKER cd C:\develop\ISP-K01\ISP-K01B\branches\SecurityLocker\GRSAll\GRS
+" command! -nargs=0 CDK0602  cd C:\develop\CI100_WF_K0602\CI100TM
+" command! -nargs=0 CDK0603  cd C:\develop\CI100_WF_K0603\CI100TM
+
+
+"---------------------------------------------------------------------------
+" 起動前処理
+"
+" ディレクトリ作成 (vim-user.jp hack-202)
+function! s:auto_mkdir(dir, force)
+  if !isdirectory(a:dir) && (a:force ||
+    \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+  endif
+endfunction
+
+if has('vim_starting')
+  " ディレクトリの自動生成
+  call s:auto_mkdir(&backupdir, 1)
+  call s:auto_mkdir(&directory, 1)
+  if has('persistent_undo')
+    call s:auto_mkdir(&undodir, 1)
+  endif
+endif
+
+
+" vim:set expandtab ft=vim ts=2 sts=2 sw=2:
