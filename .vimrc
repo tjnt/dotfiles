@@ -84,10 +84,17 @@ function! s:get_rc_file(name)
   return s:get_rc_dir().(has('win32') ? '\_' : '/.').a:name
 endfunction
 
+" ファイルがあったら実行
+function! s:source_ifexists(file)
+  if filereadable(a:file)
+    exe 'source '.a:file
+  endif
+endfunction
+
 " プラグイン存在チェック
 function! s:has_plugin(name)
-  return globpath(&runtimepath, 'plugin/' . a:name) !=# '' ||
-       \ globpath(&runtimepath, 'autoload/' . a:name) !=# '' ||
+  return globpath(&runtimepath, 'plugin/'.a:name) !=# '' ||
+       \ globpath(&runtimepath, 'autoload/'.a:name) !=# '' ||
        \ (exists('*neobundle#is_installed') && neobundle#is_installed(a:name))
 endfunction
 
@@ -139,11 +146,8 @@ endif
 "---------------------------------------------------------------------------
 " プラグインの読み込み
 "
-let s:use_plugin = 1
-if s:use_plugin
-  filetype off
-  exe 'source '.s:get_rc_file('pluginrc')
-endif
+filetype off
+call s:source_ifexists(s:get_rc_file('pluginrc'))
 
 " ファイルタイププラグインを有効にする
 filetype indent plugin on
@@ -1119,9 +1123,7 @@ endif
 "---------------------------------------------------------------------------
 " 環境ごとの設定読み込み
 "
-if filereadable(s:get_rc_file('vimlocal'))
-  exe 'source '.s:get_rc_file('vimlocal')
-endif
+call s:source_ifexists(s:get_rc_file('vimlocal'))
 
 
 " vim:set expandtab ft=vim ts=2 sts=2 sw=2:
