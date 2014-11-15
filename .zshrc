@@ -15,7 +15,7 @@ autoload -Uz colors
 colors
 
 # 左プロンプト
-if test ${UID} -eq 0 ; then
+if [ ${UID} = 0 ] ; then
     # PROMPT="%{$fg_bold[red]%}%n@%m:%~%#%{$reset_color%} "
     PROMPT="%F{red}%B%n@%m:%~%#%b%f "
 else
@@ -126,6 +126,7 @@ alias ltr='ls -ltr'
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias rm='rm -iv'
+alias ln='ln -v'
 alias mkdir='mkdir -p'
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
