@@ -1,11 +1,6 @@
 "
-" _gvimrc
+" .gvimrc
 "
-" To use it, copy it to
-"  for Unix and OS/2:  ~/.gvimrc
-"  for Amiga:  s:.gvimrc
-"  for MS-DOS and Windows:  $VIM\_vimrc
-"  for OpenVMS:  sys$login:.gvimrc
 "
 
 "---------------------------------------------------------------------------
