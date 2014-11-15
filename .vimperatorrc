@@ -1,0 +1,165 @@
+" 3.5
+
+" vim: set ft=vimperator:
+"set runtimepath=./Data/vimperator
+set runtimepath=~/.vimperator
+
+" disable beep
+set visualbell
+highlight Bell display:none
+
+" タイトルの変更
+set titlestring=
+" スクロールバー表示
+set scrollbars=true
+" ツールバー表示
+set toolbars=none,tabs
+" タブ番号を非表示
+set notabnumbers
+"開いているページが1つならタブ非表示
+"set showtabline=1
+" ヒントを英字表記にする
+" set hintchars=jklasdfhguionmerwc
+set hintchars=hjkluioynm
+" ページロード時にテキストボックスにフォーカスするのを防ぐ
+set focuscontent
+" 検索語のハイライト
+set hlsearch
+" 詳細表示行数(最大値=9)
+set verbose=9
+" サーチエンジンの設定
+set defsearch=google
+" サジェストエンジンの設定
+" set suggestengines=google
+" コマンド入力時にコマンド名を自動補完
+"set wildmode=auto
+" :[tab]open時の補完設定
+" (s=検索エンジン+キーワードURL,S=サジェストエンジン,l=ロケーションバーの補完機能を利用,b=ブックマーク)
+" set complete=sSlb
+set complete=slb
+" 履歴を保存
+set history=100
+" ']]'や'[['で探す候補に日本人として日本語を追加。
+set nextpattern=^次(へ|の|ペ),^続き,\bnext\b,^>$,^(>>|&#187;)$,^(>|&#187;),(>|&#187;)$,\bmore\b
+set previouspattern=^前(へ|の|ペ),^戻る,\bprev|previous\b,^<$,^(<<|&#171;)$,^(<|&#171;),(<|&#171;)$
+" コマンドラインモード時に自動でimeをOFFにする
+" -> 動いていない？？
+style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
+
+
+"---------------------------------------------------------------------------
+" カラー設定
+"
+colorscheme mytheme
+
+
+"---------------------------------------------------------------------------
+" プラグイン毎の設定
+"
+" feedSomeKeys_3
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+command! -nargs=+ lazyfmapgooglereader  lazy fmap  -urls='http://www\.google\.co\.jp/reader/view' <args>
+command! -nargs=+ lazyfmapsgooglereader lazy fmaps -urls='http://www\.google\.co\.jp/reader/view' <args>
+lazyfmapsgooglereader -events=vkeypress <Space> <S-Space> N P X O
+lazyfmapsgooglereader -events=vkeypress v m A
+lazyfmapsgooglereader -events=vkeypress gh ga gs gS gu gt gT gd gf gF gc ge gp
+lazyfmapsgooglereader -events=vkeypress r u / a
+lazyfmapsgooglereader -events=vkeypress j,n k,p J,N K,P n,N p,P o,vn w,NO
+lazyfmapgooglereader  -events=keypress  ; <CR>
+lazyfmapgooglereader  -events=vkeypress , X
+lazyfmapgooglereader  -events=vkeypress . O
+lazyfmapsgooglereader -events=vkeypress <C-1>,1 <C-2>,2
+" GoogleReader + Tombloo
+lazyfmapgooglereader -events=vkeyup <C-t> T
+map -urls='http://www\.google\.co\.jp/reader/view' i <C-t>j
+" Gmail
+lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+
+
+"---------------------------------------------------------------------------
+" ユーザー定義コマンド
+"
+"command tabhome tabopen http://www.google.co.jp
+command! Reloadrc :source ~/.vimperatorrc
+
+" toggler.js
+js <<EOM
+liberator.globalVariables.toggler = {
+  toolbars: ["set toolbars=none,tabs", "set toolbars=all"],
+  //...
+};
+EOM
+" ツールバーのトグル
+command! ToggleToolbars :toggle toolbars
+
+
+"---------------------------------------------------------------------------
+" キーマッピング
+"
+" LEADERの変更 「\」は遠いので「,」にする
+let mapleader=","
+
+" 移動
+noremap j <Down>
+noremap k <Up>
+noremap <C-e> <C-d>
+noremap <C-y> <C-u>
+noremap <C-f> <PageDown>
+noremap <C-b> <PageUp>
+
+" 戻ると進む
+noremap <S-h> <A-Left>
+noremap <S-l> <A-Right>
+noremap b <A-Left>
+
+" タブ移動
+noremap h gT
+noremap l gt
+" Shift+←/→ で現在のタブの位置変更
+noremap <S-Left> :tabmove -1<CR>
+noremap <S-Right> :tabmove +1<CR>
+
+" ブックマーク追加
+noremap <S-M> :bmark<cr>
+" bookmarkを開く
+noremap gb :bmarks<Space>
+
+" 最初の入力フィールドへ移動
+noremap i gi
+
+" Ctrl+cでも選択文字列のコピーが出来るようにする
+noremap <C-c> Y
+
+" 検索結果のハイライトをEsc連打でリセットする
+noremap <silent> <Esc><Esc> :nohlsearch<CR>
+
+" All in one sidebarのトグル
+nnoremap <LEADER>s <F4>
+
+" ツールバーのトグル
+nnoremap <LEADER>t :ToggleToolbars<CR>
+
+" _vimperatorrc再読み込み
+" noremap <LEADER>r :Reloadrc<CR>
+noremap <C-F1> :Reloadrc<CR>
+
+" コマンドラインでのカーソル移動
+cnoremap <C-n> <TAB>
+cnoremap <C-p> <S-TAB>
+
+" disable keys
+noremap <C-w> <Nop>
+cnoremap <C-b> <Nop>
+cnoremap <C-f> <Nop>
+inoremap <C-b> <Nop>
+inoremap <C-f> <Nop>
+noremap <S-Esc> <Nop>
+cnoremap <S-Esc> <Nop>
+inoremap <S-Esc> <Nop>
+
+" 読み込み完了のメッセージ表示
+echo 'vimperatorrc loaded'
+
+
+" vim:set ft=vim ts=8 sw=2 sts=2:
