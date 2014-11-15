@@ -1,0 +1,48 @@
+" ==Vimperator_Color_Scheme==
+"   name:mytheme
+" ==mytheme_Color_Scheme==
+
+
+hi Hint                 color:#ffffff; background:rgba(255,0,0,0.8); font-family:monospace; font-size:15px; font-weight:bold;
+hi HintElem                            background:#66ffff;
+hi HintActive                          background:#66ffff;
+
+hi Normal               color:#00ff66; background:#101010; font-family:monospace; font-size:10pt; opacity: 0.95;
+hi CmdLine              color:#afafaf; background:#101010; font-size:10pt; font-weight:bold; padding:0px 3px;
+hi StatusLine           color:#afafaf; background:#101010; font-size:10pt; font-weight:normal;
+hi InfoMsg              color:#00ff66; background:#101010;
+hi ModeMsg              color:#00ff66; background:#101010;
+hi MoreMsg              color:#00ff66; background:#101010;
+hi LineNr               color:#00ff66; background:#101010;
+hi Question             color:#ffff00; background:#101010;
+hi WarningMsg           color:#ffff00; background:#101010;
+hi ErrorMsg             color:#ff0000; background:#101010;
+hi NonText              color:#ffffff; background:#101010;
+hi Null                 color:#ffffff; background:#101010;
+hi Tag                  color:#ffffff; background:#101010;
+hi Number               color:#ffffff; background:#101010;
+
+hi CompTitle            color:#dc143c; background:#000000; font-weight:bold;
+hi CompTitle>*          color:#dc143c; background:#000000; padding:1px;
+"hi CompGroup            color:#afafaf;
+hi CompItem             color:#afafaf;
+hi CompItem[selected]   color:#afafaf; background:#3f3f3f; font-weight:bold;
+hi CompDesc             color:#afafaf;
+hi CompDesc[selected]   color:#afafaf; background:#3f3f3f; font-weight:bold;
+hi CompMsg              color:#afafaf;
+
+hi Filter               color:#101010; font-weight:bold;
+"hi Title                color:#ffffff;
+"hi Indicator            color:#ffffff;
+"hi String               color:#ffffff;
+"hi Number               color:#ffffff;
+"hi Object               color:#ffffff;
+"hi Function             color:#ffffff;
+"hi URL                  color:#ffffff;
+"hi TabNumber            color:#ffffff; font-weight: bold; font-size:10pt;
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel {padding:0 1px !important; }
+statusbarpanel > * { margin:0 !important;  padding:0 2px 0 0 !important;  }
+EOM
+
