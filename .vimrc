@@ -1,21 +1,6 @@
 "
-" _vimrc
+" .vimrc
 "
-" To use it, copy it to
-"  for Unix and OS/2:  ~/.vimrc
-"  for Amiga:  s:.vimrc
-"  for MS-DOS and Windows:  $VIM\_vimrc
-"  for OpenVMS:  sys$login:.vimrc
-"
-" Naming convention.
-"   Command name
-"     - CamelCase
-"   Global function name
-"     - CamelCase
-"   Local function name
-"     - s:split_by_underbar
-"   Group name for autocmd
-"     - ag_split_by_underbar
 "
 
 "---------------------------------------------------------------------------
