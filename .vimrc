@@ -1034,7 +1034,7 @@ if has("unix")
   function! s:chg_sh_permission()
     if &ft =~ "\\(z\\|c\\|ba\\)\\?sh"
       call system("chmod 755 " . shellescape(expand('%:p')))
-      echo "Set permission 755"
+      " echo "Set permission 755"
     endif
   endfunction
   augroup ag_chg_sh_permission
