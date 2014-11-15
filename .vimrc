@@ -35,6 +35,7 @@ if has('vim_starting')
   " Windows
   if has('win32')
     let $VIMLOCAL=$HOME.'\.vim'
+    set runtimepath+=$VIMLOCAL
     " 諸々のバイナリ
     if isdirectory($VIMLOCAL.'\bin')
       let $PATH=$PATH.';'.$VIMLOCAL.'\bin'
