@@ -1,0 +1,12 @@
+h :focus_prev
+l :focus_next
+K :scroll_left
+J :scroll_right
+q :quickmark
+Q :tab_quickmark
+b :history_back
+B :hints_background
+e :hints_editable
+Control e :scroll_down
+Control y :scroll_up
+Control t :tab_new
