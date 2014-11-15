@@ -34,7 +34,7 @@ let mapleader = ','
 if has('vim_starting')
   " Windows
   if has('win32')
-    let $VIMLOCAL=$VIM.'\vimfiles'
+    let $VIMLOCAL=$HOME.'\.vim'
     " 諸々のバイナリ
     if isdirectory($VIMLOCAL.'\bin')
       let $PATH=$PATH.';'.$VIMLOCAL.'\bin'
@@ -59,14 +59,9 @@ endif
 "---------------------------------------------------------------------------
 " 共通関数
 "
-" 設定ファイルのディレクトリパス取得
-function! s:get_rc_dir()
-  return has('win32') ? $VIM : $HOME
-endfunction
-
 " 設定ファイルのフルパス取得
-function! s:get_rc_file(name)
-  return s:get_rc_dir().(has('win32') ? '\_' : '/.').a:name
+function! s:rc_path(name)
+  return $HOME.(has('win32') ? '\.' : '/.').a:name
 endfunction
 
 " ファイルがあったら実行
@@ -132,7 +127,7 @@ endif
 " プラグインの読み込み
 "
 filetype off
-call s:source_ifexists(s:get_rc_file('pluginrc'))
+call s:source_ifexists(s:rc_path('pluginrc'))
 
 " ファイルタイププラグインを有効にする
 filetype indent plugin on
@@ -637,7 +632,7 @@ if has('vim_starting')
   " 本関数の実行中にvimrcの読み込みが行われ、
   " 関数の再定義が失敗するため、起動時だけ定義するようにする
   function s:reload_rc(name)
-    exe 'source '.s:get_rc_file(a:name)
+    exe 'source '.s:rc_path(a:name)
   endfunction
 endif
 command! -nargs=0 Reloadrc call <SID>reload_rc('vimrc') |
@@ -645,7 +640,7 @@ command! -nargs=0 Reloadrc call <SID>reload_rc('vimrc') |
 
 " 設定ファイルを開く
 function! s:open_rc(name)
-  exe 'edit '.s:get_rc_file(a:name)
+  exe 'edit '.s:rc_path(a:name)
 endfunction
 command! -nargs=0 Openvimrc call <SID>open_rc('vimrc')
 command! -nargs=0 Opengvimrc call <SID>open_rc('gvimrc')
@@ -751,9 +746,9 @@ command! -nargs=* -complete=mapping AllMaps map <args> | map! <args> | lmap <arg
 " vimrcの行数を数える
 function! s:count_vimrc()
   let cmdname = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
-  exe cmdname 'wc -l'.' '.(s:get_rc_file('vimrc')).
-                    \ ' '.(s:get_rc_file('gvimrc')).
-                    \ ' '.(s:get_rc_file('pluginrc'))
+  exe cmdname 'wc -l'.' '.(s:rc_path('vimrc')).
+                    \ ' '.(s:rc_path('gvimrc')).
+                    \ ' '.(s:rc_path('pluginrc'))
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
@@ -1108,7 +1103,7 @@ endif
 "---------------------------------------------------------------------------
 " 環境ごとの設定読み込み
 "
-call s:source_ifexists(s:get_rc_file('vimlocal'))
+call s:source_ifexists(s:rc_path('vimlocal'))
 
 
 " vim:set expandtab ft=vim ts=2 sts=2 sw=2:
