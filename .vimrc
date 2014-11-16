@@ -193,14 +193,16 @@ if &t_Co > 2 || has('gui_running')
 endif
 
 if !has('gui_running')
-  " コンソールでのカラー表示設定
-  if stridx($TERM, "xterm-256color") >= 0
-    set t_Co=256
-  else
-    set t_Co=16
-  endif
   " コンソールモードで使用するカラースキーマ
-  colorschem default
+  if &t_Co >= 256
+    try
+      colorscheme candycode
+    catch
+      colorscheme default
+    endtry
+  else
+    colorschem default
+  endif
 endif
 
 
