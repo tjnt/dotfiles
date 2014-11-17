@@ -228,6 +228,9 @@ inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 " neocompleteの補完をキャンセルし、ポップアップメニューを閉じる
 inoremap <expr><C-e> neocomplete#cancel_popup()
 
+" 有効/無効のトグル
+nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
+
 
 "---------------------------------------------------------------------------
 " neosnippet
