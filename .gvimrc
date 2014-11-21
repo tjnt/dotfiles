@@ -120,7 +120,7 @@ let ColorRoller.colors = [
 
 function! ColorRoller.change()
   let color = get(self.colors, 0)
-  silent exe 'colorscheme ' . color
+  silent exe 'colorscheme '.color
   redraw
   echon self.colors
 endfunction
@@ -139,7 +139,7 @@ endfunction
 
 " ColorRollerの先頭をデフォルトのカラースキーマとして使用する
 try
-  silent exe "colorscheme " . ColorRoller.colors[0]
+  silent exe "colorscheme ".ColorRoller.colors[0]
 catch
   colorscheme default
 endtry
@@ -155,12 +155,12 @@ if has('kaoriya') || has('mac')
   " 透過率を変更
   function! DecreaseTrancyLevel()
     let &transparency = &transparency - 5
-    echon 'transparency=' . &transparency
+    echon 'transparency='.&transparency
   endfunction
 
   function! IncreaseTrancyLevel()
     let &transparency = &transparency + 5
-    echon 'transparency=' . &transparency
+    echon 'transparency='.&transparency
   endfunction
 
   " フォーカスが外れた時に自動的に透過設定を有効 (vim-user.jp hack-234)
