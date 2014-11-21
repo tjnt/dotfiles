@@ -11,7 +11,7 @@ if has('vim_starting') && has('reltime')
   let g:startuptime = reltime()
   augroup ag_vimrc_startuptime
     au! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw |
-                 \ echomsg 'startuptime: ' . reltimestr(g:startuptime)
+                 \ echomsg 'startuptime: '.reltimestr(g:startuptime)
   augroup END
 endif
 
@@ -425,13 +425,13 @@ noremap <silent>[tab]h :<C-u>tabprevious<CR>
 
 " [tab]+nでタブを右へ移動
 function! s:tabmove_next()
-  exe 'tabmove' . (tabpagenr() % tabpagenr('$'))
+  exe 'tabmove'.(tabpagenr() % tabpagenr('$'))
 endfunction
 noremap <silent>[tab]n :<C-u>call <SID>tabmove_next()<CR>
 
 " [tab]+pでタブを左へ移動
 function! s:tabmove_previous()
-  exe 'tabmove' . (tabpagenr() == 1 ? tabpagenr('$') : tabpagenr()-2)
+  exe 'tabmove'.(tabpagenr() == 1 ? tabpagenr('$') : tabpagenr()-2)
 endfunction
 noremap <silent>[tab]p :<C-u>call <SID>tabmove_previous()<CR>
 
@@ -442,14 +442,14 @@ function! s:find_window_if(pred)
   let wincount = winnr("$")
   let i = 1
   while i <= wincount
-    exe i . "wincmd w"
+    exe i."wincmd w"
     if eval(a:pred)
-      exe winnr_save . "wincmd w"
+      exe winnr_save."wincmd w"
       return i
     endif
     let i = i + 1
   endwhile
-  exe winnr_save . "wincmd w"
+  exe winnr_save."wincmd w"
   return 0
 endfunction
 
@@ -672,8 +672,8 @@ command! -nargs=1 -complete=file VDsplit vertical diffsplit <args>
 " 一時ファイルを作ることなくサクッと2つの範囲のdiffをとる方法。(VimWiki tips49)
 " http://vimwiki.net/?tips%2F49
 function! s:diff_clip(reg) range
-  exe "let @a=@" . a:reg
-  exe a:firstline  . "," . a:lastline . "y b"
+  exe "let @a=@".a:reg
+  exe a:firstline.",".a:lastline."y b"
   new
   " このウィンドウを閉じたらバッファを消去するようにする
   set buftype=nofile bufhidden=wipe
@@ -724,7 +724,7 @@ function! BufOnly(buffer, bang)
       if a:bang == '' && getbufvar(n, '&modified')
         " modified buffer
       else
-        silent exe 'bdel' . a:bang . ' ' . n
+        silent exe 'bdel'.a:bang.' '.n
       endif
     endif
     let n = n+1
@@ -1030,7 +1030,7 @@ endif
 if has("unix")
   function! s:chg_sh_permission()
     if &ft =~ "\\(z\\|c\\|ba\\)\\?sh"
-      call system("chmod 755 " . shellescape(expand('%:p')))
+      call system("chmod 755 ".shellescape(expand('%:p')))
       " echo "Set permission 755"
     endif
   endfunction
