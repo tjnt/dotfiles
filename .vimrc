@@ -363,6 +363,11 @@ vnoremap <silent>* "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR
 " 検索結果のハイライトをEsc連打でリセットする
 noremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 
+" Ctrl+Enterで保存
+noremap <silent><C-CR> :<C-u>w<CR>
+inoremap <silent><C-CR> <ESC>:<C-u>w<CR>
+vnoremap <silent><C-CR> <ESC>:<C-u>w<CR>
+
 " Ctrl+h,j,k,lで分割ウィンドウ移動
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
@@ -382,50 +387,53 @@ noremap <C-Left>  <C-w><
 " Qでウィンドウを閉じる
 noremap <silent><S-Q> :<C-u>close<CR>
 
-" Ctrl+Enterで保存
-noremap <silent><C-CR> :<C-u>w<CR>
-inoremap <silent><C-CR> <ESC>:<C-u>w<CR>
-vnoremap <silent><C-CR> <ESC>:<C-u>w<CR>
+" バッファ操作のprefix
+nnoremap [buf] <Nop>
+nmap     <LEADER> [buf]
+
+" バッファ一覧
+nnoremap <silent>[buf]l :<C-u>ls<CR>
+
+" バッファを閉じる
+nnoremap <silent>[buf]d :<C-u>bdelete<CR>
+
+" バッファ切り替え
+nnoremap <silent>[buf]n :<C-u>bnext<CR>
+nnoremap <silent>[buf]p :<C-u>bprevious<CR>
+nnoremap <silent>[buf]1 :<C-u>e #1<CR>
+nnoremap <silent>[buf]2 :<C-u>e #2<CR>
+nnoremap <silent>[buf]3 :<C-u>e #3<CR>
+nnoremap <silent>[buf]4 :<C-u>e #4<CR>
+nnoremap <silent>[buf]5 :<C-u>e #5<CR>
+nnoremap <silent>[buf]6 :<C-u>e #6<CR>
+nnoremap <silent>[buf]7 :<C-u>e #7<CR>
+nnoremap <silent>[buf]8 :<C-u>e #8<CR>
+nnoremap <silent>[buf]9 :<C-u>e #9<CR>
 
 " tab操作のprefix
 nnoremap [tab] <Nop>
 nmap     t [tab]
 
 " [tab]+c 新しいタブ
-noremap <silent>tc :<C-u>tabnew<CR>
-" [tab]+l / [tab]+h でタブ切り替え
-noremap <silent>tl :<C-u>tabnext<CR>
-noremap <silent>th :<C-u>tabprevious<CR>
+noremap <silent>[tab]c :<C-u>tabnew<CR>
 " [tab]+x タブを閉じる
-noremap <silent>tx :<C-u>tabclose<CR>
+noremap <silent>[tab]x :<C-u>tabclose<CR>
+
+" [tab]+l / [tab]+h でタブ切り替え
+noremap <silent>[tab]l :<C-u>tabnext<CR>
+noremap <silent>[tab]h :<C-u>tabprevious<CR>
 
 " [tab]+nでタブを右へ移動
 function! s:tabmove_next()
   exe 'tabmove' . (tabpagenr() % tabpagenr('$'))
 endfunction
-noremap <silent>tn :<C-u>call <SID>tabmove_next()<CR>
+noremap <silent>[tab]n :<C-u>call <SID>tabmove_next()<CR>
 
 " [tab]+pでタブを左へ移動
 function! s:tabmove_previous()
   exe 'tabmove' . (tabpagenr() == 1 ? tabpagenr('$') : tabpagenr()-2)
 endfunction
-noremap <silent>tp :<C-u>call <SID>tabmove_previous()<CR>
-
-" バッファ一覧
-nnoremap <silent><LEADER>l :<C-u>ls<CR>
-
-" バッファ切り替え
-nnoremap <silent><LEADER>n :<C-u>bnext<CR>
-nnoremap <silent><LEADER>p :<C-u>bprevious<CR>
-nnoremap <silent><LEADER>1 :<C-u>e #1<CR>
-nnoremap <silent><LEADER>2 :<C-u>e #2<CR>
-nnoremap <silent><LEADER>3 :<C-u>e #3<CR>
-nnoremap <silent><LEADER>4 :<C-u>e #4<CR>
-nnoremap <silent><LEADER>5 :<C-u>e #5<CR>
-nnoremap <silent><LEADER>6 :<C-u>e #6<CR>
-nnoremap <silent><LEADER>7 :<C-u>e #7<CR>
-nnoremap <silent><LEADER>8 :<C-u>e #8<CR>
-nnoremap <silent><LEADER>9 :<C-u>e #9<CR>
+noremap <silent>[tab]p :<C-u>call <SID>tabmove_previous()<CR>
 
 " 条件'pred'を満たすウィンドウが開いているなら、そのウィンドウ番号を返す
 " 開いていないなら 0 を返す
@@ -504,28 +512,28 @@ noremap <C-z> <Nop>
 "---------------------------------------------------------------------------
 " smooth scroll (smooth_scroll.vim)
 "
-let g:scroll_factor = 5000
-function! s:smooth_scroll(dir, windiv, factor)
-   let wh=winheight(0)
-   let i=0
-   while i < wh / a:windiv
-      let t1=reltime()
-      let i = i + 1
-      if a:dir=="d"
-         silent normal! j
-      else
-         silent normal! k
-      end
-      redraw
-      while 1
-         let t2=reltime(t1,reltime())
-         if t2[1] > g:scroll_factor * a:factor
-            break
-         endif
-      endwhile
-   endwhile
-endfunction
 " 重く感じるので無効...
+" let g:scroll_factor = 5000
+" function! s:smooth_scroll(dir, windiv, factor)
+"    let wh=winheight(0)
+"    let i=0
+"    while i < wh / a:windiv
+"       let t1=reltime()
+"       let i = i + 1
+"       if a:dir=="d"
+"          silent normal! j
+"       else
+"          silent normal! k
+"       end
+"       redraw
+"       while 1
+"          let t2=reltime(t1,reltime())
+"          if t2[1] > g:scroll_factor * a:factor
+"             break
+"          endif
+"       endwhile
+"    endwhile
+" endfunction
 " noremap <silent><C-D> :<C-u>call <SID>smooth_scroll("d",2, 2)<CR>
 " noremap <silent><C-U> :<C-u>call <SID>smooth_scroll("u",2, 2)<CR>
 " noremap <silent><C-F> :<C-u>call <SID>smooth_scroll("d",1, 1)<CR>
@@ -635,15 +643,17 @@ command! -nargs=0 CDV cd $VIM
 command! -nargs=0 QQQ qall!
 
 " 設定ファイルの再読み込み
+" 本関数の実行中にvimrcの読み込みが行われ、
+" 関数の再定義が失敗するため、起動時だけ定義するようにする
 if has('vim_starting')
-  " 本関数の実行中にvimrcの読み込みが行われ、
-  " 関数の再定義が失敗するため、起動時だけ定義するようにする
-  function s:reload_rc(name)
-    exe 'source '.s:rc_path(a:name)
+  function s:reload_rc()
+    exe 'source '.s:rc_path('vimrc')
+    if has('gui_running')
+      exe 'source '.s:rc_path('gvimrc')
+    endif
   endfunction
 endif
-command! -nargs=0 Reloadrc call <SID>reload_rc('vimrc') |
-                         \ call <SID>reload_rc('gvimrc')
+command! -nargs=0 Reloadrc call <SID>reload_rc()
 
 " 設定ファイルを開く
 function! s:open_rc(name)
