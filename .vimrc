@@ -387,25 +387,29 @@ noremap <silent><C-CR> :<C-u>w<CR>
 inoremap <silent><C-CR> <ESC>:<C-u>w<CR>
 vnoremap <silent><C-CR> <ESC>:<C-u>w<CR>
 
-" Alt+n 新しいタブ
-noremap <silent><M-n> :<C-u>tabnew<CR>
-" Alt+l / Alt+h でタブ切り替え
-noremap <silent><M-l> :<C-u>tabnext<CR>
-noremap <silent><M-h> :<C-u>tabprevious<CR>
-" Alt+c タブを閉じる
-noremap <silent><M-c> :<C-u>tabclose<CR>
+" tab操作のprefix
+nnoremap [tab] <Nop>
+nmap     t [tab]
 
-" Shift+Alt+lでタブを右へ移動
+" [tab]+c 新しいタブ
+noremap <silent>tc :<C-u>tabnew<CR>
+" [tab]+l / [tab]+h でタブ切り替え
+noremap <silent>tl :<C-u>tabnext<CR>
+noremap <silent>th :<C-u>tabprevious<CR>
+" [tab]+x タブを閉じる
+noremap <silent>tx :<C-u>tabclose<CR>
+
+" [tab]+nでタブを右へ移動
 function! s:tabmove_next()
   exe 'tabmove' . (tabpagenr() % tabpagenr('$'))
 endfunction
-noremap <silent><S-M-l> :<C-u>call <SID>tabmove_next()<CR>
+noremap <silent>tn :<C-u>call <SID>tabmove_next()<CR>
 
-" Shift+Alt+lでタブを左へ移動
+" [tab]+pでタブを左へ移動
 function! s:tabmove_previous()
   exe 'tabmove' . (tabpagenr() == 1 ? tabpagenr('$') : tabpagenr()-2)
 endfunction
-noremap <silent><S-M-h> :<C-u>call <SID>tabmove_previous()<CR>
+noremap <silent>tp :<C-u>call <SID>tabmove_previous()<CR>
 
 " バッファ一覧
 nnoremap <silent><LEADER>l :<C-u>ls<CR>
