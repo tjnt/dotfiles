@@ -84,34 +84,47 @@ endfunction
 " エンコーディング設定
 "
 scriptencoding utf-8
-" (http://d.hatena.ne.jp/over80/20080907/1220794834)
-set encoding=utf-8
-set fileencodings=ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932,utf-8
 
-" デフォルト使用するエンコードと改行コード
-" それぞれ設定値が空の場合に設定する
-if has('vim_starting')
-  " fileencoding
-  if &fileencoding ==# ''
-    if has('win32')
-      set fileencoding=cp932
-      " set fileencoding=utf-8
-    elseif has('unix')
-      set fileencoding=utf-8
+" 文字コードの自動認識
+if &encoding !=# 'utf-8'
+  set encoding=japan
+  set fileencoding=japan
+endif
+if has('iconv')
+  let s:enc_euc = 'euc-jp'
+  let s:enc_jis = 'iso-2022-jp'
+  " iconvがeucJP-msに対応しているかをチェック
+  if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
+    let s:enc_euc = 'eucjp-ms'
+    let s:enc_jis = 'iso-2022-jp-3'
+  " iconvがJISX0213に対応しているかをチェック
+  elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+    let s:enc_euc = 'euc-jisx0213'
+    let s:enc_jis = 'iso-2022-jp-3'
+  endif
+  " fileencodingsを構築
+  if &encoding ==# 'utf-8'
+    let s:fileencodings_default = &fileencodings
+    let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+    let &fileencodings = &fileencodings .','. s:fileencodings_default
+    unlet s:fileencodings_default
+  else
+    let &fileencodings = &fileencodings .','. s:enc_jis
+    set fileencodings+=utf-8,ucs-2le,ucs-2
+    if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
+      set fileencodings+=cp932
+      set fileencodings-=euc-jp
+      set fileencodings-=euc-jisx0213
+      set fileencodings-=eucjp-ms
+      let &encoding = s:enc_euc
+      let &fileencoding = s:enc_euc
     else
-      set fileencoding=utf-8
+      let &fileencodings = &fileencodings .','. s:enc_euc
     endif
   endif
-  " termencoding
-  if &termencoding ==# ''
-    if has('win32')
-      set termencoding=cp932
-    elseif has('unix')
-      set termencoding=utf-8
-    else
-      set termencoding=utf-8
-    endif
-  endif
+  " 定数を処分
+  unlet s:enc_euc
+  unlet s:enc_jis
 endif
 
 
@@ -142,7 +155,7 @@ set wrap
 set laststatus=2
 "ステータスラインの表示フォーマット
 "set statusline=%<%f\ %m%r%h%w[ft:%{&ft}][fenc:%{&fenc}][ffmt:%{&ff}][bomb:%{&bomb}][ascii:\%03.3b][hex:\%02.2B]%=%c,%l/%L%10p%%
-set statusline=%<%t\ %m%r%h%w[buf:%n][ftyp:%{&ft}][fenc:%{&fenc}][ffmt:%{&ff}][bomb:%{&bomb}][ascii:\%03.3b]%=%c,%l/%L%4p%%
+set statusline=%<%t\ %m%r%h%w[buf:%n][ftyp:%{&ft}][enc:%{&enc}][fenc:%{&fenc}][ffmt:%{&ff}][bomb:%{&bomb}][ascii:\%03.3b]%=%c,%l/%L%4p%%
 " コマンドをステータス行に表示
 set showcmd
 " コマンドラインの高さ (gvimはgvimrcで指定)
