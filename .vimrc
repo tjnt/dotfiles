@@ -3,8 +3,7 @@
 "
 "
 
-"---------------------------------------------------------------------------
-" 基本設定
+" 基本設定 {{{1
 "
 " 起動時間の計測
 if has('vim_starting') && has('reltime')
@@ -28,8 +27,7 @@ let mapleader = ','
 let g:mapleader = ','
 
 
-"---------------------------------------------------------------------------
-" 環境変数の設定
+" 環境変数の設定 {{{1
 "
 let g:is_windows = has('win16') || has('win32') || has('win64')
 
@@ -60,8 +58,7 @@ if has('vim_starting')
 endif
 
 
-"---------------------------------------------------------------------------
-" 共通関数
+" 共通関数 {{{1
 "
 " 設定ファイルのフルパス取得
 function! s:rc_path(name)
@@ -83,8 +80,7 @@ function! s:has_plugin(name)
 endfunction
 
 
-"---------------------------------------------------------------------------
-" エンコーディング設定
+" エンコーディング設定 {{{1
 "
 if &encoding !=? 'utf-8'
   let &termencoding = &encoding
@@ -102,8 +98,7 @@ endif
 set fileformats=unix,dos,mac
 
 
-"---------------------------------------------------------------------------
-" プラグインの読み込み
+" プラグインの読み込み {{{1
 "
 filetype off
 call s:source_ifexists(s:rc_path('pluginrc'))
@@ -112,8 +107,7 @@ call s:source_ifexists(s:rc_path('pluginrc'))
 filetype indent plugin on
 
 
-"---------------------------------------------------------------------------
-" GUI固有ではない画面表示の設定:
+" 画面表示に関する設定 {{{1
 "
 " 行番号を表示 (nonumber:非表示)
 set number
@@ -188,8 +182,7 @@ if !has('gui_running')
 endif
 
 
-"---------------------------------------------------------------------------
-" 編集に関する設定:
+" 編集に関する設定 {{{1
 "
 " タブの画面上での幅
 set tabstop=4
@@ -216,10 +209,11 @@ set virtualedit+=block
 " set iskeyword=a-z,A-Z,48-57,_,.,-,>
 " コマンドライン補完するときに強化されたものを使う(参照 :help wildmenu)
 set wildmenu
-" コードの折りたたみの設定 デフォルト無効とする (ziで有効/無効をトグルできる)
-set nofoldenable
+" コードの折りたたみの設定 (ziで有効/無効をトグルできる)
+set foldenable
 set foldmethod=syntax
-set foldlevel=50
+set foldlevel=0
+set foldnestmax=3
 " 8進数を無効にする。<C-a>,<C-x>に影響する
 set nrformats-=octal
 " キーコードやマッピングされたキー列が完了するのを待つ時間(ミリ秒)
@@ -245,8 +239,7 @@ set splitbelow
 set splitright
 
 
-"---------------------------------------------------------------------------
-" 検索の挙動に関する設定:
+" 検索の挙動に関する設定 {{{1
 "
 " 検索時に大文字小文字を無視 (noignorecase:無視しない)
 set ignorecase
@@ -260,8 +253,7 @@ set wrapscan
 set hlsearch
 
 
-"---------------------------------------------------------------------------
-" ファイル操作に関する設定:
+" ファイル操作に関する設定 {{{1
 "
 " 外部のエディタで編集中のファイルが変更されたら自動的に読み直す
 set autoread
@@ -284,8 +276,7 @@ if has('persistent_undo')
 endif
 
 
-"---------------------------------------------------------------------------
-" キーマッピング
+" キーマッピング {{{1
 "
 " スペースキーでスクロール
 nnoremap <Space>   <C-e>
@@ -491,8 +482,7 @@ nnoremap ZQ <Nop>
 noremap <C-z> <Nop>
 
 
-"---------------------------------------------------------------------------
-" smooth scroll (smooth_scroll.vim)
+" smooth scroll (smooth_scroll.vim) {{{2
 "
 " 重く感じるので無効...
 " let g:scroll_factor = 5000
@@ -522,8 +512,7 @@ noremap <C-z> <Nop>
 " noremap <silent><C-B> :<C-u>call <SID>smooth_scroll("u",1, 1)<CR>
 
 
-"---------------------------------------------------------------------------
-" grep
+" grep {{{2
 "
 " 使用するgrepの指定
 let mygrepprg = 'internal'
@@ -586,8 +575,7 @@ vnoremap gv :<C-u>call <SID>v_grep_func('v')
 vnoremap gt :<C-u>call <SID>v_grep_func('t')
 
 
-"---------------------------------------------------------------------------
-" タグジャンプ
+" タグジャンプ {{{2
 "
 " 分割ウィンドウでタグジャンプ
 function! s:split_tagjump()
@@ -614,8 +602,7 @@ endfunction
 nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
 
 
-"---------------------------------------------------------------------------
-" ユーザー定義コマンド
+" ユーザー定義コマンド {{{1
 "
 " ディレクトリ移動
 command! -nargs=0 CC cd %:h
@@ -751,7 +738,7 @@ function! s:count_vimrc()
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
-" 開発環境の切り替え
+" 開発環境の切り替え {{{2
 if has('vim_starting')
   let DevEnvChanger = {}
   let DevEnvChanger.default = {
@@ -854,13 +841,8 @@ command! -nargs=0 DevEnvMinGW  call DevEnvChanger.change('mingw')
 command! -nargs=0 DevEnvCygwin  call DevEnvChanger.change('cygwin')
 command! -nargs=0 DevEnvMSVC2005 call DevEnvChanger.change('msvc_2005')
 
-" Dropbox Update
-command! -nargs=0 DBoxUpdatePush exe '!ruby dropbox_update.rb push'
-command! -nargs=0 DBoxUpdatePull exe '!ruby dropbox_update.rb pull'
 
-
-"---------------------------------------------------------------------------
-" Auto Command
+" Auto Command {{{1
 "
 " ファイルタイプごとのインデント設定
 augroup ag_indent_filetype
@@ -1021,8 +1003,7 @@ if has("unix")
 endif
 
 
-"---------------------------------------------------------------------------
-" <Fn> 短縮キーマップ
+" <Fn> 短縮キーマップ {{{1
 "
 noremap <F1>    :<C-u>Unite help<CR>
 noremap <F2>    :<C-u>Unite outline<CR>
@@ -1077,8 +1058,7 @@ noremap <M-F11> :<C-u>call DecreaseTrancyLevel()<CR>
 noremap <M-F12> :<C-u>call IncreaseTrancyLevel()<CR>
 
 
-"---------------------------------------------------------------------------
-" 起動前処理
+" 起動前処理 {{{1
 "
 " ディレクトリ作成 (vim-user.jp hack-202)
 function! s:auto_mkdir(dir, force)
@@ -1098,10 +1078,9 @@ if has('vim_starting')
 endif
 
 
-"---------------------------------------------------------------------------
 " 環境ごとの設定読み込み
-"
 call s:source_ifexists(s:rc_path('vimlocal'))
 
 
-" vim:set expandtab ft=vim ts=2 sts=2 sw=2:
+" {{{1
+" vim:set expandtab ft=vim ts=2 sts=2 sw=2 foldmethod=marker:

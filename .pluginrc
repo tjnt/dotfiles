@@ -4,8 +4,7 @@
 " プラグイン毎の設定
 "
 
-"---------------------------------------------------------------------------
-" neobundle.vim
+" neobundle.vim {{{1
 "
 " neobundle自体をインストールするコマンド
 command! -nargs=0 NeoBundleInitialize exe
@@ -118,8 +117,7 @@ call neobundle#end()
 NeoBundleCheck
 
 
-"---------------------------------------------------------------------------
-" neocomplete
+" neocomplete {{{1
 "
 " 自動的に起動 (default 0)
 let g:neocomplete#enable_at_startup = 1
@@ -232,8 +230,7 @@ inoremap <expr><C-e> neocomplete#cancel_popup()
 nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
 
 
-"---------------------------------------------------------------------------
-" neosnippet
+" neosnippet {{{1
 "
 " cache directory
 let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
@@ -261,8 +258,7 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory=$VIMLOCAL.'/bundle/vim-snippets/snippets'
 
 
-"---------------------------------------------------------------------------
-" unite.vim
+" unite.vim {{{1
 "
 " 入力モードで開始する
 let g:unite_enable_start_insert = 1
@@ -382,8 +378,7 @@ nnoremap <silent>[unite]ti :<C-u>Unite tag/include<CR>
 nnoremap <silent>[unite]sn :<C-u>Unite scriptnames<CR>
 
 
-"---------------------------------------------------------------------------
-" vimfiler
+" vimfiler {{{1
 "
 let g:vimfiler_as_default_explorer = 1
 " Enable file operation commands.
@@ -434,8 +429,7 @@ nmap     <LEADER>vf [vimfiler]
 nnoremap [vimfiler] :<C-u>VimFiler<CR>
 
 
-"---------------------------------------------------------------------------
-" vimshell
+" vimshell {{{1
 "
 " cache directory
 let g:vimshell_data_directory = $VIMLOCAL.'/tmp/cache/vimshell'
@@ -445,8 +439,7 @@ nmap     <LEADER>vs [vimshell]
 nnoremap [vimshell] :<C-u>VimShell<CR>
 
 
-"---------------------------------------------------------------------------
-" NERDTree
+" NERDTree {{{1
 "
 " NERDTreeの幅
 let g:NERDTreeWinSize=40
@@ -460,8 +453,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
 
 
-"---------------------------------------------------------------------------
-" taglist.vim
+" taglist.vim {{{1
 "
 " 現在表示中のファイルのみのタグしか表示しない
 let Tlist_Show_One_File = 1
@@ -475,8 +467,7 @@ let Tlist_Exit_OnlyWindow = 1
 nnoremap <silent>[toggle]t :TlistToggle<CR>
 
 
-"---------------------------------------------------------------------------
-" alpaca_tags
+" alpaca_tags {{{1
 "
 let g:alpaca_tags#config = {
       \ '_' : '-R --sort=yes',
@@ -510,8 +501,7 @@ augroup AlpacaTags
 augroup END
 
 
-"---------------------------------------------------------------------------
-" tcomment.vim
+" tcomment.vim {{{1
 "
 " <LEADER>cでコメントのトグル
 " 一行コメントは<LEADER>cでトグル
@@ -519,8 +509,7 @@ let g:tcommentMapLeaderOp1 = '<LEADER>c'
 let g:tcommentMapLeaderOp2 = '<LEADER>C'
 
 
-"---------------------------------------------------------------------------
-" a.vim
+" a.vim {{{1
 "
 nnoremap [avim] <Nop>
 nmap     <LEADER>a [avim]
@@ -538,8 +527,7 @@ nnoremap <silent>[avim]t :<C-u>AT<CR>
 " <Leader>ihn 循環マッチ?
 
 
-"---------------------------------------------------------------------------
-" surround.vim
+" surround.vim {{{1
 "
 " surround.vim導入でsコマンドが使えなくなるため、復活させる
 augroup ag_reset_smap
@@ -547,8 +535,7 @@ augroup ag_reset_smap
 augroup END
 
 
-"---------------------------------------------------------------------------
-" Align.vim
+" Align.vim {{{1
 "
 " 日本語など幅広文字に対応
 let g:Align_xstrlen=3
@@ -559,8 +546,7 @@ let g:loaded_AlignMapsPlugin = 1
 " map <LEADER>am= <Plug>AM_m=
 
 
-"---------------------------------------------------------------------------
-" matchit.vim
+" matchit.vim {{{1
 "
 " 有効化
 runtime macros/matchit.vim
@@ -573,8 +559,7 @@ let b:match_words = &matchpairs.',' .
       \ 'begin:end'
 
 
-"---------------------------------------------------------------------------
-" showmarks.vim
+" showmarks.vim {{{1
 "
 let showmarks_enable = 1
 " Show which marks
@@ -612,8 +597,7 @@ augroup ag_chg_showmarks_colors
 augroup END
 
 
-"---------------------------------------------------------------------------
-" quickhl.vim
+" quickhl.vim {{{1
 "
 " カーソル下の単語、または選択範囲をハイライト
 nmap <LEADER>m <Plug>(quickhl-manual-this)
@@ -623,8 +607,7 @@ nmap <LEADER>M <Plug>(quickhl-manual-reset)
 xmap <LEADER>M <Plug>(quickhl-manual-reset)
 
 
-"---------------------------------------------------------------------------
-" vim-over
+" vim-over {{{1
 "
 nnoremap <silent><LEADER>: :OverCommandLine<CR>
 " カーソル下の単語をハイライト付きで置換
@@ -633,8 +616,7 @@ nnoremap <silent><LEADER>: :OverCommandLine<CR>
 " nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 
 
-"---------------------------------------------------------------------------
-" indent-guides
+" indent-guides {{{1
 "
 " デフォルトは無効にしておく <LEADER><LEADER>iで有効化
 let g:indent_guides_enable_on_vim_startup = 0
@@ -645,8 +627,7 @@ let g:indent_guides_guide_size = 1
 noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
 
 
-"---------------------------------------------------------------------------
-" quickrun.vim
+" quickrun.vim {{{1
 "
 let g:quickrun_config = {}
 
@@ -767,16 +748,14 @@ let g:quickrun_config['cpp/msvc2005'] = {
       \ }
 
 
-"---------------------------------------------------------------------------
-" vim-ref
+" vim-ref {{{1
 "
 " キャッシュディレクトリ
 let g:ref_cache_dir = $VIMLOCAL.'/tmp/cache/vim_ref_cache'
 let g:ref_refe_encoding = 'utf-8'
 
 
-"---------------------------------------------------------------------------
-" session.vim
+" session.vim {{{1
 "
 " Sessionの保存先 設定するかどうかは任意
 let g:session_directory = $VIMLOCAL.'/tmp/cache/sessions'
@@ -806,8 +785,7 @@ let g:session_autosave = 0
 " endif
 
 
-"---------------------------------------------------------------------------
-" vim-powerline
+" vim-powerline {{{1
 "
 " cuiだと表示が崩れるため、gui使用時のみ読み込む
 " if has('gui_running')
@@ -815,8 +793,7 @@ let g:session_autosave = 0
 " endif
 
 
-"---------------------------------------------------------------------------
-" project.vim
+" project.vim {{{1
 "
 if neobundle#is_installed('project.vim')
   "  Default: "imst"
@@ -828,8 +805,7 @@ if neobundle#is_installed('project.vim')
 endif
 
 
-"---------------------------------------------------------------------------
-" sourceSafe.vim
+" sourceSafe.vim {{{1
 "
 if neobundle#is_installed('sourceSafe.vim')
   let $SSDIR='//sd3-svr.glory.local/ISP-K01(BOA)/VSS'
@@ -841,8 +817,7 @@ if neobundle#is_installed('sourceSafe.vim')
 endif
 
 
-"---------------------------------------------------------------------------
-" open-browser.vim
+" open-browser.vim {{{1
 "
 " カーソル下のURLをブラウザで開く
 nmap <Leader>o <Plug>(openbrowser-open)
@@ -852,18 +827,17 @@ nmap <Leader>g <Plug>(openbrowser-smart-search)
 vmap <Leader>g <Plug>(openbrowser-smart-search)
 
 
-"---------------------------------------------------------------------------
-" w3m.vim
+" w3m.vim {{{1
 "
 let g:w3m#command = expand('$VIMLOCAL/bin/w3m/w3m.exe')
 
 
-"---------------------------------------------------------------------------
-" chalice
+" chalice {{{1
 "
 let g:chalice_cachedir = $VIMLOCAL.'/tmp/cache/chalice_cache'
 " 自動プレビューのOFF
 let g:chalice_preview = 0
 
 
-" vim:set expandtab ft=vim ts=2 sts=2 sw=2:
+" {{{1
+" vim:set expandtab ft=vim ts=2 sts=2 sw=2 foldmethod=marker:
