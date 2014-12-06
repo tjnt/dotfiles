@@ -160,7 +160,9 @@ set listchars=tab:^\ ,trail:_,nbsp:%
 " 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
 set showmatch matchtime=1
 " □とか○の文字があってもカーソル位置がずれないようにする
-if exists('&ambiwidth')
+if has('kaoriya') && g:is_windows && has('gui_running')
+  set ambiwidth=auto
+else
   set ambiwidth=double
 endif
 
