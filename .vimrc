@@ -934,15 +934,16 @@ augroup ag_ins_enter_leave
   au!
   " Normal modeに戻る時に自動的にIMEOFF
   " 再度Insert modeに入るときは元のIME状態に戻す
-  " Insert modeに入るときに一時的にfoldingをmanualに変更
   let g:imstate = 0
-  let g:foldstate = &l:foldmethod
   au InsertEnter * let &iminsert = g:imstate
-        \        | let g:foldstate = &l:foldmethod
-        \        | setlocal foldmethod=manual
   au InsertLeave * let g:imstate = &iminsert
         \        | set iminsert=0 imsearch=0
-        \        | let &l:foldmethod = g:foldstate
+  " Insert modeに入るときに一時的にfoldingをmanualに変更
+  au InsertEnter * let b:foldstate = &l:foldmethod
+        \        | setlocal foldmethod=manual
+  au InsertLeave * if exists('b:foldstate') 
+        \        |   let &l:foldmethod = b:foldstate
+        \        | endif
 augroup END
 
 " 以下のコマンドの結果は常にQuickFixで表示
