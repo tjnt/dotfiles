@@ -74,10 +74,10 @@ endfunction
 
 " プラグイン存在チェック
 function! s:has_plugin(name)
-  return globpath(&runtimepath, 'plugin/'.a:name) !=# '' ||
-       \ globpath(&runtimepath, 'autoload/'.a:name) !=# '' ||
-       \ (exists('*neobundle#is_installed') && neobundle#is_installed(a:name))
+  return globpath(&runtimepath, 'plugin/'.a:name.'.vim') !=# '' ||
+       \ globpath(&runtimepath, 'autoload/'.a:name.'.vim') !=# ''
 endfunction
+command! -nargs=1 HasPlugin echomsg <SID>has_plugin('<args>')
 
 
 " エンコーディング設定 {{{1
@@ -90,13 +90,17 @@ endif
 scriptencoding utf-8
 
 if has('guess_encode')
-  set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932
+  set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932,utf-8
 else
-  set fileencodings=ucs-bom,iso-2022-jp,euc-jp,cp932
+  set fileencodings=ucs-bom,iso-2022-jp,euc-jp,cp932,utf-8
 endif
 
 set fileformats=unix,dos,mac
 
+" 新規バッファ生成時のエンコードを指定
+if has('vim_starting')
+  set fileencoding=utf-8
+endif
 
 " プラグインの読み込み {{{1
 "
@@ -168,8 +172,8 @@ if &t_Co > 2 || has('gui_running')
   syntax on
 endif
 
+" コンソールモードで使用するカラースキーマ
 if !has('gui_running')
-  " コンソールモードで使用するカラースキーマ
   if &t_Co >= 256
     try
       colorscheme candycode
@@ -336,6 +340,10 @@ vnoremap <silent>* "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR
 " 検索結果のハイライトをEsc連打でリセットする
 noremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 
+" ;と:を入れ替える
+noremap ; :
+noremap : ;
+
 " Ctrl+Enterで保存
 noremap <silent><C-CR> :<C-u>w<CR>
 inoremap <silent><C-CR> <ESC>:<C-u>w<CR>
@@ -475,6 +483,16 @@ cnoremap <C-e> <End>
 cnoremap <C-a> <Home>
 cnoremap <C-h> <Backspace>
 cnoremap <C-d> <Del>
+
+" Shortcut enc and ff.
+cnoreabbrev ++u ++enc=utf8
+cnoreabbrev ++c ++enc=cp932
+cnoreabbrev ++s ++enc=cp932
+cnoreabbrev ++e ++enc=euc-jp
+cnoreabbrev ++j ++enc=iso-2022-jp
+cnoreabbrev ++x ++ff=unix
+cnoreabbrev ++d ++ff=dos
+cnoreabbrev ++m ++ff=mac
 
 " disable keymaps
 nnoremap ZZ <Nop>
@@ -675,7 +693,7 @@ augroup END
 
 " BufOnly (BufOnly.vim 簡易版)
 " カレントバッファ以外を閉じる
-function! BufOnly(buffer, bang)
+function! s:buf_only(buffer, bang)
   if a:buffer == ''
     let buffer = bufnr('%')
   elseif (a:buffer + 0) > 0
@@ -700,7 +718,7 @@ function! BufOnly(buffer, bang)
   endwhile
   redraw!
 endfunction
-command! -nargs=? -complete=buffer -bang BufOnly :call BufOnly('<args>', '<bang>')
+command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only('<args>', '<bang>')
 
 " タグファイル生成
 function! s:ctags_r()
