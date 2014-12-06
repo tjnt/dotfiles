@@ -25,6 +25,7 @@ set novisualbell
 
 " <LEADER>の変更
 let mapleader = ','
+let g:mapleader = ','
 
 
 "---------------------------------------------------------------------------
@@ -134,7 +135,9 @@ set showcmd
 " コマンドラインの高さ (gvimはgvimrcで指定)
 set cmdheight=2
 " Windowsでディレクトリパスの区切り文字表示に / を使えるようにする
-set shellslash
+if g:is_windows
+  set shellslash
+endif
 " 画面最後の行をできる限り表示する
 set display=lastline
 " タイトルを表示
@@ -978,7 +981,6 @@ augroup ag_file_enc_check
   au!
 "  au BufReadPost * call s:file_enc_check()
   au FileType c,cpp,cs call s:set_utf8_bom()
-"  au FileType dosini set fileencoding=utf-16le
 augroup END
 
 " 全角スペースを視覚化
