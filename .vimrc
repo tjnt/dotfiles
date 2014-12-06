@@ -30,10 +30,12 @@ let mapleader = ','
 "---------------------------------------------------------------------------
 " 環境変数の設定
 "
+let g:is_windows = has('win16') || has('win32') || has('win64')
+
 " $VIMLOCALはユーザーランタイムディレクトリを示す。
 if has('vim_starting')
   " Windows
-  if has('win32')
+  if g:is_windows
     let $VIMLOCAL=$HOME.'\.vim'
     set runtimepath+=$VIMLOCAL
     " 諸々のバイナリ
@@ -62,7 +64,7 @@ endif
 "
 " 設定ファイルのフルパス取得
 function! s:rc_path(name)
-  return $HOME.(has('win32') ? '\.' : '/.').a:name
+  return $HOME.(g:is_windows ? '\.' : '/.').a:name
 endfunction
 
 " ファイルがあったら実行
@@ -826,7 +828,7 @@ function! DevEnvChanger.change(name)
   " set to default
   call self.set_default()
   " append parameter path
-  let sp = has('win32') ? ';' : ':'
+  let sp = g:is_windows ? ';' : ':'
   let target = get(self.environment, a:name)
   let $PATH = $PATH.sp.get(target, 'path')
   let $LIB = $LIB.sp.get(target, 'lib')
@@ -922,7 +924,7 @@ augroup END
 
 " c/c++向けパス設定
 function! s:set_cpp_env_path()
-  if has('win32')
+  if g:is_windows
     call g:DevEnvChanger.change('msvc_2005')
   elseif has('unix')
     call g:DevEnvChanger.change('linux')
@@ -965,7 +967,7 @@ augroup END
 "endfunction
 " VC2005でBOM無しUTF-8を扱うとSJISとして認識されるためBOMを付ける
 function! s:set_utf8_bom()
-  if has('win32') && &fileencoding ==# 'utf-8'
+  if g:is_windows && &fileencoding ==# 'utf-8'
     set bomb
   endif
 endfunction

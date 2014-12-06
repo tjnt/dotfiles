@@ -50,7 +50,7 @@ set guioptions-=T
 "---------------------------------------------------------------------------
 " フォント設定:
 "
-if has('win32')
+if g:is_windows
   " 半角文字
   set guifont=Consolas:h11:cDEFAULT
   " set guifont=Inconsolata:h11:cDEFAULT
@@ -74,7 +74,7 @@ elseif (has('unix'))
 endif
 
 " 印刷用フォント
-if has('printer') && has('win32')
+if has('printer') && g:is_windows
   set printfont=MS_Gothic:h11:cDEFAULT
   " set printfont=MS_Mincho:h11:cDEFAULT
 endif
