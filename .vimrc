@@ -214,9 +214,9 @@ set virtualedit+=block
 " コマンドライン補完するときに強化されたものを使う(参照 :help wildmenu)
 set wildmenu
 " コードの折りたたみの設定 (ziで有効/無効をトグルできる)
-set foldenable
+set nofoldenable
 set foldmethod=syntax
-set foldlevel=0
+set foldlevel=1
 set foldnestmax=3
 " 8進数を無効にする。<C-a>,<C-x>に影響する
 set nrformats-=octal
