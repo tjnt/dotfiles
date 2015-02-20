@@ -176,7 +176,7 @@ endif
 if !has('gui_running')
   if &t_Co >= 256
     try
-      colorscheme candycode
+      colorscheme jellybeans
     catch
       colorscheme default
     endtry
