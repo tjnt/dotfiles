@@ -64,9 +64,11 @@ if g:is_windows
   " set guifontwide=MS_Gothic:h11:cDEFAULT
 elseif (has('unix'))
   " 半角文字
-  set guifont=Ricty\ 11
+  " set guifont=Ricty\ 11
+  set guifont=Ricty\ Diminished\ 11
   " 全角文字
-  set guifontwide=Ricty\ 11
+  " set guifontwide=Ricty\ 11
+  set guifont=Ricty\ Diminished\ 11
 endif
 
 " 印刷用フォント
