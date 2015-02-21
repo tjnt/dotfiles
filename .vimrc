@@ -341,8 +341,8 @@ vnoremap <silent>* "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR
 noremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
 
 " ;と:を入れ替える
-noremap ; :
-noremap : ;
+" noremap ; :
+" noremap : ;
 
 " Ctrl+Enterで保存
 noremap <silent><C-CR> :<C-u>w<CR>
