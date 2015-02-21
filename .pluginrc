@@ -22,16 +22,17 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " NeoBundle 'tpope/vim-pathogen'
 
 " 補完
-if has('lua') && ((v:version >= 703 && has('patch885')) || v:version >= 704)
-  NeoBundle 'Shougo/neocomplete.vim'
-  NeoBundle 'Shougo/neosnippet', { 'depends' : 'Shougo/neocomplete.vim' }
-  NeoBundle 'Shougo/neosnippet-snippets', { 'depends' : 'Shougo/neosnippet' }
-endif
+let s:has_lua = has('lua') && ((v:version >= 703 && has('patch885')) || v:version >= 704)
+if s:has_lua
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neosnippet', { 'depends' : 'Shougo/neocomplete.vim' }
+NeoBundle 'Shougo/neosnippet-snippets', { 'depends' : 'Shougo/neosnippet' }
 NeoBundle 'honza/vim-snippets.git', { 'depends' : 'Shougo/neosnippet' }
 NeoBundleLazy 'Rip-Rip/clang_complete'
 " NeoBundleLazy 'Rip-Rip/clang_complete', {
 "             \ 'autoload' : {'filetypes' : ['c', 'cpp']}
 "             \ }
+endif
 
 " 編集支援
 NeoBundle 'scrooloose/nerdtree'
@@ -121,6 +122,7 @@ NeoBundleCheck
 
 " neocomplete {{{1
 "
+if s:has_lua
 " 自動的に起動 (default 0)
 let g:neocomplete#enable_at_startup = 1
 " AutoComplPopのように最初の候補を選択する (default 0)
@@ -236,9 +238,12 @@ inoremap <expr><C-e> neocomplete#cancel_popup()
 " 有効/無効のトグル
 nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
 
+endif " has_lua
+
 
 " neosnippet {{{1
 "
+if s:has_lua
 " cache directory
 let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
 " Plugin key-mappings.
@@ -264,6 +269,7 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory=$VIMLOCAL.'/bundle/vim-snippets/snippets'
 
+endif " has_lua
 
 " unite.vim {{{1
 "
