@@ -191,4 +191,7 @@ alias tat='tmux attach -t'
 # Other Confiturations
 #
 
+# rbenv initialize
+eval "$(rbenv init -)"
+
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
