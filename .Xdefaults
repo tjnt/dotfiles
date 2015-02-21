@@ -56,7 +56,8 @@ URxvt*color10: #c3e6ad
 URxvt*color3:  #fad07a
 URxvt*color11: #ffefbf
 ! blue
-URxvt*color4:  #8197bf
+! URxvt*color4:  #8197bf
+URxvt*color4:  #000088
 URxvt*color12: #accaff
 ! magenta
 URxvt*color5:  #8787af
