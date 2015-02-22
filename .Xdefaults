@@ -39,6 +39,10 @@ URxvt.cursorUnderline:      false
 ! Pointer
 URxvt.pointerBlank:         true
 
+! Transparency
+URxvt*shading:              10
+URxvt*inheritPixmap:        true
+
 ! Colors
 ! Jellybeans Terminal Colours
 URxvt*background: #151515
