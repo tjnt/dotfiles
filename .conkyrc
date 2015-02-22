@@ -1,11 +1,10 @@
 ##### .conkyrc #####
 
 alignment top_right
-background no
+background yes
 cpu_avg_samples 2
-default_color white
-default_outline_color white
-default_shade_color black
+default_color DDDDDD
+default_shade_color 000000
 double_buffer yes
 draw_borders no
 draw_graph_borders yes
@@ -15,17 +14,17 @@ gap_x 10
 gap_y 25
 maximum_width 200
 minimum_size 200 200
+net_avg_samples 2
 no_buffers yes
 override_utf8_locale no
 own_window no
 own_window_transparent yes
 own_window_type desktop
-# own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 total_run_times 0
 update_interval 1.0
 uppercase no
 use_xft yes
-xftalpha 1
+xftalpha 1.0
 xftfont Sans:size=8
 
 TEXT
@@ -51,11 +50,11 @@ SWAP $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
 ${swapbar}
 
 ${font sans-serif:bold:size=8}TOP PROCESSES ${hr 2}
-${font sans-serif:normal:size=8}${top_mem name 1}${alignr}${top mem 1} %
-${top_mem name 2}${alignr}${top mem 2} %
-$font${top_mem name 3}${alignr}${top mem 3} %
-$font${top_mem name 4}${alignr}${top mem 4} %
-$font${top_mem name 5}${alignr}${top mem 5} %
+${font sans-serif:normal:size=8}${top_mem name 1}${alignr}${top cpu 1} %${top mem 1} %
+${top_mem name 2}${alignr}${top cpu 2} %${top mem 2} %
+${top_mem name 3}${alignr}${top cpu 3} %${top mem 3} %
+${top_mem name 4}${alignr}${top cpu 4} %${top mem 4} %
+${top_mem name 5}${alignr}${top cpu 5} %${top mem 5} %
 
 ${font sans-serif:bold:size=8}NETWORK ${hr 2}
 ${font sans-serif:normal:size=8}IP address: $alignr ${addr wlan0}
