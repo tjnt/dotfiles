@@ -1,76 +1,74 @@
 !-------------------------------------------------
 ! Xft settings
 !
-Xft.dpi:                    96
-Xft.antialias:              true
-Xft.rgba:                   rgb
-Xft.hinting:                true
-Xft.hintstyle:              hintslight
+Xft.dpi:                96
+Xft.antialias:          true
+Xft.rgba:               rgb
+Xft.hinting:            true
+Xft.hintstyle:          hintslight
 
 !-------------------------------------------------
 ! URxvt settings
 !
-URxvt.depth:                32
-! URxvt.geometry:             60x20
-URxvt.transparent:          false
-URxvt.fading:               0
-! URxvt.urgentOnBell:         true
-! URxvt.visualBell:           true
-URxvt.loginShell:           true
-URxvt.saveLines:            50
-URxvt.internalBorder:       3
-URxvt.lineSpace:            0
+URxvt.depth:            32
+! URxvt.geometry:         60x20
+URxvt.transparent:      false
+URxvt.fading:           0
+! URxvt.urgentOnBell:     true
+URxvt.visualBell:       true
+URxvt.loginShell:       true
+URxvt.saveLines:        50
+URxvt.internalBorder:   3
+URxvt.lineSpace:        0
 
 ! Fonts
-URxvt.allow_bold:           false
+URxvt.allow_bold:       false
 URxvt*font: xft:Ricty Diminished:size=11:antialias=true
 ! Fix font space
-!URxvt*letterSpace: -1
+! URxvt*letterSpace:      -1
 
 ! Scrollbar
-URxvt.scrollStyle:          rxvt
-URxvt.scrollBar:            false
+URxvt.scrollStyle:      rxvt
+URxvt.scrollBar:        false
 
 ! Cursor
-URxvt.cursorBlink:          true
-URxvt.cursorColor:          #657b83
-URxvt.cursorUnderline:      false
+URxvt.cursorBlink:      true
+URxvt.cursorColor:      #657b83
+URxvt.cursorUnderline:  false
 
 ! Pointer
-URxvt.pointerBlank:         true
+URxvt.pointerBlank:     true
 
 ! Transparency
-URxvt*shading:              10
-URxvt*inheritPixmap:        true
+URxvt*shading:          10
+URxvt*inheritPixmap:    true
 
 ! Colors
 ! Jellybeans Terminal Colours
-URxvt*background: #151515
-URxvt*foreground: #888888
+URxvt*background:       #151515
+URxvt*foreground:       #888888
 ! black
-URxvt*color0:  #292929
-URxvt*color8:  #525252
+URxvt*color0:           #292929
+URxvt*color8:           #525252
 ! red
-URxvt*color1:  #cf6a4c
-URxvt*color9:  #ff9d80
+URxvt*color1:           #cf6a4c
+URxvt*color9:           #ff9d80
 ! green
-URxvt*color2:  #99ad6a
-URxvt*color10: #c3e6ad
+URxvt*color2:           #99ad6a
+URxvt*color10:          #c3e6ad
 ! yellow
-URxvt*color3:  #fad07a
-URxvt*color11: #ffefbf
+URxvt*color3:           #fad07a
+URxvt*color11:          #ffefbf
 ! blue
-! URxvt*color4:  #8197bf
-URxvt*color4:  #000088
-URxvt*color12: #accaff
+URxvt*color4:           #000088
+URxvt*color12:          #accaff
 ! magenta
-URxvt*color5:  #8787af
-URxvt*color13: #c4c4ff
+URxvt*color5:           #8787af
+URxvt*color13:          #c4c4ff
 ! cyan
-URxvt*color6:  #668799
-URxvt*color14: #80bfaf
+URxvt*color6:           #668799
+URxvt*color14:          #80bfaf
 ! white
-! URxvt*color7:  #888888
-URxvt*color7:  #ffffff
-URxvt*color15: #e8e8d3
+URxvt*color7:           #ffffff
+URxvt*color15:          #e8e8d3
 
