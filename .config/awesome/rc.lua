@@ -110,6 +110,19 @@ mytextclock = awful.widget.textclock({ align = "right" })
 -- Create a systray
 mysystray = widget({ type = "systray" })
 
+-- Create an ACPI widget
+mybattery = widget({ type = "textbox" })
+mybattery.text = " | -- | "
+mybattery_timer = timer({ timeout = 5 })
+mybattery_timer:add_signal("timeout",
+  function()
+    fh = assert(io.popen("acpi | cut -d, -f 2", "r"))
+    mybattery.text = " |" .. fh:read("*l") .. " | "
+    fh:close()
+  end
+)
+mybattery_timer:start()
+
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -197,6 +210,7 @@ for s = 1, screen.count() do
       layout = awful.widget.layout.horizontal.leftright
     },
     mylayoutbox[s],
+    mybattery,
     mytextclock,
     s == 1 and mysystray or nil,
     mytasklist[s],
@@ -402,7 +416,7 @@ function run_once(prg, arg, pname, screen)
     pname = prg
   end
 
-  if not arg then 
+  if not arg then
     awful.util.spawn_with_shell(
       "pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")", screen)
   else
