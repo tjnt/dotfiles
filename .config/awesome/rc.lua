@@ -114,12 +114,12 @@ mysystray = widget({ type = "systray" })
 
 -- Create an ACPI widget
 mybattery = widget({ type = "textbox" })
-mybattery.text = " | -- | "
+mybattery.text = " | -- |"
 mybattery_timer = timer({ timeout = 5 })
 mybattery_timer:add_signal("timeout",
   function()
     fh = assert(io.popen("acpi | cut -d, -f 2", "r"))
-    mybattery.text = " |" .. fh:read("*l") .. " | "
+    mybattery.text = " |" .. fh:read("*l") .. " |"
     fh:close()
   end
 )
@@ -215,8 +215,8 @@ for s = 1, screen.count() do
       layout = awful.widget.layout.horizontal.leftright
     },
     mylayoutbox[s],
-    mybattery,
     mytextclock,
+    mybattery,
     s == 1 and mysystray or nil,
     mytasklist[s],
     layout = awful.widget.layout.horizontal.rightleft
