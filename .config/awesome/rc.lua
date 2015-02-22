@@ -355,21 +355,36 @@ root.keys(globalkeys)
 -- Rules {{{1
 awful.rules.rules = {
   -- All clients will match this rule.
-  { rule = { },
-  properties = { border_width = beautiful.border_width,
-  border_color = beautiful.border_normal,
-  focus = true,
-  keys = clientkeys,
-  buttons = clientbuttons } },
-  { rule = { class = "MPlayer" },
-  properties = { floating = true } },
-  { rule = { class = "pinentry" },
-  properties = { floating = true } },
-  { rule = { class = "gimp" },
-  properties = { floating = true } },
+  {
+    rule = { },
+    properties = {
+      border_width = beautiful.border_width,
+      border_color = beautiful.border_normal,
+      focus = true,
+      keys = clientkeys,
+      buttons = clientbuttons }
+  },
+  {
+    rule = { class = "MPlayer" },
+    properties = { floating = true }
+  },
+  {
+    rule = { class = "pinentry" },
+    properties = { floating = true }
+  },
+  {
+    rule = { class = "gimp" },
+    properties = { floating = true }
+  },
+  {
+    rule = {class = "Conky"},
+    properties = { floating = true, border_width = 0 }
+  },
   -- Set Firefox to always map on tags number 2 of screen 1.
-  -- { rule = { class = "Firefox" },
-  --   properties = { tag = tags[1][2] } },
+  -- {
+  --   rule = { class = "Firefox" },
+  --   properties = { tag = tags[1][2] }
+  -- },
 }
 
 -- Signals {{{1
@@ -432,4 +447,5 @@ function run_once(prg, arg, pname, screen)
 end
 run_once("wicd-client", "--tray", "/usr/bin/python -O /usr/share/wicd/gtk/wicd-client.py")
 run_once("dropbox", "start")
+run_once("conky", "-b")
 
