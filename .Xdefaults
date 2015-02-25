@@ -10,7 +10,7 @@ Xft.hintstyle:          hintslight
 !-------------------------------------------------
 ! URxvt settings
 !
-URxvt.depth:            32
+! URxvt.depth:            32
 ! URxvt.geometry:         60x20
 URxvt.transparent:      false
 URxvt.fading:           0
