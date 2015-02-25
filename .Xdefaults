@@ -12,7 +12,6 @@ Xft.hintstyle:          hintslight
 !
 ! URxvt.depth:            32
 ! URxvt.geometry:         60x20
-URxvt.transparent:      false
 URxvt.fading:           0
 ! URxvt.urgentOnBell:     true
 URxvt.visualBell:       true
@@ -37,11 +36,12 @@ URxvt.cursorColor:      #657b83
 URxvt.cursorUnderline:  false
 
 ! Pointer
-URxvt.pointerBlank:     true
+URxvt.pointerBlank:     false
 
 ! Transparency
+URxvt.transparent:      true
 URxvt*shading:          10
-URxvt*inheritPixmap:    true
+! URxvt*inheritPixmap:    true
 
 ! Colors
 ! Jellybeans Terminal Colours
