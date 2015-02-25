@@ -989,18 +989,17 @@ augroup ag_file_enc_check
 augroup END
 
 " 全角スペースを視覚化
-function! s:zenkaku_space()
-"  highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
-  highlight ZenkakuSpace ctermbg=darkgrey guibg=darkgrey
-endfunction
-if has('syntax')
-  augroup ag_zenkaku_space
-    au!
-    au ColorScheme       * call s:zenkaku_space()
-    au VimEnter,WinEnter * match ZenkakuSpace /　/
-  augroup END
-  call s:zenkaku_space()
-endif
+" function! s:zenkaku_space()
+"   highlight ZenkakuSpace ctermbg=darkgrey guibg=darkgrey
+" endfunction
+" if has('syntax')
+"   augroup ag_zenkaku_space
+"     au!
+"     au ColorScheme       * call s:zenkaku_space()
+"     au VimEnter,WinEnter * match ZenkakuSpace /　/
+"   augroup END
+"   call s:zenkaku_space()
+" endif
 
 " ファイルオープン時にカレントディレクトリを自動的に移動
 " augroup ag_buf_lcd
