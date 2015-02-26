@@ -19,33 +19,60 @@ call neobundle#begin(expand('$VIMLOCAL/bundle'))
 
 " プラグイン管理
 NeoBundleFetch 'Shougo/neobundle.vim'
-" NeoBundle 'tpope/vim-pathogen'
 
 " 補完
 let s:has_lua = has('lua') && ((v:version >= 703 && has('patch885')) || v:version >= 704)
 if s:has_lua
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/neosnippet', { 'depends' : 'Shougo/neocomplete.vim' }
-NeoBundle 'Shougo/neosnippet-snippets', { 'depends' : 'Shougo/neosnippet' }
-NeoBundle 'honza/vim-snippets.git', { 'depends' : 'Shougo/neosnippet' }
+NeoBundleLazy 'Shougo/neocomplete.vim', {
+      \ 'autoload' : { 'insert' : 1 }
+      \ }
+endif
+NeoBundleLazy 'Shougo/neosnippet', {
+      \ 'depends': 'Shougo/neosnippet-snippets',
+      \ 'autoload' : { 'insert' : 1 }
+      \ }
+NeoBundleLazy 'Shougo/neosnippet-snippets'
 NeoBundleLazy 'Rip-Rip/clang_complete'
 " NeoBundleLazy 'Rip-Rip/clang_complete', {
 "             \ 'autoload' : {'filetypes' : ['c', 'cpp']}
 "             \ }
-endif
 
 " 編集支援
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tomtom/tcomment_vim'
+NeoBundleLazy 'scrooloose/nerdtree', {
+      \ 'autoload' : {
+      \   'commands' : 'NERDTreeToggle ',
+      \ }}
+NeoBundleLazy 'tomtom/tcomment_vim', {
+      \ 'autoload' : {
+      \   'mappings' : [
+      \     '<LEADER>c',
+      \     '<LEADER>C',
+      \   ]
+      \ }}
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'taku-o/vim-fix-numbering'
-NeoBundle 'vim-scripts/Align'
+NeoBundleLazy 'vim-scripts/Align', {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'Align',
+      \     'AlignCtrl',
+      \     'AlignPop',
+      \     'AlignPush',
+      \     'AlignReplaceQuotedSpaces',
+      \   ]
+      \ }}
 NeoBundle 'vim-scripts/ShowMarks7'
-NeoBundle 'vim-scripts/taglist.vim'
+NeoBundleLazy 'vim-scripts/taglist.vim', {
+      \ 'autoload' : {
+      \   'commands' : 'TlistToggle ',
+      \ }}
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'plasticboy/vim-markdown'
+NeoBundleLazy 'plasticboy/vim-markdown', {
+      \ 'autoload' : {
+      \   'filetypes' : 'markdown'
+      \ }}
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
       \ 'depends': ['Shougo/vimproc'],
       \ 'autoload' : {
@@ -66,6 +93,7 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
 " C/C++
 NeoBundleLazy 'vim-scripts/a.vim', {
       \ 'autoload' : {
+      \   'filetypes' : ['c', 'cpp'],
       \   'commands' : [
       \     'A', 'AV', 'AS', 'AT',
       \   ],
@@ -78,17 +106,25 @@ NeoBundleLazy 'vim-scripts/TagHighlight'
 
 " Unite
 NeoBundleLazy 'Shougo/unite.vim', {
+      \ 'depends' : [
+      \   'Shougo/neomru.vim',
+      \   'tsukkee/unite-help',
+      \   'tsukkee/unite-tag',
+      \   'tacroe/unite-mark',
+      \   'zhaocai/unite-scriptnames',
+      \   'ujihisa/unite-colorscheme',
+      \ ],
       \ 'autoload' : {
-      \   'commands' : 'Unite',
+      \   'commands' : 'Unite ',
       \ }}
-NeoBundleLazy 'Shougo/neomru.vim', { 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'tsukkee/unite-help', { 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'tsukkee/unite-tag', { 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'tacroe/unite-mark', { 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'h1mesuke/unite-outline', { 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'zhaocai/unite-scriptnames', { 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'ujihisa/unite-colorscheme', { 'depends' : 'Shougo/unite.vim' }
-" NeoBundle 'choplin/unite-vim_hacks'
+NeoBundleLazy 'Shougo/neomru.vim'
+NeoBundleLazy 'tsukkee/unite-help'
+NeoBundleLazy 'tsukkee/unite-tag'
+NeoBundleLazy 'tacroe/unite-mark'
+" NeoBundleLazy 'h1mesuke/unite-outline'
+NeoBundleLazy 'zhaocai/unite-scriptnames'
+NeoBundleLazy 'ujihisa/unite-colorscheme'
+" NeoBundleLazy 'choplin/unite-vim_hacks'
 
 " WEBアクセス
 NeoBundle 'tyru/open-browser.vim'
@@ -106,7 +142,7 @@ NeoBundleLazy 'koron/chalice', {
 " その他
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundleLazy 'Shougo/vimfiler', {
-      \ 'depends' : 'Shougo/unite.vim',
+      \ 'depends' : 'Shougo/vimproc',
       \ 'autoload' : {
       \   'commands' : [
       \     'VimFiler',
@@ -116,7 +152,7 @@ NeoBundleLazy 'Shougo/vimfiler', {
       \   ],
       \ }}
 NeoBundleLazy 'Shougo/vimshell', {
-      \ 'depends' : 'Shougo/unite.vim',
+      \ 'depends' : 'Shougo/vimproc',
       \ 'autoload' : {
       \   'commands' : [
       \     'VimShell',
@@ -141,7 +177,11 @@ NeoBundle 'Shougo/vimproc'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-session'
-NeoBundle 'thinca/vim-quickrun'
+NeoBundleLazy 'thinca/vim-quickrun', {
+      \ 'autoload' : {
+      \   'mappings' : '<LEADER>r',
+      \   'commands' : 'QuickRun',
+      \ }}
 NeoBundle 'thinca/vim-ref'
 NeoBundleLazy 'kannokanno/previm', {
       \ 'depends' : 'tyru/open-browser.vim',
@@ -164,7 +204,7 @@ call neobundle#end()
 NeoBundleCheck
 
 
-" neocomplete {{{1
+" neocomplete.vim {{{1
 "
 if s:has_lua
 " 自動的に起動 (default 0)
@@ -287,7 +327,6 @@ endif " has_lua
 
 " neosnippet {{{1
 "
-if s:has_lua
 " cache directory
 let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
 " Plugin key-mappings.
@@ -312,8 +351,6 @@ endif
 let g:neosnippet#enable_snipmate_compatibility = 1
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory=$VIMLOCAL.'/bundle/vim-snippets/snippets'
-
-endif " has_lua
 
 
 " unite.vim {{{1
@@ -700,123 +737,127 @@ noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
 
 " quickrun.vim {{{1
 "
-let g:quickrun_config = {}
+let s:bundle = neobundle#get('vim-quickrun')
+function! s:bundle.hooks.on_source(bundle)
+  let g:quickrun_config = {}
 
-" all
-" let g:quickrun_config['_'] = {
-"       \   'split': '',
-"       \ }
-let g:quickrun_config['_'] = {
-      \   'outputter': 'multi:buffer:quickfix',
-      \   'outputter/buffer/split': ':rightbelow 5sp',
-      \   'runner': 'vimproc',
-      \   'runner/vimproc/updatetime' : 50,
-      \ }
-
-" ruby
-let g:quickrun_config['ruby'] = {
-      \   'command': 'ruby',
-      \   'exec': '%C "%S"',
-      \ }
-
-" dosbat
-let g:quickrun_config['dosbatch'] = {
-      \   'exec': '"%S"',
-      \ }
-
-" vbs
-let g:quickrun_config['vb'] = {
-      \   'command': 'cscript.exe',
-      \   'exec': '%C "%S"',
-      \ }
-
-" sql (SqlServer)
-let g:quickrun_config['sql'] = {
-      \   'command': 'sqlcmd',
-      \   'cmdopt': '-S "localhost\SQLEXPRESS" -U "sa" -P "Glory110" -W',
-      \   'exec': '%C %o -i "%S"',
-      \   'runner': 'system',
-      \ }
-
-" xml
-let g:quickrun_config['xml'] = {
-      \   'type': 'open_browser',
-      \ }
-
-" html
-let g:quickrun_config['html'] = {
-      \   'type': 'open_browser',
-      \ }
-
-let g:quickrun_config['open_browser'] = {
-      \   'exec': '"%S"',
-      \   'runner': 'system',
-      \   'outputter': 'browser',
-      \ }
-
-" c++
-let s:hook = {
-      \   'name': 'ccompiler',
-      \   'kind': 'hook',
-      \   'config': {
-      \     'enable': 0,
-      \   },
-      \   'backup_env': '',
-      \ }
-
-function! s:hook.init(...)
-  if !self.config.enable
-    return
-  endif
-endfunction
-
-function! s:hook.sweep(...)
-  if !self.config.enable
-    return
-  endif
-endfunction
-
-call quickrun#module#register(s:hook, 1)
-unlet s:hook
-
-if g:is_windows
-  let g:quickrun_config['cpp'] = {
-        \   'type': 'cpp/msvc2005',
+  " all
+  " let g:quickrun_config['_'] = {
+  "       \   'split': '',
+  "       \ }
+  let g:quickrun_config['_'] = {
+        \   'outputter': 'multi:buffer:quickfix',
+        \   'outputter/buffer/split': ':rightbelow 5sp',
+        \   'runner': 'vimproc',
+        \   'runner/vimproc/updatetime' : 50,
         \ }
-endif
-if has('unix')
-  let g:quickrun_config['cpp'] = {
-        \   'type': 'cpp/gcc',
+
+  " ruby
+  let g:quickrun_config['ruby'] = {
+        \   'command': 'ruby',
+        \   'exec': '%C "%S"',
         \ }
-endif
-let g:quickrun_config['cpp/gcc'] = {
-      \   'command': 'g++',
-      \   'cmdopt': '-std=c++0x -Wall',
-      \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
-      \   'hook/ccompiler/enable': 1,
-      \   'hook/output_encode/encoding': 'utf-8',
-      \ }
-let g:quickrun_config['cpp/mingw'] = {
-      \   'command': 'g++',
-      \   'cmdopt': '-std=c++0x -Wall',
-      \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
-      \   'hook/ccompiler/enable': 1,
-      \   'hook/output_encode/encoding': 'sjis',
-      \ }
-let g:quickrun_config['cpp/cygwin'] = {
-      \   'command': 'g++',
-      \   'cmdopt': '-Wall',
-      \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
-      \   'hook/ccompiler/enable': 1,
-      \   'hook/output_encode/encoding': 'sjis',
-      \ }
-let g:quickrun_config['cpp/msvc2005'] = {
-      \   'command': 'cl',
-      \   'cmdopt': '/EHsc',
-      \   'exec': ['%C %o "%S" /nologo /Fo"%S:p:r.obj" /Fe"%S:p:r.exe"',
-      \            '"%S:p:r.exe"'],
-      \   'hook/ccompiler/enable': 1,
-      \ }
+
+  " dosbat
+  let g:quickrun_config['dosbatch'] = {
+        \   'exec': '"%S"',
+        \ }
+
+  " vbs
+  let g:quickrun_config['vb'] = {
+        \   'command': 'cscript.exe',
+        \   'exec': '%C "%S"',
+        \ }
+
+  " sql (SqlServer)
+  let g:quickrun_config['sql'] = {
+        \   'command': 'sqlcmd',
+        \   'cmdopt': '-S "localhost\SQLEXPRESS" -U "sa" -P "Glory110" -W',
+        \   'exec': '%C %o -i "%S"',
+        \   'runner': 'system',
+        \ }
+
+  " xml
+  let g:quickrun_config['xml'] = {
+        \   'type': 'open_browser',
+        \ }
+
+  " html
+  let g:quickrun_config['html'] = {
+        \   'type': 'open_browser',
+        \ }
+
+  let g:quickrun_config['open_browser'] = {
+        \   'exec': '"%S"',
+        \   'runner': 'system',
+        \   'outputter': 'browser',
+        \ }
+
+  " c++
+  let s:hook = {
+        \   'name': 'ccompiler',
+        \   'kind': 'hook',
+        \   'config': {
+        \     'enable': 0,
+        \   },
+        \   'backup_env': '',
+        \ }
+
+  function! s:hook.init(...)
+    if !self.config.enable
+      return
+    endif
+  endfunction
+
+  function! s:hook.sweep(...)
+    if !self.config.enable
+      return
+    endif
+  endfunction
+
+  call quickrun#module#register(s:hook, 1)
+  unlet s:hook
+
+  if g:is_windows
+    let g:quickrun_config['cpp'] = {
+          \   'type': 'cpp/msvc2005',
+          \ }
+  endif
+  if has('unix')
+    let g:quickrun_config['cpp'] = {
+          \   'type': 'cpp/gcc',
+          \ }
+  endif
+  let g:quickrun_config['cpp/gcc'] = {
+        \   'command': 'g++',
+        \   'cmdopt': '-std=c++0x -Wall',
+        \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
+        \   'hook/ccompiler/enable': 1,
+        \   'hook/output_encode/encoding': 'utf-8',
+        \ }
+  let g:quickrun_config['cpp/mingw'] = {
+        \   'command': 'g++',
+        \   'cmdopt': '-std=c++0x -Wall',
+        \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
+        \   'hook/ccompiler/enable': 1,
+        \   'hook/output_encode/encoding': 'sjis',
+        \ }
+  let g:quickrun_config['cpp/cygwin'] = {
+        \   'command': 'g++',
+        \   'cmdopt': '-Wall',
+        \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
+        \   'hook/ccompiler/enable': 1,
+        \   'hook/output_encode/encoding': 'sjis',
+        \ }
+  let g:quickrun_config['cpp/msvc2005'] = {
+        \   'command': 'cl',
+        \   'cmdopt': '/EHsc',
+        \   'exec': ['%C %o "%S" /nologo /Fo"%S:p:r.obj" /Fe"%S:p:r.exe"',
+        \            '"%S:p:r.exe"'],
+        \   'hook/ccompiler/enable': 1,
+        \ }
+endfunction
+unlet s:bundle
 
 
 " vim-ref {{{1
