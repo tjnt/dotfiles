@@ -106,25 +106,22 @@ NeoBundleLazy 'vim-scripts/TagHighlight'
 
 " Unite
 NeoBundleLazy 'Shougo/unite.vim', {
-      \ 'depends' : [
-      \   'Shougo/neomru.vim',
-      \   'tsukkee/unite-help',
-      \   'tsukkee/unite-tag',
-      \   'tacroe/unite-mark',
-      \   'zhaocai/unite-scriptnames',
-      \   'ujihisa/unite-colorscheme',
-      \ ],
       \ 'autoload' : {
-      \   'commands' : 'Unite ',
+      \   'commands' : [
+      \     { 'name' : 'Unite',
+      \        'complete' : 'customlist,unite#complete_source' },
+      \     'UniteWithCursorWord',
+      \     'UniteWithInput',
+      \   ],
       \ }}
-NeoBundleLazy 'Shougo/neomru.vim'
-NeoBundleLazy 'tsukkee/unite-help'
-NeoBundleLazy 'tsukkee/unite-tag'
-NeoBundleLazy 'tacroe/unite-mark'
-" NeoBundleLazy 'h1mesuke/unite-outline'
-NeoBundleLazy 'zhaocai/unite-scriptnames'
-NeoBundleLazy 'ujihisa/unite-colorscheme'
-" NeoBundleLazy 'choplin/unite-vim_hacks'
+NeoBundle 'Shougo/neomru.vim'
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'tsukkee/unite-help'
+NeoBundle 'tsukkee/unite-tag'
+NeoBundle 'tacroe/unite-mark'
+NeoBundle 'zhaocai/unite-scriptnames'
+NeoBundle 'ujihisa/unite-colorscheme'
+" NeoBundle 'choplin/unite-vim_hacks'
 
 " WEBアクセス
 NeoBundle 'tyru/open-browser.vim'
