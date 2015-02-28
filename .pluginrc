@@ -142,6 +142,7 @@ NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundleLazy 'mattn/excitetranslate-vim', {
+      \ 'depends': 'mattn/webapi-vim',
       \ 'autoload' : {
       \   'commands' : 'ExciteTranslate',
       \ }}
@@ -188,11 +189,12 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-session'
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload' : {
-      \   'mappings' : '<LEADER>r',
+      \   'mappings' : '<Plug>(quickrun)',
       \   'commands' : 'QuickRun',
       \ }}
 NeoBundleLazy 'thinca/vim-ref', {
       \ 'autoload' : {
+      \   'mappings' : '<Plug>(ref-keyword)',
       \   'commands' : 'Ref'
       \ }}
 NeoBundleLazy 'kannokanno/previm', {
@@ -872,12 +874,16 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction
 unlet s:bundle
 
+nmap <LEADER>r <Plug>(quickrun)
+
 
 " vim-ref {{{1
 "
 " キャッシュディレクトリ
 let g:ref_cache_dir = $VIMLOCAL.'/tmp/cache/vim_ref_cache'
 let g:ref_refe_encoding = 'utf-8'
+
+nmap K <Plug>(ref-keyword)
 
 
 " session.vim {{{1
