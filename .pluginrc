@@ -70,10 +70,7 @@ NeoBundleLazy 'vim-scripts/taglist.vim', {
       \ }}
 NeoBundleLazy 't9md/vim-quickhl', {
       \ 'autoload' : {
-      \   'mappings' : [
-      \     '<Plug>(quickhl-manual-this)',
-      \     '<Plug>(quickhl-manual-reset)',
-      \   ]
+      \   'mappings' : '<Plug>'
       \ }}
 NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
       \ 'autoload' : {
@@ -212,12 +209,12 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-session'
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload' : {
-      \   'mappings' : '<Plug>(quickrun)',
+      \   'mappings' : '<Plug>',
       \   'commands' : 'QuickRun',
       \ }}
 NeoBundleLazy 'thinca/vim-ref', {
       \ 'autoload' : {
-      \   'mappings' : '<Plug>(ref-keyword)',
+      \   'mappings' : '<Plug>',
       \   'commands' : 'Ref'
       \ }}
 NeoBundleLazy 'kannokanno/previm', {
