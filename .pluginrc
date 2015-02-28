@@ -21,12 +21,11 @@ call neobundle#begin(expand('$VIMLOCAL/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " 補完
-let s:has_lua = has('lua') && ((v:version >= 703 && has('patch885')) || v:version >= 704)
-if s:has_lua
 NeoBundleLazy 'Shougo/neocomplete.vim', {
-      \ 'autoload' : { 'insert' : 1 }
+      \ 'autoload' : { 'insert' : 1 },
+      \ 'disabled' : !has('lua'),
+      \ 'vim_version' : '7.3.885'
       \ }
-endif
 NeoBundleLazy 'Shougo/neosnippet', {
       \ 'depends': 'Shougo/neosnippet-snippets',
       \ 'autoload' : { 'insert' : 1 }
@@ -245,123 +244,124 @@ NeoBundleCheck
 
 " neocomplete.vim {{{1
 "
-if s:has_lua
-" 自動的に起動 (default 0)
-let g:neocomplete#enable_at_startup = 1
-" AutoComplPopのように最初の候補を選択する (default 0)
-let g:neocomplete#enable_auto_select = 0
-" neocomplcacheのsmart case機能を有効化 (default infercase)
-let g:neocomplete#enable_smart_case = 1
-" 自動補完開始までの待ち時間 (default 2)
-" g:neocomplete#skip_auto_completion_time = 2
+let s:bundle = neobundle#get('neocomplete.vim')
+function! s:bundle.hooks.on_source(bundle)
+  " 自動的に起動 (default 0)
+  let g:neocomplete#enable_at_startup = 1
+  " AutoComplPopのように最初の候補を選択する (default 0)
+  let g:neocomplete#enable_auto_select = 0
+  " neocomplcacheのsmart case機能を有効化 (default infercase)
+  let g:neocomplete#enable_smart_case = 1
+  " 自動補完開始までの待ち時間 (default 2)
+  " g:neocomplete#skip_auto_completion_time = 2
 
-" 補完候補最大表示件数 (default 100)
-let g:neocomplete#max_list = 100
+  " 補完候補最大表示件数 (default 100)
+  let g:neocomplete#max_list = 100
 
-" シンタックスをキャッシュするときの最小文字長 (default 4)
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-" neocomplcacheを自動的にロックするバッファ名のパターンを指定
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  " シンタックスをキャッシュするときの最小文字長 (default 4)
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  " neocomplcacheを自動的にロックするバッファ名のパターンを指定
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-" 辞書ディレクトリ
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"     \ 'default' : '',
-"     \ 'vimshell' : $HOME.'/.vimshell_hist',
-"     \ 'scheme' : $HOME.'/.gosh_completions'
-"         \ }
+  " 辞書ディレクトリ
+  " let g:neocomplete#sources#dictionary#dictionaries = {
+  "     \ 'default' : '',
+  "     \ 'vimshell' : $HOME.'/.vimshell_hist',
+  "     \ 'scheme' : $HOME.'/.gosh_completions'
+  "         \ }
 
-" cache directory
-let g:neocomplete#data_directory = $VIMLOCAL.'/tmp/cache/neocomplete'
+  " cache directory
+  let g:neocomplete#data_directory = $VIMLOCAL.'/tmp/cache/neocomplete'
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" オムニ補完キーワード
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" unuse vimproc
-if g:is_windows
-  let g:neocomplete#use_vimproc = 0
-endif
-
-" neocomplcache-clang_completeを使用する為の設定 (TODO:実験中)
-let s:use_clang = 0
-if s:use_clang
-  exe 'NeoBundleSource clang_complete'
-  let g:neocomplete#force_overwrite_completefunc = 1
-  if !exists("g:neocomplete#force_omni_patterns")
-    let g:neocomplete#force_omni_patterns = {}
+  " Define keyword.
+  if !exists('g:neocomplete#keyword_patterns')
+      let g:neocomplete#keyword_patterns = {}
   endif
-  let g:neocomplete#force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-  let g:neocomplete#force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-  let g:neocomplete#force_omni_patterns.objc = '[^.[:digit:] *\t]\%(\.\|->\)'
-  let g:neocomplete#force_omni_patterns.objcpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-  " clang_complete
-  let g:clang_complete_auto = 1
-  let g:clang_complete_copen = 1
-  let g:clang_use_library = 1
-  let g:clang_debug = 1
-  " let g:clang_exec = '"'.$VIMLOCAL.'/bin/clang/clang.exe'
-  let g:clang_library_path = $VIMLOCAL.'\bin\clang'
-  " let g:clang_auto_user_options = 'path, .clang_complete'
-  " let g:clang_user_options = '2> NUL || exit 0"'
-  " let g:clang_user_options = '-std=c++11 2> NUL || exit 0"'
-  " http://d.hatena.ne.jp/ohtorii/20110319/1300514225
-  " let g:clang_user_options = '-DWIN32 -D_WINDOWS -DNDEBUG
-  "                           \ -D_MSC_VER=1400 -D__MSVCRT_VERSION__=0x700 -D_WIN32_WINNT=0x0500
-  "                           \ -cc1 -fsyntax-only -x c++ -fno-caret-diagnostics
-  "                           \ -fdiagnostics-print-source-range-info -std=c++11
-  "                           \ -fms-extensions -fmsc-version=1400 -fgnu-runtime
-  "                           \ 2> NUL || exit 0"'
-  " let g:clang_user_options = '"-IC:\Program Files\Microsoft Visual Studio 8\VC\include"
-  "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\VC\atlmfc\include"
-  "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Include"
-  "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\include"
-  "                           \ 2> NUL || exit 0"'
-endif
+  " オムニ補完キーワード
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+  let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+  let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-" キーマップ
-" キーワード補完
-inoremap <expr><C-n> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
-inoremap <expr><C-p> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+  " unuse vimproc
+  if g:is_windows
+    let g:neocomplete#use_vimproc = 0
+  endif
 
-" 前回の保管候補をキャンセル
-inoremap <expr><C-g> neocomplete#undo_completion()
-" 補完候補のなかから、共通する部分を補完
-inoremap <expr><C-l> neocomplete#complete_common_string()
+  " neocomplcache-clang_completeを使用する為の設定 (TODO:実験中)
+  let s:use_clang = 0
+  if s:use_clang
+    exe 'NeoBundleSource clang_complete'
+    let g:neocomplete#force_overwrite_completefunc = 1
+    if !exists("g:neocomplete#force_omni_patterns")
+      let g:neocomplete#force_omni_patterns = {}
+    endif
+    let g:neocomplete#force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+    let g:neocomplete#force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+    let g:neocomplete#force_omni_patterns.objc = '[^.[:digit:] *\t]\%(\.\|->\)'
+    let g:neocomplete#force_omni_patterns.objcpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-" Enterでポップアップを閉じて改行
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup()."\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+    " clang_complete
+    let g:clang_complete_auto = 1
+    let g:clang_complete_copen = 1
+    let g:clang_use_library = 1
+    let g:clang_debug = 1
+    " let g:clang_exec = '"'.$VIMLOCAL.'/bin/clang/clang.exe'
+    let g:clang_library_path = $VIMLOCAL.'\bin\clang'
+    " let g:clang_auto_user_options = 'path, .clang_complete'
+    " let g:clang_user_options = '2> NUL || exit 0"'
+    " let g:clang_user_options = '-std=c++11 2> NUL || exit 0"'
+    " http://d.hatena.ne.jp/ohtorii/20110319/1300514225
+    " let g:clang_user_options = '-DWIN32 -D_WINDOWS -DNDEBUG
+    "                           \ -D_MSC_VER=1400 -D__MSVCRT_VERSION__=0x700 -D_WIN32_WINNT=0x0500
+    "                           \ -cc1 -fsyntax-only -x c++ -fno-caret-diagnostics
+    "                           \ -fdiagnostics-print-source-range-info -std=c++11
+    "                           \ -fms-extensions -fmsc-version=1400 -fgnu-runtime
+    "                           \ 2> NUL || exit 0"'
+    " let g:clang_user_options = '"-IC:\Program Files\Microsoft Visual Studio 8\VC\include"
+    "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\VC\atlmfc\include"
+    "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Include"
+    "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\include"
+    "                           \ 2> NUL || exit 0"'
+  endif
+
+  " キーマップ
+  " キーワード補完
+  inoremap <expr><C-n> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+  inoremap <expr><C-p> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+
+  " 前回の保管候補をキャンセル
+  inoremap <expr><C-g> neocomplete#undo_completion()
+  " 補完候補のなかから、共通する部分を補完
+  inoremap <expr><C-l> neocomplete#complete_common_string()
+
+  " Enterでポップアップを閉じて改行
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function()
+    return neocomplete#close_popup()."\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+  endfunction
+
+  " TABキーでキーワード補完
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+  " neocompleteの補完を選択し、ポップアップメニューを閉じる
+  inoremap <expr><C-y> neocomplete#close_popup()
+  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+  " neocompleteの補完をキャンセルし、ポップアップメニューを閉じる
+  inoremap <expr><C-e> neocomplete#cancel_popup()
+
+  " 有効/無効のトグル
+  nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
 endfunction
-
-" TABキーでキーワード補完
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" neocompleteの補完を選択し、ポップアップメニューを閉じる
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-" neocompleteの補完をキャンセルし、ポップアップメニューを閉じる
-inoremap <expr><C-e> neocomplete#cancel_popup()
-
-" 有効/無効のトグル
-nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
-
-endif " has_lua
+unlet s:bundle
 
 
 " neosnippet {{{1
