@@ -174,14 +174,17 @@ NeoBundleLazy 'koron/chalice', {
 
 " その他
 NeoBundleLazy 'Shougo/vimfiler', {
-      \ 'depends' : 'Shougo/vimproc',
+      \ 'depends' : 'Shougo/unite.vim',
       \ 'autoload' : {
       \   'commands' : [
-      \     'VimFiler',
+      \     { 'name' : 'VimFiler',
+      \       'complete' : 'customlist,vimfiler#complete' },
+      \     'VimFilerDouble',
       \     'VimFilerTab',
       \     'VimFilerBufferDir',
-      \     'VimFilerExplorer',
+      \     'VimFilerExplorer'
       \   ],
+      \   'mappings' : '<Plug>'
       \ }}
 NeoBundleLazy 'Shougo/vimshell', {
       \ 'depends' : 'Shougo/vimproc',
