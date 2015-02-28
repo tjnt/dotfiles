@@ -211,10 +211,7 @@ NeoBundle 'Shougo/vimproc', {
 " NeoBundle 'ujihisa/vimshell-ssh'
 " NeoBundle 'thinca/vim-openbuf'
 " NeoBundle 'vim-scripts/L9'
-
 NeoBundle 'kana/vim-operator-user'
-NeoBundle 'xolox/vim-misc'
-NeoBundle 'xolox/vim-session'
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload' : {
       \   'mappings' : '<Plug>',
@@ -229,6 +226,11 @@ NeoBundleLazy 'kannokanno/previm', {
       \ 'depends' : 'tyru/open-browser.vim',
       \ 'autoload' : {
       \   'commands' : 'PrevimOpen',
+      \ }}
+NeoBundleLazy 'tyru/restart.vim', {
+      \ 'gui' : 1,
+      \ 'autoload' : {
+      \  'commands' : 'Restart'
       \ }}
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/Colour-Sampler-Pack'
@@ -918,34 +920,11 @@ let g:ref_refe_encoding = 'utf-8'
 nmap K <Plug>(ref-keyword)
 
 
-" session.vim {{{1
+" restart.vim {{{1
 "
-" Sessionの保存先 設定するかどうかは任意
-let g:session_directory = $VIMLOCAL.'/tmp/cache/sessions'
-"Windowサイズを覚えない:1 覚える:0
-let g:session_winsize_not_remember = 0
-"let g:session_vimstartup_columns = 100
-"let g:session_vimstartup_lines = 50
-
-" セッションの自動保存をしない
-" SaveSession / OpenSessionを使用してSessionの保存と読み込みを行う
-let g:session_autoload = 0
-let g:session_autosave = 0
-
-" 引数を指定しなかった時のみ、Sessionを有効にする
-" if argc() == 0
-"  " 起動時にSessionを読み込む
-"  let g:session_autoload = 1
-"  " Sessionファイル名を聞かず勝手に読み書きする
-"  let g:session_autosave = 1
-"  " vim終了時にsessionを保存する
-"  augroup ag_auto_save_session
-"    au! VimLeave * SaveSession
-"  augroup END
-" else
-"  let g:session_autoload = 0
-"  let g:session_autosave = 0
-" endif
+" 終了時に保持するオプション
+let g:restart_sessionoptions
+      \ = 'blank,buffers,curdir,folds,help,localoptions,tabpages'
 
 
 " vim-powerline {{{1
