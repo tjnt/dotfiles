@@ -710,19 +710,6 @@ let g:loaded_AlignMapsPlugin = 1
 " map <LEADER>am= <Plug>AM_m=
 
 
-" matchit.vim {{{1
-"
-" 有効化
-runtime macros/matchit.vim
-" 大文字小文字を区別しない
-let b:match_ignorecase = 1
-" 対応するペアのパターン
-let b:match_words = &matchpairs.',' .
-      \ 'if:endif,'.
-      \ 'function:endfunction,'.
-      \ 'begin:end'
-
-
 " showmarks.vim {{{1
 "
 let showmarks_enable = 1

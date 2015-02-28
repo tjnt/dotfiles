@@ -105,6 +105,19 @@ endif
 " プラグインの読み込み {{{1
 "
 filetype off
+
+" matchit.vim
+if !exists('loaded_matchit')
+  runtime macros/matchit.vim
+  " 大文字小文字を区別しない
+  let b:match_ignorecase = 1
+  " 対応するペアのパターン
+  let b:match_words = &matchpairs.',' .
+        \ 'begin:end,'.
+        \ 'if:endif,'.
+        \ 'function:endfunction,'
+endif
+
 call s:source_ifexists(s:rc_path('pluginrc'))
 
 " ファイルタイププラグインを有効にする
