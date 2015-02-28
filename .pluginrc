@@ -187,10 +187,15 @@ NeoBundleLazy 'Shougo/vimshell', {
       \ 'depends' : 'Shougo/vimproc',
       \ 'autoload' : {
       \   'commands' : [
-      \     'VimShell',
-      \     'VimShellPop',
+      \     { 'name' : 'VimShell',
+      \       'complete' : 'customlist,vimshell#complete' },
       \     'VimShellBufferDir',
+      \     'VimShellExecute',
+      \     'VimShellInteractive',
+      \     'VimShellTerminal',
+      \     'VimShellPop'
       \   ],
+      \   'mappings' : '<Plug>'
       \ }}
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
