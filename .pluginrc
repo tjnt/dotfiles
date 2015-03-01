@@ -137,7 +137,7 @@ NeoBundleLazy 'Shougo/unite-outline', {
       \ 'autoload' : {
       \   'on_source' : 'unite.vim',
       \ }}
-NeoBundleLazy 'tsukkee/unite-help', {
+NeoBundleLazy 'Shougo/unite-help', {
       \ 'autoload' : {
       \   'on_source' : 'unite.vim',
       \ }}
