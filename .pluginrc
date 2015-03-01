@@ -840,14 +840,13 @@ function! s:bundle.hooks.on_source(bundle)
   if g:is_windows
     let g:quickrun_config['cpp'] = {
           \   'type': 'cpp/msvc2005',
-          \   'outputter' : 'compile'
           \ }
-  endif
-  if has('unix')
+  else
     let g:quickrun_config['cpp'] = {
           \   'type': 'cpp/gcc',
           \ }
   endif
+
   let g:quickrun_config['cpp/gcc'] = {
         \   'command': 'g++',
         \   'cmdopt': '-std=c++0x -Wall',
