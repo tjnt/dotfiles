@@ -788,16 +788,20 @@ let s:bundle = neobundle#get('vim-quickrun')
 function! s:bundle.hooks.on_source(bundle)
   let g:quickrun_config = {}
 
-  " all
+  " default
+  let g:quickrun_config['_'] = {
+        \ 'outputter/buffer/split' : ':rightbelow 8sp',
+        \ 'outputter/error/error' : 'quickfix',
+        \ 'outputter/error/success' : 'buffer',
+        \ 'outputter' : 'error',
+        \ 'runner' : 'vimproc',
+        \ 'runner/vimproc/updatetime' : 80,
+        \ }
+
+  " debug
   " let g:quickrun_config['_'] = {
   "       \   'split': '',
   "       \ }
-  let g:quickrun_config['_'] = {
-        \   'outputter': 'multi:buffer:quickfix',
-        \   'outputter/buffer/split': ':rightbelow 5sp',
-        \   'runner': 'vimproc',
-        \   'runner/vimproc/updatetime' : 50,
-        \ }
 
   " ruby
   let g:quickrun_config['ruby'] = {
@@ -833,33 +837,10 @@ function! s:bundle.hooks.on_source(bundle)
         \ }
 
   " c++
-  let s:hook = {
-        \   'name': 'ccompiler',
-        \   'kind': 'hook',
-        \   'config': {
-        \     'enable': 0,
-        \   },
-        \   'backup_env': '',
-        \ }
-
-  function! s:hook.init(...)
-    if !self.config.enable
-      return
-    endif
-  endfunction
-
-  function! s:hook.sweep(...)
-    if !self.config.enable
-      return
-    endif
-  endfunction
-
-  call quickrun#module#register(s:hook, 1)
-  unlet s:hook
-
   if g:is_windows
     let g:quickrun_config['cpp'] = {
           \   'type': 'cpp/msvc2005',
+          \   'outputter' : 'compile'
           \ }
   endif
   if has('unix')
@@ -871,34 +852,31 @@ function! s:bundle.hooks.on_source(bundle)
         \   'command': 'g++',
         \   'cmdopt': '-std=c++0x -Wall',
         \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
-        \   'hook/ccompiler/enable': 1,
-        \   'hook/output_encode/encoding': 'utf-8',
         \ }
   let g:quickrun_config['cpp/mingw'] = {
         \   'command': 'g++',
         \   'cmdopt': '-std=c++0x -Wall',
         \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
-        \   'hook/ccompiler/enable': 1,
-        \   'hook/output_encode/encoding': 'sjis',
         \ }
   let g:quickrun_config['cpp/cygwin'] = {
         \   'command': 'g++',
         \   'cmdopt': '-Wall',
         \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
-        \   'hook/ccompiler/enable': 1,
-        \   'hook/output_encode/encoding': 'sjis',
         \ }
   let g:quickrun_config['cpp/msvc2005'] = {
         \   'command': 'cl',
         \   'cmdopt': '/EHsc',
         \   'exec': ['%C %o "%S" /nologo /Fo"%S:p:r.obj" /Fe"%S:p:r.exe"',
         \            '"%S:p:r.exe"'],
-        \   'hook/ccompiler/enable': 1,
         \ }
 endfunction
 unlet s:bundle
 
 nmap <LEADER>r <Plug>(quickrun)
+
+" <C-c> で実行を強制終了させる
+" quickrun.vim が実行していない場合には <C-c> を呼び出す
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
 
 " vim-ref {{{1
