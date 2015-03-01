@@ -106,6 +106,8 @@ endif
 "
 filetype off
 
+" 標準添付されているプラグインの設定
+"
 " matchit.vim
 if !exists('loaded_matchit')
   runtime macros/matchit.vim
@@ -113,11 +115,13 @@ if !exists('loaded_matchit')
   let b:match_ignorecase = 1
   " 対応するペアのパターン
   let b:match_words = &matchpairs.',' .
-        \ 'begin:end,'.
-        \ 'if:endif,'.
-        \ 'function:endfunction,'
+        \ '<begin>:<end>,'.
+        \ '<if>:<endif>,'.
+        \ '<function>:<endfunction>,'
 endif
 
+" 外部プラグインの設定
+" .pluginrcが存在する場合は読み込む
 call s:source_ifexists(s:rc_path('pluginrc'))
 
 " ファイルタイププラグインを有効にする
