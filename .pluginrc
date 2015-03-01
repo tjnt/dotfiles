@@ -113,7 +113,11 @@ NeoBundleLazy 'vim-scripts/c.vim'
 NeoBundleLazy 'vim-scripts/TagHighlight'
 
 " ruby
-" NeoBundle 'vim-ruby/vim-ruby'
+NeoBundleLazy 'vim-ruby/vim-ruby', {
+      \ 'autoload' : {
+      \   'mappings' : '<Plug>(ref-keyword)',
+      \   'filetypes' : 'ruby'
+      \ }}
 
 " Unite
 NeoBundleLazy 'Shougo/unite.vim', {
