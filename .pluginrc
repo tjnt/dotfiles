@@ -622,7 +622,7 @@ nnoremap [vimshell] :<C-u>VimShell<CR>
 " NERDTree {{{1
 "
 " NERDTreeの幅
-let g:NERDTreeWinSize=40
+" let g:NERDTreeWinSize=40
 " 左側にNERDTreeを表示
 let g:NERDTreeWinPos = "left"
 " 隠しファイルを表示する
