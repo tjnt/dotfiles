@@ -789,7 +789,7 @@ if has('vim_starting')
 endif
 let DevEnvChanger.current_name = ''
 let DevEnvChanger.environment = {
-      \   'linux': {
+      \   'gcc': {
       \     'path':
       \         '/usr/local/bin:'.
       \         '/usr/bin:'.
@@ -871,9 +871,9 @@ function! DevEnvChanger.change(name)
 endfunction
 
 command! -nargs=0 DevEnvDefault  call DevEnvChanger.set_default()
-command! -nargs=0 DevEnvLinux  call DevEnvChanger.change('linux')
-command! -nargs=0 DevEnvMinGW  call DevEnvChanger.change('mingw')
-command! -nargs=0 DevEnvCygwin  call DevEnvChanger.change('cygwin')
+command! -nargs=0 DevEnvGcc      call DevEnvChanger.change('gcc')
+command! -nargs=0 DevEnvMinGW    call DevEnvChanger.change('mingw')
+command! -nargs=0 DevEnvCygwin   call DevEnvChanger.change('cygwin')
 command! -nargs=0 DevEnvMSVC2005 call DevEnvChanger.change('msvc_2005')
 
 
@@ -887,7 +887,7 @@ augroup ag_indent_filetype
   au FileType ruby,perl,lua setlocal ts=2 sts=0 sw=2
   au FileType python setlocal expandtab
   au FileType vim setlocal ts=2 sts=0 sw=2
-  au FileType html,xml,xhtml,markdown setlocal ts=2 sts=0 sw=2 expandtab
+  au FileType html,xml,xhtml setlocal ts=2 sts=0 sw=2 expandtab
 augroup END
 
 " ファイルタイプごとのテキスト整形設定
@@ -918,7 +918,7 @@ augroup ag_omnifunc_filetype
   au FileType php setlocal omnifunc=phpcomplete#CompletePHP
   au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
   au FileType xhtml setlocal omnifunc=htmlcomplete#CompleteTags
   au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
@@ -927,21 +927,21 @@ augroup END
 augroup ag_grep_filetype
   au!
   au FileType *
-              \ let b:grep_target_file = '**/*'
+        \ let b:grep_target_file = '**/*'
   au FileType c,cpp
-              \ let b:grep_target_file = '**/*.c **/*.cpp **/*.cxx **/*.cc **/*.hpp **/*.h'
+        \ let b:grep_target_file = '**/*.c **/*.cpp **/*.cxx **/*.cc **/*.h **/*.hpp'
   au FileType cs
-              \ let b:grep_target_file = '**/*.cs'
+        \ let b:grep_target_file = '**/*.cs'
   au FileType java
-              \ let b:grep_target_file = '**/*.java'
+        \ let b:grep_target_file = '**/*.java'
   au FileType ruby
-              \ let b:grep_target_file = '**/*.rb'
+        \ let b:grep_target_file = '**/*.rb'
   au FileType perl
-              \ let b:grep_target_file = '**/*.pl'
+        \ let b:grep_target_file = '**/*.pl'
   au FileType python
-              \ let b:grep_target_file = '**/*.py'
+        \ let b:grep_target_file = '**/*.py'
   au FileType vim
-              \ let b:grep_target_file = '**/*.vim'
+        \ let b:grep_target_file = '**/*.vim'
 augroup END
 
 " c/c++向けパス設定
@@ -949,7 +949,7 @@ function! s:set_cpp_env_path()
   if g:is_windows
     call g:DevEnvChanger.change('msvc_2005')
   elseif has('unix')
-    call g:DevEnvChanger.change('linux')
+    call g:DevEnvChanger.change('gcc')
   endif
 endfunction
 augroup ag_cpp_env_path
