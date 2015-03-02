@@ -163,8 +163,20 @@ NeoBundleLazy 'ujihisa/unite-colorscheme', {
 "       \ }}
 
 " WEBアクセス
-NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'mattn/webapi-vim'
+NeoBundleLazy 'tyru/open-browser.vim', {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'OpenBrowser',
+      \     'OpenBrowserSearch',
+      \     'OpenBrowserSmartSearch',
+      \   ],
+      \   'mappings' : [
+      \     '<Plug>(openbrowser-open)',
+      \     '<Plug>(openbrowser-search)',
+      \     '<Plug>(openbrowser-smart-search)',
+      \   ],
+      \ }}
+NeoBundleLazy 'mattn/webapi-vim'
 NeoBundleLazy 'mattn/excitetranslate-vim', {
       \ 'depends': 'mattn/webapi-vim',
       \ 'autoload' : {
@@ -932,11 +944,11 @@ let g:restart_sessionoptions
 " open-browser.vim {{{1
 "
 " カーソル下のURLをブラウザで開く
-nmap <Leader>o <Plug>(openbrowser-open)
-vmap <Leader>o <Plug>(openbrowser-open)
+nmap <LEADER>o <Plug>(openbrowser-open)
+vmap <LEADER>o <Plug>(openbrowser-open)
 " ググる
-nmap <Leader>g <Plug>(openbrowser-smart-search)
-vmap <Leader>g <Plug>(openbrowser-smart-search)
+nmap <LEADER>g <Plug>(openbrowser-smart-search)
+vmap <LEADER>g <Plug>(openbrowser-smart-search)
 
 
 " w3m.vim {{{1
