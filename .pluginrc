@@ -830,6 +830,7 @@ function! s:bundle.hooks.on_source(bundle)
         \   'cmdopt': '-S "localhost\SQLEXPRESS" -W',
         \   'exec': '%C %o -i "%S"',
         \   'runner': 'system',
+        \   'hook/output_encode/encoding': 'sjis',
         \ }
 
   " xml
