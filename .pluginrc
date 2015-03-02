@@ -819,6 +819,19 @@ function! s:bundle.hooks.on_source(bundle)
         \   'exec': '%C "%S"',
         \ }
 
+  " SQL
+  let g:quickrun_config['sql'] = {
+        \   'type': 'sqlserver',
+        \ }
+
+  " SQLServer
+  let g:quickrun_config['sqlserver'] = {
+        \   'command': 'sqlcmd',
+        \   'cmdopt': '-S "localhost\SQLEXPRESS" -W',
+        \   'exec': '%C %o -i "%S"',
+        \   'runner': 'system',
+        \ }
+
   " xml
   let g:quickrun_config['xml'] = {
         \   'type': 'open_browser',
@@ -829,16 +842,16 @@ function! s:bundle.hooks.on_source(bundle)
         \   'type': 'open_browser',
         \ }
 
-  " markdown
-  let g:quickrun_config['mkd'] = {
-        \   'type': 'previm',
-        \ }
-
   " open by browser
   let g:quickrun_config['open_browser'] = {
         \   'exec': '"%S"',
         \   'runner': 'system',
         \   'outputter': 'browser',
+        \ }
+
+  " markdown
+  let g:quickrun_config['mkd'] = {
+        \   'type': 'previm',
         \ }
 
   " open by previm
