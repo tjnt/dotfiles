@@ -737,7 +737,6 @@ nnoremap <silent><Plug>ShowmarksPlaceMark :<C-u>ShowMarksPlaceMark<CR>
 nnoremap <silent><Plug>ShowmarksClearMark :<C-u>ShowMarksClearMark<CR>
 nnoremap <silent><Plug>ShowmarksClearAll :<C-u>ShowMarksClearAll<CR>
 
-
 " color setting
 function! s:chg_showmarks_color()
   hi! link SignColumn LineNr
@@ -791,8 +790,8 @@ function! s:bundle.hooks.on_source(bundle)
   " default
   let g:quickrun_config['_'] = {
         \ 'outputter/buffer/split' : ':rightbelow 8sp',
-        \ 'outputter/error/error' : 'quickfix',
         \ 'outputter/error/success' : 'buffer',
+        \ 'outputter/error/error' : 'quickfix',
         \ 'outputter' : 'error',
         \ 'runner' : 'vimproc',
         \ 'runner/vimproc/updatetime' : 80,
@@ -880,6 +879,7 @@ function! s:bundle.hooks.on_source(bundle)
         \   'cmdopt': '/EHsc',
         \   'exec': ['%C %o "%S" /nologo /Fo"%S:p:r.obj" /Fe"%S:p:r.exe"',
         \            '"%S:p:r.exe"'],
+        \   'hook/output_encode/encoding': 'sjis',
         \ }
 endfunction
 unlet s:bundle
