@@ -817,6 +817,7 @@ function! s:bundle.hooks.on_source(bundle)
   " ruby
   let g:quickrun_config['ruby'] = {
         \   'command': 'ruby',
+        \   'cmdopt': '-w',
         \   'exec': '%C "%S"',
         \ }
 
