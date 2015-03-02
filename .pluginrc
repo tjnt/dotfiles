@@ -694,7 +694,7 @@ let g:tcommentMapLeaderOp2 = '<LEADER>C'
 nnoremap [avim] <Nop>
 nmap     <LEADER>a [avim]
 " C/C++のヘッダーとソースを切り替える
-nnoremap <silent>[avim] :<C-u>A<CR>
+nnoremap <silent>[avim]a :<C-u>A<CR>
 " 縦分割で開く
 nnoremap <silent>[avim]v :<C-u>AV<CR>
 " 横分割で開く
