@@ -833,11 +833,12 @@ function! s:bundle.hooks.on_source(bundle)
 
   " SQL
   let g:quickrun_config['sql'] = {
-        \   'type': 'sqlserver',
+        \   'type':
+        \     g:is_windows && executable('sqlcmd') ? 'sql/sqlserver' : '',
         \ }
 
   " SQLServer
-  let g:quickrun_config['sqlserver'] = {
+  let g:quickrun_config['sql/sqlserver'] = {
         \   'command': 'sqlcmd',
         \   'cmdopt': '-S "localhost\SQLEXPRESS" -W',
         \   'exec': '%C %o -i "%S"',
