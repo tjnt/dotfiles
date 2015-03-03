@@ -853,7 +853,7 @@ function! s:bundle.hooks.on_source(bundle)
 
   " dosbat
   let g:quickrun_config['dosbatch'] = {
-        \   'exec': '"%S"',
+        \   'exec': '%s %a',
         \ }
 
   " SQL
