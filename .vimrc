@@ -944,18 +944,6 @@ augroup ag_grep_filetype
         \ let b:grep_target_file = '**/*.vim'
 augroup END
 
-" c/c++向けパス設定
-function! s:set_cpp_env_path()
-  if g:is_windows
-    call g:DevEnvChanger.change('msvc_2005')
-  elseif has('unix')
-    call g:DevEnvChanger.change('gcc')
-  endif
-endfunction
-augroup ag_cpp_env_path
-  au! FileType c,cpp call s:set_cpp_env_path()
-augroup END
-
 " ファイルを開いた時にカーソル位置を復元する
 augroup ag_restore_cursor
   au! BufReadPost *
@@ -1119,6 +1107,17 @@ endif
 
 " 環境ごとの設定読み込み
 call s:source_ifexists(s:rc_path('vimlocal'))
+
+" Example
+"
+" environment path for c++
+"
+" function! s:set_cpp_env_path()
+"   call g:DevEnvChanger.change('mingw')
+" endfunction
+" augroup ag_cpp_env_path
+"   au! FileType c,cpp call s:set_cpp_env_path()
+" augroup END
 
 
 " {{{1
