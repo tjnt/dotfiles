@@ -669,7 +669,7 @@ let g:alpaca_tags#config = {
 " Specify directories to store generated tags.
 let g:alpaca_tags#cache_dir = $VIMLOCAL.'/tmp/cache/alpaca_tags'
 " If it is as following, debug is shown.
-let g:alpaca_tags#console = { 'report' : 1 }
+" let g:alpaca_tags#console = { 'report' : 1 }
 
 augroup AlpacaTags
   au!
