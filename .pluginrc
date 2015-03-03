@@ -822,21 +822,15 @@ function! s:bundle.hooks.on_source(bundle)
         \     executable('g++') ? 'cpp/g++' : '',
         \ }
 
+  let g:quickrun_config['cpp/g++'] = {
+        \   'cmdopt': '-std=c++0x -Wall',
+        \ }
+
   let g:quickrun_config['cpp/vc'] = {
         \   'cmdopt': '/EHsc',
         \   'hook/output_encode/encoding': 'sjis',
         \   'exec': ['%c %o %s /nologo /Fo%s:p:r.obj /Fe%s:p:r.exe',
         \            '%s:p:r.exe %a'],
-        \ }
-
-  let g:quickrun_config['cpp/g++'] = {
-        \   'command': 'g++',
-        \   'cmdopt': '-std=c++0x -Wall',
-        \ }
-
-  let g:quickrun_config['cpp/mingw'] = {
-        \   'command': 'g++',
-        \   'cmdopt': '-std=c++0x -Wall',
         \ }
 
   " ruby
