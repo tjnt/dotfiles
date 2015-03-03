@@ -814,21 +814,46 @@ function! s:bundle.hooks.on_source(bundle)
   "       \   'split': '',
   "       \ }
 
+  " c++
+  let g:quickrun_config['cpp'] = {
+        \   'type':
+        \     g:is_windows && executable('cl') ? 'cpp/vc' :
+        \     executable('clang++') ? 'cpp/clang++'  :
+        \     executable('g++') ? 'cpp/g++' : '',
+        \ }
+
+  let g:quickrun_config['cpp/vc'] = {
+        \   'cmdopt': '/EHsc',
+        \   'hook/output_encode/encoding': 'sjis',
+        \   'exec': ['%c %o %s /nologo /Fo%s:p:r.obj /Fe%s:p:r.exe',
+        \            '%s:p:r.exe %a'],
+        \ }
+
+  let g:quickrun_config['cpp/g++'] = {
+        \   'command': 'g++',
+        \   'cmdopt': '-std=c++0x -Wall',
+        \ }
+
+  let g:quickrun_config['cpp/mingw'] = {
+        \   'command': 'g++',
+        \   'cmdopt': '-std=c++0x -Wall',
+        \ }
+
   " ruby
   let g:quickrun_config['ruby'] = {
         \   'command': 'ruby',
         \   'cmdopt': '-w',
         \ }
 
-  " dosbat
-  let g:quickrun_config['dosbatch'] = {
-        \   'exec': '"%S"',
-        \ }
-
   " vbs
   let g:quickrun_config['vb'] = {
         \   'command': 'cscript.exe',
         \   'exec': '%C "%S"',
+        \ }
+
+  " dosbat
+  let g:quickrun_config['dosbatch'] = {
+        \   'exec': '"%S"',
         \ }
 
   " SQL
@@ -873,31 +898,6 @@ function! s:bundle.hooks.on_source(bundle)
         \   'exec': 'PrevimOpen',
         \   'runner': 'vimscript',
         \   'outputter': 'null',
-        \ }
-
-  " c++
-  let g:quickrun_config['cpp'] = {
-        \   'type':
-        \     g:is_windows && executable('cl') ? 'cpp/vc' :
-        \     executable('clang++') ? 'cpp/clang++'  :
-        \     executable('g++') ? 'cpp/g++' : '',
-        \ }
-
-  let g:quickrun_config['cpp/vc'] = {
-        \   'cmdopt': '/EHsc',
-        \   'hook/output_encode/encoding': 'sjis',
-        \   'exec': ['%c %o %s /nologo /Fo%s:p:r.obj /Fe%s:p:r.exe',
-        \            '%s:p:r.exe %a'],
-        \ }
-
-  let g:quickrun_config['cpp/g++'] = {
-        \   'command': 'g++',
-        \   'cmdopt': '-std=c++0x -Wall',
-        \ }
-
-  let g:quickrun_config['cpp/mingw'] = {
-        \   'command': 'g++',
-        \   'cmdopt': '-std=c++0x -Wall',
         \ }
 endfunction
 unlet s:bundle
