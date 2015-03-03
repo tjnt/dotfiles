@@ -875,37 +875,34 @@ function! s:bundle.hooks.on_source(bundle)
         \ }
 
   " c++
-  if g:is_windows
-    let g:quickrun_config['cpp'] = {
-          \   'type': 'cpp/msvc2005',
-          \ }
-  else
-    let g:quickrun_config['cpp'] = {
-          \   'type': 'cpp/gcc',
-          \ }
-  endif
+  let g:quickrun_config['cpp'] = {
+        \   'type':
+        \     g:is_windows && executable('cl') ? 'cpp/vc' :
+        \     executable('clang++') ? 'cpp/clang++'  :
+        \     executable('g++') ? 'cpp/g++' : '',
+        \ }
 
-  let g:quickrun_config['cpp/gcc'] = {
+  let g:quickrun_config['cpp/vc'] = {
+        \   'cmdopt': '/Wall',
+        \   'hook/output_encode/encoding': 'sjis',
+        \ }
+
+  let g:quickrun_config['cpp/g++'] = {
         \   'command': 'g++',
         \   'cmdopt': '-std=c++0x -Wall',
         \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
         \ }
+
   let g:quickrun_config['cpp/mingw'] = {
         \   'command': 'g++',
         \   'cmdopt': '-std=c++0x -Wall',
         \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
         \ }
+
   let g:quickrun_config['cpp/cygwin'] = {
         \   'command': 'g++',
         \   'cmdopt': '-Wall',
         \   'exec': ['%C %o "%S" -o "%S:p:r"', '"%S:p:r"'],
-        \ }
-  let g:quickrun_config['cpp/msvc2005'] = {
-        \   'command': 'cl',
-        \   'cmdopt': '/EHsc',
-        \   'exec': ['%C %o "%S" /nologo /Fo"%S:p:r.obj" /Fe"%S:p:r.exe"',
-        \            '"%S:p:r.exe"'],
-        \   'hook/output_encode/encoding': 'sjis',
         \ }
 endfunction
 unlet s:bundle
