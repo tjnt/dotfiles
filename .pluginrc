@@ -17,10 +17,18 @@ endif
 
 call neobundle#begin(expand('$VIMLOCAL/bundle'))
 
-" プラグイン管理
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" 補完
+" Base / Librarys {{{2
+NeoBundle 'Shougo/vimproc', {
+      \ 'build' : {
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
+
+" 補完 {{{2
 NeoBundleLazy 'Shougo/neocomplete.vim', {
       \ 'autoload' : { 'insert' : 1 },
       \ 'disabled' : !has('lua'),
@@ -36,10 +44,15 @@ NeoBundleLazy 'Rip-Rip/clang_complete'
 "             \ 'autoload' : {'filetypes' : ['c', 'cpp']}
 "             \ }
 
-" 編集支援
-NeoBundleLazy 'scrooloose/nerdtree', {
+" Operators {{{2
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'kana/vim-operator-replace'
+
+" 編集支援 {{{2
+NeoBundle 'vim-scripts/ShowMarks7'
+NeoBundleLazy 't9md/vim-quickhl', {
       \ 'autoload' : {
-      \   'commands' : 'NERDTreeToggle',
+      \   'mappings' : '<Plug>'
       \ }}
 NeoBundleLazy 'tomtom/tcomment_vim', {
       \ 'autoload' : {
@@ -47,6 +60,10 @@ NeoBundleLazy 'tomtom/tcomment_vim', {
       \     '<LEADER>c',
       \     '<LEADER>C',
       \   ]
+      \ }}
+NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
+      \ 'autoload' : {
+      \   'commands' : 'IndentGuidesToggle',
       \ }}
 NeoBundle 'tpope/vim-surround'
 NeoBundleLazy 'taku-o/vim-fix-numbering', {
@@ -63,26 +80,14 @@ NeoBundleLazy 'vim-scripts/Align', {
       \     'AlignReplaceQuotedSpaces',
       \   ]
       \ }}
-NeoBundle 'vim-scripts/ShowMarks7'
-NeoBundleLazy 'vim-scripts/taglist.vim', {
-      \ 'autoload' : {
-      \   'commands' : 'TlistToggle',
-      \ }}
-NeoBundleLazy 't9md/vim-quickhl', {
-      \ 'autoload' : {
-      \   'mappings' : '<Plug>'
-      \ }}
-NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
-      \ 'autoload' : {
-      \   'commands' : 'IndentGuidesToggle',
-      \ }}
 NeoBundleLazy 'osyo-manga/vim-over', {
       \ 'autoload' : {
       \   'commands' : 'OverCommandLine',
       \ }}
-NeoBundleLazy 'plasticboy/vim-markdown', {
+" タグ関連 {{{2
+NeoBundleLazy 'vim-scripts/taglist.vim', {
       \ 'autoload' : {
-      \   'filetypes' : 'mkd'
+      \   'commands' : 'TlistToggle',
       \ }}
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
       \ 'depends': ['Shougo/vimproc'],
@@ -101,29 +106,7 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
       \   ],
       \ }}
 
-" operator
-NeoBundle 'kana/vim-operator-user'
-NeoBundle 'kana/vim-operator-replace'
-
-" C/C++
-NeoBundleLazy 'vim-scripts/a.vim', {
-      \ 'autoload' : {
-      \   'filetypes' : ['c', 'cpp'],
-      \   'commands' : [
-      \     'A', 'AV', 'AS', 'AT',
-      \   ],
-      \ }}
-NeoBundleLazy 'vim-scripts/c.vim'
-NeoBundleLazy 'vim-scripts/TagHighlight'
-
-" ruby
-NeoBundleLazy 'vim-ruby/vim-ruby', {
-      \ 'autoload' : {
-      \   'mappings' : '<Plug>(ref-keyword)',
-      \   'filetypes' : 'ruby'
-      \ }}
-
-" Unite
+" Unite {{{2
 NeoBundleLazy 'Shougo/unite.vim', {
       \ 'autoload' : {
       \   'commands' : [
@@ -166,45 +149,7 @@ NeoBundleLazy 'ujihisa/unite-colorscheme', {
 "       \   'on_source' : 'unite.vim',
 "       \ }}
 
-" WEBアクセス
-NeoBundleLazy 'tyru/open-browser.vim', {
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'OpenBrowser',
-      \     'OpenBrowserSearch',
-      \     'OpenBrowserSmartSearch',
-      \   ],
-      \   'mappings' : [
-      \     '<Plug>(openbrowser-open)',
-      \     '<Plug>(openbrowser-search)',
-      \     '<Plug>(openbrowser-smart-search)',
-      \   ],
-      \   'functions' : 'openbrowser#load',
-      \ }}
-NeoBundleLazy 'mattn/webapi-vim'
-NeoBundleLazy 'mattn/excitetranslate-vim', {
-      \ 'depends': 'mattn/webapi-vim',
-      \ 'autoload' : {
-      \   'commands' : 'ExciteTranslate',
-      \ }}
-NeoBundleLazy 'yuratomo/w3m.vim', {
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'W3m',
-      \     'W3mHistory',
-      \     'W3mHistoryClear',
-      \     'W3mLocal',
-      \     'W3mSplit',
-      \     'W3mTab',
-      \     'W3mVSplit',
-      \   ],
-      \ }}
-NeoBundleLazy 'koron/chalice', {
-      \ 'autoload' : {
-      \   'commands' : 'Chalice',
-      \ }}
-
-" その他
+" ファイラー / シェル {{{2
 NeoBundleLazy 'Shougo/vimfiler', {
       \ 'depends' : 'Shougo/unite.vim',
       \ 'autoload' : {
@@ -232,16 +177,73 @@ NeoBundleLazy 'Shougo/vimshell', {
       \   ],
       \   'mappings' : '<Plug>'
       \ }}
-NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-" NeoBundle 'ujihisa/vimshell-ssh'
-" NeoBundle 'thinca/vim-openbuf'
-" NeoBundle 'vim-scripts/L9'
+NeoBundleLazy 'scrooloose/nerdtree', {
+      \ 'autoload' : {
+      \   'commands' : 'NERDTreeToggle',
+      \ }}
+
+" 言語固有プラグイン {{{2
+" C/C++
+NeoBundleLazy 'vim-scripts/a.vim', {
+      \ 'autoload' : {
+      \   'filetypes' : ['c', 'cpp'],
+      \   'commands' : [
+      \     'A', 'AV', 'AS', 'AT',
+      \   ],
+      \ }}
+NeoBundleLazy 'vim-scripts/c.vim'
+NeoBundleLazy 'vim-scripts/TagHighlight'
+" ruby
+NeoBundleLazy 'vim-ruby/vim-ruby', {
+      \ 'autoload' : {
+      \   'mappings' : '<Plug>(ref-keyword)',
+      \   'filetypes' : 'ruby'
+      \ }}
+" markdown
+NeoBundleLazy 'plasticboy/vim-markdown', {
+      \ 'autoload' : {
+      \   'filetypes' : 'mkd'
+      \ }}
+
+" WEBアクセス {{{2
+NeoBundleLazy 'mattn/webapi-vim'
+NeoBundleLazy 'tyru/open-browser.vim', {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'OpenBrowser',
+      \     'OpenBrowserSearch',
+      \     'OpenBrowserSmartSearch',
+      \   ],
+      \   'mappings' : [
+      \     '<Plug>(openbrowser-open)',
+      \     '<Plug>(openbrowser-search)',
+      \     '<Plug>(openbrowser-smart-search)',
+      \   ],
+      \   'functions' : 'openbrowser#load',
+      \ }}
+NeoBundleLazy 'mattn/excitetranslate-vim', {
+      \ 'depends': 'mattn/webapi-vim',
+      \ 'autoload' : {
+      \   'commands' : 'ExciteTranslate',
+      \ }}
+NeoBundleLazy 'yuratomo/w3m.vim', {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'W3m',
+      \     'W3mHistory',
+      \     'W3mHistoryClear',
+      \     'W3mLocal',
+      \     'W3mSplit',
+      \     'W3mTab',
+      \     'W3mVSplit',
+      \   ],
+      \ }}
+NeoBundleLazy 'koron/chalice', {
+      \ 'autoload' : {
+      \   'commands' : 'Chalice',
+      \ }}
+
+" その他 {{{2
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload' : {
       \   'mappings' : '<Plug>',
@@ -264,10 +266,6 @@ NeoBundleLazy 'tyru/restart.vim', {
       \ }}
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/Colour-Sampler-Pack'
-" NeoBundleLazy 'mattn/benchvimrc-vim'
-" NeoBundleLazy 'Lokaltog/vim-powerline'
-" NeoBundleLazy 'koron/minimap-vim'
-" NeoBundle 'w0ng/vim-hybrid'
 
 " ローカル管理のプラグイン
 NeoBundleLocal $VIMLOCAL/bundle_local
@@ -634,6 +632,10 @@ nmap     <LEADER>vs [vimshell]
 nnoremap [vimshell] :<C-u>VimShell<CR>
 
 
+" vim-operator-replace {{{1
+map R <Plug>(operator-replace)
+
+
 " NERDTree {{{1
 "
 " NERDTreeの幅
@@ -646,6 +648,100 @@ let g:NERDTreeShowHidden = 1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " NERDTree開閉トグル
 nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
+
+
+" showmarks.vim {{{1
+"
+let showmarks_enable = 1
+" Show which marks
+let showmarks_include = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+" help、quickfixと編集不可のバッファのマークを表示しない
+let showmarks_ignore_type = 'hqm'
+" Hilight lower & upper marks
+" let showmarks_hlline_lower = 1
+" let showmarks_hlline_upper = 1
+
+" change keymap
+map mt <Plug>ShowmarksShowMarksToggle
+map mo <Plug>ShowmarksShowMarksOn
+map mm <Plug>ShowmarksPlaceMark
+map mc <Plug>ShowmarksClearMark
+map mM <Plug>ShowmarksClearAll
+nnoremap <silent><Plug>ShowmarksShowMarksToggle :<C-u>ShowMarksToggle<CR>
+nnoremap <silent><Plug>ShowmarksShowMarksOn :<C-u>ShowMarksOn<CR>
+nnoremap <silent><Plug>ShowmarksPlaceMark :<C-u>ShowMarksPlaceMark<CR>
+nnoremap <silent><Plug>ShowmarksClearMark :<C-u>ShowMarksClearMark<CR>
+nnoremap <silent><Plug>ShowmarksClearAll :<C-u>ShowMarksClearAll<CR>
+
+" color setting
+function! s:chg_showmarks_color()
+  hi! link SignColumn LineNr
+  hi! link ShowMarksHLl LineNr
+  hi! link ShowMarksHLu LineNr
+  hi! link ShowMarksHLo LineNr
+  hi! link ShowMarksHLm LineNr
+endfunction
+augroup ag_chg_showmarks_colors
+  au!
+  au ColorScheme * call s:chg_showmarks_color()
+augroup END
+
+
+" quickhl.vim {{{1
+"
+" カーソル下の単語、または選択範囲をハイライト
+nmap <LEADER>m <Plug>(quickhl-manual-this)
+xmap <LEADER>m <Plug>(quickhl-manual-this)
+" すべてのハイライトをクリア
+nmap <LEADER>M <Plug>(quickhl-manual-reset)
+xmap <LEADER>M <Plug>(quickhl-manual-reset)
+
+
+" tcomment.vim {{{1
+"
+" <LEADER>cでコメントのトグル
+" 一行コメントは<LEADER>cでトグル
+let g:tcommentMapLeaderOp1 = '<LEADER>c'
+let g:tcommentMapLeaderOp2 = '<LEADER>C'
+
+
+" indent-guides {{{1
+"
+" デフォルトは無効にしておく <LEADER><LEADER>iで有効化
+let g:indent_guides_enable_on_vim_startup = 0
+" ガイドを見やすく
+let g:indent_guides_color_change_percent = 5
+let g:indent_guides_guide_size = 1
+" 有効/無効トグル
+noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
+
+
+" surround.vim {{{1
+"
+" surround.vim導入でsコマンドが使えなくなるため、復活させる
+augroup ag_reset_smap
+  au! VimEnter xunmap s
+augroup END
+
+
+" Align.vim {{{1
+"
+" 日本語など幅広文字に対応
+let g:Align_xstrlen=3
+" Align.vimは大量のキーマップを提供する
+" 干渉を避けるためにデフォルトキーマップの読み込みは行わない
+let g:loaded_AlignMapsPlugin = 1
+" change keymap
+" map <LEADER>am= <Plug>AM_m=
+
+
+" vim-over {{{1
+"
+nnoremap <silent><LEADER>: :OverCommandLine<CR>
+" カーソル下の単語をハイライト付きで置換
+" nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+" コピーした文字列をハイライト付きで置換
+" nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 
 
 " taglist.vim {{{1
@@ -696,18 +792,6 @@ augroup AlpacaTags
 augroup END
 
 
-" tcomment.vim {{{1
-"
-" <LEADER>cでコメントのトグル
-" 一行コメントは<LEADER>cでトグル
-let g:tcommentMapLeaderOp1 = '<LEADER>c'
-let g:tcommentMapLeaderOp2 = '<LEADER>C'
-
-
-" vim-operator-replace
-map R <Plug>(operator-replace)
-
-
 " a.vim {{{1
 "
 nnoremap [avim] <Nop>
@@ -724,92 +808,6 @@ nnoremap <silent>[avim]t :<C-u>AT<CR>
 " <Leader>ih  カーソル下のファイルを開く
 " <Leader>is  カーソル下のファイルに対応するヘッダー/ソースを分割して開く
 " <Leader>ihn 循環マッチ?
-
-
-" surround.vim {{{1
-"
-" surround.vim導入でsコマンドが使えなくなるため、復活させる
-augroup ag_reset_smap
-  au! VimEnter xunmap s
-augroup END
-
-
-" Align.vim {{{1
-"
-" 日本語など幅広文字に対応
-let g:Align_xstrlen=3
-" Align.vimは大量のキーマップを提供する
-" 干渉を避けるためにデフォルトキーマップの読み込みは行わない
-let g:loaded_AlignMapsPlugin = 1
-" change keymap
-" map <LEADER>am= <Plug>AM_m=
-
-
-" showmarks.vim {{{1
-"
-let showmarks_enable = 1
-" Show which marks
-let showmarks_include = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-" help、quickfixと編集不可のバッファのマークを表示しない
-let showmarks_ignore_type = 'hqm'
-" Hilight lower & upper marks
-" let showmarks_hlline_lower = 1
-" let showmarks_hlline_upper = 1
-
-" change keymap
-map mt <Plug>ShowmarksShowMarksToggle
-map mo <Plug>ShowmarksShowMarksOn
-map mm <Plug>ShowmarksPlaceMark
-map mc <Plug>ShowmarksClearMark
-map mM <Plug>ShowmarksClearAll
-nnoremap <silent><Plug>ShowmarksShowMarksToggle :<C-u>ShowMarksToggle<CR>
-nnoremap <silent><Plug>ShowmarksShowMarksOn :<C-u>ShowMarksOn<CR>
-nnoremap <silent><Plug>ShowmarksPlaceMark :<C-u>ShowMarksPlaceMark<CR>
-nnoremap <silent><Plug>ShowmarksClearMark :<C-u>ShowMarksClearMark<CR>
-nnoremap <silent><Plug>ShowmarksClearAll :<C-u>ShowMarksClearAll<CR>
-
-" color setting
-function! s:chg_showmarks_color()
-  hi! link SignColumn LineNr
-  hi! link ShowMarksHLl LineNr
-  hi! link ShowMarksHLu LineNr
-  hi! link ShowMarksHLo LineNr
-  hi! link ShowMarksHLm LineNr
-endfunction
-augroup ag_chg_showmarks_colors
-  au!
-  au ColorScheme * call s:chg_showmarks_color()
-augroup END
-
-
-" quickhl.vim {{{1
-"
-" カーソル下の単語、または選択範囲をハイライト
-nmap <LEADER>m <Plug>(quickhl-manual-this)
-xmap <LEADER>m <Plug>(quickhl-manual-this)
-" すべてのハイライトをクリア
-nmap <LEADER>M <Plug>(quickhl-manual-reset)
-xmap <LEADER>M <Plug>(quickhl-manual-reset)
-
-
-" vim-over {{{1
-"
-nnoremap <silent><LEADER>: :OverCommandLine<CR>
-" カーソル下の単語をハイライト付きで置換
-" nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-" コピーした文字列をハイライト付きで置換
-" nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
-
-
-" indent-guides {{{1
-"
-" デフォルトは無効にしておく <LEADER><LEADER>iで有効化
-let g:indent_guides_enable_on_vim_startup = 0
-" ガイドを見やすく
-let g:indent_guides_color_change_percent = 5
-let g:indent_guides_guide_size = 1
-" 有効/無効トグル
-noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
 
 
 " quickrun.vim {{{1
@@ -936,14 +934,6 @@ nmap K <Plug>(ref-keyword)
 " 終了時に保持するオプション
 let g:restart_sessionoptions
       \ = 'blank,buffers,curdir,folds,help,localoptions,tabpages'
-
-
-" vim-powerline {{{1
-"
-" cuiだと表示が崩れるため、gui使用時のみ読み込む
-" if has('gui_running')
-"   exe 'NeoBundleSource vim-powerline'
-" endif
 
 
 " open-browser.vim {{{1
