@@ -175,6 +175,7 @@ NeoBundleLazy 'tyru/open-browser.vim', {
       \     '<Plug>(openbrowser-search)',
       \     '<Plug>(openbrowser-smart-search)',
       \   ],
+      \   'functions' : 'openbrowser#load',
       \ }}
 NeoBundleLazy 'mattn/webapi-vim'
 NeoBundleLazy 'mattn/excitetranslate-vim', {
