@@ -105,7 +105,6 @@ augroup END
 let ColorRoller = {}
 let ColorRoller.colors = [
       \ 'jellybeans',
-      \ 'gummybears',
       \ 'molokai',
       \ 'wombat256',
       \ 'lucius',
