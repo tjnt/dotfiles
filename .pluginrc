@@ -101,6 +101,10 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
       \   ],
       \ }}
 
+" operator
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'kana/vim-operator-replace'
+
 " C/C++
 NeoBundleLazy 'vim-scripts/a.vim', {
       \ 'autoload' : {
@@ -238,7 +242,6 @@ NeoBundle 'Shougo/vimproc', {
 " NeoBundle 'ujihisa/vimshell-ssh'
 " NeoBundle 'thinca/vim-openbuf'
 " NeoBundle 'vim-scripts/L9'
-NeoBundle 'kana/vim-operator-user'
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload' : {
       \   'mappings' : '<Plug>',
@@ -699,6 +702,10 @@ augroup END
 " 一行コメントは<LEADER>cでトグル
 let g:tcommentMapLeaderOp1 = '<LEADER>c'
 let g:tcommentMapLeaderOp2 = '<LEADER>C'
+
+
+" vim-operator-replace
+map R <Plug>(operator-replace)
 
 
 " a.vim {{{1
