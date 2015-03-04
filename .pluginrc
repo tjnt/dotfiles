@@ -183,7 +183,18 @@ NeoBundleLazy 'mattn/excitetranslate-vim', {
       \ 'autoload' : {
       \   'commands' : 'ExciteTranslate',
       \ }}
-NeoBundleLazy 'yuratomo/w3m.vim'
+NeoBundleLazy 'yuratomo/w3m.vim', {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'W3m',
+      \     'W3mHistory',
+      \     'W3mHistoryClear',
+      \     'W3mLocal',
+      \     'W3mSplit',
+      \     'W3mTab',
+      \     'W3mVSplit',
+      \   ],
+      \ }}
 NeoBundleLazy 'koron/chalice', {
       \ 'autoload' : {
       \   'commands' : 'Chalice',
@@ -940,8 +951,8 @@ vmap <LEADER>os <Plug>(openbrowser-smart-search)
 
 " w3m.vim {{{1
 "
-let g:w3m#command = expand('$VIMLOCAL/bin/w3m/w3m.exe')
-
+let g:w3m#command = 
+      \ g:is_windows ? expand('$VIMLOCAL/bin/w3m/w3m.exe') : 'w3m'
 
 " chalice {{{1
 "
