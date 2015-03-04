@@ -333,14 +333,6 @@ nnoremap l <Right>zv
 " Yで行末までコピー
 nnoremap Y y$
 
-" ヤンクした文字列とカーソル位置の単語を置換する
-nnoremap <silent>cy  ce<C-r>0<Esc>:let@/=@"<CR>:noh<CR>
-vnoremap <silent>cy  c<C-r>0<Esc>:let@/=@"<CR>:noh<CR>
-nnoremap <silent>ciy ciw<C-r>0<Esc>:let@/=@"<CR>:noh<CR>
-" 押しやすいキーシーケンスに割り当てる
-nnoremap <silent>yii yiw
-nnoremap <silent>cii ciw<C-r>0<Esc>:let@/=@"<CR>:noh<CR>
-
 " ビジュアルモード時vで行末まで選択
 vnoremap v $h
 
