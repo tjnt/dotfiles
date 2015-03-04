@@ -382,8 +382,10 @@ noremap <C-Down>  <C-w>-
 noremap <C-Right> <C-w>>
 noremap <C-Left>  <C-w><
 
-" Qでウィンドウを閉じる
-noremap <silent><S-Q> :<C-u>close<CR>
+" qでウィンドウを閉じる
+noremap <silent>q :<C-u>close<CR>
+" Qでマクロ
+noremap <silent>Q q
 
 " バッファ操作のprefix
 nnoremap [buf] <Nop>
