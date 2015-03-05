@@ -658,10 +658,10 @@ map <silent>R <Plug>(operator-replace)
 " Example:
 "   saiw# 単語を#で囲む
 "   sda#  単語を囲む#を削除
-"   sca#$ 単語を囲む#を$に変更
+"   sra#$ 単語を囲む#を$に変更
 map <silent>sa <Plug>(operator-surround-append)
 map <silent>sd <Plug>(operator-surround-delete)
-map <silent>sc <Plug>(operator-surround-replace)
+map <silent>sr <Plug>(operator-surround-replace)
 
 
 " showmarks.vim {{{1
