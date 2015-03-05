@@ -648,12 +648,21 @@ nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
 
 
 " vim-operator-replace {{{1
-map R <Plug>(operator-replace)
+" Example:
+"   yriw 単語をレジスタの文字で置換え
+"   yri# #で囲まれた範囲をレジスタの文字で置換え
+map yr <Plug>(operator-replace)
+
 
 " vim-operator-surround {{{1
-map <silent>sa <Plug>(operator-surround-append)
-map <silent>sd <Plug>(operator-surround-delete)
-map <silent>sr <Plug>(operator-surround-replace)
+" Example:
+"   ysiw# 単語を#で囲む
+"   dsa#  単語を囲む#を削除
+"   csa#$ 単語を囲む#を$に変更
+map <silent>ys <Plug>(operator-surround-append)
+map <silent>ds <Plug>(operator-surround-delete)
+map <silent>cs <Plug>(operator-surround-replace)
+
 
 " showmarks.vim {{{1
 "
