@@ -1102,7 +1102,7 @@ endif
 " 環境ごとの設定読み込み
 call s:source_ifexists(s:rc_path('vimlocal'))
 
-" Example
+" Example:
 "
 " environment path for c++
 "
