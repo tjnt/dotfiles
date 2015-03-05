@@ -336,8 +336,8 @@ nnoremap Y y$
 " ビジュアルモード時vで行末まで選択
 vnoremap v $h
 
-" ビジュアルモード時aで全選択
-vnoremap a <ESC>gg0vG$h
+" ビジュアルモード時Aで全選択
+vnoremap A <ESC>gg0vG$h
 
 " ビジュアルモード選択範囲を検索する
 vnoremap / <ESC>/\%V
