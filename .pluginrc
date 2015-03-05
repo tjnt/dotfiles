@@ -19,7 +19,7 @@ call neobundle#begin(expand('$VIMLOCAL/bundle'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Base / Librarys {{{2
+" Base modules / Librarys {{{2
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'cygwin' : 'make -f make_cygwin.mak',
@@ -44,11 +44,11 @@ NeoBundleLazy 'Rip-Rip/clang_complete'
 "             \ 'autoload' : {'filetypes' : ['c', 'cpp']}
 "             \ }
 
-" Operators {{{2
+" operators {{{2
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
 
-" 編集支援 {{{2
+" 編集 {{{2
 NeoBundle 'vim-scripts/ShowMarks7'
 NeoBundleLazy 't9md/vim-quickhl', {
       \ 'autoload' : {
@@ -84,7 +84,8 @@ NeoBundleLazy 'osyo-manga/vim-over', {
       \ 'autoload' : {
       \   'commands' : 'OverCommandLine',
       \ }}
-" タグ関連 {{{2
+
+" ctags {{{2
 NeoBundleLazy 'vim-scripts/taglist.vim', {
       \ 'autoload' : {
       \   'commands' : 'TlistToggle',
@@ -632,10 +633,6 @@ nmap     <LEADER>vs [vimshell]
 nnoremap [vimshell] :<C-u>VimShell<CR>
 
 
-" vim-operator-replace {{{1
-map R <Plug>(operator-replace)
-
-
 " NERDTree {{{1
 "
 " NERDTreeの幅
@@ -648,6 +645,10 @@ let g:NERDTreeShowHidden = 1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " NERDTree開閉トグル
 nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
+
+
+" vim-operator-replace {{{1
+map R <Plug>(operator-replace)
 
 
 " showmarks.vim {{{1
