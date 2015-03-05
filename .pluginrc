@@ -47,6 +47,7 @@ NeoBundleLazy 'Rip-Rip/clang_complete'
 " operators {{{2
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
+NeoBundle 'rhysd/vim-operator-surround.git'
 
 " 編集 {{{2
 NeoBundle 'vim-scripts/ShowMarks7'
@@ -65,7 +66,6 @@ NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
       \ 'autoload' : {
       \   'commands' : 'IndentGuidesToggle',
       \ }}
-NeoBundle 'tpope/vim-surround'
 NeoBundleLazy 'taku-o/vim-fix-numbering', {
       \ 'autoload' : {
       \   'commands' : 'FixNumbering',
@@ -650,6 +650,10 @@ nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
 " vim-operator-replace {{{1
 map R <Plug>(operator-replace)
 
+" vim-operator-surround {{{1
+map <silent>sa <Plug>(operator-surround-append)
+map <silent>sd <Plug>(operator-surround-delete)
+map <silent>sr <Plug>(operator-surround-replace)
 
 " showmarks.vim {{{1
 "
@@ -715,14 +719,6 @@ let g:indent_guides_color_change_percent = 5
 let g:indent_guides_guide_size = 1
 " 有効/無効トグル
 noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
-
-
-" surround.vim {{{1
-"
-" surround.vim導入でsコマンドが使えなくなるため、復活させる
-augroup ag_reset_smap
-  au! VimEnter xunmap s
-augroup END
 
 
 " Align.vim {{{1
