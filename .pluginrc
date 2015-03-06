@@ -807,14 +807,14 @@ let g:alpaca_tags#cache_dir = $VIMLOCAL.'/tmp/cache/alpaca_tags'
 " If it is as following, debug is shown.
 " let g:alpaca_tags#console = { 'report' : 1 }
 
-augroup AlpacaTags
-  au!
-  if exists(':AlpacaTags')
-    au BufWritePost Gemfile AlpacaTagsBundle
-    au BufEnter * AlpacaTagsSet
-    au BufWritePost * AlpacaTagsUpdate
-  endif
-augroup END
+if neobundle#is_installed('alpaca_tags')
+  augroup AlpacaTags
+    au!
+      au BufWritePost Gemfile AlpacaTagsBundle
+      au BufEnter * AlpacaTagsSet
+      au BufWritePost * AlpacaTagsUpdate
+  augroup END
+endif
 
 
 " a.vim {{{1
