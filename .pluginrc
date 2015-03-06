@@ -45,9 +45,17 @@ NeoBundleLazy 'Rip-Rip/clang_complete'
 "             \ }
 
 " operators {{{2
-NeoBundle 'kana/vim-operator-user'
-NeoBundle 'kana/vim-operator-replace'
-NeoBundle 'rhysd/vim-operator-surround.git'
+NeoBundleLazy 'kana/vim-operator-user'
+NeoBundleLazy 'kana/vim-operator-replace', {
+      \ 'depends': 'kana/vim-operator-user',
+      \ 'autoload' : {
+      \   'mappings' : '<Plug>'
+      \ }}
+NeoBundleLazy 'rhysd/vim-operator-surround.git', {
+      \ 'depends': 'kana/vim-operator-user',
+      \ 'autoload' : {
+      \   'mappings' : '<Plug>'
+      \ }}
 
 " 編集 {{{2
 NeoBundle 'vim-scripts/ShowMarks7'
