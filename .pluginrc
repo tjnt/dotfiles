@@ -656,12 +656,12 @@ map <silent>R <Plug>(operator-replace)
 
 " vim-operator-surround {{{1
 " Example:
-"   saiw# 単語を#で囲む
-"   sda#  単語を囲む#を削除
-"   sra#$ 単語を囲む#を$に変更
-map <silent>sa <Plug>(operator-surround-append)
-map <silent>sd <Plug>(operator-surround-delete)
-map <silent>sr <Plug>(operator-surround-replace)
+"   Saiw( 単語を(で囲む
+"   Sda(  単語を囲む(を削除
+"   Sra({ 単語を囲む(を{に変更
+map <silent>Sa <Plug>(operator-surround-append)
+map <silent>Sd <Plug>(operator-surround-delete)
+map <silent>Sr <Plug>(operator-surround-replace)
 
 
 " showmarks.vim {{{1
