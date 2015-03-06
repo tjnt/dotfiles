@@ -58,7 +58,16 @@ NeoBundleLazy 'rhysd/vim-operator-surround.git', {
       \ }}
 
 " 編集 {{{2
-NeoBundle 'vim-scripts/ShowMarks7'
+NeoBundleLazy 'vim-scripts/ShowMarks7', {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'ShowMarksToggle',
+      \     'ShowMarksOn',
+      \     'ShowMarksPlaceMark',
+      \     'ShowMarksClearMark',
+      \     'ShowMarksClearAll',
+      \   ]
+      \ }}
 NeoBundleLazy 't9md/vim-quickhl', {
       \ 'autoload' : {
       \   'mappings' : '<Plug>'
