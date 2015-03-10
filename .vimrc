@@ -406,10 +406,10 @@ nnoremap <silent>[buf]9 :<C-u>e #9<CR>
 nnoremap [tab] <Nop>
 nmap     t [tab]
 
-" [tab]+c 新しいタブ
-noremap <silent>[tab]c :<C-u>tabnew<CR>
-" [tab]+x タブを閉じる
-noremap <silent>[tab]x :<C-u>tabclose<CR>
+" [tab]+t 新しいタブ
+noremap <silent>[tab]t :<C-u>tabnew<CR>
+" [tab]+c タブを閉じる
+noremap <silent>[tab]c :<C-u>tabclose<CR>
 
 " [tab]+l / [tab]+h でタブ切り替え
 noremap <silent>[tab]l :<C-u>tabnext<CR>
