@@ -637,6 +637,8 @@ nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
 command! -nargs=0 CC cd %:h
 command! -nargs=0 CDV cd $VIM
 
+" 保存せずに終了
+command! -nargs=0 Q q!
 " 全終了
 command! -nargs=0 QQQ qall!
 
