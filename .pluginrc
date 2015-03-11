@@ -790,10 +790,9 @@ endif
 let s:hooks = neobundle#get_hooks("vim-marching")
 function! s:hooks.on_post_source(bundle)
   if executable(g:marching_clang_command)
-    let g:marching_backend = "sync_clang_command"
-    " let g:marching_backend =
-    "       \ neobundle#is_installed("vimproc.vim") ?
-    "       \     "clang_command" : "sync_clang_command"
+    let g:marching_backend =
+          \ neobundle#is_installed("vimproc.vim") ?
+          \     "clang_command" : "sync_clang_command"
   else
     " clang コマンドが実行できなければ wandbox を使用する
     let g:marching_backend = "wandbox"
