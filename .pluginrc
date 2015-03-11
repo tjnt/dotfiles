@@ -204,6 +204,10 @@ NeoBundleLazy 'scrooloose/nerdtree', {
 
 " 言語固有プラグイン {{{2
 " C/C++
+NeoBundleLazy 'vim-jp/cpp-vim', {
+      \ 'autoload' : {
+      \   'filetypes' : 'cpp'
+      \ }}
 NeoBundleLazy 'vim-scripts/a.vim', {
       \ 'autoload' : {
       \   'filetypes' : ['c', 'cpp'],
