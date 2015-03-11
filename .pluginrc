@@ -41,10 +41,6 @@ NeoBundleLazy 'Shougo/neosnippet.vim', {
       \ 'autoload' : { 'insert' : 1 }
       \ }
 NeoBundleLazy 'Shougo/neosnippet-snippets'
-NeoBundleLazy 'Rip-Rip/clang_complete'
-" NeoBundleLazy 'Rip-Rip/clang_complete', {
-"             \ 'autoload' : {'filetypes' : ['c', 'cpp']}
-"             \ }
 
 " operators {{{2
 NeoBundleLazy 'kana/vim-operator-user'
@@ -208,6 +204,11 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
       \ 'autoload' : {
       \   'filetypes' : 'cpp'
       \ }}
+NeoBundleLazy "osyo-manga/vim-marching"
+" NeoBundleLazy "osyo-manga/vim-marching", {
+"       \ 'autoload' : {
+"       \   'filetypes' : 'cpp'
+"       \ }}
 NeoBundleLazy 'vim-scripts/a.vim', {
       \ 'autoload' : {
       \   'filetypes' : ['c', 'cpp'],
@@ -349,43 +350,6 @@ function! s:bundle.hooks.on_source(bundle)
   " unuse vimproc
   if g:is_windows
     let g:neocomplete#use_vimproc = 0
-  endif
-
-  " neocomplcache-clang_completeを使用する為の設定 (TODO:実験中)
-  let s:use_clang = 0
-  if s:use_clang
-    exe 'NeoBundleSource clang_complete'
-    let g:neocomplete#force_overwrite_completefunc = 1
-    if !exists("g:neocomplete#force_omni_patterns")
-      let g:neocomplete#force_omni_patterns = {}
-    endif
-    let g:neocomplete#force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-    let g:neocomplete#force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-    let g:neocomplete#force_omni_patterns.objc = '[^.[:digit:] *\t]\%(\.\|->\)'
-    let g:neocomplete#force_omni_patterns.objcpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-    " clang_complete
-    let g:clang_complete_auto = 1
-    let g:clang_complete_copen = 1
-    let g:clang_use_library = 1
-    let g:clang_debug = 1
-    " let g:clang_exec = '"'.$VIMLOCAL.'/bin/clang/clang.exe'
-    let g:clang_library_path = $VIMLOCAL.'\bin\clang'
-    " let g:clang_auto_user_options = 'path, .clang_complete'
-    " let g:clang_user_options = '2> NUL || exit 0"'
-    " let g:clang_user_options = '-std=c++11 2> NUL || exit 0"'
-    " http://d.hatena.ne.jp/ohtorii/20110319/1300514225
-    " let g:clang_user_options = '-DWIN32 -D_WINDOWS -DNDEBUG
-    "                           \ -D_MSC_VER=1400 -D__MSVCRT_VERSION__=0x700 -D_WIN32_WINNT=0x0500
-    "                           \ -cc1 -fsyntax-only -x c++ -fno-caret-diagnostics
-    "                           \ -fdiagnostics-print-source-range-info -std=c++11
-    "                           \ -fms-extensions -fmsc-version=1400 -fgnu-runtime
-    "                           \ 2> NUL || exit 0"'
-    " let g:clang_user_options = '"-IC:\Program Files\Microsoft Visual Studio 8\VC\include"
-    "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\VC\atlmfc\include"
-    "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Include"
-    "                           \ "-IC:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\include"
-    "                           \ 2> NUL || exit 0"'
   endif
 
   " キーマップ
@@ -819,6 +783,39 @@ if neobundle#is_installed('alpaca_tags')
       au BufWritePost * AlpacaTagsUpdate
   augroup END
 endif
+
+
+" vim-marching {{{1
+"
+let s:hooks = neobundle#get_hooks("vim-marching")
+function! s:hooks.on_post_source(bundle)
+  if executable(g:marching_clang_command)
+    let g:marching_backend = "sync_clang_command"
+    " let g:marching_backend =
+    "       \ neobundle#is_installed("vimproc.vim") ?
+    "       \     "clang_command" : "sync_clang_command"
+  else
+    " clang コマンドが実行できなければ wandbox を使用する
+    let g:marching_backend = "wandbox"
+    let g:marching_clang_command = ""
+  endif
+
+  " オプションの設定
+  " let g:marching#clang_command#options = {
+  "       \	"cpp" : "-std=gnu++1y"
+  "       \}
+
+  " neocompleteとの連携
+  if neobundle#is_installed("neocomplete.vim")
+    let g:marching_enable_neocomplete = 1
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.cpp =
+          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  endif
+endfunction
+unlet s:hooks
 
 
 " a.vim {{{1
