@@ -635,14 +635,14 @@ nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
 
 
 " vim-operator-replace {{{1
-" Example:
+" Example
 "   Riw 単語をレジスタの文字で置換え
 "   Ri# #で囲まれた範囲をレジスタの文字で置換え
 map <silent>R <Plug>(operator-replace)
 
 
 " vim-operator-surround {{{1
-" Example:
+" Example
 "   Saiw( 単語を(で囲む
 "   Sda(  単語を囲む(を削除
 "   Sra({ 単語を囲む(を{に変更
