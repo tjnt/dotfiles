@@ -875,22 +875,6 @@ command! -nargs=0 CppEnvMSVC2005 call CppEnvChanger.change('msvc_2005')
 
 " Auto Command {{{1
 "
-" テキスト整形設定
-" デフォルトは"tcq"  (参照 :help fo-table)
-augroup ag_formatoptions
-  au!
-  " 挿入モードでの自動折り返しを行わない
-  au BufRead * setlocal formatoptions+=l
-  " マルチバイト文字の行連結時に空白を挿入しない
-  au BufRead * setlocal formatoptions+=MB
-  " 改行後に自動的にコメントを挿入するのをやめさせる
-  au BufRead * setlocal formatoptions-=ro
-  " 日本語の行の連結時には空白を入力しない
-  au BufRead * setlocal formatoptions+=mM
-  " 自動改行を無効
-  au BufRead * setlocal formatoptions-=t
-augroup END
-
 " ファイルタイプごとのインデント設定
 augroup ag_indent_filetype
   au!
@@ -900,6 +884,22 @@ augroup ag_indent_filetype
   au FileType python setlocal expandtab
   au FileType vim setlocal ts=2 sts=0 sw=2
   au FileType html,xml,xhtml setlocal ts=2 sts=0 sw=2 expandtab
+augroup END
+
+" ファイルタイプごとのテキスト整形設定
+" デフォルトは"tcq"  (参照 :help fo-table)
+augroup ag_formatoptions_filetype
+  au!
+  " 挿入モードでの自動折り返しを行わない
+  au FileType * setlocal formatoptions+=l
+  " マルチバイト文字の行連結時に空白を挿入しない
+  au FileType * setlocal formatoptions+=MB
+  " 改行後に自動的にコメントを挿入するのをやめさせる
+  au FileType * setlocal formatoptions-=ro
+  " 日本語の行の連結時には空白を入力しない
+  au FileType * setlocal formatoptions+=mM
+  " 自動改行を無効
+  au FileType * setlocal formatoptions-=t
 augroup END
 
 " ファイルタイプごとのオムニ補完関数設定
