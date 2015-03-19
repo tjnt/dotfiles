@@ -891,8 +891,8 @@ augroup ag_formatoptions
   au BufRead * setlocal formatoptions-=t
 augroup END
 
-" インデント設定
-augroup ag_indent
+" ファイルタイプごとのインデント設定
+augroup ag_indent_filetype
   au!
   au FileType c,cpp,cs,java setlocal ts=4 sts=0 sw=4
                           \ cindent cinoptions=:4
@@ -902,8 +902,8 @@ augroup ag_indent
   au FileType html,xml,xhtml setlocal ts=2 sts=0 sw=2 expandtab
 augroup END
 
-" オムニ補完関数設定
-augroup ag_omnifunc
+" ファイルタイプごとのオムニ補完関数設定
+augroup ag_omnifunc_filetype
   au!
   " 未定義のFileTypeはSyntaxCompleteを使用する
   au FileType * setlocal omnifunc=syntaxcomplete#Complete
@@ -919,8 +919,8 @@ augroup ag_omnifunc
   au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
 
-" grep_func関数の検索対象ファイルパターン
-augroup ag_grep_pattern
+" ファイルタイプごとのgrep_func関数の検索対象ファイルパターン
+augroup ag_grep_filetype
   au!
   au FileType *
         \ let b:grep_target_file = '**/*'
