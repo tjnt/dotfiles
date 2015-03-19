@@ -771,8 +771,8 @@ command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
 " 開発環境の切り替え {{{2
 if has('vim_starting')
-  let CppEnvChanger = {}
-  let CppEnvChanger.default = {
+  let DevEnvChanger = {}
+  let DevEnvChanger.default = {
       \   'path': $PATH,
       \   'lib': $LIB,
       \   'libpath': $LIBPATH,
@@ -783,8 +783,8 @@ if has('vim_starting')
       \   'pa': &path,
       \ }
 endif
-let CppEnvChanger.current_name = ''
-let CppEnvChanger.environment = {
+let DevEnvChanger.current_name = ''
+let DevEnvChanger.environment = {
       \   'gcc': {
       \     'path':
       \         '/usr/local/bin:'.
@@ -836,7 +836,7 @@ let CppEnvChanger.environment = {
       \   },
       \ }
 
-function! CppEnvChanger.set_default()
+function! DevEnvChanger.set_default()
   let $PATH = get(self.default, 'path')
   let $LIB = get(self.default, 'lib')
   let $LIBPATH = get(self.default, 'libpath')
@@ -847,7 +847,7 @@ function! CppEnvChanger.set_default()
   let &l:path = get(self.default, 'pa')
 endfunction
 
-function! CppEnvChanger.change(name)
+function! DevEnvChanger.change(name)
   " set to default
   call self.set_default()
   " append parameter path
@@ -866,11 +866,11 @@ function! CppEnvChanger.change(name)
   unlet target
 endfunction
 
-command! -nargs=0 CppEnvDefault  call CppEnvChanger.set_default()
-command! -nargs=0 CppEnvGcc      call CppEnvChanger.change('gcc')
-command! -nargs=0 CppEnvMinGW    call CppEnvChanger.change('mingw')
-command! -nargs=0 CppEnvCygwin   call CppEnvChanger.change('cygwin')
-command! -nargs=0 CppEnvMSVC2005 call CppEnvChanger.change('msvc_2005')
+command! -nargs=0 DevEnvDefault  call DevEnvChanger.set_default()
+command! -nargs=0 DevEnvGcc      call DevEnvChanger.change('gcc')
+command! -nargs=0 DevEnvMinGW    call DevEnvChanger.change('mingw')
+command! -nargs=0 DevEnvCygwin   call DevEnvChanger.change('cygwin')
+command! -nargs=0 DevEnvMSVC2005 call DevEnvChanger.change('msvc_2005')
 
 
 " Auto Command {{{1
@@ -1109,7 +1109,7 @@ call s:source_ifexists(s:rc_path('vimlocal'))
 " environment path for c++
 "
 " function! s:set_cpp_env_path()
-"   call g:CppEnvChanger.change('mingw')
+"   call g:DevEnvChanger.change('mingw')
 " endfunction
 " augroup ag_cpp_env_path
 "   au! FileType c,cpp call s:set_cpp_env_path()
