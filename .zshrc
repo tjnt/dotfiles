@@ -192,6 +192,8 @@ alias tat='tmux attach -t'
 #
 
 # rbenv initialize
-eval "$(rbenv init -)"
+if type rbenv > /dev/null 2>&1 ; then
+  eval "$(rbenv init -)"
+fi
 
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
