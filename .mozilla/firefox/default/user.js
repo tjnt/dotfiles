@@ -105,6 +105,8 @@ user_pref("browser.download.manager.scanWhenDone", false);
 user_pref("browser.download.manager.showAlertOnComplete", false);
 // ダウンロード完了時のダウンロードマネージャウィンドウ表示を無効にする
 user_pref("browser.download.manager.showWhenStarting", false);
+// Ctrl+Tabでのタブプレビューを有効化
+user_pref("browser.ctrlTab.previews", true);
 // 最小化時のメモリ使用量を抑える
 user_pref("config.trim_on_minimize", true);
 // 位置検出情報を無効にする
