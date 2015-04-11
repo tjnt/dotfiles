@@ -22,7 +22,7 @@ URxvt.lineSpace:        0
 
 ! Fonts
 URxvt.allow_bold:       false
-URxvt*font: xft:Ricty Diminished:size=11:antialias=true
+URxvt.font: xft:Ricty Diminished:size=11:antialias=true
 ! Fix font space
 ! URxvt*letterSpace:      -1
 
@@ -40,7 +40,7 @@ URxvt.pointerBlank:     false
 
 ! Transparency
 URxvt.transparent:      true
-URxvt*shading:          10
+URxvt.shading:          10
 ! URxvt*inheritPixmap:    true
 
 ! Colors
