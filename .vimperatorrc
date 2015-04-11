@@ -95,6 +95,9 @@ EOM
 " ツールバーのトグル
 command! ToggleToolbars :toggle toolbars
 
+" Evernote Web Clipperを起動
+command! clip javascript evernote_doAction()
+
 
 "---------------------------------------------------------------------------
 " キーマッピング
