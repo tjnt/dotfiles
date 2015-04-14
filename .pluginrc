@@ -209,7 +209,9 @@ NeoBundleLazy "osyo-manga/vim-marching"
 " NeoBundleLazy "osyo-manga/vim-marching", {
 "       \ 'autoload' : {
 "       \   'filetypes' : 'cpp'
-"       \ }}
+"       \ },
+"       \ 'vim_version' : '7.3.598'
+"       \ }
 NeoBundleLazy 'vim-scripts/a.vim', {
       \ 'autoload' : {
       \   'filetypes' : ['c', 'cpp'],
