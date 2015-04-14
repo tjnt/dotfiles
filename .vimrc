@@ -795,6 +795,7 @@ let CppEnvChanger.environment = {
       \         '/usr/lib:'.
       \         '/lib:',
       \     'include':
+      \         substitute(glob('/usr/include/c++/*'),'\n',':','g').
       \         '/usr/local/include:'.
       \         '/usr/include:',
       \   },
