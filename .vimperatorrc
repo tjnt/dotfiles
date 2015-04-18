@@ -144,10 +144,10 @@ noremap <C-c> Y
 noremap <silent> <Esc><Esc> :nohlsearch<CR>
 
 " All in one sidebarのトグル
-nnoremap <LEADER>s <F4>
+nnoremap s <F4>
 
 " ツールバーのトグル
-nnoremap <LEADER>t :ToggleToolbars<CR>
+nnoremap x :ToggleToolbars<CR>
 
 " _vimperatorrc再読み込み
 " noremap <LEADER>r :Reloadrc<CR>
