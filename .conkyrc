@@ -36,9 +36,9 @@ Uptime:$alignr$uptime
 
 ${font sans-serif:bold:size=8}PROCESSORS ${hr 2}
 ${font sans-serif:normal:size=8}${cpugraph cpu1}
-CPU1: ${cpu cpu1}% ${cpubar cpu1}
-CPU2: ${cpu cpu2}% ${cpubar cpu2}
-Frequency: ${freq}MHz $alignr Temp: ${hwmon temp 1}C
+CPU: $alignc Freq: ${freq}MHz $alignr Temp: ${hwmon temp 1}C
+1: ${cpu cpu1}% ${cpubar cpu1}
+2: ${cpu cpu2}% ${cpubar cpu2}
 
 ${font sans-serif:bold:size=8}MEMORY ${hr 2}
 ${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
@@ -62,7 +62,7 @@ ${font sans-serif:normal:size=8}IP address: $alignr ${addr wlan0}
 ESSID: $alignr ${wireless_essid wlan0}
 Connection quality: $alignr ${wireless_link_qual_perc wlan0}%
 ${downspeedgraph wlan0}
-DLS:${downspeed wlan0} kb/s $alignr total: ${totaldown wlan0}
+DLS:${downspeed wlan0} kb/s $alignr Total: ${totaldown wlan0}
 ${upspeedgraph wlan0}
-ULS:${upspeed wlan0} kb/s $alignr total: ${totalup wlan0}
+ULS:${upspeed wlan0} kb/s $alignr Total: ${totalup wlan0}
 
