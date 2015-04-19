@@ -30,7 +30,7 @@ xftfont Sans:size=8
 TEXT
 ${font sans-serif:bold:size=8}SYSTEM ${hr 2}
 ${font sans-serif:normal:size=8}$sysname $kernel $alignr $machine
-Host:$alignr$nodename
+# Host:$alignr$nodename
 Uptime:$alignr$uptime
 # File System: $alignr${fs_type}
 
@@ -38,6 +38,7 @@ ${font sans-serif:bold:size=8}PROCESSORS ${hr 2}
 ${font sans-serif:normal:size=8}${cpugraph cpu1}
 CPU1: ${cpu cpu1}% ${cpubar cpu1}
 CPU2: ${cpu cpu2}% ${cpubar cpu2}
+Frequency: ${freq}MHz $alignr Temp: ${hwmon temp 1}C
 
 ${font sans-serif:bold:size=8}MEMORY ${hr 2}
 ${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
@@ -50,11 +51,11 @@ SWAP $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
 ${swapbar}
 
 ${font sans-serif:bold:size=8}TOP PROCESSES ${hr 2}
-${font sans-serif:normal:size=8}${top_mem name 1}${alignr}${top cpu 1} %${top mem 1} %
-${top_mem name 2}${alignr}${top cpu 2} %${top mem 2} %
-${top_mem name 3}${alignr}${top cpu 3} %${top mem 3} %
-${top_mem name 4}${alignr}${top cpu 4} %${top mem 4} %
-${top_mem name 5}${alignr}${top cpu 5} %${top mem 5} %
+${font sans-serif:normal:size=8}${top_mem name 1}${alignr}${top cpu 1}%${top mem 1}%
+${top_mem name 2}${alignr}${top cpu 2}%${top mem 2}%
+${top_mem name 3}${alignr}${top cpu 3}%${top mem 3}%
+${top_mem name 4}${alignr}${top cpu 4}%${top mem 4}%
+${top_mem name 5}${alignr}${top cpu 5}%${top mem 5}%
 
 ${font sans-serif:bold:size=8}NETWORK ${hr 2}
 ${font sans-serif:normal:size=8}IP address: $alignr ${addr wlan0}
