@@ -45,8 +45,7 @@ set history=100
 set nextpattern=^次(へ|の|ペ),^続き,\bnext\b,^>$,^(>>|&#187;)$,^(>|&#187;),(>|&#187;)$,\bmore\b
 set previouspattern=^前(へ|の|ペ),^戻る,\bprev|previous\b,^<$,^(<<|&#171;)$,^(<|&#171;),(<|&#171;)$
 " コマンドラインモード時に自動でimeをOFFにする
-" -> 動いていない？？
-" style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
+style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
 
 
 "---------------------------------------------------------------------------
