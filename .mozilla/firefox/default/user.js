@@ -88,6 +88,8 @@ user_pref("content.notify.backoffcount", 5);
 user_pref("general.useragent.locale", "ja-JP");
 // 全画面表示のアニメーションを無効
 user_pref("browser.fullscreen.animateUp", 0);
+// 全画面表示でのツールバー自動非表示を無効
+user_pref("browser.fullscreen.autohide", false)
 // タブ開閉のアニメーションを無効
 user_pref("browser.tabs.animate", false);
 // タブの閉じるボタンの表示形式 
