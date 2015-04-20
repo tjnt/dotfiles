@@ -132,10 +132,6 @@ NeoBundleLazy 'Shougo/unite.vim', {
       \     'UniteWithInput',
       \   ],
       \ }}
-NeoBundleLazy 'Shougo/neomru.vim', {
-      \ 'autoload' : {
-      \   'on_source' : 'unite.vim',
-      \ }}
 NeoBundleLazy 'Shougo/unite-outline', {
       \ 'autoload' : {
       \   'on_source' : 'unite.vim',
@@ -164,6 +160,8 @@ NeoBundleLazy 'ujihisa/unite-colorscheme', {
 "       \ 'autoload' : {
 "       \   'on_source' : 'unite.vim',
 "       \ }}
+
+NeoBundle 'Shougo/neomru.vim'
 
 " ファイラー / シェル {{{2
 NeoBundleLazy 'Shougo/vimfiler.vim', {
@@ -475,15 +473,6 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction
 unlet s:bundle
 
-" neomru
-let s:bundle = neobundle#get('neomru.vim')
-function! s:bundle.hooks.on_source(bundle)
-  " cache directory
-  let g:neomru#file_mru_path = $VIMLOCAL.'/tmp/cache/neomru/file'
-  let g:neomru#directory_mru_path = $VIMLOCAL.'/tmp/cache/neomru/directory'
-endfunction
-unlet s:bundle
-
 " キーマップ一覧
 command! -nargs=0 UniteKeyMap Unite output:map|map!|lmap
 " カラースキーマー検索 自動プレビュー付き
@@ -552,6 +541,11 @@ nnoremap <silent>[unite]tf :<C-u>Unite tag/file<CR>
 nnoremap <silent>[unite]ti :<C-u>Unite tag/include<CR>
 " 読み込んだプラグイン一覧 (unite-scriptnames)
 nnoremap <silent>[unite]sn :<C-u>Unite scriptnames<CR>
+
+" neomru
+" cache directory
+let g:neomru#file_mru_path = $VIMLOCAL.'/tmp/cache/neomru/file'
+let g:neomru#directory_mru_path = $VIMLOCAL.'/tmp/cache/neomru/directory'
 
 
 " vimfiler.vim {{{1
