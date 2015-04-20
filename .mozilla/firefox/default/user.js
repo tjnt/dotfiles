@@ -45,13 +45,13 @@ user_pref("network.http.proxy.pipelining", true);
 // レンダリング設定
 //
 // ページをレンダリングする前の待ち時間
-user_pref("nglayout.initialpaint.delay", 0);
-// ページの大まかなレイアウトの計算がすんだ時に、基準時間でのレンダリングが始まるまでのページの再処理時間(?)
-user_pref("content.notify.backoffcount", 5);
-// content.notify.backoffcountで決めた初期量の時間の間隔(?)
-user_pref("content.notify.interval", 750000);
+user_pref("nglayout.initialpaint.delay", 100);
 // ページのレンダリング中の基準時間の有効化(?)
 user_pref("content.notify.ontimer", true);
+// content.notify.backoffcountで決めた初期量の時間の間隔(?)
+user_pref("content.notify.interval", 100000);
+// ページの大まかなレイアウトの計算がすんだ時に、基準時間でのレンダリングが始まるまでのページの再処理時間(?)
+user_pref("content.notify.backoffcount", 5);
 
 // ---------------------------------------------------------------------------
 // UI関連
