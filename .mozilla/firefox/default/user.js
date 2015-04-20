@@ -42,7 +42,7 @@ user_pref("network.http.pipelining.ssl", true);
 user_pref("network.http.proxy.pipelining", true);
 
 // ---------------------------------------------------------------------------
-// レンダリング設定
+// レンダリング設定 (高速化)
 //
 // ページをレンダリングする前の待ち時間
 user_pref("nglayout.initialpaint.delay", 100);
@@ -52,6 +52,34 @@ user_pref("content.notify.ontimer", true);
 user_pref("content.notify.interval", 100000);
 // ページの大まかなレイアウトの計算がすんだ時に、基準時間でのレンダリングが始まるまでのページの再処理時間(?)
 user_pref("content.notify.backoffcount", 5);
+
+// ---------------------------------------------------------------------------
+// レンダリング設定 (描画)
+//
+// user_pref("layers.acceleration.disabled", false);
+// user_pref("layers.acceleration.force-enabled", true);
+// user_pref("gfx.direct2d.disabled", false);
+// user_pref("gfx.direct2d.force-enabled", true);
+// user_pref("gfx.font_rendering.cleartype.always_use_for_content", true);
+// user_pref("gfx.font_rendering.cleartype_params.cleartype_level", 100);
+// user_pref("gfx.font_rendering.cleartype_params.enhanced_contrast", 200);
+// user_pref("gfx.font_rendering.cleartype_params.pixel_structure", 1);
+// user_pref("gfx.font_rendering.cleartype_params.rendering_mode", 5);
+// user_pref("gfx.font_rendering.directwrite.enabled", true);
+// user_pref("gfx.use_text_smoothing_setting", true);
+
+// (default settings)
+// user_pref("layers.acceleration.disabled", false);
+// user_pref("layers.acceleration.force-enabled", false);
+// user_pref("gfx.direct2d.disabled", false);
+// user_pref("gfx.direct2d.force-enabled", false);
+// user_pref("gfx.font_rendering.cleartype.always_use_for_content", false);
+// user_pref("gfx.font_rendering.cleartype_params.cleartype_level", -1);
+// user_pref("gfx.font_rendering.cleartype_params.enhanced_contrast", -1);
+// user_pref("gfx.font_rendering.cleartype_params.pixel_structure", -1);
+// user_pref("gfx.font_rendering.cleartype_params.rendering_mode", -1);
+// user_pref("gfx.font_rendering.directwrite.enabled", false);
+// user_pref("gfx.use_text_smoothing_setting", false);
 
 // ---------------------------------------------------------------------------
 // UI関連
