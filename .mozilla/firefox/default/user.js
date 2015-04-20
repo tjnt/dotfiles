@@ -66,6 +66,10 @@ user_pref("browser.tabs.animate", false);
 user_pref("browser.tabs.closeButtons", 2);
 // タブグループのアニメーションを無効
 user_pref("browser.panorama.animate_zoom", false);
+// ツールチップを無効にする
+// user_pref("browser.chrome.toolbar_tips", false);
+// Ctrl+Tabでのタブプレビューを有効化
+// user_pref("browser.ctrlTab.previews", true);
 // 右クリックを禁止させない
 user_pref("dom.event.contextmenu.enabled", false);
 user_pref("nglayout.events.dispatchLeftClickOnly", true);
@@ -95,8 +99,6 @@ user_pref("accessibility.blockautorefresh", false);
 user_pref("browser.blink_allowed", false);
 // 文字のスクロール表示を無効にする
 user_pref("browser.display.enable_marquee", false);
-// ツールチップを無効にする
-// user_pref("browser.chrome.toolbar_tips", false);
 // gifのアニメーションを1回だけにする
 // user_pref("image.animation_mode", "once");
 // ダウンロード後のウイルススキャンを無効にする
@@ -105,8 +107,6 @@ user_pref("browser.download.manager.scanWhenDone", false);
 user_pref("browser.download.manager.showAlertOnComplete", false);
 // ダウンロード完了時のダウンロードマネージャウィンドウ表示を無効にする
 user_pref("browser.download.manager.showWhenStarting", false);
-// Ctrl+Tabでのタブプレビューを有効化
-user_pref("browser.ctrlTab.previews", true);
 // 最小化時のメモリ使用量を抑える
 user_pref("config.trim_on_minimize", true);
 // 位置検出情報を無効にする
