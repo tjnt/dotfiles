@@ -132,36 +132,20 @@ NeoBundleLazy 'Shougo/unite.vim', {
       \     'UniteWithInput',
       \   ],
       \ }}
-NeoBundleLazy 'Shougo/unite-outline', {
-      \ 'autoload' : {
-      \   'on_source' : 'unite.vim',
-      \ }}
-NeoBundleLazy 'Shougo/unite-help', {
-      \ 'autoload' : {
-      \   'on_source' : 'unite.vim',
-      \ }}
-NeoBundleLazy 'tsukkee/unite-tag', {
-      \ 'autoload' : {
-      \   'on_source' : 'unite.vim',
-      \ }}
-NeoBundleLazy 'tacroe/unite-mark', {
-      \ 'autoload' : {
-      \   'on_source' : 'unite.vim',
-      \ }}
-NeoBundleLazy 'zhaocai/unite-scriptnames', {
-      \ 'autoload' : {
-      \   'on_source' : 'unite.vim',
-      \ }}
-NeoBundleLazy 'ujihisa/unite-colorscheme', {
-      \ 'autoload' : {
-      \   'on_source' : 'unite.vim',
-      \ }}
-" NeoBundleLazy 'choplin/unite-vim_hacks', {
-"       \ 'autoload' : {
-"       \   'on_source' : 'unite.vim',
-"       \ }}
 
-NeoBundle 'Shougo/neomru.vim'
+NeoBundleLazy 'Shougo/unite-outline'
+NeoBundleLazy 'Shougo/unite-help'
+NeoBundleLazy 'tsukkee/unite-tag'
+NeoBundleLazy 'tacroe/unite-mark'
+NeoBundleLazy 'zhaocai/unite-scriptnames'
+NeoBundleLazy 'ujihisa/unite-colorscheme'
+" NeoBundleLazy 'choplin/unite-vim_hacks'
+
+" NeoBundle 'Shougo/neomru.vim'
+NeoBundleLazy 'Shougo/neomru.vim', {
+      \ 'autoload' : {
+      \     'filetypes' : 'all',
+      \ }}
 
 " ファイラー / シェル {{{2
 NeoBundleLazy 'Shougo/vimfiler.vim', {
