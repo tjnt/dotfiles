@@ -7,7 +7,10 @@ user_pref("browser.cache.disk.enable", false);
 user_pref("browser.cache.disk_cache_ssl", false);
 // メモリキャッシュを使用する
 user_pref("browser.cache.memory.enable", true);
-user_pref("browser.cache.memory.max_entry_size", 10248);
+// キャッシュメモリの容量(KB)
+user_pref("browser.cache.memory.capacity", 65536);
+// キャッシュされるデータの最大サイズ(KB)
+user_pref("browser.cache.memory.max_entry_size", 10240);
 // 戻る・進む機能の最大保存履歴数
 user_pref("browser.sessionhistory.max_total_viewers", 3);
 
