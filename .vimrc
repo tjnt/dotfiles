@@ -893,12 +893,12 @@ augroup ag_formatoptions_filetype
   au!
   " 挿入モードでの自動折り返しを行わない
   au FileType * setlocal formatoptions+=l
+  " 文字コードが 255 より後のマルチバイト文字の間でも改行する
+  au FileType * setlocal formatoptions+=m
   " マルチバイト文字の行連結時に空白を挿入しない
   au FileType * setlocal formatoptions+=MB
   " 改行後に自動的にコメントを挿入するのをやめさせる
   au FileType * setlocal formatoptions-=ro
-  " 日本語の行の連結時には空白を入力しない
-  au FileType * setlocal formatoptions+=mM
   " 自動改行を無効
   au FileType * setlocal formatoptions-=t
 augroup END

@@ -274,6 +274,7 @@ NeoBundleLazy 'tyru/restart.vim', {
       \ 'autoload' : {
       \  'commands' : 'Restart'
       \ }}
+NeoBundle 'deris/vim-loadafterft'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/Colour-Sampler-Pack'
 
@@ -940,6 +941,26 @@ nmap K <Plug>(ref-keyword)
 " 終了時に保持するオプション
 let g:restart_sessionoptions
       \ = 'blank,buffers,curdir,folds,help,localoptions,tabpages'
+
+
+" vim-loadafterft {{{1
+"
+" ftpluginロード後に実行するコマンド
+let g:execcmd_after_ftplugin = {
+      \    '_': [
+      \        'setlocal fo+=l fo+=m fo+=M fo+=B fo-=r fo-=o fo-=t',
+      \    ],
+      \ }
+
+" indentロード後に実行するコマンド
+" let g:execcmd_after_indent = {
+"       \    '_': [
+"       \        'setlocal fo-=t fo-=c fo-=r fo-=o',
+"       \    ],
+"       \    'php': [
+"       \        'setlocal fo-=t fo-=c fo-=r fo-=o',
+"       \    ],
+"       \ }
 
 
 " open-browser.vim {{{1
