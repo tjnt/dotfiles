@@ -9,6 +9,8 @@ require("naughty")
 -- Load Debian menu entries
 require("debian.menu")
 
+vicious = require("vicious")
+
 -- Error handling {{{1
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -111,6 +113,14 @@ mytextclock = awful.widget.textclock({ align = "right" })
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
+
+-- Create a volume widget
+myvolume = widget({ type = "textbox" })
+vicious.register(myvolume, vicious.widgets.volume,
+  function(widget, args)
+    local label = { ["♫"] = "%", ["♩"] = "M" }
+    return " | Vol: " .. args[1] .. label[args[2]]
+  end, 2, "Master")
 
 -- Create an ACPI widget
 mybattery = widget({ type = "textbox" })
@@ -217,6 +227,7 @@ for s = 1, screen.count() do
     mylayoutbox[s],
     mytextclock,
     mybattery,
+    myvolume,
     s == 1 and mysystray or nil,
     mytasklist[s],
     layout = awful.widget.layout.horizontal.rightleft
