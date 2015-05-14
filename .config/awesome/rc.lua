@@ -108,9 +108,6 @@ mylauncher = awful.widget.launcher({
   menu = mymainmenu })
 
 -- Wibox {{{1
--- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
-
 -- Create a systray
 mysystray = widget({ type = "systray" })
 
@@ -118,22 +115,23 @@ mysystray = widget({ type = "systray" })
 myvolume = widget({ type = "textbox" })
 vicious.register(myvolume, vicious.widgets.volume,
   function(widget, args)
-    local label = { ["♫"] = "%", ["♩"] = "M" }
-    return " | Vol: " .. args[1] .. label[args[2]]
+    local label = { ["♫"] = "O", ["♩"] = "M" }
+    local percent = args[1]
+    local status = label[args[2]]
+    return " | Vol: " .. percent .. "% " .. status
   end, 2, "Master")
 
--- Create an ACPI widget
+-- Create a battery widget
 mybattery = widget({ type = "textbox" })
-mybattery.text = " | -- |"
-mybattery_timer = timer({ timeout = 5 })
-mybattery_timer:add_signal("timeout",
-  function()
-    fh = assert(io.popen("acpi | cut -d, -f 2", "r"))
-    mybattery.text = " |" .. fh:read("*l") .. " |"
-    fh:close()
-  end
-)
-mybattery_timer:start()
+vicious.register(mybattery, vicious.widgets.bat,
+  function(widget, args)
+    local status = args[1]
+    local percent = args[2]
+    return " | Bat: " .. percent .. "% " .. status .. " |"
+  end, 5, "C1CB")
+
+-- Create a textclock widget
+mytextclock = awful.widget.textclock({ align = "right" })
 
 -- Create a wibox for each screen and add it
 mywibox = {}
