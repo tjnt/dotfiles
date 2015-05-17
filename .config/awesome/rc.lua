@@ -8,7 +8,7 @@ require("beautiful")
 require("naughty")
 -- Load Debian menu entries
 require("debian.menu")
-
+-- Widget library
 vicious = require("vicious")
 
 -- Error handling {{{1
@@ -35,6 +35,78 @@ do
         text = err })
       in_error = false
     end)
+end
+
+-- Functions definitions {{{1
+--
+-- run or raise
+function run_or_raise(cmd, properties)
+   local clients = client.get()
+   local focused = awful.client.next(0)
+   local findex = 0
+   local matched_clients = {}
+   local n = 0
+   for i, c in pairs(clients) do
+      --make an array of matched clients
+      if match(properties, c) then
+         n = n + 1
+         matched_clients[n] = c
+         if c == focused then
+            findex = n
+         end
+      end
+   end
+   if n > 0 then
+      local c = matched_clients[1]
+      -- if the focused window matched switch focus to next in list
+      if 0 < findex and findex < n then
+         c = matched_clients[findex+1]
+      end
+      local ctags = c:tags()
+      if #ctags == 0 then
+         -- ctags is empty, show client on current tag
+         local curtag = awful.tag.selected()
+         awful.client.movetotag(curtag, c)
+      else
+         -- Otherwise, pop to first tag client is visible on
+         awful.tag.viewonly(ctags[1])
+      end
+      -- And then focus the client
+      client.focus = c
+      c:raise()
+      return
+   end
+   awful.util.spawn(cmd)
+end
+
+-- Returns true if all pairs in table1 are present in table2
+function match(table1, table2)
+   for k, v in pairs(table1) do
+      if table2[k] ~= v and not table2[k]:find(v) then
+         return false
+      end
+   end
+   return true
+end
+
+-- run once
+function run_once(prg, arg, pname, screen)
+  if not prg then
+    do return nil end
+  end
+
+  if not pname then
+    pname = prg
+  end
+
+  if not arg then
+    awful.util.spawn_with_shell(
+      "pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")", screen)
+  else
+    awful.util.spawn_with_shell(
+      "pgrep -f -u $USER -x '" .. pname .. " " .. arg ..
+        "' || (" .. prg .. " " .. arg .. ")", screen)
+  end
 end
 
 -- Variable definitions {{{1
@@ -82,7 +154,7 @@ tags = {}
 for s = 1, screen.count() do
   -- Each screen has its own tag table.
   tags[s] = awful.tag(
-    { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    { 1, 2, 3, 4, 5 }, s, layouts[1])
 end
 
 -- Menu {{{1
@@ -92,46 +164,74 @@ myawesomemenu = {
   { "edit config", editor_cmd .. " " .. awesome.conffile },
   { "restart", awesome.restart },
   { "quit", awesome.quit },
+}
+
+mysystemmenu = {
   { "reboot", "sudo reboot" },
-  { "shutdown", "sudo shutdown -h now" }
+  { "shutdown", "sudo shutdown -h now" },
 }
 
 mymainmenu = awful.menu(
   { items = {
     { "awesome", myawesomemenu, beautiful.awesome_icon },
     { "Debian", debian.menu.Debian_menu.Debian },
-    { "open terminal", terminal }
+    { "system", mysystemmenu },
   }})
 
-mylauncher = awful.widget.launcher({
+-- Button {{{1
+awesomebutton = awful.widget.launcher({
   image = image(beautiful.awesome_icon),
   menu = mymainmenu })
 
--- Wibox {{{1
--- Create a systray
-mysystray = widget({ type = "systray" })
+termbutton = awful.widget.launcher({
+  image = image("/usr/share/icons/gnome/48x48/apps/terminal.png"),
+  command = "x-terminal-emulator"})
 
--- Create a volume widget
+vimbutton = awful.widget.launcher({
+  image = image("/usr/share/icons/hicolor/48x48/apps/vim.png"),
+  command = "gvim"})
+
+firefoxbutton = widget({ type = "imagebox" })
+firefoxbutton.image = image("/usr/share/icons/hicolor/48x48/apps/iceweasel.png")
+firefoxbutton:buttons(awful.util.table.join(
+  awful.button({ }, 1, function () run_or_raise("iceweasel", { class = "Iceweasel" }) end)))
+
+-- Wibox {{{1
+-- cpu widget
+mycpu = widget({ type = "textbox" })
+vicious.register(mycpu, vicious.widgets.cpu,
+  function(widget, args)
+    return string.format(" | CPU: %3d%%", args[1])
+  end, 2)
+
+-- memory widget
+mymem = widget({ type = "textbox" })
+vicious.register(mymem, vicious.widgets.mem,
+  function(widget, args)
+    return string.format(" | MEM: %3d%%", args[1])
+  end, 2)
+
+-- volume widget
 myvolume = widget({ type = "textbox" })
 vicious.register(myvolume, vicious.widgets.volume,
   function(widget, args)
     local label = { ["♫"] = "O", ["♩"] = "M" }
-    local percent = args[1]
-    local status = label[args[2]]
-    return " | Vol: " .. percent .. "% " .. status
+    return string.format(" | Vol: %3d%% %s", args[1], label[args[2]])
   end, 2, "Master")
 
--- Create a battery widget
+-- battery widget
 mybattery = widget({ type = "textbox" })
 vicious.register(mybattery, vicious.widgets.bat,
   function(widget, args)
-    local status = args[1]
-    local percent = args[2]
-    return " | Bat: " .. percent .. "% " .. status .. " |"
+    return string.format(" | Bat: %3d%% %s |", args[2], args[1])
   end, 5, "C1CB")
 
--- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
+-- textclock widget
+myclock = awful.widget.textclock(
+  { align = "right" }, " %y/%m/%d %a %H:%M ")
+
+-- systray
+mysystray = widget({ type = "systray" })
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -217,16 +317,21 @@ for s = 1, screen.count() do
   -- Add widgets to the wibox - order matters
   mywibox[s].widgets = {
     {
-      mylauncher,
+      awesomebutton,
+      termbutton,
+      vimbutton,
+      firefoxbutton,
       mytaglist[s],
       mypromptbox[s],
       layout = awful.widget.layout.horizontal.leftright
     },
     mylayoutbox[s],
-    mytextclock,
+    s == 1 and mysystray or nil,
+    myclock,
     mybattery,
     myvolume,
-    s == 1 and mysystray or nil,
+    mymem,
+    mycpu,
     mytasklist[s],
     layout = awful.widget.layout.horizontal.rightleft
   }
@@ -441,26 +546,6 @@ client.add_signal("unfocus",
 
 -- Auto start {{{1
 -- awful.util.spawn_with_shell("COMMAND")
-
--- run once
-function run_once(prg, arg, pname, screen)
-  if not prg then
-    do return nil end
-  end
-
-  if not pname then
-    pname = prg
-  end
-
-  if not arg then
-    awful.util.spawn_with_shell(
-      "pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")", screen)
-  else
-    awful.util.spawn_with_shell(
-      "pgrep -f -u $USER -x '" .. pname .. " " .. arg ..
-        "' || (" .. prg .. " " .. arg .. ")", screen)
-  end
-end
 run_once("wicd-client", "--tray", "/usr/bin/python -O /usr/share/wicd/gtk/wicd-client.py")
 run_once("dropbox", "start")
 run_once("conky", "-b")
