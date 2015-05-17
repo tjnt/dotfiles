@@ -112,7 +112,7 @@ end
 -- Variable definitions {{{1
 -- Themes define colours, icons, and wallpapers
 -- beautiful.init("/usr/share/awesome/themes/default/theme.lua")
-beautiful.init(awful.util.getdir("config") .. "/themes/default/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/canetra-di-frutta/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -174,7 +174,7 @@ mysystemmenu = {
 mymainmenu = awful.menu(
   { items = {
     { "awesome", myawesomemenu, beautiful.awesome_icon },
-    { "Debian", debian.menu.Debian_menu.Debian },
+    { "Debian", debian.menu.Debian_menu.Debian, "/usr/share/pixmaps/debian-logo.png" },
     { "system", mysystemmenu },
   }})
 
