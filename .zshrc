@@ -187,13 +187,4 @@ fi
 alias tls='tmux ls'
 alias tat='tmux attach -t'
 
-#-------------------------------------------------
-# Other Confiturations
-#
-
-# rbenv initialize
-if type rbenv > /dev/null 2>&1 ; then
-  eval "$(rbenv init -)"
-fi
-
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:

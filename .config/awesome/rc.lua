@@ -201,14 +201,21 @@ firefoxbutton:buttons(awful.util.table.join(
 mycpu = widget({ type = "textbox" })
 vicious.register(mycpu, vicious.widgets.cpu,
   function(widget, args)
-    return string.format(" | CPU: %3d%%", args[1])
+    return string.format(" CPU: %3d%% | ", args[1])
   end, 2)
+
+-- temperature widget
+mytemp = widget({ type = "textbox" })
+vicious.register(mytemp, vicious.widgets.thermal,
+  function(widget, args)
+    return string.format(" Temp: %2dC | ", args[1])
+  end, 2, "thermal_zone0")
 
 -- memory widget
 mymem = widget({ type = "textbox" })
 vicious.register(mymem, vicious.widgets.mem,
   function(widget, args)
-    return string.format(" | MEM: %3d%%", args[1])
+    return string.format(" MEM: %3d%% |", args[1])
   end, 2)
 
 -- volume widget
@@ -216,14 +223,14 @@ myvolume = widget({ type = "textbox" })
 vicious.register(myvolume, vicious.widgets.volume,
   function(widget, args)
     local label = { ["♫"] = "O", ["♩"] = "M" }
-    return string.format(" | Vol: %3d%% %s", args[1], label[args[2]])
+    return string.format(" Vol: %3d%% %s |", args[1], label[args[2]])
   end, 2, "Master")
 
 -- battery widget
 mybattery = widget({ type = "textbox" })
 vicious.register(mybattery, vicious.widgets.bat,
   function(widget, args)
-    return string.format(" | Bat: %3d%% %s |", args[2], args[1])
+    return string.format(" Bat: %3d%% %s |", args[2], args[1])
   end, 5, "C1CB")
 
 -- textclock widget
@@ -331,6 +338,7 @@ for s = 1, screen.count() do
     mybattery,
     myvolume,
     mymem,
+    mytemp,
     mycpu,
     mytasklist[s],
     layout = awful.widget.layout.horizontal.rightleft
