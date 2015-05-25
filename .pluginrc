@@ -182,11 +182,10 @@ NeoBundleLazy 'scrooloose/nerdtree', {
 
 " 言語固有プラグイン {{{2
 " C/C++
-NeoBundleLazy 'vim-jp/cpp-vim'
-" NeoBundleLazy 'vim-jp/cpp-vim', {
-"       \ 'autoload' : {
-"       \   'filetypes' : 'cpp'
-"       \ }}
+NeoBundleLazy 'vim-jp/cpp-vim', {
+      \ 'autoload' : {
+      \   'filetypes' : 'cpp'
+      \ }}
 NeoBundleLazy "osyo-manga/vim-marching"
 " NeoBundleLazy "osyo-manga/vim-marching", {
 "       \ 'autoload' : {
@@ -526,6 +525,9 @@ nnoremap <silent>[unite]tf :<C-u>Unite tag/file<CR>
 nnoremap <silent>[unite]ti :<C-u>Unite tag/include<CR>
 " 読み込んだプラグイン一覧 (unite-scriptnames)
 nnoremap <silent>[unite]sn :<C-u>Unite scriptnames<CR>
+
+" outlineトグル
+nnoremap <silent>[toggle]o :<C-u>Unite -vertical -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
 
 " neomru
 " cache directory
