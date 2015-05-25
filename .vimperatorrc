@@ -93,6 +93,10 @@ noremap <C-y> <C-u>
 noremap <C-f> <PageDown>
 noremap <C-b> <PageUp>
 
+" 左右移動
+noremap <S-j> <Right>
+noremap <S-k> <Left>
+
 " 戻ると進む
 noremap <S-h> <A-Left>
 noremap <S-l> <A-Right>
@@ -127,13 +131,14 @@ nnoremap x :toggle toolbars<CR>
 
 " _vimperatorrc再読み込み
 " noremap <LEADER>r :Reloadrc<CR>
-noremap <C-F1> :Reloadrc<CR>
+" noremap <C-F1> :Reloadrc<CR>
 
 " コマンドラインでのカーソル移動
 cnoremap <C-n> <TAB>
 cnoremap <C-p> <S-TAB>
 
 " disable keys
+noremap a <Nop>
 noremap <C-w> <Nop>
 cnoremap <C-b> <Nop>
 cnoremap <C-f> <Nop>

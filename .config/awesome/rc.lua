@@ -191,6 +191,10 @@ vimbutton = awful.widget.launcher({
   image = image("/usr/share/icons/hicolor/48x48/apps/vim.png"),
   command = "gvim"})
 
+pcmanfmbutton = awful.widget.launcher({
+  image = image("/usr/share/icons/gnome/48x48/apps/file-manager.png"),
+  command = "pcmanfm"})
+
 firefoxbutton = widget({ type = "imagebox" })
 firefoxbutton.image = image("/usr/share/icons/hicolor/48x48/apps/iceweasel.png")
 firefoxbutton:buttons(awful.util.table.join(
@@ -327,6 +331,7 @@ for s = 1, screen.count() do
       awesomebutton,
       termbutton,
       vimbutton,
+      pcmanfmbutton,
       firefoxbutton,
       mytaglist[s],
       mypromptbox[s],
