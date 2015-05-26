@@ -273,6 +273,7 @@ NeoBundleLazy 'tyru/restart.vim', {
       \ 'autoload' : {
       \  'commands' : 'Restart'
       \ }}
+NeoBundleLazy 'lilydjwg/colorizer.git'
 NeoBundle 'deris/vim-loadafterft'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-scripts/Colour-Sampler-Pack'
