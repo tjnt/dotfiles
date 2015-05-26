@@ -11,7 +11,7 @@ set visualbell
 highlight Bell display:none
 
 " タイトルの変更
-set titlestring=
+set titlestring=Firefox
 " スクロールバー表示
 set scrollbars=true
 " ツールバー表示
@@ -112,6 +112,7 @@ nnoremap <S-b> <A-Right>
 " タブ移動
 nnoremap h gT
 nnoremap l gt
+
 " タブ位置変更
 nnoremap <S-h> :tabmove -1<CR> 
 nnoremap <S-l> :tabmove +1<CR> 
