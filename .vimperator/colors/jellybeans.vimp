@@ -1,0 +1,108 @@
+" Vim color file
+"
+"  "    __       _ _       _                             "
+"  "    \ \  ___| | |_   _| |__   ___  __ _ _ __  ___    "
+"  "     \ \/ _ \ | | | | |  _ \ / _ \/ _  |  _ \/ __|   "
+"  "  /\_/ /  __/ | | |_| | |_| |  __/ |_| | | | \__ \   "
+"  "  \___/ \___|_|_|\__  |____/ \___|\____|_| |_|___/   "
+"  "                 \___/                               "
+"
+"         "A colorful, dark color scheme for Vimperator."
+"
+"
+" COLOR SAMPLE:
+" color               bg       fg
+" --------------  -------  -------
+" Normal          #e8e8d3  #151515
+" CursorLine               #1c1c1c
+" CursorColumn             #1c1c1c
+" MatchParen      #ffffff  #80a090
+" TabLine         #000000  #b0b8c0
+" TabLineFill     #9098a0
+" TabLineSel      #000000  #f0f0f0
+" Pmenu           #ffffff  #606060
+" PmenuSel        #101010  #eeeeee
+" Visual                   #404040
+" Cursor                   #b0d0f0
+" LineNr          #605958  #151515
+" Comment         #888888
+" StatusLine      #000000  #dddddd
+" StatusLineNC    #ffffff  #403c41
+" VertSplit       #777777  #403c41
+" WildMenu        #f0a0c0  #302028
+" Folded          #a0a8b0  #384048
+" FoldColumn      #535D66  #1f1f1f
+" SignColumn      #777777  #333333
+" ColorColumn              #000000
+" Title           #70b950
+" Constant        #cf6a4c
+" Special         #799d6a
+" Delimiter       #668799
+" String          #99ad6a
+" StringDelimiter #556633
+" Identifier      #c6b6ee
+" Structure       #8fbfdc
+" Function        #fad07a
+" Statement       #8197bf
+" PreProc         #8fbfdc
+" Type            #ffb964
+" NonText         #606060  #151515
+" SpecialKey      #444444  #1c1c1c
+" Search          #f0a0c0  #302028
+" Directory       #dad085
+" ErrorMsg        #902020
+" Question        #65C254
+" SpellBad                 #902020
+" SpellCap                 #0000df
+" SpellRare                #540063
+" SpellLocal               #2D7067
+" DiffAdd         #D2EBBE  #437019
+" DiffDelete      #40000A  #700009
+" DiffChange               #2B5B77
+" DiffText        #8fbfdc  #000000
+
+" Hint
+hi Hint                 color:#b0d0f0; font-family: Arial; font-size: 20px; font-weight: bold; text-shadow: -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black, 1px 1px 2px black;
+hi HintElem             color:#303030; background:#b0d0f0;
+hi HintActive           color:#202020; background:#f0b040;
+
+" Line
+hi StatusLine           color:#e8e8d3; background:#151515; font-size:10pt; font-weight:normal;
+hi CmdLine              color:#e8e8d3; background:#151515; font-size:12pt; font-weight:bold; padding:0px 3px;
+
+" Messages
+hi Normal               color:#e8e8d3; background:#151515; font-size:10pt; font-family:monospace; opacity: 0.9;
+hi InfoMsg              color:#e8e8d3; background:#151515; font-size:10pt;
+hi ModeMsg              color:#e8e8d3; background:#151515; font-size:10pt;
+hi MoreMsg              color:#799d6a; background:#151515; font-size:10pt;
+hi Question             color:#65C254; background:#151515; font-size:10pt;
+hi WarningMsg           color:#e0d000; background:#151515; font-size:10pt;
+hi ErrorMsg             color:#902020; background:#151515; font-size:10pt; font-weight:bold
+hi NonText              color:#606060; background:#151515;
+
+hi CompTitle                           background:#403c41; font-weight:bold;
+hi CompTitle>*          color:#ffffff; border-bottom:1px solid #1c1c1c; padding:1px;
+hi CompItem             color:#ffffff;
+hi CompItem[selected]   color:#ffffff; background:#005060;
+hi CompDesc             color:#f0f080;
+hi URL                  color:#80f080
+hi Filter               color:#f05050; font-weight:bold;
+
+" TODO
+hi LineNr               color:#ffff00;
+hi Title                color:#ffff00;
+hi Indicator            color:#ffff00;
+hi String               color:#ffff00;
+hi Number               color:#ffff00;
+hi Object               color:#ffff00;
+hi Function             color:#ffff00;
+hi Tag                  color:#ffff00;
+hi TabNumber            color:#ffff00;
+hi Null                 color:#ffff00;
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel {padding:0 1px !important; }
+statusbarpanel > * { margin:0 !important;  padding:0 2px 0 0 !important;  }
+EOM
+
+" vim:set expandtab ft=vim ts=2 sts=2 sw=2 foldmethod=marker:
