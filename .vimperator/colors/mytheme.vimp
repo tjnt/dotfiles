@@ -26,7 +26,7 @@ hi CompTitle>*          color:#dc143c; background:#000000; padding:1px;
 "hi CompGroup            color:#afafaf;
 hi CompItem             color:#afafaf;
 hi CompItem[selected]   color:#afafaf; background:#3f3f3f; font-weight:bold;
-hi CompDesc             color:#afafaf;
+hi CompDesc             color:#d33682;
 hi CompDesc[selected]   color:#afafaf; background:#3f3f3f; font-weight:bold;
 hi CompMsg              color:#afafaf;
 
