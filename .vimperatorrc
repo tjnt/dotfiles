@@ -88,6 +88,7 @@ command! clip javascript evernote_doAction()
 
 " キーマッピング {{{1
 "
+mapclear
 
 " LEADERの変更 「\」は遠いので「,」にする
 let mapleader=","
