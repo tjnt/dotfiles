@@ -19,7 +19,7 @@ set toolbars=none,tabs
 " タブ番号を非表示
 set notabnumbers
 "開いているページが1つならタブ非表示
-"set showtabline=1
+" set showtabline=1
 " ヒントを英字表記にする
 " set hintchars=jklasdfhguionmerwc
 set hintchars=hjkluioynm
@@ -34,7 +34,7 @@ set defsearch=google
 " サジェストエンジンの設定
 " set suggestengines=google
 " コマンド入力時にコマンド名を自動補完
-"set wildmode=auto
+" set wildmode=auto
 " :[tab]open時の補完設定
 " (s=検索エンジン+キーワードURL,S=サジェストエンジン,l=ロケーションバーの補完機能を利用,b=ブックマーク)
 " set complete=sSlb
@@ -86,42 +86,36 @@ command! clip javascript evernote_doAction()
 let mapleader=","
 
 " 移動
-noremap j <Down>
-noremap k <Up>
-noremap <C-e> <C-d>
-noremap <C-y> <C-u>
-noremap <C-f> <PageDown>
-noremap <C-b> <PageUp>
+nnoremap j <Down>
+nnoremap k <Up>
+nnoremap <C-e> <C-d>
+nnoremap <C-y> <C-u>
+nnoremap <C-f> <PageDown>
+nnoremap <C-b> <PageUp>
 
 " 左右移動
-noremap <S-j> <Right>
-noremap <S-k> <Left>
+nnoremap <S-j> <Right>
+nnoremap <S-k> <Left>
 
 " 戻ると進む
-noremap <S-h> <A-Left>
-noremap <S-l> <A-Right>
-noremap b <A-Left>
+nnoremap b     <A-Left>
+nnoremap <S-b> <A-Right>
 
 " タブ移動
-noremap h gT
-noremap l gt
-" Shift+←/→ で現在のタブの位置変更
-noremap <S-Left> :tabmove -1<CR>
-noremap <S-Right> :tabmove +1<CR>
-
-" ブックマーク追加
-noremap <S-M> :bmark<cr>
-" bookmarkを開く
-noremap gb :bmarks<Space>
+nnoremap h gT
+nnoremap l gt
+" タブ位置変更
+nnoremap <S-h> :tabmove -1<CR> 
+nnoremap <S-l> :tabmove +1<CR> 
 
 " 最初の入力フィールドへ移動
-noremap i gi
+nnoremap i gi
 
 " Ctrl+cでも選択文字列のコピーが出来るようにする
-noremap <C-c> Y
+nnoremap <C-c> Y
 
 " 検索結果のハイライトをEsc連打でリセットする
-noremap <silent> <Esc><Esc> :nohlsearch<CR>
+nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
 
 " All in one sidebarのトグル
 nnoremap s <F4>
@@ -129,22 +123,17 @@ nnoremap s <F4>
 " ツールバーのトグル
 nnoremap x :toggle toolbars<CR>
 
-" _vimperatorrc再読み込み
-" noremap <LEADER>r :Reloadrc<CR>
-" noremap <C-F1> :Reloadrc<CR>
-
 " コマンドラインでのカーソル移動
 cnoremap <C-n> <TAB>
 cnoremap <C-p> <S-TAB>
 
 " disable keys
-noremap a <Nop>
-noremap <C-w> <Nop>
+nnoremap <C-w> <Nop>
 cnoremap <C-b> <Nop>
-cnoremap <C-f> <Nop>
 inoremap <C-b> <Nop>
+cnoremap <C-f> <Nop>
 inoremap <C-f> <Nop>
-noremap <S-Esc> <Nop>
+nnoremap <S-Esc> <Nop>
 cnoremap <S-Esc> <Nop>
 inoremap <S-Esc> <Nop>
 
