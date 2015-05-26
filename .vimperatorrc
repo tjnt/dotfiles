@@ -4,8 +4,8 @@
 " vimperator v3.5
 "
 
-" vim: set ft=vimperator:
-
+" オプション設定 {{{1
+"
 " disable beep
 set visualbell
 highlight Bell display:none
@@ -18,44 +18,52 @@ set scrollbars=true
 set toolbars=none,tabs
 " タブ番号を非表示
 set notabnumbers
-"開いているページが1つならタブ非表示
-" set showtabline=1
-" ヒントを英字表記にする
-" set hintchars=jklasdfhguionmerwc
-set hintchars=hjkluioynm
+
 " ページロード時にテキストボックスにフォーカスするのを防ぐ
 set focuscontent
+
+" ヒントの見出し(label)に利用する文字の指定
+set hintchars=hjkluioynm
+
 " 検索語のハイライト
 set hlsearch
-" 詳細表示行数(最大値=9)
-set verbose=9
+
+" :[tab]open時の補完設定
+"   s 検索エンジン+キーワードURL
+"   S サジェストエンジン
+"   l ロケーションバーの補完機能を利用
+"   b ブックマーク
+set complete=slb
+
 " サーチエンジンの設定
 set defsearch=google
+
 " サジェストエンジンの設定
 " set suggestengines=google
+
 " コマンド入力時にコマンド名を自動補完
-" set wildmode=auto
-" :[tab]open時の補完設定
-" (s=検索エンジン+キーワードURL,S=サジェストエンジン,l=ロケーションバーの補完機能を利用,b=ブックマーク)
-" set complete=sSlb
-set complete=slb
-" 履歴を保存
-set history=100
+set wildmode="list:full"
+
+" コマンド履歴の保存数 (default: 500)
+set history=500
+
+" 表示されるメッセージの種類を設定 (最大値=15)
+set verbose=15
+
 " ']]'や'[['で探す候補に日本人として日本語を追加。
 set nextpattern=^次(へ|の|ペ),^続き,\bnext\b,^>$,^(>>|&#187;)$,^(>|&#187;),(>|&#187;)$,\bmore\b
 set previouspattern=^前(へ|の|ペ),^戻る,\bprev|previous\b,^<$,^(<<|&#171;)$,^(<|&#171;),(<|&#171;)$
+
 " コマンドラインモード時に自動でimeをOFFにする
 style -name commandline-ime chrome://* #liberator-commandline-command input {ime-mode: inactive;}
 
 
-"---------------------------------------------------------------------------
-" カラー設定
+" カラー設定 {{{1
 "
 colorscheme mytheme
 
 
-"---------------------------------------------------------------------------
-" プラグイン毎の設定
+" プラグイン毎の設定 {{{1
 "
 " imekeys.js
 " コマンドラインで自動的にオフ
@@ -70,8 +78,7 @@ liberator.globalVariables.toggler = {
 EOM
 
 
-"---------------------------------------------------------------------------
-" ユーザー定義コマンド
+" ユーザー定義コマンド {{{1
 "
 command! Reloadrc :source ~/.vimperatorrc
 
@@ -79,8 +86,7 @@ command! Reloadrc :source ~/.vimperatorrc
 command! clip javascript evernote_doAction()
 
 
-"---------------------------------------------------------------------------
-" キーマッピング
+" キーマッピング {{{1
 "
 " LEADERの変更 「\」は遠いので「,」にする
 let mapleader=","
@@ -126,6 +132,9 @@ nnoremap x :toggle toolbars<CR>
 " コマンドラインでのカーソル移動
 cnoremap <C-n> <TAB>
 cnoremap <C-p> <S-TAB>
+ 
+ " _vimperatorrc再読み込み
+nnoremap <LEADER>r :Reloadrc<CR>
 
 " disable keys
 nnoremap <C-w> <Nop>
@@ -141,4 +150,5 @@ inoremap <S-Esc> <Nop>
 echo 'vimperatorrc loaded'
 
 
-" vim:set ft=vim ts=8 sw=2 sts=2:
+" {{{1
+" vim:set expandtab ft=vim ts=2 sts=2 sw=2 foldmethod=marker:
