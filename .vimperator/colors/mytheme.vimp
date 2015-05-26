@@ -2,10 +2,9 @@
 "   name:mytheme
 " ==mytheme_Color_Scheme==
 
-
-hi Hint                 color:#ffffff; background:rgba(255,0,0,0.8); font-family:monospace; font-size:15px; font-weight:bold;
-hi HintElem                            background:#66ffff;
-hi HintActive                          background:#66ffff;
+hi Hint                 color:#33cccc; font-family: Arial; font-size: 20px; font-weight: bold; text-shadow: -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black, 1px 1px 2px black;
+hi HintElem             color:#454545; background:#a0c0f0;
+hi HintActive           color:#232323; background:#ff8000;
 
 hi Normal               color:#00ff66; background:#101010; font-family:monospace; font-size:10pt; opacity: 0.95;
 hi CmdLine              color:#afafaf; background:#101010; font-size:10pt; font-weight:bold; padding:0px 3px;
@@ -39,7 +38,7 @@ hi Filter               color:#101010; font-weight:bold;
 "hi Object               color:#ffffff;
 "hi Function             color:#ffffff;
 "hi URL                  color:#ffffff;
-"hi TabNumber            color:#ffffff; font-weight: bold; font-size:10pt;
+"hi TabNumber            color:#ffffff; font-size:10pt; font-weight: bold;
 
 style -name statusbar chrome://* <<EOM
 #status-bar statusbarpanel {padding:0 1px !important; }
