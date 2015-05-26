@@ -88,6 +88,7 @@ command! clip javascript evernote_doAction()
 
 " キーマッピング {{{1
 "
+
 " LEADERの変更 「\」は遠いので「,」にする
 let mapleader=","
 
@@ -133,6 +134,13 @@ nnoremap x :toggle toolbars<CR>
 cnoremap <C-n> <TAB>
 cnoremap <C-p> <S-TAB>
  
+" 右手だけで操作するための設定
+nnoremap <LEADER>j f
+nnoremap <LEADER>k <S-f>
+nnoremap <LEADER>h <A-Left>
+nnoremap <LEADER>l <A-Right>
+nnoremap <LEADER>m d
+
  " _vimperatorrc再読み込み
 nnoremap <LEADER>r :Reloadrc<CR>
 
@@ -142,9 +150,9 @@ cnoremap <C-b> <Nop>
 inoremap <C-b> <Nop>
 cnoremap <C-f> <Nop>
 inoremap <C-f> <Nop>
-nnoremap <S-Esc> <Nop>
-cnoremap <S-Esc> <Nop>
-inoremap <S-Esc> <Nop>
+nnoremap <S-ESC> <Nop>
+cnoremap <S-ESC> <Nop>
+inoremap <S-ESC> <Nop>
 
 " 読み込み完了のメッセージ表示
 echo 'vimperatorrc loaded'
