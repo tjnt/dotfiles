@@ -144,7 +144,10 @@ nnoremap <LEADER>k d
 nnoremap <LEADER>h <A-Left>
 nnoremap <LEADER>l <A-Right>
 
- " _vimperatorrc再読み込み
+" プライベートブラウジング
+nnoremap <LEADER>p :winopen -private<CR>
+
+" vimperatorrc再読み込み
 nnoremap <LEADER>r :Reloadrc<CR>
 
 " disable keys
