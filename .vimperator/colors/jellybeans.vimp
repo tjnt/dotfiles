@@ -26,6 +26,7 @@
 " Cursor                   #b0d0f0
 " LineNr          #605958  #151515
 " Comment         #888888
+" Todo            #808080
 " StatusLine      #000000  #dddddd
 " StatusLineNC    #ffffff  #403c41
 " VertSplit       #777777  #403c41
@@ -63,42 +64,53 @@
 
 " Hint
 hi Hint                 color:#b0d0f0; font-family: Arial; font-size: 20px; font-weight: bold; text-shadow: -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black, 1px 1px 2px black;
-hi HintElem             color:#303030; background:#b0d0f0;
-hi HintActive           color:#202020; background:#f0b040;
+hi HintElem             color:#302028; background:#b0d0f0;
+hi HintActive           color:#302028; background:#f0a0c0;
 
 " Line
 hi StatusLine           color:#e8e8d3; background:#151515; font-size:10pt; font-weight:normal;
 hi CmdLine              color:#e8e8d3; background:#151515; font-size:12pt; font-weight:bold; padding:0px 3px;
 
 " Messages
-hi Normal               color:#e8e8d3; background:#151515; font-size:10pt; font-family:monospace; opacity: 0.9;
-hi InfoMsg              color:#e8e8d3; background:#151515; font-size:10pt;
-hi ModeMsg              color:#e8e8d3; background:#151515; font-size:10pt;
-hi MoreMsg              color:#799d6a; background:#151515; font-size:10pt;
-hi Question             color:#65C254; background:#151515; font-size:10pt;
-hi WarningMsg           color:#e0d000; background:#151515; font-size:10pt;
-hi ErrorMsg             color:#902020; background:#151515; font-size:10pt; font-weight:bold
-hi NonText              color:#606060; background:#151515;
+hi Normal               color:#e8e8d3; background:#151515; font-size:10pt; font-family:monospace; opacity: 0.95;
+hi InfoMsg              color:#e8e8d3;
+hi ModeMsg              color:#e8e8d3; 
+hi MoreMsg              color:#799d6a; 
+hi Question             color:#65C254; 
+hi WarningMsg           color:#cf6a4c; 
+hi ErrorMsg             color:#902020; font-weight:bold
+hi NonText              color:#606060; 
+hi CmdOutput            color:#e8e8d3; 
+hi LineNr               color:#902020;
 
 hi CompTitle                           background:#403c41; font-weight:bold;
 hi CompTitle>*          color:#ffffff; border-bottom:1px solid #1c1c1c; padding:1px;
 hi CompItem             color:#ffffff;
-hi CompItem[selected]   color:#ffffff; background:#005060;
-hi CompDesc             color:#f0f080;
-hi URL                  color:#80f080
-hi Filter               color:#f05050; font-weight:bold;
+hi CompItem[selected]   color:#ffffff; background:#404040;
+hi CompResult           color:#ffffff;
+hi CompDesc             color:#ffb964;
+hi CompMsg              color:#70b950; font-weight:bold;
+hi URL                  color:#8197bf
+
+hi Title                color:#70b950; font-weight:bold;
+hi Filter               color:#cf6a4c; font-weight:bold;
+hi Indicator            color:#8197bf;
+hi Preview              color:#888888;
+
+" JavaScript object
+hi Object               color:#8197bf;
+hi Function             color:#fad07a;
+hi Null                 color:#c6b6ee;
+hi Number               color:#cf6a4c;
+hi Boolean              color:#cf6a4c;
+hi String               color:#99ad6a;
 
 " TODO
-hi LineNr               color:#ffff00;
-hi Title                color:#ffff00;
-hi Indicator            color:#ffff00;
-hi String               color:#ffff00;
-hi Number               color:#ffff00;
-hi Object               color:#ffff00;
-hi Function             color:#ffff00;
-hi Tag                  color:#ffff00;
+hi Bell                 color:#ffff00;
+hi Keyword              color:#ffff00;
 hi TabNumber            color:#ffff00;
-hi Null                 color:#ffff00;
+hi Tag                  color:#ffff00;
+hi FrameIndicator       color:#ffff00;
 
 style -name statusbar chrome://* <<EOM
 #status-bar statusbarpanel {padding:0 1px !important; }
