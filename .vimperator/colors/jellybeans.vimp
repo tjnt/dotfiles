@@ -62,6 +62,9 @@
 " DiffChange               #2B5B77
 " DiffText        #8fbfdc  #000000
 
+" Clear all highlight
+hi clear
+
 " Hint
 hi Hint                 color:#b0d0f0; font-family: Arial; font-size: 20px; font-weight: bold; text-shadow: -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black, 1px 1px 2px black;
 hi HintElem             color:#302028; background:#b0d0f0;
