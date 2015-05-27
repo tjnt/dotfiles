@@ -60,7 +60,8 @@ style -name commandline-ime chrome://* #liberator-commandline-command input {ime
 
 " カラー設定 {{{1
 "
-colorscheme mytheme
+" colorscheme mytheme
+colorscheme jellybeans
 
 
 " プラグイン毎の設定 {{{1
@@ -138,10 +139,10 @@ cnoremap <C-p> <S-TAB>
  
 " 右手だけで操作するための設定
 nnoremap <LEADER>j f
-nnoremap <LEADER>k <S-f>
+nnoremap <LEADER>m <S-f>
+nnoremap <LEADER>k d
 nnoremap <LEADER>h <A-Left>
 nnoremap <LEADER>l <A-Right>
-nnoremap <LEADER>m d
 
  " _vimperatorrc再読み込み
 nnoremap <LEADER>r :Reloadrc<CR>
