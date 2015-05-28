@@ -99,6 +99,7 @@ hi Title                color:#70b950; font-weight:bold;
 hi Filter               color:#cf6a4c; font-weight:bold;
 hi Indicator            color:#8197bf;
 hi Preview              color:#888888;
+hi Keyword              color:#cf6a4c;
 
 " JavaScript object
 hi Object               color:#8197bf;
@@ -110,7 +111,6 @@ hi String               color:#99ad6a;
 
 " TODO
 hi Bell                 color:#ffff00;
-hi Keyword              color:#ffff00;
 hi TabNumber            color:#ffff00;
 hi Tag                  color:#ffff00;
 hi FrameIndicator       color:#ffff00;
