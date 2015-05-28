@@ -6,9 +6,6 @@
 
 " オプション設定 {{{1
 "
-" set to default
-set all&
-
 " disable beep
 set visualbell
 highlight Bell display:none
