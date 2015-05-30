@@ -153,15 +153,29 @@ nnoremap <LEADER>p :winopen -private<CR>
 " vimperatorrc再読み込み
 nnoremap <LEADER>r :Reloadrc<CR>
 
+" emacsキーバインド (インサートモード)
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-h> <BS>
+inoremap <C-d> <Del>
+
+" emacsキーバインド (コマンドモード)
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-e> <End>
+cnoremap <C-a> <Home>
+cnoremap <C-h> <BS>
+cnoremap <C-d> <Del>
+
 " disable keys
 nnoremap <C-w> <Nop>
-cnoremap <C-b> <Nop>
-inoremap <C-b> <Nop>
-cnoremap <C-f> <Nop>
-inoremap <C-f> <Nop>
-nnoremap <S-ESC> <Nop>
-cnoremap <S-ESC> <Nop>
-inoremap <S-ESC> <Nop>
+nnoremap <S-Esc> <Nop>
+cnoremap <S-Esc> <Nop>
+inoremap <S-Esc> <Nop>
 
 " 読み込み完了のメッセージ表示
 echo 'vimperatorrc loaded'
