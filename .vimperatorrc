@@ -33,13 +33,13 @@ set hlsearch
 "   S サジェストエンジン
 "   l ロケーションバーの補完機能を利用
 "   b ブックマーク
-set complete=slb
+set complete=sSlb
 
 " サーチエンジンの設定
 set defsearch=google
 
 " サジェストエンジンの設定
-" set suggestengines=google
+set suggestengines=google
 
 " コマンド入力時にコマンド名を自動補完
 set wildmode="list:full"
