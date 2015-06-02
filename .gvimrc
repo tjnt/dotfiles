@@ -46,19 +46,19 @@ set guioptions-=T
 
 " フォント設定 {{{1
 "
-function s:set_guifont(normal, wide)
+function! s:set_guifont(normal, wide)
   let &guifont = join(a:normal, ',')
   let &guifontwide = join(a:wide, ',')
 endfunction
 
 if g:is_windows
-  let s:normal= [
+  let s:normal = [
         \ 'Consolas:h12',
         \ 'Inconsolata:h12',
         \ 'MigMix_1M:h12',
         \ 'MS_Gothic:h12',
         \ ]
-  let s:wide= [
+  let s:wide = [
         \ 'Migu_1M:h12',
         \ 'TakaoGothic:h12',
         \ 'メイリオ:h12',
@@ -69,12 +69,14 @@ endif
 
 if has('unix')
   let s:normal= [
-        \ 'Ricty\ 11',
-        \ 'Ricty\ Diminished\ 11',
+        \ 'Ricty 11',
+        \ 'Ricty Diminished 11',
+        \ 'Monospace 11',
         \ ]
   let s:wide= [
-        \ 'Ricty\ 11',
-        \ 'Ricty\ Diminished\ 11',
+        \ 'Ricty 11',
+        \ 'Ricty Diminished 11',
+        \ 'VL ゴシック 11',
         \ ]
   call s:set_guifont(s:normal, s:wide)
 endif
