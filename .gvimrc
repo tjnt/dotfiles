@@ -46,29 +46,37 @@ set guioptions-=T
 
 " フォント設定 {{{1
 "
+function s:set_guifont(normal, wide)
+  let &guifont = join(a:normal, ',')
+  let &guifontwide = join(a:wide, ',')
+endfunction
+
 if g:is_windows
-  " 半角文字
-  set guifont=Consolas:h12:cDEFAULT
-  " set guifont=Inconsolata:h11:cDEFAULT
-  " set guifont=MigMix_1M:h11:w5:cDEFAULT
-  " set guifont=Lucida_Console:h10:cDEFAULT
-  " set guifont=Ricty:h11:cDEFAULT
-  " set guifont=MS_Gothic:h11:cDEFAULT
-  " 全角文字
-  set guifontwide=Migu_1M:h12:cDEFAULT
-  " set guifontwide=IPAGothic:h11:cDEFAULT
-  " set guifontwide=TakaoGothic:h11:cDEFAULT
-  " set guifontwide=MigMix_1M:h11:cDEFAULT
-  " set guifontwide=メイリオ:h11:b:cDEFAULT
-  " set guifont=Ricty:h11:cDEFAULT
-  " set guifontwide=MS_Gothic:h11:cDEFAULT
-elseif (has('unix'))
-  " 半角文字
-  " set guifont=Ricty\ 11
-  set guifont=Ricty\ Diminished\ 11
-  " 全角文字
-  " set guifontwide=Ricty\ 11
-  set guifontwide=Ricty\ Diminished\ 11
+  let s:normal= [
+        \ 'Consolas:h12',
+        \ 'Inconsolata:h12',
+        \ 'MigMix_1M:h12',
+        \ 'MS_Gothic:h12',
+        \ ]
+  let s:wide= [
+        \ 'Migu_1M:h12',
+        \ 'TakaoGothic:h12',
+        \ 'メイリオ:h12',
+        \ 'MS_Gothic:h12',
+        \ ]
+  call s:set_guifont(s:normal, s:wide)
+endif
+
+if has('unix')
+  let s:normal= [
+        \ 'Ricty\ 11',
+        \ 'Ricty\ Diminished\ 11',
+        \ ]
+  let s:wide= [
+        \ 'Ricty\ 11',
+        \ 'Ricty\ Diminished\ 11',
+        \ ]
+  call s:set_guifont(s:normal, s:wide)
 endif
 
 " 印刷用フォント
