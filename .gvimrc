@@ -48,14 +48,14 @@ set guioptions-=T
 "
 if g:is_windows
   " 半角文字
-  set guifont=Consolas:h11:cDEFAULT
+  set guifont=Consolas:h12:cDEFAULT
   " set guifont=Inconsolata:h11:cDEFAULT
   " set guifont=MigMix_1M:h11:w5:cDEFAULT
   " set guifont=Lucida_Console:h10:cDEFAULT
   " set guifont=Ricty:h11:cDEFAULT
   " set guifont=MS_Gothic:h11:cDEFAULT
   " 全角文字
-  set guifontwide=Migu_1M:h11:cDEFAULT
+  set guifontwide=Migu_1M:h12:cDEFAULT
   " set guifontwide=IPAGothic:h11:cDEFAULT
   " set guifontwide=TakaoGothic:h11:cDEFAULT
   " set guifontwide=MigMix_1M:h11:cDEFAULT
@@ -68,7 +68,7 @@ elseif (has('unix'))
   set guifont=Ricty\ Diminished\ 11
   " 全角文字
   " set guifontwide=Ricty\ 11
-  set guifont=Ricty\ Diminished\ 11
+  set guifontwide=Ricty\ Diminished\ 11
 endif
 
 " 印刷用フォント
