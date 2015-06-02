@@ -69,14 +69,13 @@ endif
 
 if has('unix')
   let s:normal= [
-        \ 'Ricty 11',
-        \ 'Ricty Diminished 11',
-        \ 'Monospace 11',
+        \ 'Ricty Diminished 12',
+        \ 'Ricty 12',
         \ ]
   let s:wide= [
-        \ 'Ricty 11',
-        \ 'Ricty Diminished 11',
-        \ 'VL ゴシック 11',
+        \ 'Ricty Diminished 12',
+        \ 'Ricty 12',
+        \ 'Monospace 12',
         \ ]
   call s:set_guifont(s:normal, s:wide)
 endif
