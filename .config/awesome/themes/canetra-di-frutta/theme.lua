@@ -74,7 +74,7 @@ theme.titlebar_maximized_button_normal_active = ".config/awesome/themes/canetra-
 theme.titlebar_maximized_button_focus_active  = ".config/awesome/themes/canetra-di-frutta/titlebar/maximized_focus_active.png"
 
 -- You can use your own command to set your wallpaper
-theme.wallpaper_cmd = { "awsetbg .config/awesome/themes/canetra-di-frutta/background.png" }
+theme.wallpaper_cmd = { "feh --bg-scale .config/awesome/themes/canetra-di-frutta/background.png" }
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = ".config/awesome/themes/canetra-di-frutta/layouts/fairhw.png"
