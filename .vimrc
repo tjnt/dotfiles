@@ -886,6 +886,8 @@ augroup ag_indent_filetype
   au FileType vim setlocal ts=2 sts=0 sw=2
   au FileType html,xml,xhtml setlocal ts=2 sts=0 sw=2 expandtab
   au FileType mkd setlocal list
+        \ listchars=tab:^\ ,trail:»,nbsp:%
+  au FileType mkd highlight! link SpecialKey Identifier
 augroup END
 
 " ファイルタイプごとのテキスト整形設定
