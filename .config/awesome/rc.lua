@@ -1,15 +1,20 @@
 -- Standard awesome library
-require("awful")
+local gears = require("gears")
+local awful = require("awful")
+awful.rules = require("awful.rules")
 require("awful.autofocus")
-require("awful.rules")
+-- Widget and layout library
+local wibox = require("wibox")
 -- Theme handling library
-require("beautiful")
+local beautiful = require("beautiful")
 -- Notification library
-require("naughty")
+local naughty = require("naughty")
+local menubar = require("menubar")
+
 -- Load Debian menu entries
 require("debian.menu")
 -- Widget library
-vicious = require("vicious")
+local vicious = require("vicious")
 
 -- Error handling {{{1
 -- Check if awesome encountered an error during startup and fell back to
@@ -24,7 +29,7 @@ end
 -- Handle runtime errors after startup
 do
   local in_error = false
-  awesome.add_signal("debug::error",
+  awesome.connect_signal("debug::error",
     function (err)
       -- Make sure we don't go into an endless error loop
       if in_error then return end
@@ -109,11 +114,19 @@ function run_once(prg, arg, pname, screen)
   end
 end
 
--- Variable definitions {{{1
+-- Themes {{{1
 -- Themes define colours, icons, and wallpapers
 -- beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 beautiful.init(awful.util.getdir("config") .. "/themes/canetra-di-frutta/theme.lua")
 
+-- Wallpaper
+if beautiful.wallpaper then
+  for s = 1, screen.count() do
+    gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+  end
+end
+
+-- Variable definitions {{{1
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
 editor = os.getenv("EDITOR") or "editor"
@@ -180,50 +193,50 @@ mymainmenu = awful.menu(
 
 -- Button {{{1
 awesomebutton = awful.widget.launcher({
-  image = image(beautiful.awesome_icon),
+  image = beautiful.awesome_icon,
   menu = mymainmenu })
 
 termbutton = awful.widget.launcher({
-  image = image("/usr/share/icons/gnome/48x48/apps/terminal.png"),
+  image = "/usr/share/icons/gnome/48x48/apps/terminal.png",
   command = "x-terminal-emulator"})
 
 vimbutton = awful.widget.launcher({
-  image = image("/usr/share/icons/hicolor/48x48/apps/vim.png"),
+  image = "/usr/share/icons/hicolor/48x48/apps/vim.png",
   command = "gvim"})
 
 pcmanfmbutton = awful.widget.launcher({
-  image = image("/usr/share/icons/gnome/48x48/apps/file-manager.png"),
+  image = "/usr/share/icons/gnome/48x48/apps/file-manager.png",
   command = "pcmanfm"})
 
-firefoxbutton = widget({ type = "imagebox" })
-firefoxbutton.image = image("/usr/share/icons/hicolor/48x48/apps/iceweasel.png")
+firefoxbutton = wibox.widget.imagebox()
+firefoxbutton:set_image("/usr/share/icons/hicolor/48x48/apps/iceweasel.png")
 firefoxbutton:buttons(awful.util.table.join(
   awful.button({ }, 1, function () run_or_raise("iceweasel", { class = "Iceweasel" }) end)))
 
 -- Wibox {{{1
 -- cpu widget
-mycpu = widget({ type = "textbox" })
+mycpu = wibox.widget.textbox()
 vicious.register(mycpu, vicious.widgets.cpu,
   function(widget, args)
     return string.format(" CPU: %3d%% | ", args[1])
   end, 2)
 
 -- temperature widget
-mytemp = widget({ type = "textbox" })
+mytemp = wibox.widget.textbox()
 vicious.register(mytemp, vicious.widgets.thermal,
   function(widget, args)
     return string.format(" Temp: %2dC | ", args[1])
   end, 2, "thermal_zone0")
 
 -- memory widget
-mymem = widget({ type = "textbox" })
+mymem = wibox.widget.textbox()
 vicious.register(mymem, vicious.widgets.mem,
   function(widget, args)
     return string.format(" MEM: %3d%% |", args[1])
   end, 2)
 
 -- volume widget
-myvolume = widget({ type = "textbox" })
+myvolume = wibox.widget.textbox()
 vicious.register(myvolume, vicious.widgets.volume,
   function(widget, args)
     local label = { ["♫"] = "O", ["♩"] = "M" }
@@ -231,18 +244,17 @@ vicious.register(myvolume, vicious.widgets.volume,
   end, 2, "Master")
 
 -- battery widget
-mybattery = widget({ type = "textbox" })
+mybattery = wibox.widget.textbox()
 vicious.register(mybattery, vicious.widgets.bat,
   function(widget, args)
     return string.format(" Bat: %3d%% %s |", args[2], args[1])
   end, 5, "C1CB")
 
 -- textclock widget
-myclock = awful.widget.textclock(
-  { align = "right" }, " %y/%m/%d %a %H:%M ")
+myclock = awful.widget.textclock(" %y/%m/%d %a %H:%M ")
 
 -- systray
-mysystray = widget({ type = "systray" })
+mysystray = wibox.widget.systray()
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -299,7 +311,7 @@ mytasklist.buttons =
 
 for s = 1, screen.count() do
   -- Create a promptbox for each screen
-  mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
+  mypromptbox[s] = awful.widget.prompt()
 
   -- Create an imagebox widget which will contains an icon indicating which layout we're using.
   -- We need one layoutbox per screen.
@@ -313,41 +325,43 @@ for s = 1, screen.count() do
 
   -- Create a taglist widget
   mytaglist[s] = awful.widget.taglist(
-    s, awful.widget.taglist.label.all, mytaglist.buttons)
+    s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
   -- Create a tasklist widget
   mytasklist[s] = awful.widget.tasklist(
-    function(c)
-      return awful.widget.tasklist.label.currenttags(c, s)
-    end,
-    mytasklist.buttons
-  )
+    s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
   -- Create the wibox
   mywibox[s] = awful.wibox({ position = "top", screen = s })
-  -- Add widgets to the wibox - order matters
-  mywibox[s].widgets = {
-    {
-      awesomebutton,
-      termbutton,
-      vimbutton,
-      pcmanfmbutton,
-      firefoxbutton,
-      mytaglist[s],
-      mypromptbox[s],
-      layout = awful.widget.layout.horizontal.leftright
-    },
-    mylayoutbox[s],
-    s == 1 and mysystray or nil,
-    myclock,
-    mybattery,
-    myvolume,
-    mymem,
-    mytemp,
-    mycpu,
-    mytasklist[s],
-    layout = awful.widget.layout.horizontal.rightleft
-  }
+
+  -- Widgets that are aligned to the left
+  local left_layout = wibox.layout.fixed.horizontal()
+  left_layout:add(awesomebutton)
+  left_layout:add(termbutton)
+  left_layout:add(vimbutton)
+  left_layout:add(pcmanfmbutton)
+  left_layout:add(firefoxbutton)
+  left_layout:add(mytaglist[s])
+  left_layout:add(mypromptbox[s])
+
+  -- Widgets that are aligned to the right
+  local right_layout = wibox.layout.fixed.horizontal()
+  right_layout:add(mycpu)
+  right_layout:add(mytemp)
+  right_layout:add(mymem)
+  right_layout:add(myvolume)
+  right_layout:add(mybattery)
+  right_layout:add(myclock)
+  if s == 1 then right_layout:add(wibox.widget.systray()) end
+  right_layout:add(mylayoutbox[s])
+
+  -- Now bring it all together (with the tasklist in the middle)
+  local layout = wibox.layout.align.horizontal()
+  layout:set_left(left_layout)
+  layout:set_middle(mytasklist[s])
+  layout:set_right(right_layout)
+
+  mywibox[s]:set_widget(layout)
 end
 
 -- Mouse bindings {{{1
@@ -523,13 +537,10 @@ awful.rules.rules = {
 
 -- Signals {{{1
 -- Signal function to execute when a new client appears.
-client.add_signal("manage",
+client.connect_signal("manage",
   function (c, startup)
-    -- Add a titlebar
-    -- awful.titlebar.add(c, { modkey = modkey })
-
     -- Enable sloppy focus
-    c:add_signal("mouse::enter",
+    c:connect_signal("mouse::enter",
       function(c)
         if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
           and awful.client.focus.filter(c) then
@@ -538,23 +549,73 @@ client.add_signal("manage",
       end)
 
     if not startup then
-    -- Set the windows at the slave,
-    -- i.e. put it at the end of others instead of setting it master.
-    -- awful.client.setslave(c)
+      -- Set the windows at the slave,
+      -- i.e. put it at the end of others instead of setting it master.
+      -- awful.client.setslave(c)
 
-    -- Put windows in a smart way, only if they does not set an initial position.
+      -- Put windows in a smart way, only if they does not set an initial position.
       if not c.size_hints.user_position and not
              c.size_hints.program_position then
         awful.placement.no_overlap(c)
         awful.placement.no_offscreen(c)
       end
+    elseif not c.size_hints.user_position and not
+               c.size_hints.program_position then
+      -- Prevent clients from being unreachable after screen count change
+      awful.placement.no_offscreen(c)
+    end
+
+
+    local titlebars_enabled = false
+    if titlebars_enabled and (c.type == "normal" or c.type == "dialog") then
+      -- buttons for the titlebar
+      local buttons = awful.util.table.join(
+      awful.button({ }, 1, function()
+        client.focus = c
+        c:raise()
+        awful.mouse.client.move(c)
+      end),
+      awful.button({ }, 3, function()
+        client.focus = c
+        c:raise()
+        awful.mouse.client.resize(c)
+      end)
+      )
+
+      -- Widgets that are aligned to the left
+      local left_layout = wibox.layout.fixed.horizontal()
+      left_layout:add(awful.titlebar.widget.iconwidget(c))
+      left_layout:buttons(buttons)
+
+      -- Widgets that are aligned to the right
+      local right_layout = wibox.layout.fixed.horizontal()
+      right_layout:add(awful.titlebar.widget.floatingbutton(c))
+      right_layout:add(awful.titlebar.widget.maximizedbutton(c))
+      right_layout:add(awful.titlebar.widget.stickybutton(c))
+      right_layout:add(awful.titlebar.widget.ontopbutton(c))
+      right_layout:add(awful.titlebar.widget.closebutton(c))
+
+      -- The title goes in the middle
+      local middle_layout = wibox.layout.flex.horizontal()
+      local title = awful.titlebar.widget.titlewidget(c)
+      title:set_align("center")
+      middle_layout:add(title)
+      middle_layout:buttons(buttons)
+
+      -- Now bring it all together
+      local layout = wibox.layout.align.horizontal()
+      layout:set_left(left_layout)
+      layout:set_right(right_layout)
+      layout:set_middle(middle_layout)
+
+      awful.titlebar(c):set_widget(layout)
     end
   end
 )
 
-client.add_signal("focus",
+client.connect_signal("focus",
   function(c) c.border_color = beautiful.border_focus end)
-client.add_signal("unfocus",
+client.connect_signal("unfocus",
   function(c) c.border_color = beautiful.border_normal end)
 
 -- Auto start {{{1
@@ -563,3 +624,4 @@ run_once("wicd-client", "--tray", "/usr/bin/python -O /usr/share/wicd/gtk/wicd-c
 run_once("dropbox", "start")
 run_once("conky", "-b")
 
+-- vim:set expandtab ft=lua ts=2 sts=2 sw=2 foldmethod=marker:
