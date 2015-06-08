@@ -49,7 +49,7 @@ setopt share_history
 #
 # 補完機能を有効にする
 autoload -Uz compinit
-compinit
+compinit -u
 # 補完候補を詰めて表示する
 setopt list_packed
 # 末尾のスラッシュを削除しない
