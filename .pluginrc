@@ -476,13 +476,15 @@ nnoremap <silent>[unite]b  :<C-u>Unite buffer<CR>
 nnoremap <silent>[unite]B  :<C-u>Unite buffer_tab<CR>
 " ファイル一覧
 nnoremap <silent>[unite]f  :<C-u>Unite -buffer-name=files file<CR>
-" ファイル一覧(再帰)
-nnoremap <silent>[unite]ff  :<C-u>Unite -buffer-name=files file_rec<CR>
+nnoremap <silent>[unite]ff :<C-u>Unite -buffer-name=files file<CR>
 " ファイル一覧(現在開いているファイルのディレクトリ)
-nnoremap <silent>[unite]F :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent>[unite]F  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent>[unite]FF :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" ファイル一覧(再帰)
+nnoremap <silent>[unite]fr :<C-u>Unite -buffer-name=files file_rec<CR>
 " ファイル一覧(再帰 現在開いているファイルのディレクトリ)
-"nnoremap <silent> [unite]FF :<C-u>UniteWithBufferDir -buffer-name=files file_rec<CR> " 現状動かない(バグ？)
-nnoremap <silent>[unite]FF :<C-u>Unite -buffer-name=files file_rec:<C-r>=expand('%:p:h:gs?[ :]?\\\0?')<CR><CR>
+nnoremap <silent>[unite]FR :<C-u>UniteWithBufferDir -buffer-name=files file_rec<CR>
+" nnoremap <silent>[unite]FR :<C-u>Unite -buffer-name=files file_rec:<C-r>=expand('%:p:h:gs?[ :]?\\\0?')<CR><CR>
 " ディレクトリ一覧
 nnoremap <silent>[unite]d  :<C-u>Unite -buffer-name=files directory<CR>
 " ディレクトリ一覧(現在開いているファイルのディレクトリ)
