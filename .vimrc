@@ -769,6 +769,34 @@ function! s:count_vimrc()
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
+" Simple VCS Diff {{{2
+function! s:vcs_diff(command, only)
+  let target = a:only ? ' '.expand('%') : ''
+  new
+  set buftype=nofile bufhidden=wipe filetype=diff
+  exe '$read !'.a:command.target
+  call cursor(1, 0)
+  unlet target
+endfunction
+
+" git diff
+if executable('git')
+  command! -nargs=0 GitDiff     call <SID>vcs_diff('git diff', 0)
+  command! -nargs=0 GitDiffOnly call <SID>vcs_diff('git diff', 1)
+endif
+
+" svn diff
+if executable('svn')
+  command! -nargs=0 SvnDiff     call <SID>vcs_diff('svn diff', 0)
+  command! -nargs=0 SvnDiffOnly call <SID>vcs_diff('svn diff', 1)
+endif
+
+" cvs diff
+if executable('cvs')
+  command! -nargs=0 CvsDiff     call <SID>vcs_diff('cvs diff', 0)
+  command! -nargs=0 CvsDiffOnly call <SID>vcs_diff('cvs diff', 1)
+endif
+
 " 開発環境の切り替え {{{2
 if has('vim_starting')
   let CppEnvChanger = {}
