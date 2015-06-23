@@ -771,10 +771,10 @@ command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
 " Simple VCS Diff {{{2
 function! s:vcs_diff(command, only)
-  let target = a:only ? ' '.expand('%') : ''
+  let target = a:only ? expand('%') : ''
   new
   set buftype=nofile bufhidden=wipe filetype=diff
-  exe '$read !'.a:command.target
+  exe '$read !'.a:command.' '.target
   call cursor(1, 0)
   unlet target
 endfunction
