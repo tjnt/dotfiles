@@ -823,8 +823,13 @@ let CppEnvChanger.environment = {
       \         '/usr/lib:'.
       \         '/lib:',
       \     'include':
-      \         substitute(glob('/usr/include/c++/*'),'\n',':','g').
+      \         '.:'.
       \         '/usr/local/include:'.
+      \         join(filter(
+      \           split(glob('/usr/include/c++/*'), '\n') +
+      \           split(glob('/usr/include/*/c++/*'), '\n') +
+      \           split(glob('/usr/include/*/'), '\n'),
+      \           'isdirectory(v:val)'), ':').':'.
       \         '/usr/include:',
       \   },
       \   'mingw': {
@@ -883,13 +888,13 @@ function! CppEnvChanger.change(name)
   let sp = g:is_windows ? ';' : ':'
   let target = get(self.environment, a:name)
   let $PATH = $PATH.sp.get(target, 'path')
-  let $LIB = $LIB.sp.get(target, 'lib')
-  let $LIBPATH = $LIBPATH.sp.get(target, 'lib')
-  let $LIBRARY_PATH = $LIBRARY_PATH.sp.get(target, 'lib')
-  let $INCLUDE = $INCLUDE.sp.get(target, 'include')
-  let $C_INCLUDE_PATH = $C_INCLUDE_PATH.sp.get(target, 'include')
-  let $CPLUS_INCLUDE_PATH = $CPLUS_INCLUDE_PATH.sp.get(target, 'include')
-  let &l:path = fnameescape(&path.substitute($INCLUDE,sp,',','g'))
+  let $LIB = get(target, 'lib')
+  let $LIBPATH = $LIB
+  let $LIBRARY_PATH = $LIB
+  let $INCLUDE = get(target, 'include')
+  let $C_INCLUDE_PATH = $INCLUDE
+  let $CPLUS_INCLUDE_PATH = $INCLUDE
+  let &l:path = fnameescape(substitute($INCLUDE,sp,',','g'))
   let self.current_name = a:name
   unlet sp
   unlet target
