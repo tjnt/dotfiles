@@ -814,59 +814,71 @@ endif
 let CppEnvChanger.current_name = ''
 let CppEnvChanger.environment = {
       \   'gcc': {
-      \     'path':
-      \         '/usr/local/bin:'.
-      \         '/usr/bin:'.
-      \         '/bin:',
-      \     'lib':
-      \         '/usr/local/lib:'.
-      \         '/usr/lib:'.
-      \         '/lib:',
-      \     'include':
-      \         '.:'.
-      \         '/usr/local/include:'.
-      \         join(filter(
-      \           split(glob('/usr/include/c++/*'), '\n') +
-      \           split(glob('/usr/include/*/c++/*'), '\n') +
-      \           split(glob('/usr/include/*/'), '\n'),
-      \           'isdirectory(v:val)'), ':').':'.
-      \         '/usr/include:',
+      \     'path': [
+      \         '/usr/local/bin',
+      \         '/usr/bin',
+      \         '/bin',
+      \     ],
+      \     'lib': [
+      \         '.',
+      \         '/usr/local/lib',
+      \         '/usr/lib',
+      \         '/lib',
+      \     ],
+      \     'include': [
+      \         '.',
+      \         '/usr/local/include',
+      \         '/usr/include',
+      \     ] +
+      \     filter(
+      \       split(glob('/usr/include/c++/*'), '\n') +
+      \       split(glob('/usr/include/*/c++/*'), '\n'),
+      \       'isdirectory(v:val)')
       \   },
       \   'mingw': {
-      \     'path':
-      \         'C:\Opt\MinGW\bin;'.
-      \         'C:\Opt\MinGW\msys\1.0\bin;',
-      \     'lib':
-      \         'C:\Opt\MinGW\lib;',
-      \     'include':
-      \         'C:\Opt\MinGW\include;',
+      \     'path': [
+      \         'C:\Opt\MinGW\bin',
+      \         'C:\Opt\MinGW\msys\1.0\bin',
+      \     ],
+      \     'lib': [
+      \         'C:\Opt\MinGW\lib',
+      \     ],
+      \     'include': [
+      \         'C:\Opt\MinGW\include',
+      \     ],
       \   },
       \   'cygwin': {
-      \     'path':
-      \         'C:\Opt\cygwin\bin;'.
-      \         'C:\Opt\cygwin\usr\sbin;',
-      \     'lib':
-      \         'C:\Opt\cygwin\lib;',
-      \     'include':
-      \         'C:\Opt\cygwin\usr\include;',
+      \     'path': [
+      \         'C:\Opt\cygwin\bin',
+      \         'C:\Opt\cygwin\usr\sbin',
+      \     ],
+      \     'lib': [
+      \         'C:\Opt\cygwin\lib',
+      \     ],
+      \     'include': [
+      \         'C:\Opt\cygwin\usr\include',
+      \     ],
       \   },
       \   'msvc_2005': {
-      \     'path':
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\IDE;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Bin;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\Bin;',
-      \     'lib':
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\lib;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\lib;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Lib;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\Lib;',
-      \     'include':
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\include;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\include;'.
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Include;'.
+      \     'path': [
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\IDE',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Bin',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\Bin',
+      \     ],
+      \     'lib': [
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\lib',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\lib',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Lib',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\Lib',
+      \     ],
+      \     'include': [
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\include',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\include',
+      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Include',
       \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\include;',
+      \     ],
       \   },
       \ }
 
@@ -887,14 +899,14 @@ function! CppEnvChanger.change(name)
   " append parameter path
   let sp = g:is_windows ? ';' : ':'
   let target = get(self.environment, a:name)
-  let $PATH = $PATH.sp.get(target, 'path')
-  let $LIB = get(target, 'lib')
+  let $PATH = $PATH.sp.join(get(target, 'path'), sp)
+  let $LIB = join(get(target, 'lib'), sp)
   let $LIBPATH = $LIB
   let $LIBRARY_PATH = $LIB
-  let $INCLUDE = get(target, 'include')
+  let $INCLUDE = join(get(target, 'include'), sp)
   let $C_INCLUDE_PATH = $INCLUDE
   let $CPLUS_INCLUDE_PATH = $INCLUDE
-  let &l:path = fnameescape(substitute($INCLUDE,sp,',','g'))
+  let &l:path = fnameescape(join(get(target, 'include'), ','))
   let self.current_name = a:name
   unlet sp
   unlet target
