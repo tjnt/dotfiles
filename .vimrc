@@ -889,7 +889,7 @@ function! CppEnvChanger.change(name)
   let $INCLUDE = $INCLUDE.sp.get(target, 'include')
   let $C_INCLUDE_PATH = $C_INCLUDE_PATH.sp.get(target, 'include')
   let $CPLUS_INCLUDE_PATH = $CPLUS_INCLUDE_PATH.sp.get(target, 'include')
-  let &l:path = &path.substitute($INCLUDE,sp,',','g')
+  let &l:path = fnameescape(&path.substitute($INCLUDE,sp,',','g'))
   let self.current_name = a:name
   unlet sp
   unlet target
