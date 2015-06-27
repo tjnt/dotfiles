@@ -820,13 +820,11 @@ let CppEnvChanger.environment = {
       \         '/bin',
       \     ],
       \     'lib': [
-      \         '.',
       \         '/usr/local/lib',
       \         '/usr/lib',
       \         '/lib',
       \     ],
       \     'include': [
-      \         '.',
       \         '/usr/local/include',
       \         '/usr/include',
       \     ] +
@@ -845,6 +843,8 @@ let CppEnvChanger.environment = {
       \     ],
       \     'include': [
       \         'C:\Opt\MinGW\include',
+      \         'C:\Opt\mingw\x86_64-w64-mingw32\include',
+      \         'C:\Opt\mingw\x86_64-w64-mingw32\include\c++',
       \     ],
       \   },
       \   'cygwin': {
@@ -898,18 +898,18 @@ function! CppEnvChanger.change(name)
   call self.set_default()
   " append parameter path
   let sp = g:is_windows ? ';' : ':'
-  let target = get(self.environment, a:name)
-  let $PATH = $PATH.sp.join(get(target, 'path'), sp)
-  let $LIB = join(get(target, 'lib'), sp)
+  let env = get(self.environment, a:name)
+  let $PATH = $PATH.sp.join(get(env, 'path'), sp)
+  let $LIB = '.'.sp.join(get(env, 'lib'), sp)
   let $LIBPATH = $LIB
   let $LIBRARY_PATH = $LIB
-  let $INCLUDE = join(get(target, 'include'), sp)
+  let $INCLUDE = '.'.sp.join(get(env, 'include'), sp)
   let $C_INCLUDE_PATH = $INCLUDE
   let $CPLUS_INCLUDE_PATH = $INCLUDE
-  let &l:path = fnameescape(join(get(target, 'include'), ','))
+  let &l:path = '.,'.fnameescape(join(get(env, 'include'), ','))
   let self.current_name = a:name
   unlet sp
-  unlet target
+  unlet env
 endfunction
 
 command! -nargs=0 CppEnvDefault  call CppEnvChanger.set_default()

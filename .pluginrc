@@ -783,7 +783,7 @@ function! s:hooks.on_post_source(bundle)
     " let g:marching_backend = "sync_clang_command"
   else
     " clang コマンドが実行できなければ wandbox を使用する
-    let g:marching_backend = "wandbox"
+    let g:marching_backend = "sync_wandbox"
     let g:marching_clang_command = ""
   endif
 
