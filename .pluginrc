@@ -872,6 +872,10 @@ function! s:bundle.hooks.on_source(bundle)
         \     executable('g++') ? 'cpp/g++' : '',
         \ }
 
+  let g:quickrun_config['cpp/clang++'] = {
+        \   'cmdopt': '-std=c++1y -Wall',
+        \ }
+
   let g:quickrun_config['cpp/g++'] = {
         \   'cmdopt': '-std=c++0x -Wall',
         \ }
