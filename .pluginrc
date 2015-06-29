@@ -1009,7 +1009,7 @@ let g:lightline = {
       \ }
 
 function! s:special_filetype()
-  return count([
+  return index([
         \   'help',
         \   'qf',
         \   'unite',
@@ -1017,16 +1017,7 @@ function! s:special_filetype()
         \   'vimshell',
         \   'quickrun',
         \   'nerdtree',
-        \ ], &ft) != 0
-endfunction
-
-function! s:read_only_buftype()
-  return count([
-        \   'nofile',
-        \   'nowrite',
-        \   'quickfix',
-        \   'help',
-        \ ], &bt) != 0
+        \ ], &ft) != -1
 endfunction
 
 function! MyMode()
@@ -1036,7 +1027,7 @@ endfunction
 
 function! MyReadonly()
   return  <SID>special_filetype() ? '' :
-        \ &readonly || <SID>read_only_buftype() ? 'RO' : ''
+        \ &readonly ? 'RO' : ''
 endfunction
 
 function! MyFilename()
