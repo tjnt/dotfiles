@@ -42,6 +42,8 @@ set cmdheight=2
 set guioptions-=m
 " ツールバーを非表示
 set guioptions-=T
+" タブを非表示(テキストベースのタブを使う)
+set guioptions-=e
 
 
 " フォント設定 {{{1
