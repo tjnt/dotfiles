@@ -1,0 +1,4 @@
+
+export PATH=$HOME/.local/bin:$PATH
+
+# vim:set expandtab ft=sh ts=2 sts=2 sw=2:
