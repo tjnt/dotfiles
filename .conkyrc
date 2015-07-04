@@ -1,33 +1,35 @@
-##### .conkyrc #####
+-- .conkyrc
 
-alignment top_right
-background yes
-cpu_avg_samples 2
-default_color DDDDDD
-default_shade_color 000000
-double_buffer yes
-draw_borders no
-draw_graph_borders yes
-draw_outline no
-draw_shades yes
-gap_x 10
-gap_y 25
-maximum_width 200
-minimum_size 200 200
-net_avg_samples 2
-no_buffers yes
-override_utf8_locale no
-own_window no
-own_window_transparent yes
-own_window_type desktop
-total_run_times 0
-update_interval 1.0
-uppercase no
-use_xft yes
-xftalpha 1.0
-xftfont Sans:size=8
+conky.config = {
+  alignment = 'top_right',
+  background = true,
+  cpu_avg_samples = 2,
+  default_color = '#DDDDDD',
+  default_shade_color = '#000000',
+  double_buffer = true,
+  draw_borders = false,
+  draw_graph_borders = true,
+  draw_outline = false,
+  draw_shades = true,
+  gap_x = 10,
+  gap_y = 25,
+  maximum_width = 200,
+  minimum_width = 200, minimum_height = 200,
+  net_avg_samples = 2,
+  no_buffers = true,
+  override_utf8_locale = false,
+  own_window = false,
+  own_window_transparent = true,
+  own_window_type = 'desktop',
+  total_run_times = 0,
+  update_interval = 1.0,
+  uppercase = false,
+  use_xft = true,
+  xftalpha = 1.0,
+  font = 'Sans:size=8',
+};
 
-TEXT
+conky.text = [[
 ${font sans-serif:bold:size=8}SYSTEM ${hr 2}
 ${font sans-serif:normal:size=8}$sysname $kernel $alignr $machine
 # Host:$alignr$nodename
@@ -65,4 +67,6 @@ ${downspeedgraph wlan0}
 DLS:${downspeed wlan0} kb/s $alignr Total: ${totaldown wlan0}
 ${upspeedgraph wlan0}
 ULS:${upspeed wlan0} kb/s $alignr Total: ${totalup wlan0}
+]];
 
+-- vim:set expandtab ft=lua ts=2 sts=2 sw=2 foldmethod=marker:
