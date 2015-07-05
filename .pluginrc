@@ -36,6 +36,30 @@ NeoBundleLazy 'Shougo/neocomplete.vim', {
       \ 'disabled' : !has('lua'),
       \ 'vim_version' : '7.3.885'
       \ }
+NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
+      \ 'autoload' : {
+      \   'insert' : 1,
+      \   'filetypes' : 'ruby'
+      \ },
+      \ 'disabled' : !executable('rsense'),
+      \ 'vim_version' : '7.3.598'
+      \ }
+NeoBundleLazy 'osyo-manga/vim-marching', {
+      \ 'autoload' : {
+      \   'insert' : 1,
+      \   'filetypes' : 'cpp'
+      \ },
+      \ 'vim_version' : '7.3.598'
+      \ }
+" NeoBundleLazy 'osyo-manga/vim-monster', {
+"       \ 'autoload' : {
+"       \   'insert' : 1,
+"       \   'filetypes' : 'ruby'
+"       \ },
+"       \ 'disabled' : !executable('rct-complete'),
+"       \ 'vim_version' : '7.3.598'
+"       \ }
+
 NeoBundleLazy 'Shougo/neosnippet.vim', {
       \ 'depends': 'Shougo/neosnippet-snippets',
       \ 'autoload' : { 'insert' : 1 }
@@ -186,13 +210,6 @@ NeoBundleLazy 'vim-jp/cpp-vim', {
       \ 'autoload' : {
       \   'filetypes' : 'cpp'
       \ }}
-" NeoBundleLazy "osyo-manga/vim-marching"
-NeoBundleLazy "osyo-manga/vim-marching", {
-      \ 'autoload' : {
-      \   'filetypes' : 'cpp'
-      \ },
-      \ 'vim_version' : '7.3.598'
-      \ }
 NeoBundleLazy 'vim-scripts/a.vim', {
       \ 'autoload' : {
       \   'filetypes' : ['c', 'cpp'],
@@ -331,9 +348,16 @@ function! s:bundle.hooks.on_source(bundle)
   if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
   endif
-  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-  let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-  let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+	let g:neocomplete#sources#omni#input_patterns.c =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+	let g:neocomplete#sources#omni#input_patterns.cpp =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+  let g:neocomplete#sources#omni#input_patterns.ruby =
+        \ '[^. *\t]\.\w*\|\h\w*::'
+	let g:neocomplete#sources#omni#input_patterns.php =
+        \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+	let g:neocomplete#sources#omni#input_patterns.perl =
+        \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 
   " unuse vimproc
   " if g:is_windows
@@ -373,6 +397,91 @@ function! s:bundle.hooks.on_source(bundle)
   nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
 endfunction
 unlet s:bundle
+
+
+" neocomplete-rsense {{{1
+"
+let s:hooks = neobundle#get_hooks("neocomplete-rsense.vim")
+function! s:hooks.on_post_source(bundle)
+  let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
+  if neobundle#is_installed("neocomplete.vim")
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.ruby =
+          \ '[^. *\t]\.\w*\|\h\w*::'
+  endif
+endfunction
+unlet s:hooks
+
+
+" vim-marching {{{1
+"
+let s:hooks = neobundle#get_hooks("vim-marching")
+function! s:hooks.on_post_source(bundle)
+  if executable(g:marching_clang_command)
+    let g:marching_backend =
+          \ neobundle#is_installed("vimproc.vim") ?
+          \     "clang_command" : "sync_clang_command"
+    " let g:marching_backend = "sync_clang_command"
+  else
+    " clang コマンドが実行できなければ wandbox を使用する
+    let g:marching_backend = "sync_wandbox"
+    let g:marching_clang_command = ""
+  endif
+
+  " 複数候補があった時に重複して表示しない
+  " let g:marching_enable_dup = 0
+
+  " オプションの設定
+  " これは clang のコマンドに渡される
+  " let g:marching#clang_command#options = {
+  "       \	"cpp" : "-std=gnu++1y"
+  "       \}
+
+  " インクルードディレクトリのパスを設定
+  " let g:marching_include_paths = [
+  " \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
+  " \   "C:/cpp/boost"
+  " \]
+
+  " neocompleteとの連携
+  if neobundle#is_installed("neocomplete.vim")
+    let g:marching_enable_neocomplete = 1
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.cpp =
+          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  endif
+
+  " vimprocの更新間隔を短くして候補表示を早くする
+  if neobundle#is_installed("vimproc.vim")
+    setlocal updatetime=100
+  endif
+
+  " オムニ補完時に補完ワードを挿入したくない場合
+  imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+  " キャッシュを削除してからオムに補完を行う
+  imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+endfunction
+unlet s:hooks
+
+
+" vim-monster {{{1
+"
+" let s:bundle = neobundle#get('vim-monster')
+" function! s:bundle.hooks.on_source(bundle)
+"   " Set async completion.
+"   let g:monster#completion#rcodetools#backend = "async_rct_complete"
+"
+"   " neocompleteとの連携
+"   if neobundle#is_installed("neocomplete.vim")
+" 		let g:neocomplete#force_omni_input_patterns.ruby =
+"           \ '[^. *\t]\.\w*\|\h\w*::'
+"   endif
+" endfunction
+" unlet s:bundle
 
 
 " neosnippet.vim {{{1
@@ -786,59 +895,6 @@ if neobundle#is_installed('alpaca_tags')
       au BufWritePost * AlpacaTagsUpdate
   augroup END
 endif
-
-
-" vim-marching {{{1
-"
-let s:hooks = neobundle#get_hooks("vim-marching")
-function! s:hooks.on_post_source(bundle)
-  if executable(g:marching_clang_command)
-    let g:marching_backend =
-          \ neobundle#is_installed("vimproc.vim") ?
-          \     "clang_command" : "sync_clang_command"
-    " let g:marching_backend = "sync_clang_command"
-  else
-    " clang コマンドが実行できなければ wandbox を使用する
-    let g:marching_backend = "sync_wandbox"
-    let g:marching_clang_command = ""
-  endif
-
-  " 複数候補があった時に重複して表示しない
-  " let g:marching_enable_dup = 0
-
-  " オプションの設定
-  " これは clang のコマンドに渡される
-  " let g:marching#clang_command#options = {
-  "       \	"cpp" : "-std=gnu++1y"
-  "       \}
-
-  " インクルードディレクトリのパスを設定
-  " let g:marching_include_paths = [
-  " \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
-  " \   "C:/cpp/boost"
-  " \]
-
-  " neocompleteとの連携
-  if neobundle#is_installed("neocomplete.vim")
-    let g:marching_enable_neocomplete = 1
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.cpp =
-          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  endif
-
-  " vimprocの更新間隔を短くして候補表示を早くする
-  if neobundle#is_installed("vimproc.vim")
-    setlocal updatetime=100
-  endif
-
-  " オムニ補完時に補完ワードを挿入したくない場合
-  imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-  " キャッシュを削除してからオムに補完を行う
-  imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
-endfunction
-unlet s:hooks
 
 
 " a.vim {{{1
