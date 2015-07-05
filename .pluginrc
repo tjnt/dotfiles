@@ -261,7 +261,8 @@ NeoBundleLazy 'thinca/vim-quickrun', {
 NeoBundleLazy 'thinca/vim-ref', {
       \ 'autoload' : {
       \   'mappings' : '<Plug>',
-      \   'commands' : 'Ref'
+      \   'commands' : 'Ref',
+      \   'unite_sources' : 'ref'
       \ }}
 NeoBundleLazy 'kannokanno/previm', {
       \ 'depends' : 'tyru/open-browser.vim',
@@ -501,7 +502,7 @@ nnoremap <silent>[unite]bm :<C-u>Unite -buffer-name=files bookmark<CR>
 " ファイル/バッファ全部乗せ
 nnoremap <silent>[unite]a :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 " レジスタ一覧
-nnoremap <silent>[unite]r  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent>[unite]rg :<C-u>Unite -buffer-name=register register<CR>
 " ヤンク履歴
 nnoremap <silent>[unite]y  :<C-u>Unite -buffer-name=register history/yank<CR>
 " コマンド一覧
@@ -534,6 +535,14 @@ nnoremap <silent>[unite]sn :<C-u>Unite scriptnames<CR>
 
 " outlineトグル
 nnoremap <silent>[toggle]o :<C-u>Unite -vertical -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
+
+" vim-ref
+augroup ag_unite_ref_keymap
+  au! FileType sh nnoremap <silent>[unite]r  :<C-u>Unite ref/man<CR>
+  au! FileType ruby nnoremap <silent>[unite]r  :<C-u>Unite ref/refe<CR>
+  au! FileType perl nnoremap <silent>[unite]r  :<C-u>Unite ref/perldoc<CR>
+  au! FileType python nnoremap <silent>[unite]r  :<C-u>Unite ref/pydoc<CR>
+augroup END
 
 " neomru
 " cache directory
