@@ -8,6 +8,7 @@ do
     if [ "`basename $0`" = "$f" -o "mklink.bat" = $f ]; then
         continue
     fi
-    ln -snfv "$PWD/$f" "$HOME/$f"
+    mkdir -p `dirname "$HOME/$f"`
+    ln -sfv "$PWD/$f" "$HOME/$f"
 done
 
