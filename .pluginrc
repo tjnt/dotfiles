@@ -401,8 +401,8 @@ unlet s:bundle
 
 " neocomplete-rsense {{{1
 "
-let s:hooks = neobundle#get_hooks("neocomplete-rsense.vim")
-function! s:hooks.on_post_source(bundle)
+let s:bundle = neobundle#get_hooks("neocomplete-rsense.vim")
+function! s:bundle.on_post_source(bundle)
   let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
   if neobundle#is_installed("neocomplete.vim")
     if !exists('g:neocomplete#force_omni_input_patterns')
@@ -412,13 +412,13 @@ function! s:hooks.on_post_source(bundle)
           \ '[^. *\t]\.\w*\|\h\w*::'
   endif
 endfunction
-unlet s:hooks
+unlet s:bundle
 
 
 " vim-marching {{{1
 "
-let s:hooks = neobundle#get_hooks("vim-marching")
-function! s:hooks.on_post_source(bundle)
+let s:bundle = neobundle#get_hooks("vim-marching")
+function! s:bundle.on_post_source(bundle)
   if executable(g:marching_clang_command)
     let g:marching_backend =
           \ neobundle#is_installed("vimproc.vim") ?
@@ -465,7 +465,7 @@ function! s:hooks.on_post_source(bundle)
   " キャッシュを削除してからオムに補完を行う
   imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
 endfunction
-unlet s:hooks
+unlet s:bundle
 
 
 " vim-monster {{{1
