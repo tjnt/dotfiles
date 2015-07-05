@@ -196,22 +196,19 @@ awesomebutton = awful.widget.launcher({
   image = beautiful.awesome_icon,
   menu = mymainmenu })
 
-termbutton = awful.widget.launcher({
-  image = "/usr/share/icons/gnome/48x48/apps/terminal.png",
-  command = "x-terminal-emulator"})
-
-vimbutton = awful.widget.launcher({
-  image = "/usr/share/icons/hicolor/48x48/apps/vim.png",
-  command = "gvim"})
-
-pcmanfmbutton = awful.widget.launcher({
-  image = "/usr/share/icons/gnome/48x48/apps/file-manager.png",
-  command = "pcmanfm"})
-
-firefoxbutton = wibox.widget.imagebox()
-firefoxbutton:set_image("/usr/share/icons/hicolor/48x48/apps/iceweasel.png")
-firefoxbutton:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () run_or_raise("iceweasel", { class = "Iceweasel" }) end)))
+app_table = {
+  { "x-terminal-emulator", "/usr/share/icons/gnome/32x32/apps/terminal.png" },
+  { "gvim",                "/usr/share/icons/hicolor/32x32/apps/vim.png" },
+  { "pcmanfm",             "/usr/share/icons/gnome/32x32/apps/file-manager.png" },
+  { "iceweasel",           "/usr/share/icons/hicolor/32x32/apps/iceweasel.png" },
+  { "icedove",             "/usr/share/icons/hicolor/32x32/apps/icedove.png" },
+}
+mylanchers = {}
+for i, o in ipairs(app_table) do
+  mylanchers[i] = awful.widget.launcher({
+    command = o[1], image = o[2]
+  })
+end
 
 -- Wibox {{{1
 -- cpu widget
@@ -337,10 +334,9 @@ for s = 1, screen.count() do
   -- Widgets that are aligned to the left
   local left_layout = wibox.layout.fixed.horizontal()
   left_layout:add(awesomebutton)
-  left_layout:add(termbutton)
-  left_layout:add(vimbutton)
-  left_layout:add(pcmanfmbutton)
-  left_layout:add(firefoxbutton)
+  for i = 1, #mylanchers do
+    left_layout:add(mylanchers[i])
+  end
   left_layout:add(mytaglist[s])
   left_layout:add(mypromptbox[s])
 
