@@ -201,7 +201,7 @@ app_table = {
   { "gvim",                "/usr/share/icons/hicolor/32x32/apps/vim.png" },
   { "pcmanfm",             "/usr/share/icons/gnome/32x32/apps/file-manager.png" },
   { "iceweasel",           "/usr/share/icons/hicolor/32x32/apps/iceweasel.png" },
-  { "icedove",             "/usr/share/icons/hicolor/32x32/apps/icedove.png" },
+  -- { "icedove",             "/usr/share/icons/hicolor/32x32/apps/icedove.png" },
 }
 mylanchers = {}
 for i, o in ipairs(app_table) do
