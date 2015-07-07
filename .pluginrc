@@ -36,29 +36,18 @@ NeoBundleLazy 'Shougo/neocomplete.vim', {
       \ 'disabled' : !has('lua'),
       \ 'vim_version' : '7.3.885'
       \ }
+NeoBundleLazy 'NigoroJr/rsense', {
+      \ 'autoload' : { 'filetypes' : 'ruby' },
+      \ 'vim_version' : '7.3.598'
+      \ }
 NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
-      \ 'autoload' : {
-      \   'insert' : 1,
-      \   'filetypes' : 'ruby'
-      \ },
-      \ 'disabled' : !executable('rsense'),
+      \ 'autoload' : { 'filetypes' : 'ruby' },
       \ 'vim_version' : '7.3.598'
       \ }
 NeoBundleLazy 'osyo-manga/vim-marching', {
-      \ 'autoload' : {
-      \   'insert' : 1,
-      \   'filetypes' : 'cpp'
-      \ },
+      \ 'autoload' : { 'filetypes' : 'cpp' },
       \ 'vim_version' : '7.3.598'
       \ }
-" NeoBundleLazy 'osyo-manga/vim-monster', {
-"       \ 'autoload' : {
-"       \   'insert' : 1,
-"       \   'filetypes' : 'ruby'
-"       \ },
-"       \ 'disabled' : !executable('rct-complete'),
-"       \ 'vim_version' : '7.3.598'
-"       \ }
 
 NeoBundleLazy 'Shougo/neosnippet.vim', {
       \ 'depends': 'Shougo/neosnippet-snippets',
@@ -220,11 +209,11 @@ NeoBundleLazy 'vim-scripts/a.vim', {
 NeoBundleLazy 'vim-scripts/c.vim'
 NeoBundleLazy 'vim-scripts/TagHighlight'
 " ruby
-NeoBundleLazy 'vim-ruby/vim-ruby', {
-      \ 'autoload' : {
-      \   'mappings' : '<Plug>(ref-keyword)',
-      \   'filetypes' : 'ruby'
-      \ }}
+" NeoBundleLazy 'vim-ruby/vim-ruby', {
+"       \ 'autoload' : {
+"       \   'mappings' : '<Plug>(ref-keyword)',
+"       \   'filetypes' : 'ruby'
+"       \ }}
 " markdown
 NeoBundleLazy 'plasticboy/vim-markdown', {
       \ 'autoload' : {
@@ -399,11 +388,19 @@ endfunction
 unlet s:bundle
 
 
+" rsense {{{1
+"
+let s:bundle = neobundle#get_hooks("rsense")
+function! s:bundle.on_source(bundle)
+  let g:rsenseUseOmniFunc = 1
+endfunction
+unlet s:bundle
+
+
 " neocomplete-rsense {{{1
 "
 let s:bundle = neobundle#get_hooks("neocomplete-rsense.vim")
 function! s:bundle.on_post_source(bundle)
-  let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
   if neobundle#is_installed("neocomplete.vim")
     if !exists('g:neocomplete#force_omni_input_patterns')
       let g:neocomplete#force_omni_input_patterns = {}
@@ -466,22 +463,6 @@ function! s:bundle.on_post_source(bundle)
   imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
 endfunction
 unlet s:bundle
-
-
-" vim-monster {{{1
-"
-" let s:bundle = neobundle#get('vim-monster')
-" function! s:bundle.hooks.on_source(bundle)
-"   " Set async completion.
-"   let g:monster#completion#rcodetools#backend = "async_rct_complete"
-"
-"   " neocompleteとの連携
-"   if neobundle#is_installed("neocomplete.vim")
-" 		let g:neocomplete#force_omni_input_patterns.ruby =
-"           \ '[^. *\t]\.\w*\|\h\w*::'
-"   endif
-" endfunction
-" unlet s:bundle
 
 
 " neosnippet.vim {{{1
