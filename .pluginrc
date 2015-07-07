@@ -154,7 +154,6 @@ NeoBundleLazy 'zhaocai/unite-scriptnames'
 NeoBundleLazy 'ujihisa/unite-colorscheme'
 " NeoBundleLazy 'choplin/unite-vim_hacks'
 
-" NeoBundle 'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/neomru.vim', {
       \ 'autoload' : {
       \     'filetypes' : 'all',
@@ -634,10 +633,15 @@ augroup ag_unite_ref_keymap
   au! FileType python nnoremap <silent>[unite]r  :<C-u>Unite ref/pydoc<CR>
 augroup END
 
-" neomru
-" cache directory
-let g:neomru#file_mru_path = $VIMLOCAL.'/tmp/cache/neomru/file'
-let g:neomru#directory_mru_path = $VIMLOCAL.'/tmp/cache/neomru/directory'
+
+" neomru {{{1
+let s:bundle = neobundle#get('neomru.vim')
+function! s:bundle.hooks.on_source(bundle)
+  " cache directory
+  let g:neomru#file_mru_path = $VIMLOCAL.'/tmp/cache/neomru/file'
+  let g:neomru#directory_mru_path = $VIMLOCAL.'/tmp/cache/neomru/directory'
+endfunction
+unlet s:bundle
 
 
 " vimfiler.vim {{{1
@@ -715,14 +719,21 @@ nnoremap [vimshell] :<C-u>VimShell<CR>
 
 " NERDTree {{{1
 "
-" NERDTreeの幅
-" let g:NERDTreeWinSize=40
-" 左側にNERDTreeを表示
-let g:NERDTreeWinPos = "left"
-" 隠しファイルを表示する
-let g:NERDTreeShowHidden = 1
-" NERDTreeのウインドウだけならvimを閉じる
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let s:bundle = neobundle#get('nerdtree')
+function! s:bundle.hooks.on_source(bundle)
+  " NERDTreeの幅
+  " let g:NERDTreeWinSize=40
+  " 左側にNERDTreeを表示
+  let g:NERDTreeWinPos = "left"
+  " 隠しファイルを表示する
+  let g:NERDTreeShowHidden = 1
+  " NERDTreeのウインドウだけならvimを閉じる
+  augroup ag_close_nerdtree_only
+    au!
+    au bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+  augroup END
+endfunction
+unlet s:bundle
 " NERDTree開閉トグル
 nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
 
