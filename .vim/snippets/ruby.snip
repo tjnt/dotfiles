@@ -1,0 +1,132 @@
+
+# Block
+
+snippet     block
+abbr        { ... }
+  {
+    ${1:TARGET}
+  }
+
+snippet     block1
+abbr        { |var| ... }
+  { |${1:#:var}|
+    ${2:TARGET}
+  }
+
+snippet     block2
+abbr        { |var1, var2| ... }
+  { |${1:#:var}, ${2:#:var}|
+    ${3:TARGET}
+  }
+
+snippet     block3
+abbr        { |var1, var2, var3| ... }
+  { |${1:#:var}, ${2:#:var}, ${3:#:var}|
+    ${4:TARGET}
+  }
+
+snippet     blk
+abbr        { ... }
+  { ${1:TARGET} }
+
+snippet     blk1
+abbr        { ... }
+  { |${1:#:var}| ${2:TARGET} }
+
+snippet     blk2
+abbr        { |var1, var2| ... }
+  { |${1:#:var}, ${2:#:var}| ${3:TARGET} }
+
+snippet     blk3
+abbr        { |var1, var2, var3| ... }
+  { |${1:#:var}, ${2:#:var}, ${3:#:var}| ${4:TARGET} }
+
+# Enumerable
+
+snippet all?
+options word
+  all? { |${1:#:item}| ${2:#:...} }
+
+snippet any?
+options word
+  any? { |${1:#:item}| ${2:#:...} }
+
+snippet chunk
+options word
+  chunk { |${1:#:elt}| ${2:#:...} }
+
+snippet chunk()
+options word
+  chunk(${1:#:init}) { |${2:#:elt}, ${3:#:state}| ${4:#:...} }
+
+snippet collect
+options word
+  collect { |${1:#:item}| ${2:#:...} }
+
+snippet collect_concat
+options word
+  collect_concat { |${1:#:item}| ${2:#:...} }
+
+snippet count
+options word
+  count { |${1:#:item}| ${2:#:...} }
+
+snippet cycle
+options word
+  cycle { |${1:#:item}| ${2:#:...} }
+
+snippet cycle()
+options word
+  cycle(${1:#:num}) { |${2:#:item}| ${3:#:...} }
+
+snippet detect
+options word
+  detect { |${1:#:item}| ${2:#:...} }
+
+snippet detect()
+options word
+  detect(${1:#:proc}) { |${2:#:item}| ${3:#:...} }
+
+snippet drop_while
+options word
+  drop_while { |${1:#:item}| ${2:#:...} }
+
+snippet each_cons
+options word
+  each_cons(${1:#:num}) { |${2:#:item}| ${3:#:...} }
+
+# working...
+
+snippet inject
+options word
+  inject { |${1:#:result}, ${2:#:item}| ${3:#:...} }
+
+snippet inject()
+options word
+  inject(${1:#:init}) { |${2:#:result}, ${3:#:item}| ${4:#:...} }
+
+snippet reduce
+options word
+  reduce { |${1:#:result}, ${2:#:item}| ${3:#:...} }
+
+snippet reduce()
+options word
+  reduce(${1:#:init}) { |${2:#:result}, ${3:#:item}| ${4:#:...} }
+
+snippet max
+options word
+  max { |${1:#:a}, ${2:#:b}| ${3:#:...} }
+
+snippet max_by
+options word
+  max_by { |${1:#:item}| ${2:#:...} }
+
+snippet min
+options word
+  min { |${1:#:a}, ${2:#:b}| ${3:#:...} }
+
+snippet min_by
+options word
+  min_by { |${1:#:item}| ${2:#:...} }
+
+# vim:set et ts=2 sts=2 sw=2 tw=0:
