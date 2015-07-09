@@ -705,9 +705,9 @@ function! s:bundle.hooks.on_source(bundle)
     nnoremap <silent><buffer><expr>t vimfiler#do_action('tabopen')
     " Unite bookmarkを開く
     nnoremap <buffer>b :<C-u>Unite -buffer-name=files bookmark<CR>
-  "  map <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
-  "  map <End> <Plug>(vimfiler_clear_mark_all_lines)
-  "  map <buffer> @ <Plug>(vimfiler_set_current_mask)
+    " map <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
+    " map <End> <Plug>(vimfiler_clear_mark_all_lines)
+    " map <buffer> @ <Plug>(vimfiler_set_current_mask)
   endfunction
   augroup ag_vimfiler_chg_keymap
     au! FileType vimfiler call s:chg_vimfiler_keymap()
@@ -749,7 +749,8 @@ function! s:bundle.hooks.on_source(bundle)
   " NERDTreeのウインドウだけならvimを閉じる
   augroup ag_close_nerdtree_only
     au!
-    au bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+    au bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
+          \ && b:NERDTreeType == "primary") | q | endif
   augroup END
 endfunction
 unlet s:bundle
@@ -1170,6 +1171,7 @@ vmap <LEADER>os <Plug>(openbrowser-smart-search)
 "
 let g:w3m#command = 
       \ g:is_windows ? expand('$VIMLOCAL/bin/w3m/w3m.exe') : 'w3m'
+
 
 " chalice {{{1
 "

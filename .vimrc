@@ -636,6 +636,8 @@ nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
 " ディレクトリ移動
 command! -nargs=0 CC cd %:h
 command! -nargs=0 CDV cd $VIM
+command! -nargs=0 CDVL cd $VIMLOCAL
+command! -nargs=0 CDH cd $HOME
 
 " 保存せずに終了
 command! -nargs=0 Q q!
