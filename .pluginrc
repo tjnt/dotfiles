@@ -50,10 +50,9 @@ NeoBundleLazy 'osyo-manga/vim-marching', {
       \ }
 
 NeoBundleLazy 'Shougo/neosnippet.vim', {
-      \ 'depends': 'Shougo/neosnippet-snippets',
       \ 'autoload' : { 'insert' : 1 }
       \ }
-NeoBundleLazy 'Shougo/neosnippet-snippets'
+" NeoBundleLazy 'Shougo/neosnippet-snippets'
 
 " operators {{{2
 NeoBundleLazy 'kana/vim-operator-user'
@@ -491,14 +490,14 @@ function! s:bundle.hooks.on_source(bundle)
   endif
 
   " load Shougo/neosnippet-snippets
-  " if neobundle#is_installed('neosnippet-snippets')
-  "   let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/bundle/neosnippet-snippets/neosnippets' ]
-  " endif
+  if neobundle#is_installed('neosnippet-snippets')
+    let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/bundle/neosnippet-snippets/neosnippets' ]
+  endif
 
   " load honza/vim-snippets
-  " if neobundle#is_installed('vim-snippets')
-  "   let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/bundle/vim-snippets/snippets' ]
-  " endif
+  if neobundle#is_installed('vim-snippets')
+    let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/bundle/vim-snippets/snippets' ]
+  endif
 
   " Plugin key-mappings.
   imap <C-k> <Plug>(neosnippet_expand_or_jump)

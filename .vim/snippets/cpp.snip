@@ -1,114 +1,125 @@
 include c.snip
 
-snippet     for
-abbr        for () {}
-options     head
-	for (${1} ${2} = 0; $2 < ${3}; $2++) {
-		${0:TARGET:code}
+snippet		for
+abbr		for () {}
+options		head
+	for (${1:#:type} ${2:#:var} = 0; $2 < ${3:#:end}; $2++) {
+		${0:TARGET}
 	}
 
-snippet     for_cpp11
-abbr        for (:) {}
-options     head
+snippet		for_cpp11
+abbr		for (:) {}
+options		head
 	for (${1:auto} ${2:#:var} : ${3:#:container}) {
-		${0:TARGET:code}
+		${0:TARGET}
 	}
 
-snippet     struct_ctor
-abbr        struct {}
-options     head
+snippet		struct_ctor
+abbr		struct {}
+options		head
 	struct ${1:#:name} {
 		$1(${2});
-		${0:TARGET:data}
+		${0:TARGET}
 	};
 
-snippet     class
-abbr        class {}
-options     head
+snippet		class
+abbr		class {}
+options		head
 	class ${1:#:name} {
 	public:
-		${0:TARGET:code}
+		${0:TARGET}
 	};
 
-snippet     class_ctor
-abbr        class {}
-options     head
+snippet		class_ctor
+abbr		class {}
+options		head
 	class ${1:#:name} {
 	public:
 		$1(${2});
-		${0:TARGET:code}
+		${0:TARGET}
 	};
 
-snippet     try
-abbr        try ... catch ...
-options     head
+snippet		try_catch
+alias		try
+abbr		try ... catch ...
+options		head
 	try {
-		${1:TARGET:code}
+		${1:TARGET}
+	} catch (${2:std::exception} ${3:e}) {
+		${3:#:code}
+	}
+
+snippet		try_catch_n
+alias		try_n
+abbr		try ... catch ...
+options		head
+	try {
+		${1:TARGET}
 	} catch (${2:...}) {
 		${3:#:code}
 	}
 
-snippet     lambda
-abbr        [](){}
-	[${1:#:capture}](${2:#:args})${3:#:->type} { ${4:TARGET:code} }
+snippet		lambda
+abbr		[](){}
+	[${1:#:capture}](${2:#:args})${3:#:->type} { ${4:TARGET}
 
 # scoped enumeration ( C++11 feature )
-snippet     enum_scoped
-abbr        enum struct {}
-options     head
-	enum struct { ${1:TARGET:code} }
+snippet		enum_scoped
+abbr		enum struct {}
+options		head
+	enum struct { ${1:TARGET}
 
 # static assert ( C++11 feature )
-snippet     static_assert
-abbr        static_assert(,"")
+snippet		static_assert
+abbr		static_assert(,"")
 	static_assert( ${1}, "${2}" );
 
-delete      namespace
-snippet     namespace
-abbr        namespace {}
-options     head
+delete		namespace
+snippet		namespace
+abbr		namespace {}
+options		head
 	namespace ${1:#:name} {
-		${0:TARGET:code}
+		${0:TARGET}
 	} // namespace $1
 
-snippet     static_cast
-abbr        static_cast<>()
-options     word
-	static_cast<${1}>(${2})${0:;}
+snippet		static_cast
+abbr		static_cast<>()
+options		word
+	static_cast<${1}>(${2})${0}
 
-snippet     reinterpret_cast
-abbr        reinterpret_cast<>()
-options     word
-	reinterpret_cast<${1}>(${2})${0:;}
+snippet		reinterpret_cast
+abbr		reinterpret_cast<>()
+options		word
+	reinterpret_cast<${1}>(${2})${0}
 
-snippet     const_cast
-abbr        const_cast<>()
-options     word
-	const_cast<${1}>(${2})${0:;}
+snippet		const_cast
+abbr		const_cast<>()
+options		word
+	const_cast<${1}>(${2})${0}
 
-snippet     dynamic_cast
-abbr        dynamic_cast<>()
-options     word
-	dynamic_cast<${1}>(${2})${0:;}
+snippet		dynamic_cast
+abbr		dynamic_cast<>()
+options		word
+	dynamic_cast<${1}>(${2})${0}
 
-snippet     include
-abbr        include <>
-options     head
-alias       inc, #inc, #include
+snippet		include
+abbr		include <>
+options		head
+alias		inc, #inc, #include
 	#include <${1:iostream}>
 
-snippet     include2
-abbr        include ""
-options     head
-alias       inc2, #include2, #inc2
+snippet		include2
+abbr		include ""
+options		head
+alias		inc2, #include2, #inc2
 	#include "${1:#:file.h}"
 
-snippet     p
-options     head
+snippet		p
+options		head
 	std::cout << ${0:TARGET} << std::endl;
 
-snippet     helloworld
-options     head
+snippet		helloworld
+options		head
 	#include <iostream>
 	int main(int argc, char const* argv[])
 	{
