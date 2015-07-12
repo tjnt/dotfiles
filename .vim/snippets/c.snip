@@ -155,27 +155,27 @@ alias /*
 	/* ${1:#:comment} */
 	${0}
 
-snippet		 sizeof
-abbr		 sizeof()
-alias		 size
+snippet		sizeof
+abbr		sizeof()
+alias		size
 	sizeof(${0:TARGET})
 
-snippet		 countof
-abbr		 (sizeof(array) / sizeof(array[0]))
+snippet		countof
+abbr		(sizeof(array) / sizeof(array[0]))
 	(sizeof(${0:TARGET}) / sizeof($0[0]))
 
-snippet		 fopen
-abbr		 fopen("...", "...");
+snippet		fopen
+abbr		fopen("...", "...");
 	fopen("${1:#:path}", "${2:#:mode}");
 	${0:TARGET}
 	fclose(${3:#:fd});
 
-snippet		 fgets
-abbr		 fgets(row, length, file);
+snippet		fgets
+abbr		fgets(row, length, file);
 	fgets(${1:#:row}, ${2:#:len}, ${3:#:file});
 
-snippet		 helloworld
-options		 head
+snippet		helloworld
+options		head
 	#include <stdio.h>
 	int main(int argc, char const* argv[])
 	{
@@ -183,4 +183,4 @@ options		 head
 		return 0;
 	}
 
-# vim:set et ts=4 sts=4 sw=4 tw=0 noexpandtab:
+# vim:set et ts=4 sts=4 sw=4 tw=0 noet:
