@@ -40,10 +40,6 @@ NeoBundleLazy 'NigoroJr/rsense', {
       \ 'autoload' : { 'filetypes' : 'ruby' },
       \ 'vim_version' : '7.3.598'
       \ }
-NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
-      \ 'autoload' : { 'filetypes' : 'ruby' },
-      \ 'vim_version' : '7.3.598'
-      \ }
 NeoBundleLazy 'osyo-manga/vim-marching', {
       \ 'autoload' : { 'filetypes' : 'cpp' },
       \ 'vim_version' : '7.3.598'
@@ -391,14 +387,7 @@ unlet s:bundle
 let s:bundle = neobundle#get_hooks("rsense")
 function! s:bundle.on_source(bundle)
   let g:rsenseUseOmniFunc = 1
-endfunction
-unlet s:bundle
 
-
-" neocomplete-rsense {{{1
-"
-let s:bundle = neobundle#get_hooks("neocomplete-rsense.vim")
-function! s:bundle.on_post_source(bundle)
   if neobundle#is_installed("neocomplete.vim")
     if !exists('g:neocomplete#force_omni_input_patterns')
       let g:neocomplete#force_omni_input_patterns = {}
