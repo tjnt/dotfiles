@@ -76,7 +76,7 @@ snippet		begin-rescue
 abbr			begin ... rescue ... end
 	begin
 		${1:TARGET}
-	rescue ${2:#:StandardError} => ${3:e}
+	rescue ${2:#:StandardError} => ${3:ex}
 		${4:#:code}
 	end
 
@@ -92,7 +92,7 @@ snippet		begin-rescue-ensure
 abbr			begin ... rescue ... ensure ... end
 	begin
 		${1:TARGET}
-	rescue ${2:#:StandardError} => ${3:e}
+	rescue ${2:#:StandardError} => ${3:ex}
 		${4:#:code}
 	ensure
 		${5:#:code}
@@ -100,7 +100,7 @@ abbr			begin ... rescue ... ensure ... end
 
 snippet		rescue
 abbr			rescue ...
-	rescue ${1:#:StandardError} => ${2:e}
+	rescue ${1:#:StandardError} => ${2:ex}
 		${0}
 
 snippet		ensure
@@ -130,7 +130,7 @@ snippet		def-rescue
 abbr			def ... rescue ... end
 	def ${1:#:method_name}
 		${2:TARGET}
-	rescue ${3:#:StandardError} => ${4:e}
+	rescue ${3:#:StandardError} => ${4:ex}
 		${5:#:code}
 	end
 
