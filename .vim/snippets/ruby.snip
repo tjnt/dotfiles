@@ -11,7 +11,7 @@ abbr			if ... else ... end
 	if ${1:#:condition}
 		${2:TARGET}
 	else
-		${3}
+		${3:#:code}
 	end
 
 snippet		else
@@ -36,7 +36,7 @@ abbr			unless ... else ... end
 	unless ${1:#:condition}
 		${2:TARGET}
 	else
-		${3}
+		${3:#:code}
 	end
 
 snippet		for
@@ -62,9 +62,9 @@ abbr			case ... when ... else ... end
 options		head
 	case ${1:#:var}
 	when ${2:#:condition}
-		${3}
+		${3:#:code}
 	else
-		${4}
+		${4:#:code}
 	end
 
 snippet		when
@@ -77,18 +77,19 @@ abbr			begin ... rescue ... end
 	begin
 		${1:TARGET}
 	rescue ${2:#:StandardError} => ${3:e}
+		${4:#:code}
 	end
 
 snippet		class
 abbr			class ... end
 	class ${1:#:Name}
-		${2}
+		${2:#:code}
 	end
 
 snippet		module
 abbr			module ... end
 	module ${1:#:Name}
-		${2}
+		${2:#:code}
 	end
 
 snippet		def
@@ -103,7 +104,7 @@ abbr			def ... rescue ... end
 	def ${1:#:method_name}
 		${2:TARGET}
 	rescue ${3:#:StandardError} => ${4:e}
-		${5}
+		${5:#:code}
 	end
 
 snippet		initialize
@@ -139,11 +140,11 @@ abbr			accepts_nested_attributes_for :association
 
 snippet		lambda
 abbr			lambda {|var| ... }
-	lambda {|${1:#:var}| ${2} }
+	lambda {|${1:#:var}| ${2:#:code} }
 
 snippet		lam->
 abbr			-> () { ... }
-	-> (${1:#:var}) { ${2} }
+	-> (${1:#:var}) { ${2:#:code} }
 
 snippet		yields
 abbr			yields: ...
@@ -153,13 +154,13 @@ snippet		require
 abbr			require 'file'
 options		head
 alias			req
-	require '${1}'
+	require '${1:#:feature}'
 
 snippet		requirerelative
 abbr			require_relative 'file'
 options		head
 alias			reqr
-	require_relative '${1}'
+	require_relative '${1:#:feature}'
 
 # Block
 snippet		do
@@ -217,143 +218,143 @@ abbr			{|var1, var2, var3| ... }
 # Numeric loop
 snippet		times
 options		word
-	times {|${1:n}| ${2} }
+	times {|${1:n}| ${2:#:code} }
 
 snippet		step
 options		word
-	step(${1:#:num}) {|${2:n}| ${0} }
+	step(${1:#:num}) {|${2:n}| ${3:#:code} }
 
 snippet		downto
 options		word
-	downto(${1:#:num}) {|${2:n}| ${0} }
+	downto(${1:#:num}) {|${2:n}| ${3:#:code} }
 
 snippet		upto
 options		word
-	upto(${1:#:num}) {|${2:n}| ${0} }
+	upto(${1:#:num}) {|${2:n}| ${3:#:code} }
 
 # Each
 snippet		each
 options		word
-	each {|${1:#:item}| ${2} }
+	each {|${1:#:item}| ${2:#:code} }
 
 snippet		each_byte
 options		word
-	each_byte {|${1:#:item}| ${2} }
+	each_byte {|${1:#:item}| ${2:#:code} }
 
 snippet		each_char
 options		word
-	each_char {|${1:#:item}| ${2} }
+	each_char {|${1:#:item}| ${2:#:code} }
 
 snippet		each_index
 options		word
-	each_index {|${1:#:item}| ${2} }
+	each_index {|${1:#:item}| ${2:#:code} }
 
 snippet		each_key
 options		word
-	each_key {|${1:#:item}| ${2} }
+	each_key {|${1:#:item}| ${2:#:code} }
 
 snippet		each_line
 options		word
-	each_line {|${1:#:item}| ${2} }
+	each_line {|${1:#:item}| ${2:#:code} }
 
 snippet		each_with_index
 options		word
-	each_with_index {|${1:#:item}| ${2} }
+	each_with_index {|${1:#:item}| ${2:#:code} }
 
 snippet		each_with_object
 options		word
-	each_with_object(${1:#:init}) {|${2:#:item}, ${3:#:mem}| ${4} }
+	each_with_object(${1:#:init}) {|${2:#:item}, ${3:#:mem}| ${4:#:code} }
 
 snippet		each_pair
 options		word
-	each_pair{|${1:#:key}, ${2:#:value}| ${3} }
+	each_pair{|${1:#:key}, ${2:#:value}| ${3:#:code} }
 
 # Enumerable
 snippet		map
 options		word
-	map {|${1:#:item}| ${2} }
+	map {|${1:#:item}| ${2:#:code} }
 
 snippet		all?
 options		word
-	all? {|${1:#:item}| ${2} }
+	all? {|${1:#:item}| ${2:#:code} }
 
 snippet		any?
 options		word
-	any? {|${1:#:item}| ${2} }
+	any? {|${1:#:item}| ${2:#:code} }
 
 snippet		chunk
 options		word
-	chunk {|${1:#:elt}| ${2} }
+	chunk {|${1:#:elt}| ${2:#:code} }
 
 snippet		collect
 options		word
-	collect {|${1:#:item}| ${2} }
+	collect {|${1:#:item}| ${2:#:code} }
 
 snippet		collect_concat
 options		word
-	collect_concat {|${1:#:item}| ${2} }
+	collect_concat {|${1:#:item}| ${2:#:code} }
 
 snippet		count
 options		word
-	count {|${1:#:item}| ${2} }
+	count {|${1:#:item}| ${2:#:code} }
 
 snippet		cycle
 options		word
-	cycle {|${1:#:item}| ${2} }
+	cycle {|${1:#:item}| ${2:#:code} }
 
 snippet		cycle()
 options		word
-	cycle(${1:#:num}) {|${2:#:item}| ${3} }
+	cycle(${1:#:num}) {|${2:#:item}| ${3:#:code} }
 
 snippet		detect
 options		word
-	detect {|${1:#:item}| ${2} }
+	detect {|${1:#:item}| ${2:#:code} }
 
 snippet		detect()
 options		word
-	detect(${1:#:proc}) {|${2:#:item}| ${3} }
+	detect(${1:#:proc}) {|${2:#:item}| ${3:#:code} }
 
 snippet		drop_while
 options		word
-	drop_while {|${1:#:item}| ${2} }
+	drop_while {|${1:#:item}| ${2:#:code} }
 
 snippet		each_cons
 options		word
-	each_cons(${1:#:num}) {|${2:#:item}| ${3} }
+	each_cons(${1:#:num}) {|${2:#:item}| ${3:#:code} }
 
 # working...
 
 snippet		inject
 options		word
-	inject(${1:#:init}) {|${2:#:mem}, ${3:#:item}| ${4} }
+	inject(${1:#:init}) {|${2:#:mem}, ${3:#:item}| ${4:#:code} }
 
 snippet		reduce
 options		word
-	reduce(${1:#:init}) {|${2:#:mem}, ${3:#:item}| ${4} }
+	reduce(${1:#:init}) {|${2:#:mem}, ${3:#:item}| ${4:#:code} }
 
 snippet		max
 options		word
-	max {|${1:#:a}, ${2:#:b}| ${3} }
+	max {|${1:#:a}, ${2:#:b}| ${3:#:code} }
 
 snippet		max_by
 options		word
-	max_by {|${1:#:item}| ${2} }
+	max_by {|${1:#:item}| ${2:#:code} }
 
 snippet		min
 options		word
-	min {|${1:#:a}, ${2:#:b}| ${3} }
+	min {|${1:#:a}, ${2:#:b}| ${3:#:code} }
 
 snippet		min_by
 options		word
-	min_by {|${1:#:item}| ${2} }
+	min_by {|${1:#:item}| ${2:#:code} }
 
 snippet		sort
 options		word
-	sort {|${1:#:a}, ${2:#:b}| ${3} }
+	sort {|${1:#:a}, ${2:#:b}| ${3:#:code} }
 
 snippet		sort_by
 options		word
-	sort_by {|${1:#:item}| ${2} }
+	sort_by {|${1:#:item}| ${2:#:code} }
 
 # Misc
 snippet		encoding
@@ -364,19 +365,19 @@ alias			enc
 snippet		urlencode
 	# coding: utf-8
 	require 'erb'
-	puts ERB::Util.url_encode '${1}'
+	puts ERB::Util.url_encode '${1:#:code}'
 
 snippet		main
 options		head
 	if __FILE__ == \$0
-		${0:TARGET}
+		${1:TARGET}
 	end
 
 snippet		fileopen
 alias			open
 abbr			File.open(filename) do ... end
 	File.open(${1:#:filename}, '${2:#:mode}') do |${3:io}|
-		${0:TARGET}
+		${1:TARGET}
 	end
 
 # This idiom is only for legacy ruby such as 1.9.3
@@ -388,7 +389,7 @@ abbr			File.dirname(...)
 snippet		glob
 options		head
 	Dir.glob(${1:'**/*'}) do |fname|
-		${0:TARGET}
+		${1:TARGET}
 	end
 
 # measures of typo
