@@ -72,13 +72,41 @@ abbr			when ...
 	when ${1:#:condition}
 		${0}
 
-snippet		begin
+snippet		begin-rescue
 abbr			begin ... rescue ... end
 	begin
 		${1:TARGET}
 	rescue ${2:#:StandardError} => ${3:e}
 		${4:#:code}
 	end
+
+snippet		begin-ensure
+abbr			begin ... ensure ... end
+	begin
+		${1:TARGET}
+	ensure
+		${2:#:code}
+	end
+
+snippet		begin-rescue-ensure
+abbr			begin ... rescue ... ensure ... end
+	begin
+		${1:TARGET}
+	rescue ${2:#:StandardError} => ${3:e}
+		${4:#:code}
+	ensure
+		${5:#:code}
+	end
+
+snippet		rescue
+abbr			rescue ...
+	rescue ${1:#:StandardError} => ${2:e}
+		${0}
+
+snippet		ensure
+abbr			ensure ...
+	ensure
+		${0}
 
 snippet		class
 abbr			class ... end
@@ -98,8 +126,7 @@ abbr			def ... end
 		${2:TARGET}
 	end
 
-snippet		defrescue
-alias			defr
+snippet		def-rescue
 abbr			def ... rescue ... end
 	def ${1:#:method_name}
 		${2:TARGET}
