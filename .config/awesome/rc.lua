@@ -420,6 +420,11 @@ globalkeys = awful.util.table.join(
       awful.util.eval, nil,
       awful.util.getdir("cache") .. "/history_eval")
     end),
+  -- brightness cntrol (not working...)
+  awful.key({}, "XF86MonBrightnessDown",
+    function () awful.util.spawn_with_shell("xbacklight -dec 15") end),
+  awful.key({}, "XF86MonBrightnessUp",
+    function () awful.util.spawn_with_shell("xbacklight -inc 15") end),
   -- volume control
   awful.key({}, "XF86AudioMute",
     function () awful.util.spawn_with_shell("amixer -q sset Master toggle") end),
