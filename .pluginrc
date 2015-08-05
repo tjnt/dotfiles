@@ -22,13 +22,12 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Base modules / Librarys {{{2
 NeoBundle 'Shougo/vimproc.vim', {
       \ 'build' : {
-      \     'windows' : 'tools\\update-dll-mingw',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'linux' : 'make',
-      \     'unix' : 'gmake',
-      \    },
-      \ }
+      \   'windows' : 'tools\\update-dll-mingw',
+      \   'cygwin' : 'make -f make_cygwin.mak',
+      \   'mac' : 'make -f make_mac.mak',
+      \   'linux' : 'make',
+      \   'unix' : 'gmake',
+      \ }}
 
 " 補完 {{{2
 NeoBundleLazy 'Shougo/neocomplete.vim', {
@@ -44,7 +43,17 @@ NeoBundleLazy 'osyo-manga/vim-marching', {
       \ 'autoload' : { 'filetypes' : 'cpp' },
       \ 'vim_version' : '7.3.598'
       \ }
-
+NeoBundleLazy 'nosami/Omnisharp', {
+      \ 'autoload': { 'filetypes' : 'cs'},
+      \ 'disabled' : !has('python') ||
+      \              (g:is_windows && !executable('MsBuild.exe')) ||
+      \              (has('mac') && !executable('xbuild')) ||
+      \              (has('unix') && !executable('xbuild')),
+      \ 'build': {
+      \   'windows': 'MSBuild.exe server/OmniSharp.sln /p:Platform="Any CPU"',
+      \   'mac': 'xbuild server/OmniSharp.sln',
+      \   'unix': 'xbuild server/OmniSharp.sln',
+      \ }}
 NeoBundleLazy 'Shougo/neosnippet.vim', {
       \ 'autoload' : { 'insert' : 1 }
       \ }
@@ -448,6 +457,22 @@ function! s:bundle.on_post_source(bundle)
   imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
   " キャッシュを削除してからオムに補完を行う
   imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+endfunction
+unlet s:bundle
+
+
+" Omnisharp {{{1
+"
+let s:bundle = neobundle#get('Omnisharp')
+function! s:bundle.hooks.on_source(bundle)
+  " neocompleteとの連携
+  if neobundle#is_installed("neocomplete.vim")
+    let g:marching_enable_neocomplete = 1
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
+  endif
 endfunction
 unlet s:bundle
 
