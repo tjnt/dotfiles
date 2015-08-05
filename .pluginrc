@@ -88,6 +88,10 @@ NeoBundleLazy 't9md/vim-quickhl', {
       \ 'autoload' : {
       \   'mappings' : '<Plug>'
       \ }}
+NeoBundleLazy 'scrooloose/syntastic', {
+      \ 'autoload' : {
+      \     'filetypes' : 'all',
+      \ }}
 NeoBundleLazy 'tomtom/tcomment_vim', {
       \ 'autoload' : {
       \   'mappings' : [
@@ -842,6 +846,15 @@ xmap <LEADER>M <Plug>(quickhl-manual-reset)
 " 一行コメントは<LEADER>cでトグル
 let g:tcommentMapLeaderOp1 = '<LEADER>c'
 let g:tcommentMapLeaderOp2 = '<LEADER>C'
+
+
+" syntastic {{{1
+"
+nnoremap [syntastic] <Nop>
+nmap     <LEADER>s [syntastic]
+noremap <silent>[syntastic]e :<C-u>SyntasticCheck<CR>
+noremap <silent>[syntastic]r :<C-u>SyntasticReset<CR>
+noremap <silent>[toggle]s    :<C-u>SyntasticToggleMode<CR>
 
 
 " indent-guides {{{1
