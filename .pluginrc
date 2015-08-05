@@ -43,7 +43,7 @@ NeoBundleLazy 'osyo-manga/vim-marching', {
       \ 'autoload' : { 'filetypes' : 'cpp' },
       \ 'vim_version' : '7.3.598'
       \ }
-NeoBundleLazy 'nosami/Omnisharp', {
+NeoBundleLazy 'OmniSharp/omnisharp-vim', {
       \ 'autoload': { 'filetypes' : 'cs'},
       \ 'disabled' : !has('python') ||
       \              (g:is_windows && !executable('MsBuild.exe')) ||
@@ -54,6 +54,7 @@ NeoBundleLazy 'nosami/Omnisharp', {
       \   'mac': 'xbuild server/OmniSharp.sln',
       \   'unix': 'xbuild server/OmniSharp.sln',
       \ }}
+
 NeoBundleLazy 'Shougo/neosnippet.vim', {
       \ 'autoload' : { 'insert' : 1 }
       \ }
@@ -463,11 +464,10 @@ unlet s:bundle
 
 " Omnisharp {{{1
 "
-let s:bundle = neobundle#get('Omnisharp')
+let s:bundle = neobundle#get('omnisharp-vim')
 function! s:bundle.hooks.on_source(bundle)
   " neocompleteとの連携
   if neobundle#is_installed("neocomplete.vim")
-    let g:marching_enable_neocomplete = 1
     if !exists('g:neocomplete#force_omni_input_patterns')
       let g:neocomplete#force_omni_input_patterns = {}
     endif
