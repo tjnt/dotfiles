@@ -883,9 +883,15 @@ noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
 
 " syntastic {{{1
 "
+" ファイルを開くときにシンタックスチェックしない
+let g:syntastic_check_on_open = 0
+" 終了するときにシンタックスチェックしない
+let g:syntastic_check_on_wq = 0
+
 nnoremap [syntastic] <Nop>
 nmap     <LEADER>s [syntastic]
-noremap <silent>[syntastic]e :<C-u>SyntasticCheck<CR>
+noremap <silent>[syntastic]e :<C-u>Errors<CR>
+noremap <silent>[syntastic]s :<C-u>SyntasticCheck<CR>
 noremap <silent>[syntastic]r :<C-u>SyntasticReset<CR>
 noremap <silent>[toggle]s    :<C-u>SyntasticToggleMode<CR>
 
