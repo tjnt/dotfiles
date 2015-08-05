@@ -73,35 +73,13 @@ NeoBundleLazy 'rhysd/vim-operator-surround.git', {
       \   'mappings' : '<Plug>'
       \ }}
 
-" 編集 {{{2
-NeoBundleLazy 'vim-scripts/ShowMarks7', {
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'ShowMarksToggle',
-      \     'ShowMarksOn',
-      \     'ShowMarksPlaceMark',
-      \     'ShowMarksClearMark',
-      \     'ShowMarksClearAll',
-      \   ]
-      \ }}
-NeoBundleLazy 't9md/vim-quickhl', {
-      \ 'autoload' : {
-      \   'mappings' : '<Plug>'
-      \ }}
-NeoBundleLazy 'scrooloose/syntastic', {
-      \ 'autoload' : {
-      \     'filetypes' : 'all',
-      \ }}
+" 編集支援 (オペレーション) {{{2
 NeoBundleLazy 'tomtom/tcomment_vim', {
       \ 'autoload' : {
       \   'mappings' : [
       \     '<LEADER>c',
       \     '<LEADER>C',
       \   ]
-      \ }}
-NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
-      \ 'autoload' : {
-      \   'commands' : 'IndentGuidesToggle',
       \ }}
 NeoBundleLazy 'taku-o/vim-fix-numbering', {
       \ 'autoload' : {
@@ -120,6 +98,30 @@ NeoBundleLazy 'vim-scripts/Align', {
 NeoBundleLazy 'osyo-manga/vim-over', {
       \ 'autoload' : {
       \   'commands' : 'OverCommandLine',
+      \ }}
+
+" 編集支援 (視覚効果) {{{2
+NeoBundleLazy 'vim-scripts/ShowMarks7', {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'ShowMarksToggle',
+      \     'ShowMarksOn',
+      \     'ShowMarksPlaceMark',
+      \     'ShowMarksClearMark',
+      \     'ShowMarksClearAll',
+      \   ]
+      \ }}
+NeoBundleLazy 't9md/vim-quickhl', {
+      \ 'autoload' : {
+      \   'mappings' : '<Plug>'
+      \ }}
+NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
+      \ 'autoload' : {
+      \   'commands' : 'IndentGuidesToggle',
+      \ }}
+NeoBundleLazy 'scrooloose/syntastic', {
+      \ 'autoload' : {
+      \     'filetypes' : 'all',
       \ }}
 
 " ctags {{{2
@@ -793,6 +795,34 @@ map <silent>Sd <Plug>(operator-surround-delete)
 map <silent>Sr <Plug>(operator-surround-replace)
 
 
+" tcomment.vim {{{1
+"
+" <LEADER>cでコメントのトグル
+" 一行コメントは<LEADER>cでトグル
+let g:tcommentMapLeaderOp1 = '<LEADER>c'
+let g:tcommentMapLeaderOp2 = '<LEADER>C'
+
+
+" Align.vim {{{1
+"
+" 日本語など幅広文字に対応
+let g:Align_xstrlen=3
+" Align.vimは大量のキーマップを提供する
+" 干渉を避けるためにデフォルトキーマップの読み込みは行わない
+let g:loaded_AlignMapsPlugin = 1
+" change keymap
+" map <LEADER>am= <Plug>AM_m=
+
+
+" vim-over {{{1
+"
+nnoremap <silent><LEADER>: :OverCommandLine<CR>
+" カーソル下の単語をハイライト付きで置換
+" nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+" コピーした文字列をハイライト付きで置換
+" nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+
+
 " showmarks.vim {{{1
 "
 let showmarks_enable = 1
@@ -840,23 +870,6 @@ nmap <LEADER>M <Plug>(quickhl-manual-reset)
 xmap <LEADER>M <Plug>(quickhl-manual-reset)
 
 
-" tcomment.vim {{{1
-"
-" <LEADER>cでコメントのトグル
-" 一行コメントは<LEADER>cでトグル
-let g:tcommentMapLeaderOp1 = '<LEADER>c'
-let g:tcommentMapLeaderOp2 = '<LEADER>C'
-
-
-" syntastic {{{1
-"
-nnoremap [syntastic] <Nop>
-nmap     <LEADER>s [syntastic]
-noremap <silent>[syntastic]e :<C-u>SyntasticCheck<CR>
-noremap <silent>[syntastic]r :<C-u>SyntasticReset<CR>
-noremap <silent>[toggle]s    :<C-u>SyntasticToggleMode<CR>
-
-
 " indent-guides {{{1
 "
 " デフォルトは無効にしておく <LEADER><LEADER>iで有効化
@@ -868,24 +881,13 @@ let g:indent_guides_guide_size = 1
 noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
 
 
-" Align.vim {{{1
+" syntastic {{{1
 "
-" 日本語など幅広文字に対応
-let g:Align_xstrlen=3
-" Align.vimは大量のキーマップを提供する
-" 干渉を避けるためにデフォルトキーマップの読み込みは行わない
-let g:loaded_AlignMapsPlugin = 1
-" change keymap
-" map <LEADER>am= <Plug>AM_m=
-
-
-" vim-over {{{1
-"
-nnoremap <silent><LEADER>: :OverCommandLine<CR>
-" カーソル下の単語をハイライト付きで置換
-" nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-" コピーした文字列をハイライト付きで置換
-" nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+nnoremap [syntastic] <Nop>
+nmap     <LEADER>s [syntastic]
+noremap <silent>[syntastic]e :<C-u>SyntasticCheck<CR>
+noremap <silent>[syntastic]r :<C-u>SyntasticReset<CR>
+noremap <silent>[toggle]s    :<C-u>SyntasticToggleMode<CR>
 
 
 " taglist.vim {{{1
