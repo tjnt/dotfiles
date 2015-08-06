@@ -51,6 +51,8 @@ if has('vim_starting')
         let $PATH=$PATH.';'.$VIM.'\..\gow'
       endif
     endif
+    " msbuild
+    " let $PATH=$PATH.';'.'C:\Windows\Microsoft.NET\Framework64\v4.0.30319'
   " Linux
   elseif has('unix')
     let $VIMLOCAL=$HOME.'/.vim'

@@ -43,17 +43,18 @@ NeoBundleLazy 'osyo-manga/vim-marching', {
       \ 'autoload' : { 'filetypes' : 'cpp' },
       \ 'vim_version' : '7.3.598'
       \ }
-NeoBundleLazy 'OmniSharp/omnisharp-vim', {
-      \ 'autoload': { 'filetypes' : 'cs'},
-      \ 'disabled' : !has('python') ||
-      \              (g:is_windows && !executable('MsBuild.exe')) ||
-      \              (has('mac') && !executable('xbuild')) ||
-      \              (has('unix') && !executable('xbuild')),
-      \ 'build': {
-      \   'windows': 'MSBuild.exe server/OmniSharp.sln /p:Platform="Any CPU"',
-      \   'mac': 'xbuild server/OmniSharp.sln',
-      \   'unix': 'xbuild server/OmniSharp.sln',
-      \ }}
+" not work...
+" NeoBundleLazy 'OmniSharp/omnisharp-vim', {
+"       \ 'autoload': { 'filetypes' : 'cs'},
+"       \ 'disabled' : !has('python') ||
+"       \              (g:is_windows && !executable('MsBuild.exe')) ||
+"       \              (has('mac') && !executable('xbuild')) ||
+"       \              (has('unix') && !executable('xbuild')),
+"       \ 'build': {
+"       \   'windows': 'msbuild server/OmniSharp.sln /p:Platform="Any CPU"',
+"       \   'mac': 'xbuild server/OmniSharp.sln',
+"       \   'unix': 'xbuild server/OmniSharp.sln',
+"       \ }}
 
 NeoBundleLazy 'Shougo/neosnippet.vim', {
       \ 'autoload' : { 'insert' : 1 }
@@ -470,17 +471,17 @@ unlet s:bundle
 
 " Omnisharp {{{1
 "
-let s:bundle = neobundle#get('omnisharp-vim')
-function! s:bundle.hooks.on_source(bundle)
-  " neocompleteとの連携
-  if neobundle#is_installed("neocomplete.vim")
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
-  endif
-endfunction
-unlet s:bundle
+" let s:bundle = neobundle#get('omnisharp-vim')
+" function! s:bundle.hooks.on_source(bundle)
+"   " neocompleteとの連携
+"   if neobundle#is_installed("neocomplete.vim")
+"     if !exists('g:neocomplete#force_omni_input_patterns')
+"       let g:neocomplete#force_omni_input_patterns = {}
+"     endif
+"     let g:neocomplete#force_omni_input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
+"   endif
+" endfunction
+" unlet s:bundle
 
 
 " neosnippet.vim {{{1
