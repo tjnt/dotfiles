@@ -969,12 +969,12 @@ function! s:bundle.hooks.on_source(bundle)
 
   " default
   let g:quickrun_config['_'] = {
-        \ 'outputter/buffer/split' : ':rightbelow 8sp',
-        \ 'outputter/error/success' : 'buffer',
-        \ 'outputter/error/error' : 'quickfix',
-        \ 'outputter' : 'error',
-        \ 'runner' : 'vimproc',
-        \ 'runner/vimproc/updatetime' : 80,
+        \   'runner' : 'vimproc',
+        \   'runner/vimproc/updatetime' : 80,
+        \   'outputter' : 'error',
+        \   'outputter/error/success' : 'buffer',
+        \   'outputter/error/error' : 'quickfix',
+        \   'outputter/buffer/split' : ':rightbelow 8sp',
         \ }
 
   " debug
