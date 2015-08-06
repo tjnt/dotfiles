@@ -880,6 +880,10 @@ let g:syntastic_check_on_open = 0
 " 終了するときにシンタックスチェックしない
 let g:syntastic_check_on_wq = 0
 
+" clangを優先して使用する
+let g:syntastic_cpp_compiler = executable('clang++') ? 'clang++' : 'g++'
+let g:syntastic_cpp_compiler_options = '-std=c++11'
+
 nnoremap [syntastic] <Nop>
 nmap     <LEADER>s [syntastic]
 noremap <silent>[syntastic]e :<C-u>Errors<CR>
