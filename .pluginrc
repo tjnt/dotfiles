@@ -120,10 +120,6 @@ NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
       \ 'autoload' : {
       \   'commands' : 'IndentGuidesToggle',
       \ }}
-NeoBundleLazy 'scrooloose/syntastic', {
-      \ 'autoload' : {
-      \     'filetypes' : 'all',
-      \ }}
 
 " ctags {{{2
 NeoBundleLazy 'vim-scripts/taglist.vim', {
@@ -131,7 +127,7 @@ NeoBundleLazy 'vim-scripts/taglist.vim', {
       \   'commands' : 'TlistToggle',
       \ }}
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
-      \ 'depends': ['Shougo/vimproc.vim'],
+      \ 'depends': 'Shougo/vimproc.vim',
       \ 'autoload' : {
       \     'filetypes' : [
       \       'cpp', 'cs', 'java', 'ruby', 'vim'
@@ -266,6 +262,19 @@ NeoBundleLazy 'thinca/vim-quickrun', {
       \   'mappings' : '<Plug>',
       \   'commands' : 'QuickRun',
       \ }}
+NeoBundleLazy 'osyo-manga/vim-watchdogs', {
+      \ 'depends': [
+      \   'thinca/vim-quickrun',
+      \   'osyo-manga/shabadou.vim'
+      \ ],
+      \ 'autoload' : {
+      \     'filetypes' : [
+      \       'cpp', 'java', 'ruby', 'python', 'perl', 'php',
+      \       'javascript', 'sh', 'vim'
+      \     ]
+      \ }}
+NeoBundleLazy 'osyo-manga/shabadou.vim'
+
 NeoBundleLazy 'thinca/vim-ref', {
       \ 'autoload' : {
       \   'mappings' : '<Plug>',
@@ -873,25 +882,6 @@ let g:indent_guides_guide_size = 1
 noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
 
 
-" syntastic {{{1
-"
-" ファイルを開くときにシンタックスチェックしない
-let g:syntastic_check_on_open = 0
-" 終了するときにシンタックスチェックしない
-let g:syntastic_check_on_wq = 0
-
-" clangを優先して使用する
-let g:syntastic_cpp_compiler = executable('clang++') ? 'clang++' : 'g++'
-let g:syntastic_cpp_compiler_options = '-std=c++11'
-
-nnoremap [syntastic] <Nop>
-nmap     <LEADER>s [syntastic]
-noremap <silent>[syntastic]e :<C-u>Errors<CR>
-noremap <silent>[syntastic]s :<C-u>SyntasticCheck<CR>
-noremap <silent>[syntastic]r :<C-u>SyntasticReset<CR>
-noremap <silent>[toggle]s    :<C-u>SyntasticToggleMode<CR>
-
-
 " taglist.vim {{{1
 "
 " 現在表示中のファイルのみのタグしか表示しない
@@ -986,7 +976,7 @@ function! s:bundle.hooks.on_source(bundle)
   let g:quickrun_config['cpp'] = {
         \   'type':
         \     g:is_windows && executable('cl') ? 'cpp/vc' :
-        \     executable('clang++') ? 'cpp/clang++'  :
+        \     executable('clang++') ? 'cpp/clang++' :
         \     executable('g++') ? 'cpp/g++' : '',
         \ }
 
@@ -1073,6 +1063,43 @@ nmap <LEADER>r <Plug>(quickrun)
 " <C-c> で実行を強制終了させる
 " quickrun.vim が実行していない場合には <C-c> を呼び出す
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+
+
+" vim-watchdogs {{{1
+"
+let s:bundle = neobundle#get('vim-watchdogs')
+function! s:bundle.hooks.on_source(bundle)
+  " ファイル書き込み時にシンタックスチェックする
+  let g:watchdogs_check_BufWritePost_enable = 1
+  " :wq時にシンタックスチェックしない
+  let g:watchdogs_check_BufWritePost_enable_on_wq = 0
+
+  " c++
+	let g:quickrun_config["cpp/watchdogs_checker"] = {
+        \   'type':
+        \     g:is_windows && executable('cl') ? 'watchdogs_checker/msvc' :
+        \     executable('clang++') ? 'watchdogs_checker/clang++' :
+        \     executable('g++') ? 'watchdogs_checker/g++' : '',
+        \ }
+
+	let g:quickrun_config['cpp/watchdogs_checker/clang++'] = {
+        \   'cmdopt': '-Wall',
+        \ }
+
+	let g:quickrun_config['cpp/watchdogs_checker/g++'] = {
+        \   'cmdopt': '-Wall',
+        \ }
+
+  " ruby
+	let g:quickrun_config['cpp/watchdogs_checker/ruby'] = {
+        \   'cmdopt': '-w',
+        \ }
+
+	call watchdogs#setup(g:quickrun_config)
+
+  noremap <silent><LEADER>w :<C-u>WatchdogsRun<CR>
+endfunction
+unlet s:bundle
 
 
 " vim-ref {{{1
