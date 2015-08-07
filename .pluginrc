@@ -268,10 +268,11 @@ NeoBundleLazy 'osyo-manga/vim-watchdogs', {
       \   'osyo-manga/shabadou.vim'
       \ ],
       \ 'autoload' : {
-      \     'filetypes' : [
-      \       'cpp', 'cs', 'java', 'ruby', 'python', 'perl', 'php',
-      \       'javascript', 'sh', 'vim'
-      \     ]
+      \   'commands' : [
+      \     'WatchdogsRun',
+      \     'WatchdogsRunSilent',
+      \     'WatchdogsRunSweep',
+      \   ],
       \ }}
 NeoBundleLazy 'osyo-manga/shabadou.vim'
 
@@ -1121,10 +1122,10 @@ function! s:bundle.hooks.on_source(bundle)
         \ }
 
 	call watchdogs#setup(g:quickrun_config)
-
-  noremap <silent><LEADER>w :<C-u>WatchdogsRun<CR>
 endfunction
 unlet s:bundle
+
+noremap <silent><LEADER>w :<C-u>WatchdogsRun<CR>
 
 
 " vim-ref {{{1
