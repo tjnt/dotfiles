@@ -989,15 +989,14 @@ function! s:bundle.hooks.on_source(bundle)
         \ }
 
   let g:quickrun_config['cpp/vc'] = {
-        \   'cmdopt': '/EHsc',
+        \   'cmdopt': '/nologo /EHsc',
         \   'hook/output_encode/encoding': 'sjis',
-        \   'exec': ['%c %o %s /nologo /Fo%s:p:r.obj /Fe%s:p:r.exe',
+        \   'exec': ['%c %o %s /Fo%s:p:r.obj /Fe%s:p:r.exe',
         \            '%s:p:r.exe %a'],
         \ }
 
   " ruby
   let g:quickrun_config['ruby'] = {
-        \   'command': 'ruby',
         \   'cmdopt': '-w',
         \ }
 
@@ -1088,6 +1087,11 @@ function! s:bundle.hooks.on_source(bundle)
 
 	let g:quickrun_config['cpp/watchdogs_checker/g++'] = {
         \   'cmdopt': '-Wall',
+        \ }
+
+  let g:quickrun_config['watchdogs_checker/msvc'] = {
+        \   'cmdopt': '/nologo /EHsc',
+        \   'hook/output_encode/encoding': 'sjis',
         \ }
 
   " ruby
