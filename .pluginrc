@@ -990,7 +990,7 @@ function! s:bundle.hooks.on_source(bundle)
 
   let g:quickrun_config['cpp/vc'] = {
         \   'cmdopt': '/nologo /EHsc',
-        \   'hook/output_encode/encoding': 'sjis',
+        \   'hook/output_encode/encoding': '&termencoding',
         \   'exec': ['%c %o %s /Fo%s:p:r.obj /Fe%s:p:r.exe',
         \            '%s:p:r.exe %a'],
         \ }
@@ -1091,7 +1091,7 @@ function! s:bundle.hooks.on_source(bundle)
 
   let g:quickrun_config['watchdogs_checker/msvc'] = {
         \   'cmdopt': '/nologo /EHsc',
-        \   'hook/output_encode/encoding': 'sjis',
+        \   'hook/output_encode/encoding': '&termencoding',
         \ }
   " cs
   let g:quickrun_config['cs/watchdogs_checker'] = {
