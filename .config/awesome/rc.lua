@@ -199,7 +199,7 @@ awesomebutton = awful.widget.launcher({
 app_table = {
   { "x-terminal-emulator", "/usr/share/icons/gnome/32x32/apps/terminal.png" },
   { "gvim",                "/usr/share/icons/hicolor/32x32/apps/vim.png" },
-  { "pcmanfm",             "/usr/share/icons/gnome/32x32/apps/file-manager.png" },
+  -- { "pcmanfm",             "/usr/share/icons/gnome/32x32/apps/file-manager.png" },
   { "iceweasel",           "/usr/share/icons/hicolor/32x32/apps/iceweasel.png" },
   -- { "icedove",             "/usr/share/icons/hicolor/32x32/apps/icedove.png" },
 }
