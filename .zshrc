@@ -147,6 +147,16 @@ function bk {
   cp -rp "$1" "$1_`date +%y%m%d%H%M`"
 }
 
+# ranger
+# Start new ranger instance only if it's not running in current shell
+rg() {
+  if [ -z "$RANGER_LEVEL" ]; then
+    ranger
+  else
+    exit
+  fi
+}
+
 #-------------------------------------------------
 # tmux
 #
