@@ -15,7 +15,7 @@ autoload -Uz colors
 colors
 
 # 左プロンプト
-if [ ${UID} = 0 ] ; then
+if [ ${UID} = 0 ]; then
   # PROMPT="%{$fg_bold[red]%}%n@%m:%~%#%{$reset_color%} "
   PROMPT="%F{red}%B%n@%m:%~%#%b%f "
 else
@@ -143,7 +143,7 @@ alias -g L='| lv'
 # Functions
 #
 # backup
-function bk {
+bk() {
   cp -rp "$1" "$1_`date +%y%m%d%H%M`"
 }
 
