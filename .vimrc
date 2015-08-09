@@ -299,7 +299,7 @@ if has('persistent_undo')
   " 全ファイルでpersistent_undoを有効
   set undofile
   " 特定ファイルのみpersistent_undoを有効
-"  augroup vimrc_undofile
+"  augroup ag_vimrc_undofile
 "    au!
 "    au BufReadPre ~/* setlocal undofile
 "  augroup END
@@ -618,8 +618,6 @@ vnoremap gt :<C-u>call <SID>v_grep_func('t')
 " 分割ウィンドウでタグジャンプ
 function! s:split_tagjump()
   exe "normal! \<C-w>\<C-]>"
-  "http://d.hatena.ne.jp/thinca/20110202
-  "UniteWithCursorWord -immediately -no-start-insert -auto-preview -default-action=split tag
 endfunction
 nnoremap <silent><C-]> :<C-u>call <SID>split_tagjump()<CR>
 
@@ -628,13 +626,7 @@ function! s:tagjump_or_cr()
   if bufname('%') == '[Command Line]' || &buftype == 'quickfix'
     exe "normal! \<CR>"
   else
-    try
-      exe "normal! \<C-]>"
-      " http://d.hatena.ne.jp/thinca/20110202
-      " UniteWithCursorWord -immediately -no-start-insert -auto-preview tag
-    catch
-      " ...
-    endtry
+    exe "normal! \<C-]>"
   endif
 endfunction
 nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
