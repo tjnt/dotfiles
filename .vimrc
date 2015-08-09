@@ -189,12 +189,20 @@ if &t_Co > 2 || has('gui_running')
   syntax on
 endif
 
-" コンソールモードで使用するカラースキーマ
+" コンソールでの見た目に関する設定
 if !has('gui_running')
+  " 背景を消してターミナル背景を表示
+  augroup ag_remove_background_color
+    au!
+    au ColorScheme * highlight! Normal ctermbg=none
+    au ColorScheme * highlight! NonText ctermbg=none
+    au ColorScheme * highlight! LineNr ctermbg=none
+  augroup END
+
+  " カラースキーマ
   if &t_Co >= 256
     try
       colorscheme jellybeans
-      highlight! Normal ctermbg=none
     catch
       colorscheme default
     endtry
