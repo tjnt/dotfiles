@@ -194,6 +194,7 @@ if !has('gui_running')
   if &t_Co >= 256
     try
       colorscheme jellybeans
+      highlight! Normal ctermbg=none
     catch
       colorscheme default
     endtry
