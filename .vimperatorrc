@@ -4,6 +4,9 @@
 " vimperator v3.5
 "
 
+" runtimepath
+set runtimepath=~/.vimperator
+
 " オプション設定 {{{1
 "
 " disable beep
