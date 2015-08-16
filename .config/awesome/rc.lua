@@ -128,7 +128,8 @@ end
 
 -- Variable definitions {{{1
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
+-- terminal = "x-terminal-emulator"
+terminal = "urxvt"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -197,11 +198,13 @@ awesomebutton = awful.widget.launcher({
   menu = mymainmenu })
 
 app_table = {
-  { "x-terminal-emulator", "/usr/share/icons/gnome/32x32/apps/terminal.png" },
-  { "gvim",                "/usr/share/icons/hicolor/32x32/apps/vim.png" },
-  -- { "pcmanfm",             "/usr/share/icons/gnome/32x32/apps/file-manager.png" },
-  { "iceweasel",           "/usr/share/icons/hicolor/32x32/apps/iceweasel.png" },
-  -- { "icedove",             "/usr/share/icons/hicolor/32x32/apps/icedove.png" },
+  { "urxvt", "/usr/share/icons/gnome/32x32/apps/terminal.png" },
+  { "gvim", "/usr/share/icons/hicolor/32x32/apps/vim.png" },
+  -- { "pcmanfm", "/usr/share/icons/gnome/32x32/apps/file-manager.png" },
+  { "firefox", "/home/tjnt/.local/share/icons/hicolor/32x32/apps/firefox-nightly.png" },
+  -- { "iceweasel", "/usr/share/icons/hicolor/32x32/apps/iceweasel.png" },
+  -- { "icedove", "/usr/share/icons/hicolor/32x32/apps/icedove.png" },
+
 }
 mylanchers = {}
 for i, o in ipairs(app_table) do
