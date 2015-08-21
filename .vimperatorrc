@@ -87,10 +87,20 @@ EOM
 
 " ユーザー定義コマンド {{{1
 "
-command! Reloadrc :source ~/.vimperatorrc
+command! reloadrc :source ~/.vimperatorrc
+
+" プライベートタブ切り替え
+js <<EOM
+function toggle_private_tab()
+{
+  flg = privateTab.isTabPrivate(gBrowser.mCurrentTab);
+  privateTab.toggleTabPrivate(gBrowser.mCurrentTab, !flg);
+}
+EOM
+command! toggleprivate javascript toggle_private_tab()
 
 " Evernote Web Clipperを起動
-command! clip javascript evernote_doAction()
+" command! clip javascript evernote_doAction()
 
 
 " キーマッピング {{{1
@@ -151,10 +161,11 @@ nnoremap <LEADER>h <A-Left>
 nnoremap <LEADER>l <A-Right>
 
 " プライベートブラウジング
-nnoremap <LEADER>p :winopen -private<CR>
+nnoremap <LEADER>p :toggleprivate<CR>
+nnoremap <LEADER>P :winopen -private<CR>
 
 " vimperatorrc再読み込み
-nnoremap <LEADER>r :Reloadrc<CR>
+nnoremap <LEADER>r :reloadrc<CR>
 
 " emacsキーバインド (インサートモード)
 inoremap <C-p> <Up>
