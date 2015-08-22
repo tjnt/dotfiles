@@ -191,6 +191,14 @@ nnoremap <S-Esc> <Nop>
 cnoremap <S-Esc> <Nop>
 inoremap <S-Esc> <Nop>
 
+" ブックマークツールバーをファビコンのみ表示する
+style -name bookmark-toolbar chrome://* <<EOM
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+toolbarbutton.bookmark-item > .toolbarbutton-text {
+  display: none !important;
+}
+EOM
+
 " 読み込み完了のメッセージ表示
 echo 'vimperatorrc loaded'
 
