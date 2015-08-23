@@ -21,7 +21,7 @@ liberator.plugins.bookmarkToolbarHints = (function() {
     var where_;
     var bk_tbopt_;
     var hints_;
-    var pressed_;
+    var key_stack_;
     var current_;
 
 	function start(where)
@@ -43,13 +43,22 @@ liberator.plugins.bookmarkToolbarHints = (function() {
     function show(target, anchor)
     {
         hints_ = [];
-        pressed_ = "";
+        key_stack_ = "";
         current_ = target;
         for (let i = 0; i < target.childNodes.length; i++) {
             let button = target.childNodes[i];
             if (button.localName == "menuseparator") continue;
-            hints_.push(button);
-            let tooltip = createTooltip();
+
+            let idx = tooltipbox.childNodes.length + 1;
+            var tooltip = document.createElement('tooltip');
+            tooltip.setAttribute('style', 'padding:0; margin:0;');
+            var label = document.createElement('label');
+            label.setAttribute('value', idx);
+            label.setAttribute('style','padding:0; margin:0 2px;');
+            tooltip.appendChild(label);
+            tooltipbox.appendChild(tooltip);
+
+            hints_[idx.toString()] = button;
             tooltip.showPopup(button, -1, -1, "tooltip", anchor, "topright");
         }
     }
@@ -75,25 +84,35 @@ liberator.plugins.bookmarkToolbarHints = (function() {
                 closeMenus(current_);
                 quit();
                 break;
+            case "l":
+                open(hints_[key_stack_]);
+                break;
             default:
                 if (/^[0-9]$/.test(key)) {
-                    pressed_ += key;
-                    let num = parseInt(pressed_, 10);
-                    if (hints_[num-1]) {
-                        pressed_ = "";
-                        target = hints_[num-1]
-                        if (target.getAttribute('container') == 'true') {
-                            openFolder(target);
-                        } else {
-                            openItem(target);
-                            quit();
-                        }
-                    }
+                    key_stack_ += key;
+                    let regex = new RegExp("^" + key_stack_);
+                    let cnt = 0;
+                    for (var k in hints_)
+                        if (regex.test(k)) cnt += 1;
+                    if (cnt > 1) break;
+                    open(hints_[key_stack_]);
                 }
                 break;
         }
 		event.stopPropagation();
 		event.preventDefault();
+    }
+
+    function open(target)
+    {
+        if (target) {
+            if (target.getAttribute('container') == 'true') {
+                openFolder(target);
+            } else {
+                openItem(target);
+                quit();
+            }
+        }
     }
 
     function openItem(target)
@@ -118,18 +137,6 @@ liberator.plugins.bookmarkToolbarHints = (function() {
             tooltipbox.removeChild(tooltipbox.firstChild);
         }
         show(target.firstChild, "topleft");
-    }
-
-    function createTooltip()
-    {
-        var tooltip = document.createElement('tooltip');
-        tooltip.setAttribute('style', 'padding:0; margin:0;');
-        var label = document.createElement('label');
-        label.setAttribute('value',tooltipbox.childNodes.length+1);
-        label.setAttribute('style','padding:0; margin:0 2px;');
-        tooltip.appendChild(label);
-        tooltipbox.appendChild(tooltip);
-        return tooltip;
     }
 
 	var tooltipbox = document.createElement('box');
