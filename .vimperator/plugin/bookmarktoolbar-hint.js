@@ -21,7 +21,7 @@ liberator.plugins.bookmarkToolbarHints = (function() {
     var where_;
     var bk_tbopt_;
     var hints_;
-    var key_stack_;
+    var keystack_;
     var current_;
 
 	function start(where)
@@ -43,7 +43,7 @@ liberator.plugins.bookmarkToolbarHints = (function() {
     function show(target, anchor)
     {
         hints_ = [];
-        key_stack_ = "";
+        keystack_ = "";
         current_ = target;
         for (let i = 0; i < target.childNodes.length; i++) {
             let button = target.childNodes[i];
@@ -58,7 +58,10 @@ liberator.plugins.bookmarkToolbarHints = (function() {
             tooltip.appendChild(label);
             tooltipbox.appendChild(tooltip);
 
-            hints_[idx.toString()] = button;
+            hints_[idx.toString()] = {
+                button: button,
+                tooltip: tooltip,
+            };
             tooltip.showPopup(button, -1, -1, "tooltip", anchor, "topright");
         }
     }
@@ -85,17 +88,30 @@ liberator.plugins.bookmarkToolbarHints = (function() {
                 quit();
                 break;
             case "l":
-                open(hints_[key_stack_]);
+            case "<Return>":
+                open(hints_[keystack_].button);
                 break;
             default:
                 if (/^[0-9]$/.test(key)) {
-                    key_stack_ += key;
-                    let regex = new RegExp("^" + key_stack_);
+                    keystack_ += key;
+                    let regex = new RegExp("^" + keystack_);
                     let cnt = 0;
-                    for (var k in hints_)
-                        if (regex.test(k)) cnt += 1;
-                    if (cnt > 1) break;
-                    open(hints_[key_stack_]);
+                    for (var k in hints_) {
+                        if (regex.test(k)) {
+                            hints_[k].tooltip.style.fontWeight = "bolder";
+                            cnt += 1;
+                        }
+                    }
+                    if (cnt < 1) {
+                        // no hit.
+                        keystack_ = "";
+                        break;
+                    }
+                    if (cnt > 1) {
+                        // many matched.
+                        break;
+                    }
+                    open(hints_[keystack_].button);
                 }
                 break;
         }
