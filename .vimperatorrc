@@ -102,6 +102,9 @@ command! toggleprivate javascript toggle_private_tab()
 " Evernote Web Clipperを起動
 " command! clip javascript evernote_doAction()
 
+" MyBookmarks
+command! mybookmarks :open about:mybookmarks
+
 
 " キーマッピング {{{1
 "
