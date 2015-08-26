@@ -163,6 +163,9 @@ nnoremap <LEADER>k d
 nnoremap <LEADER>h <A-Left>
 nnoremap <LEADER>l <A-Right>
 
+" ブックマークダイアログ表示
+nnoremap <LEADER>a :dialog addbookmark<CR>
+
 " プライベートブラウジング
 nnoremap <LEADER>p :toggleprivate<CR>
 nnoremap <LEADER>P :winopen -private<CR>
