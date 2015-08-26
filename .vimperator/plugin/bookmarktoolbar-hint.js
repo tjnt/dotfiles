@@ -36,11 +36,11 @@ liberator.plugins.bookmarkToolbarHints = (function() {
         liberator.modules.modes.set(
                 liberator.modules.modes.CUSTOM,
                 liberator.modules.modes.QUICK_HINT);
-        show(document.getElementById('PlacesToolbarItems'), "bottomright");
+        show(document.getElementById('PlacesToolbarItems'), false);
         window.addEventListener('keypress', onKeyPress, true);
     }
 
-    function show(target, anchor)
+    function show(target, isfolder)
     {
         hints_ = [];
         keystack_ = "";
@@ -62,7 +62,11 @@ liberator.plugins.bookmarkToolbarHints = (function() {
                 button: button,
                 tooltip: tooltip,
             };
-            tooltip.showPopup(button, -1, -1, "tooltip", anchor, "topright");
+            // tooltip.showPopup(button, -1, -1, "tooltip", anchor, "topright");
+            if (isfolder)
+                tooltip.openPopup(button, "start_before", 0, 0, false, false);
+            else
+                tooltip.openPopup(button, "after_start", 5, 0, false, false);
         }
     }
 
@@ -152,7 +156,7 @@ liberator.plugins.bookmarkToolbarHints = (function() {
             tooltipbox.firstChild.hidePopup();
             tooltipbox.removeChild(tooltipbox.firstChild);
         }
-        show(target.firstChild, "topleft");
+        show(target.firstChild, true);
     }
 
 	var tooltipbox = document.createElement('box');
