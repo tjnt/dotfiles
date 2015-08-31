@@ -377,68 +377,68 @@ alias	internals asmInternalsVisibleTo friend_attr
 options head
 	[assembly: InternalsVisibleTo("${1:#:Friendname}")]${0}
 
+# XML Document Comment
+snippet docc
+abbr	<c></c>
+	/// <c>${1:#:text}</c>
 
-# XML Document
-# snippet c
-# abbr	<c></c>
-# 	<c>${1:#:text}</c>
-#
-# snippet code
-# abbr	<code></code>
-# 	<code>${0:#:content}</code>
-#
-# snippet example
-# abbr	<example></example>
-# 	<example>${0:#:description}</example>
-#
-# snippet exception
-# abbr	<exception cref=""></exception>
-# 	<exception cref="${1:#:class}">${2:#:description}</exception>
-#
-# snippet include
-# abbr	<include file='' path=''/>
-# 	<include file='${1:#:filename}' path='${2:#:tabpath}[@${3:#:name}="${4:#:id}"]'/>
-#
-# snippet param
-# abbr	<param name=""></param>
-# 	<param name="${1:#:name}">${0:#:description}</param>
-#
-# snippet paramref
-# abbr	<paramref name=""/>
-# 	<paramref name="${1:#:name}"/>
-#
-# snippet returns
-# abbr	<returns></returns>
-# 	<returns>${0:#:description}</returns>
-#
-# snippet remarks
-# abbr	<remarks></remarks>
-# 	<remarks>${0:#:description}</remarks>
-#
-# snippet see
-# abbr	<see cref=""/>
-# 	<see cref="${1:#:member}"/>
-#
-# snippet seealso
-# abbr	<seealso cref=""/>
-# 	<seealso cref="${1:#:member}"/>}
-#
-# snippet summary
-# abbr	<summary></summary>
-# 	<summary>${0:#:description}</summary>
-#
-# snippet typeparam
-# abbr	<typeparam name=""></typeparam>
-# 	<typeparam name="${1:#:name}">${0:#:description}</typeparam>
-#
-# snippet typeparamref
-# abbr	<typeparamref name=""/>
-# 	<typeparamref name="${1:#:name}"/>
-#
-# snippet value
-# abbr	<value></value>
-# 	<value>${0:#:description}</value>
+snippet doccode
+abbr	<code></code>
+	/// <code>${0:#:content}</code>
 
+snippet docexample
+abbr	<example></example>
+	/// <example>${0:#:description}</example>
+
+snippet docexception
+abbr	<exception cref=""></exception>
+	/// <exception cref="${1:#:class}">${2:#:description}</exception>
+
+snippet docinclude
+abbr	<include file='' path=''/>
+	/// <include file='${1:#:filename}' path='${2:#:tabpath}[@${3:#:name}="${4:#:id}"]'/>
+
+snippet docparam
+abbr	<param name=""></param>
+	/// <param name="${1:#:name}">${0:#:description}</param>
+
+snippet docparamref
+abbr	<paramref name=""/>
+	/// <paramref name="${1:#:name}"/>
+
+snippet docreturns
+abbr	<returns></returns>
+	/// <returns>${0:#:description}</returns>
+
+snippet docremarks
+abbr	<remarks></remarks>
+	/// <remarks>${0:#:description}</remarks>
+
+snippet docsee
+abbr	<see cref=""/>
+	/// <see cref="${1:#:member}"/>
+
+snippet docseealso
+abbr	<seealso cref=""/>
+	/// <seealso cref="${1:#:member}"/>}
+
+snippet docsummary
+abbr	<summary></summary>
+	/// <summary>
+	/// ${0:#:summary}
+	/// </summary>
+
+snippet doctypeparam
+abbr	<typeparam name=""></typeparam>
+	/// <typeparam name="${1:#:name}">${0:#:description}</typeparam>
+
+snippet doctypeparamref
+abbr	<typeparamref name=""/>
+	/// <typeparamref name="${1:#:name}"/>
+
+snippet docvalue
+abbr	<value></value>
+	/// <value>${0:#:description}</value>
 
 # Other
 snippet main
