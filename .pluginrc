@@ -776,8 +776,20 @@ function! s:bundle.hooks.on_source(bundle)
   augroup END
 endfunction
 unlet s:bundle
+
+" 無かったら開く、あったらフォーカス
+function! s:jump_nerdtree()
+  let num = FindWindowIf("&filetype == 'nerdtree'")
+  if num
+    exe num.'wincmd w'
+  else
+    exe 'NERDTreeToggle'
+  endif
+endfunction
+
 " NERDTree開閉トグル
 nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
+nnoremap <silent><LEADER><Tab> :<C-u>call <SID>jump_nerdtree()<CR>
 
 
 " vim-operator-replace {{{1

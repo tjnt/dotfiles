@@ -438,7 +438,7 @@ noremap <silent>[tab]p :<C-u>call <SID>tabmove_previous()<CR>
 
 " 条件'pred'を満たすウィンドウが開いているなら、そのウィンドウ番号を返す
 " 開いていないなら 0 を返す
-function! s:find_window_if(pred)
+function! FindWindowIf(pred)
   let winnr_save = winnr()
   let wincount = winnr("$")
   let i = 1
@@ -455,7 +455,7 @@ function! s:find_window_if(pred)
 endfunction
 
 function! s:quickfix_operation(direction)
-  if s:find_window_if("&filetype == 'qf'")
+  if FindWindowIf("&filetype == 'qf'")
     exe a:direction == 'd' ? 'cnext' : 'cprevious'
   else
     exe 'copen'
