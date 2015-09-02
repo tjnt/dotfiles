@@ -79,6 +79,27 @@ function! s:has_plugin(name)
 endfunction
 command! -nargs=1 HasPlugin echomsg <SID>has_plugin('<args>')
 
+" global関数格納変数
+let g:myfuncs = {}
+
+" 条件'pred'を満たすウィンドウを検索し、そのウィンドウ番号を返す
+" 開いていないなら0を返す
+function! g:myfuncs.find_window_if(pred)
+  let winnr_save = winnr()
+  let wincount = winnr("$")
+  let i = 1
+  while i <= wincount
+    exe i."wincmd w"
+    if eval(a:pred)
+      exe winnr_save."wincmd w"
+      return i
+    endif
+    let i = i + 1
+  endwhile
+  exe winnr_save."wincmd w"
+  return 0
+endfunction
+
 
 " エンコーディング設定 {{{1
 "
@@ -356,16 +377,16 @@ vnoremap ? <ESC>?\%V
 vnoremap <silent>* "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
 
 " 検索結果のハイライトをEsc連打でリセットする
-noremap <silent><Esc><Esc> :<C-u>nohlsearch<CR>
+noremap <silent><ESC><ESC> :<C-u>nohlsearch<CR>
 
 " ;と:を入れ替える
 " noremap ; :
 " noremap : ;
 
 " Ctrl+Enterで保存
-noremap <silent><C-CR> :<C-u>w<CR>
-inoremap <silent><C-CR> <ESC>:<C-u>w<CR>
-vnoremap <silent><C-CR> <ESC>:<C-u>w<CR>
+map  <C-CR> :<C-u>w<CR>
+imap <C-CR> <ESC>:<C-u>w<CR>
+vmap <C-CR> <ESC>:<C-u>w<CR>
 
 " Ctrl+h,j,k,lで分割ウィンドウ移動
 noremap <C-h> <C-w>h
@@ -436,26 +457,8 @@ function! s:tabmove_previous()
 endfunction
 noremap <silent>[tab]p :<C-u>call <SID>tabmove_previous()<CR>
 
-" 条件'pred'を満たすウィンドウが開いているなら、そのウィンドウ番号を返す
-" 開いていないなら 0 を返す
-function! FindWindowIf(pred)
-  let winnr_save = winnr()
-  let wincount = winnr("$")
-  let i = 1
-  while i <= wincount
-    exe i."wincmd w"
-    if eval(a:pred)
-      exe winnr_save."wincmd w"
-      return i
-    endif
-    let i = i + 1
-  endwhile
-  exe winnr_save."wincmd w"
-  return 0
-endfunction
-
 function! s:quickfix_operation(direction)
-  if FindWindowIf("&filetype == 'qf'")
+  if g:myfuncs.find_window_if("&filetype == 'qf'")
     exe a:direction == 'd' ? 'cnext' : 'cprevious'
   else
     exe 'copen'

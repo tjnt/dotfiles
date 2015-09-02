@@ -779,7 +779,7 @@ unlet s:bundle
 
 " 無かったら開く、あったらフォーカス
 function! s:jump_nerdtree()
-  let num = FindWindowIf("&filetype == 'nerdtree'")
+  let num = g:myfuncs.find_window_if("&filetype == 'nerdtree'")
   if num
     exe num.'wincmd w'
   else
