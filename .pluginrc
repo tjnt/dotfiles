@@ -4,6 +4,11 @@
 " プラグイン毎の設定
 "
 
+" gitが実行不可な環境では本スクリプトは処理しない.
+if !executable('git')
+  finish
+endif
+
 " neobundle.vim {{{1
 "
 " neobundle自体をインストールするコマンド
