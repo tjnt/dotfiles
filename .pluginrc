@@ -48,6 +48,11 @@ NeoBundleLazy 'osyo-manga/vim-marching', {
       \ 'autoload' : { 'filetypes' : 'cpp' },
       \ 'vim_version' : '7.3.598'
       \ }
+NeoBundleLazy 'vim-scripts/javacomplete', {
+      \ 'autoload' : { 'filetypes' : 'java' },
+      \ 'disabled' : !executable('javac'),
+      \ 'vim_version' : '7.3.598'
+      \ }
 " not work...
 " NeoBundleLazy 'OmniSharp/omnisharp-vim', {
 "       \ 'autoload': { 'filetypes' : 'cs'},
@@ -474,6 +479,16 @@ function! s:bundle.on_post_source(bundle)
 endfunction
 unlet s:bundle
 
+" javacomplete {{{1
+"
+let s:bundle = neobundle#get('javacomplete')
+function! s:bundle.hooks.on_source(bundle)
+  augroup ag_java_complete
+    au FileType java setlocal omnifunc=javacomplete#Complete
+                            \ completefunc=javacomplete#CompleteParamsInfo
+  augroup END
+endfunction
+unlet s:bundle
 
 " Omnisharp {{{1
 "
