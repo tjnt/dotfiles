@@ -620,17 +620,22 @@ vnoremap gt :<C-u>call <SID>v_grep_func('t')
 "
 " 分割ウィンドウでタグジャンプ
 function! s:split_tagjump()
-  exe "normal! \<C-w>\<C-]>"
+  try
+    exe "normal! \<C-w>\<C-]>"
+  catch
+    " suppress error message
+  endtry
 endfunction
 nnoremap <silent><C-]> :<C-u>call <SID>split_tagjump()<CR>
 
 " Enterでタグジャンプ
 function! s:tagjump_or_cr()
-  if bufname('%') == '[Command Line]' || &buftype == 'quickfix'
-    exe "normal! \<CR>"
-  else
-    exe "normal! \<C-]>"
-  endif
+    try
+      exe (bufname('%') == '[Command Line]' || &buftype == 'quickfix') ?
+            \ "normal! \<CR>" : "normal! \<C-]>"
+    catch
+      " suppress error message
+    endtry
 endfunction
 nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
 
