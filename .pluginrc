@@ -1154,18 +1154,27 @@ function! s:bundle.hooks.on_source(bundle)
         \ }
 
   let g:quickrun_config['watchdogs_checker/csc'] = {
-        \   'command'              : 'csc',
-        \   'cmdopt'               : '/nologo',
+        \   'command' : 'csc',
+        \   'cmdopt' : '/nologo',
         \   'exec': '%c %o %s:p:gs?/?\\?',
         \   'hook/output_encode/encoding': '&termencoding',
         \   'quickfix/errorformat' : '%f\\(%l\\,%c\\):\ error\ CS%n:\ %m',
         \ }
 
   let g:quickrun_config['watchdogs_checker/mcs'] = {
-        \   'command'              : 'mcs',
-        \   'cmdopt'               : '--parse',
-        \   'exec'                 : '%c %o %s:p',
+        \   'command' : 'mcs',
+        \   'cmdopt' : '--parse',
+        \   'exec' : '%c %o %s:p',
         \   'quickfix/errorformat' : '%f\\(%l\\,%c\\):\ error\ CS%n:\ %m',
+        \ }
+
+  " java
+  let g:quickrun_config['watchdogs_checker/javac'] = {
+        \   'command' : 'javac',
+        \   'exec' : '%c %o -d %s:p:h %s:p',
+        \   'hook/output_encode/encoding': '&termencoding',
+        \   'hook/sweep/files': '%s:p:r.class',
+        \   'errorformat': '%A%f:%l: %m,%-Z%p^,%+C%.%#,%-G%.%#',
         \ }
 
   " ruby
