@@ -51,8 +51,14 @@ NeoBundleLazy 'osyo-manga/vim-marching', {
 NeoBundleLazy 'vim-scripts/javacomplete', {
       \ 'autoload' : { 'filetypes' : 'java' },
       \ 'disabled' : !executable('javac'),
-      \ 'vim_version' : '7.3.598'
-      \ }
+      \ 'vim_version' : '7.3.598',
+      \ 'build' : {
+      \   'windows' : 'javac autoload/Reflection.java',
+      \   'cygwin' : 'javac autoload/Reflection.java',
+      \   'mac' : 'javac autoload/Reflection.java',
+      \   'linux' : 'javac autoload/Reflection.java',
+      \   'unix' : 'javac autoload/Reflection.java',
+      \ }}
 " not work...
 " NeoBundleLazy 'OmniSharp/omnisharp-vim', {
 "       \ 'autoload': { 'filetypes' : 'cs'},
@@ -584,6 +590,15 @@ function! s:bundle.hooks.on_source(bundle)
     let g:unite_source_grep_default_opts = "-Hn"
   endif
 
+  " no-quit付きで開かれているバッファは閉じないquit
+  function! s:unite_smart_quit()
+      if (exists("b:unite.context.no_quit") && b:unite.context.no_quit)
+        " do nothing
+      else
+        exe "normal \<Plug>(unite_exit)"
+      endif
+  endfunction
+
   function! s:chg_unite_keymap()
     " 普通に開く
     nnoremap <silent><buffer><expr>o unite#do_action('open')
@@ -597,17 +612,20 @@ function! s:bundle.hooks.on_source(bundle)
     " タブで開く
     nnoremap <silent><buffer><expr>t unite#do_action('tabopen')
     inoremap <silent><buffer><expr>t unite#smart_map("t", unite#do_action('tabopen'))
+
+    " Ctrl+h,j,k,lで分割ウィンドウ移動
+    noremap <silent><buffer><C-h> <C-w>h
+    noremap <silent><buffer><C-j> <C-w>j
+    noremap <silent><buffer><C-k> <C-w>k
+    noremap <silent><buffer><C-l> <C-w>l
+
+    " ESCキーを2回押すと終了する
+    nnoremap <silent><buffer><ESC><ESC> :<C-u>:call <SID>unite_smart_quit()<CR>
+    inoremap <silent><buffer><ESC><ESC> <ESC>:<C-u>:call <SID>unite_smart_quit()<CR>
   endfunction
 
   augroup ag_unite_chg_keymap
     au! FileType unite call s:chg_unite_keymap()
-  augroup END
-
-  " ESCキーを2回押すと終了する
-  augroup ag_unite_esc_esc_quit
-    au!
-    au FileType unite nnoremap <silent><buffer><ESC><ESC> :<C-u>q<CR>
-    au FileType unite inoremap <silent><buffer><ESC><ESC> <ESC>:<C-u>q<CR>
   augroup END
 endfunction
 unlet s:bundle
@@ -685,6 +703,7 @@ nnoremap <silent>[unite]sn :<C-u>Unite scriptnames<CR>
 
 " outlineトグル
 nnoremap <silent>[toggle]o :<C-u>Unite -vertical -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
+nnoremap <silent>[toggle]O :<C-u>Unite -vertical -direction=belowright -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
 
 " vim-ref
 augroup ag_unite_ref_keymap
@@ -751,6 +770,7 @@ function! s:bundle.hooks.on_source(bundle)
     " map <End> <Plug>(vimfiler_clear_mark_all_lines)
     " map <buffer> @ <Plug>(vimfiler_set_current_mask)
   endfunction
+
   augroup ag_vimfiler_chg_keymap
     au! FileType vimfiler call s:chg_vimfiler_keymap()
   augroup END
