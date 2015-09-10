@@ -139,10 +139,12 @@ NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
 
 " ctags {{{2
 NeoBundleLazy 'vim-scripts/taglist.vim', {
+      \ 'disabled' : !executable('ctags'),
       \ 'autoload' : {
       \   'commands' : 'TlistToggle',
       \ }}
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
+      \ 'disabled' : !executable('ctags'),
       \ 'depends': 'Shougo/vimproc.vim',
       \ 'autoload' : {
       \     'filetypes' : [
