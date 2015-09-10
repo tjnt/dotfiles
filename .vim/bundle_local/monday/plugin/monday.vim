@@ -28,11 +28,11 @@ let s:numbers = ''
 
 function s:Add_word_pair(word1, word2)
   let w10 = tolower(a:word1)
-  let w11 = toupper(matchstr(a:word1, '.')) . matchstr(w10, '.*', 1) 
+  let w11 = toupper(matchstr(a:word1, '.')) . matchstr(w10, '.*', 1)
   let w12 = toupper(a:word2)
 
   let w20 = tolower(a:word2)
-  let w21 = toupper(matchstr(a:word2, '.')) . matchstr(w20, '.*', 1) 
+  let w21 = toupper(matchstr(a:word2, '.')) . matchstr(w20, '.*', 1)
   let w22 = toupper(a:word2)
 
   let s:words = s:words . w10 . ':' . w20 . ','
@@ -73,18 +73,34 @@ call <SID>Add_number_suffix('11', 'th')
 call <SID>Add_number_suffix('12', 'th')
 call <SID>Add_number_suffix('13', 'th')
 
-call <SID>Add_number_suffix( '0', 'th')
-call <SID>Add_number_suffix( '1', 'st')
-call <SID>Add_number_suffix( '2', 'nd')
-call <SID>Add_number_suffix( '3', 'rd')
-call <SID>Add_number_suffix( '4', 'th')
-call <SID>Add_number_suffix( '5', 'th')
-call <SID>Add_number_suffix( '6', 'th')
-call <SID>Add_number_suffix( '7', 'th')
-call <SID>Add_number_suffix( '8', 'th')
-call <SID>Add_number_suffix( '9', 'th')
+call <SID>Add_number_suffix('0', 'th')
+call <SID>Add_number_suffix('1', 'st')
+call <SID>Add_number_suffix('2', 'nd')
+call <SID>Add_number_suffix('3', 'rd')
+call <SID>Add_number_suffix('4', 'th')
+call <SID>Add_number_suffix('5', 'th')
+call <SID>Add_number_suffix('6', 'th')
+call <SID>Add_number_suffix('7', 'th')
+call <SID>Add_number_suffix('8', 'th')
+call <SID>Add_number_suffix('9', 'th')
 
 " add custom pattern
+
+call <SID>Add_word_pair('true',  'false')
+call <SID>Add_word_pair('false', 'true')
+call <SID>Add_word_pair('yes',   'no')
+call <SID>Add_word_pair('no',    'yes')
+call <SID>Add_word_pair('on',    'off')
+call <SID>Add_word_pair('off',   'on')
+
+call <SID>Add_word_pair('mon', 'tue')
+call <SID>Add_word_pair('tue', 'wed')
+call <SID>Add_word_pair('wed', 'thu')
+call <SID>Add_word_pair('thu', 'fri')
+call <SID>Add_word_pair('fri', 'sat')
+call <SID>Add_word_pair('sat', 'sun')
+call <SID>Add_word_pair('sun', 'mon')
+
 call <SID>Add_word_pair('public',    'protected')
 call <SID>Add_word_pair('protected', 'private')
 call <SID>Add_word_pair('private',   'public')
