@@ -1,124 +1,138 @@
 # Structure
-
-snippet class
-abbr	class {}
+snippet		class
+abbr		class {}
 	class ${1:#:Name}
 	{
 		${0:TARGET}
 	}
 
-snippet class_derived
-abbr	class_derived {}
+snippet		class_derived
+abbr		class_derived {}
 	class ${1:#:Name} ${2:extends} ${3:#:Parent} ${4:implements} ${5:#:Interface}
 	{
 		${0:TARGET}
 	}
 
-snippet interface
-abbr	interface {}
+snippet		interface
+abbr		interface {}
 	interface ${1:#:IName}
 	{
 		${0:TARGET}
 	}
 
-snippet interface_derived
-abbr	interface_derived {}
+snippet		interface_derived
+abbr		interface_derived {}
 	interface ${1:#:IName} ${2:extends} ${3:#:Parent}
 	{
 		${0:TARGET}
 	}
 
-snippet method
-abbr	method {}
+snippet		method
+abbr		method {}
 	${1:void} ${2:#:method}(${3:#:arguments}) ${4:#:throws}
 	{
 		${0:TARGET}
 	}
 
-snippet enum
-abbr enum {}
+snippet		enum
+abbr		enum {}
 	enum ${1:#:name}
 	{
 		${0:TARGET}
 	}
 
-snippet var
-	${1:#:type} ${2:#:var}${3};
+snippet		const
+	static public final ${1:#:type} ${2:#:var} = ${3:#:value};
 
-snippet const
-	static public final ${1:#:type} ${2:#:var} = ${3};${4}
+snippet		const_string
+	static public final String ${1:#:var} = "${2:#:value}";
 
-snippet const_string
-	static public final String ${1:var} = "${2}";${4}
+snippet		assert
+	assert ${1:#:test} : ${2:#:Failure message};
 
-snippet assert
-	assert ${1:#:test} : ${2:#:Failure message};${3}
-
-snippet if
-	if (${1}) {
-		${2:TARGET}
+# Syntax
+snippet		if
+abbr		if () {}
+options		head
+	if (${1:#:condition}) {
+		${0:TARGET}
 	}
 
-snippet elif
-alias elseif
-	else if (${1}) {
-		${2:TARGET}
+snippet		else
+abbr		else {}
+	else {
+		${0:TARGET}
 	}
 
-snippet while
-	while (${1}) {
-		${2:TARGET}
+snippet		elseif
+abbr		else if () {}
+	else if (${1:#:condition}) {
+		${0:TARGET}
 	}
 
-snippet for
-	for (${1}; ${2}; ${3}) {
-		${4:TARGET}
+snippet		for
+abbr		for () {}
+options		head
+	for (${1} = 0; $1 < ${2}; $1++) {
+		${0:TARGET}
 	}
 
-snippet foreach
-alias   fore
-	for (${1} : ${2}) {
-		${3:TARGET}
+snippet		while
+abbr		while () {}
+options		head
+	while (${1:#:condition}) {
+		${0:TARGET}
 	}
 
-snippet switch
-abbr    switch () {}
+snippet		foreach
+alias		fore
+abbr		foreach () {}
+	foreach (${1:#:var} : ${2:#:iter}) {
+		${0:TARGET}
+	}
+
+snippet		switch
+abbr		switch () {}
+options		head
 	switch (${1:#:var}) {
-		case ${2:#:val}:
+		case ${2:#:condition}:
 			${0:TARGET}
 			break;
 		default;
 			break;
 	}
 
-snippet case
-	case ${1}:
-		${2:TARGET}
-	${0}
+snippet		case
+options		head
+	case ${1:#:val}:
+		${0:TARGET}
+		break;
 
-snippet br
+snippet		break
+options		head
 	break;
 
-snippet default
-alias   de
+snippet		default
+options		head
 	default:
-		${0}
+		${0:TARGET}
+		break;
 
-snippet try
+snippet		try
 	try {
 		${0:TARGET}
 	} catch (${1:Exception} ${2:e}) {
 		${3:e.printStackTrace();}
 	}
 
-snippet try_resources
+snippet		try_resources
 	try (${1:#:Resources}) {
 		${0:TARGET}
 	} catch (${2:Exception} ${3:e}) {
 		${4:e.printStackTrace();}
 	}
 
-snippet try_finally
+snippet		try_finally
 	try {
 		${0:TARGET}
 	} catch (${1:Exception} ${2:e}) {
@@ -127,54 +141,54 @@ snippet try_finally
 		${4}
 	}
 
-snippet catch
+snippet		catch
 	catch (${1:Exception} ${2:e}) {
 		${0:e.printStackTrace();}
 	}
 
-snippet finally
+snippet		finally
 	finally {
 		${0:TARGET}
 	}
 
-snippet th
+snippet		th
 	throw ${0}
 
-snippet sy
+snippet		sy
 	synchronized
 
-snippet testclass
+snippet		testclass
 alias   tc
 	public class ${1} extends ${2:TestCase} {
 		${0:TARGET}
 	}
 
-snippet test
+snippet		test
 	public void test${1:#:Name}() throws Exception {
 		${0:TARGET}
 	}
 
-snippet import
-alias   imt
+snippet		import
+alias		imt
 	import ${1};
 	${0}
 
-snippet j.u
+snippet		j.u
 	java.util.
 
-snippet j.i
+snippet		j.i
 	java.io.
 
-snippet j.b
+snippet		j.b
 	java.beans.
 
-snippet j.n
+snippet		j.n
 	java.net
 
-snippet j.m
+snippet		j.m
 	java.math.
 
-snippet main
+snippet		main
 	class `expand('%:p:t:r')`
 	{
 		public static void main(String args[]) {
@@ -182,75 +196,75 @@ snippet main
 		}
 	}
 
-snippet println
+snippet		println
 	System.out.println(${1});${0}
 
-snippet print
+snippet		print
 	System.out.print(${1});${0}
 
 #javadoc
-snippet comment
+snippet		comment
 	/**
 	 * ${0:TARGET}
 	 */
 
-snippet author
+snippet		author
 	@author ${0:$TM_FULLNAME}
 
-snippet {code
+snippet		{code
 	{@code ${0}
 
-snippet deprecated
+snippet		deprecated
 	@deprecated ${0:#:description}
 
-snippet {docRoot
+snippet		{docRoot
 	{@docRoot
 
-snippet {inheritDoc
+snippet		{inheritDoc
 	{@inheritDoc
 
-snippet {link
+snippet		{link
 	{@link ${1:#:target} ${0:#:label}
 
-snippet {linkplain
+snippet		{linkplain
 	{@linkplain ${1:#:target} ${0:#:label}
 
-snippet {literal
+snippet		{literal
 	{@literal ${0}
 
-snippet param
+snippet		param
 	@param ${1:#:var} ${0:#:description}
 
-snippet return
+snippet		return
 	@return ${0:#:description}
 
-snippet see
+snippet		see
 	@see ${0:#:reference}
 
-snippet serial
+snippet		serial
 	@serial ${0:#:description}
 
-snippet sd
+snippet		sd
 	@serialField ${0:#:description}
 
-snippet sf
+snippet		sf
 	@serialField ${1:#:name} ${2:#:type} ${0:#:description}
 
-snippet since
+snippet		since
 	@since ${0:#:version}
 
-snippet throws
+snippet		throws
 	@throws ${1:#:class} ${0:#:description}
 
-snippet {value
+snippet		{value
 	{@value ${0}
 
-snippet version
-alias ver
+snippet		version
+alias		ver
 	@version ${0:#:version}
 
-snippet     helloworld
-options     head
+snippet		helloworld
+options		head
 	public class ${1:Hello}
 	{
 		static public void main(String args[]) {
