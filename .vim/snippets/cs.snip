@@ -9,41 +9,42 @@ options head
 
 snippet class
 abbr	class {}
-	class ${1:#:name}
+	class ${1:#:Name}
 	{
 	}
 
 snippet class_derived
 abbr	class_derived {}
-	class ${1:#:name} ${2::} ${3:Parent}${4:,} ${5:Interface} {
+	class ${1:#:Name} ${2::} ${3:Parent}${4:,} ${5:Interface} {
 		${0:TARGET}
 	}
 
 snippet struct
 abbr	struct {}
-	struct ${1:#:name} {
+	struct ${1:#:Name} {
 		${0:TARGET}
 	}
 
 snippet struct_derived
 abbr	struct {}
-	struct ${1:#:name} ${2::} ${3:Interface} {
+	struct ${1:#:Name} ${2::} ${3:Interface} {
 		${0:TARGET}
 	}
 
 snippet interface
 abbr	interface {}
-	interface ${1:#:name} {
+	interface ${1:#:IName} {
 		${0:TARGET}
 	}
 
 snippet interface_derived
-abbr	interface {}
-	interface ${1:#:Iname} ${2::} ${3:Parent} {
+abbr	interface_derived {}
+	interface ${1:#:IName} ${2::} ${3:Parent} {
 		${0:TARGET}
 	}
 
 snippet method
+abbr	method {}
 	${1:void} ${2:#:Method}(${3:#:arguments}) {
 		${0:TARGET}
 	}
