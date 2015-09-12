@@ -99,11 +99,22 @@ function toggle_private_tab()
 EOM
 command! toggleprivate javascript toggle_private_tab()
 
-" Evernote Web Clipperを起動
-" command! clip javascript evernote_doAction()
-
 " MyBookmarks
 command! mybookmarks :open about:mybookmarks
+
+" Add to Pocket
+js <<EOM
+function add_pocket()
+{
+  let doc = gBrowser.selectedBrowser.contentDocument;
+  Pocket.savePage(gBrowser, doc.URL, doc.title);
+  liberator.echo("saved: " + doc.title);
+}
+EOM
+command! -description "add to pocket" pocket javascript add_pocket()
+
+" Evernote Web Clipperを起動
+" command! clip javascript evernote_doAction()
 
 
 " キーマッピング {{{1
