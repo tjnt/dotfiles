@@ -449,10 +449,13 @@ endfunction
 " rsenseのロード
 " 初回コール時のみ実行可否を判定
 function! s:load_rsense_if_executable()
-  if !exists('g:executable_rsense')
-    let g:executable_rsense = <SID>executable_rsense()
+  if neobundle#is_sourced('rsense')
+    return
   endif
-  if g:executable_rsense
+  if !exists('s:executable_rsense')
+    let s:executable_rsense = <SID>executable_rsense()
+  endif
+  if s:executable_rsense
     call neobundle#source('rsense')
   endif
 endfunction
