@@ -82,6 +82,11 @@ command! -nargs=1 HasPlugin echomsg <SID>has_plugin('<args>')
 " global関数格納変数
 let g:myfuncs = {}
 
+" 文字列末尾の改行を削除する
+function! g:myfuncs.chomp(str)
+  return matchstr(a:str, '\zs.*\ze\n')
+endfunction
+
 " 条件'pred'を満たすウィンドウを検索し、そのウィンドウ番号を返す
 " 開いていないなら0を返す
 function! g:myfuncs.find_window_if(pred)
