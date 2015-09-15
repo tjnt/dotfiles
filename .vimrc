@@ -972,7 +972,7 @@ augroup ag_omnifunc_filetype
   " 未定義のFileTypeはSyntaxCompleteを使用する
   au FileType * setlocal omnifunc=syntaxcomplete#Complete
   au FileType c,cpp setlocal omnifunc=ccomplete#Complete
-  au FileType ruby setlocal omnifunc=rubycomplete#Complete
+  " au FileType ruby setlocal omnifunc=rubycomplete#Complete
   au FileType perl setlocal omnifunc=perlcomplete#CompletePERL
   au FileType python setlocal omnifunc=pythoncomplete#Complete
   au FileType php setlocal omnifunc=phpcomplete#CompletePHP
