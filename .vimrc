@@ -966,23 +966,6 @@ augroup ag_formatoptions_filetype
   au FileType * setlocal formatoptions-=t
 augroup END
 
-" ファイルタイプごとのオムニ補完関数設定
-augroup ag_omnifunc_filetype
-  au!
-  " 未定義のFileTypeはSyntaxCompleteを使用する
-  au FileType * setlocal omnifunc=syntaxcomplete#Complete
-  au FileType c,cpp setlocal omnifunc=ccomplete#Complete
-  " au FileType ruby setlocal omnifunc=rubycomplete#Complete
-  au FileType perl setlocal omnifunc=perlcomplete#CompletePERL
-  au FileType python setlocal omnifunc=pythoncomplete#Complete
-  au FileType php setlocal omnifunc=phpcomplete#CompletePHP
-  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  au FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-  au FileType xhtml setlocal omnifunc=htmlcomplete#CompleteTags
-  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-
 " ファイルタイプごとのgrep_func関数の検索対象ファイルパターン
 augroup ag_grep_filetype
   au!
