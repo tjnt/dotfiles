@@ -9,6 +9,21 @@ if !executable('git')
   finish
 endif
 
+" rubyコード補完用 rsense実行可否チェック (重い...)
+function! s:has_rubygem(name)
+  return (executable('gem') && g:myfuncs.chomp(system('gem list -i '.a:name)) == 'true')
+endfunction
+
+function! s:executable_rsense()
+  return executable('ruby') && g:is_windows ? s:has_rubygem('win32-service') : 1
+endfunction
+
+if has('vim_starting')
+  let g:executable_rsense = <SID>executable_rsense()
+  " let g:executable_rsense = 1
+endif
+
+
 " neobundle.vim {{{1
 "
 " neobundle自体をインストールするコマンド
@@ -42,6 +57,7 @@ NeoBundleLazy 'Shougo/neocomplete.vim', {
       \ }
 NeoBundleLazy 'NigoroJr/rsense', {
       \ 'autoload' : { 'filetypes' : 'ruby' },
+      \ 'disabled' : !g:executable_rsense,
       \ 'vim_version' : '7.3.598'
       \ }
 NeoBundleLazy 'osyo-manga/vim-marching', {
