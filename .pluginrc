@@ -443,7 +443,7 @@ endfunction
 
 " rsense実行可否チェック
 function! s:executable_rsense()
-  return executable('ruby') && g:is_windows ? s:has_rubygem('win32-servic') : 1
+  return executable('ruby') && g:is_windows ? s:has_rubygem('win32-service') : 1
 endfunction
 
 " rsenseのロード
