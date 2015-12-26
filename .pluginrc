@@ -461,7 +461,7 @@ function! s:load_rsense_if_executable()
 endfunction
 
 augroup ag_load_rsense
-  au FileType ruby call <SID>load_rsense_if_executable()
+  au! FileType ruby call <SID>load_rsense_if_executable()
 augroup END
 
 
@@ -522,7 +522,7 @@ unlet s:bundle
 let s:bundle = neobundle#get('javacomplete')
 function! s:bundle.hooks.on_source(bundle)
   augroup ag_java_complete
-    au FileType java setlocal omnifunc=javacomplete#Complete
+    au! FileType java setlocal omnifunc=javacomplete#Complete
                             \ completefunc=javacomplete#CompleteParamsInfo
   augroup END
 endfunction
@@ -989,9 +989,9 @@ function! s:bundle.hooks.on_source(bundle)
 
   augroup AlpacaTags
     au!
-      au BufWritePost Gemfile AlpacaTagsBundle
-      au BufEnter * AlpacaTagsSet
-      au BufWritePost * AlpacaTagsUpdate
+    au BufWritePost Gemfile AlpacaTagsBundle
+    au BufEnter * AlpacaTagsSet
+    au BufWritePost * AlpacaTagsUpdate
   augroup END
 endfunction
 unlet s:bundle
