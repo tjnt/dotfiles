@@ -793,10 +793,8 @@ command! -nargs=* -complete=mapping AllMaps map <args> | map! <args> | lmap <arg
 
 " vimrcの行数を数える
 function! s:count_vimrc()
-  call g:myfuncs.bang(
-        \ 'wc -l'.' '.s:rc_path('vimrc').
-        \ ' '.s:rc_path('gvimrc').
-        \ ' '.s:rc_path('pluginrc'))
+  call g:myfuncs.bang(join(
+          \ ['wc -l', s:rc_path('vimrc'), s:rc_path('gvimrc'), s:rc_path('pluginrc')], ' '))
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
