@@ -84,8 +84,18 @@ let g:myfuncs = {}
 
 " 外部コマンド実行
 function! g:myfuncs.bang(cmd)
-  let bang = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
-  exe bang.' '.a:cmd
+  let caller = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
+  exe caller.' '.a:cmd
+endfunction
+
+function! g:myfuncs.read(cmd, bufopt)
+  let caller = s:has_plugin('vimproc') ? 'VimProcRead' : '$read!'
+  new
+  if a:bufopt !=# ''
+      exe 'setlocal '.a:bufopt
+  endif
+  exe caller.' '.a:cmd
+  call cursor(1, 0)
 endfunction
 
 " 文字列末尾の改行を削除する
@@ -717,7 +727,7 @@ command! -nargs=0 Undiff set nodiff noscrollbind wrap nocursorbind
 command! -nargs=0 Scratch new | setlocal bt=nofile noswf | let b:cmdex_scratch = 1
 function! s:check_scratch_written()
   if &buftype ==# 'nofile' && expand('%').'x' !=# 'x' && exists('b:cmdex_scratch') && b:cmdex_scratch == 1
-    setlocal buftype = swapfile
+    setlocal buftype=swapfile
     unlet b:cmdex_scratch
   endif
 endfunction
@@ -793,10 +803,8 @@ command! -nargs=0 CountVimrc call <SID>count_vimrc()
 " Simple VCS Diff {{{2
 function! s:vcs_diff(command, only)
   let target = a:only ? expand('%') : ''
-  new
-  set buftype=nofile bufhidden=wipe filetype=diff
-  exe '$read !'.a:command.' '.target
-  call cursor(1, 0)
+  let bufopt = 'buftype=nofile bufhidden=wipe filetype=diff noswf '
+  call g:myfuncs.read(a:command.' '.target, bufopt)
   unlet target
 endfunction
 
