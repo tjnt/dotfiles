@@ -82,6 +82,12 @@ command! -nargs=1 HasPlugin echomsg <SID>has_plugin('<args>')
 " global関数格納変数
 let g:myfuncs = {}
 
+" 外部コマンド実行
+function! g:myfuncs.bang(cmd)
+  let bang = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
+  exe bang.' '.a:cmd
+endfunction
+
 " 文字列末尾の改行を削除する
 function! g:myfuncs.chomp(str)
   return matchstr(a:str, '\zs.*\ze\n')
@@ -751,8 +757,7 @@ command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only('<args>', '<
 
 " タグファイル生成
 function! s:ctags_r()
-  let cmdname = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
-  exe cmdname 'ctags -R'
+  call g:myfuncs.bang('ctags -R')
   if s:has_plugin('neocomplete.vim')
     NeoCompleteTagMakeCache
   endif
@@ -778,10 +783,10 @@ command! -nargs=* -complete=mapping AllMaps map <args> | map! <args> | lmap <arg
 
 " vimrcの行数を数える
 function! s:count_vimrc()
-  let cmdname = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
-  exe cmdname 'wc -l'.' '.(s:rc_path('vimrc')).
-                    \ ' '.(s:rc_path('gvimrc')).
-                    \ ' '.(s:rc_path('pluginrc'))
+  call g:myfuncs.bang(
+        \ 'wc -l'.' '.s:rc_path('vimrc').
+        \ ' '.s:rc_path('gvimrc').
+        \ ' '.s:rc_path('pluginrc'))
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
