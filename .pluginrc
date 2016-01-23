@@ -26,14 +26,20 @@ call neobundle#begin(expand('$VIMLOCAL/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Base modules / Librarys {{{2
-NeoBundle 'Shougo/vimproc.vim', {
-      \ 'build' : {
-      \   'windows' : 'tools\\update-dll-mingw',
-      \   'cygwin' : 'make -f make_cygwin.mak',
-      \   'mac' : 'make -f make_mac.mak',
-      \   'linux' : 'make',
-      \   'unix' : 'gmake',
-      \ }}
+if (executable('gcc'))
+  NeoBundle 'Shougo/vimproc.vim', {
+        \ 'build' : {
+        \   'windows' : 'tools\\update-dll-mingw',
+        \   'cygwin' : 'make -f make_cygwin.mak',
+        \   'mac' : 'make -f make_mac.mak',
+        \   'linux' : 'make',
+        \   'unix' : 'gmake',
+        \ }}
+elseif (has('kaoriya'))
+  if has('vim_starting')
+    set runtimepath+=$VIM/plugins/vimproc
+  endif
+endif
 
 " 補完 {{{2
 NeoBundleLazy 'Shougo/neocomplete.vim', {
