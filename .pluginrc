@@ -151,7 +151,6 @@ NeoBundleLazy 'vim-scripts/taglist.vim', {
       \ }}
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
       \ 'disabled' : !executable('ctags'),
-      \ 'depends': 'Shougo/vimproc.vim',
       \ 'autoload' : {
       \     'filetypes' : [
       \       'cpp', 'cs', 'java', 'ruby', 'vim'
@@ -197,7 +196,6 @@ NeoBundleLazy 'Shougo/vimfiler.vim', {
       \   'mappings' : '<Plug>'
       \ }}
 NeoBundleLazy 'Shougo/vimshell.vim', {
-      \ 'depends' : 'Shougo/vimproc.vim',
       \ 'autoload' : {
       \   'commands' : [
       \     { 'name' : 'VimShell',
