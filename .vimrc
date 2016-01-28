@@ -77,7 +77,7 @@ function! s:has_plugin(name)
   return globpath(&runtimepath, 'plugin/'.a:name.'.vim') !=# '' ||
        \ globpath(&runtimepath, 'autoload/'.a:name.'.vim') !=# ''
 endfunction
-command! -nargs=1 HasPlugin echomsg <SID>has_plugin('<args>')
+command! -nargs=1 HasPlugin echomsg <SID>has_plugin(<q-args>)
 
 " global関数格納変数
 let g:myfuncs = {}
@@ -763,7 +763,7 @@ function! s:buf_only(buffer, bang)
   endwhile
   redraw!
 endfunction
-command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only('<args>', '<bang>')
+command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only(<q-args>, '<bang>')
 
 " タグファイル生成
 function! s:ctags_r()
