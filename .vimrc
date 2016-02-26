@@ -953,9 +953,8 @@ augroup ag_indent_filetype
   au!
   au FileType c,cpp,cs,java setlocal ts=4 sts=0 sw=4
                           \ cindent cinoptions=:4
-  au FileType ruby,perl,lua setlocal ts=2 sts=0 sw=2
+  au FileType ruby,perl,lua,vim,javascript setlocal ts=2 sts=0 sw=2
   au FileType python setlocal expandtab
-  au FileType vim setlocal ts=2 sts=0 sw=2
   au FileType html,xml,xhtml setlocal ts=2 sts=0 sw=2 expandtab
   au FileType mkd,markdown setlocal list listchars=tab:^\ ,trail:»,nbsp:%
   au FileType mkd,markdown highlight! link SpecialKey Identifier
