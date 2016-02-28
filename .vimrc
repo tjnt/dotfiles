@@ -913,36 +913,33 @@ command! -nargs=0 CppEnvMSVC2005 call CppEnv.change('msvc_2005')
 
 " Auto Command {{{1
 "
-" ファイルタイプごとのインデント設定
-augroup ag_indent_filetype
-  au!
-  au FileType c,cpp,cs,java setlocal ts=4 sts=0 sw=4
-                          \ cindent cinoptions=:4
-  au FileType ruby,perl,lua,vim,javascript setlocal ts=2 sts=0 sw=2
-  au FileType python setlocal expandtab
-  au FileType html,xml,xhtml setlocal ts=2 sts=0 sw=2 expandtab
-  au FileType mkd,markdown setlocal list listchars=tab:^\ ,trail:»,nbsp:%
-  au FileType mkd,markdown highlight! link SpecialKey Identifier
-augroup END
-
-" ファイルタイプごとのテキスト整形設定
+" テキスト整形設定
 " デフォルトは"tcq"  (参照 :help fo-table)
-augroup ag_formatoptions_filetype
+augroup ag_formatoptions
   au!
-  " 挿入モードでの自動折り返しを行わない
-  au FileType * setlocal formatoptions+=l
-  " 文字コードが 255 より後のマルチバイト文字の間でも改行する
-  au FileType * setlocal formatoptions+=m
-  " マルチバイト文字の行連結時に空白を挿入しない
-  au FileType * setlocal formatoptions+=MB
-  " 改行後に自動的にコメントを挿入するのをやめさせる
-  au FileType * setlocal formatoptions-=ro
-  " 自動改行を無効
-  au FileType * setlocal formatoptions-=t
+  au FileType * setlocal formatoptions=cqlmMB
 augroup END
 
-" ファイルタイプごとのgrep_func関数の検索対象ファイルパターン
-augroup ag_grep_filetype
+" ファイルタイプごとの設定
+augroup ag_filetype
+  au!
+  au FileType c,cpp,cs,java
+        \ setlocal ts=4 sts=0 sw=4
+        \ cindent cinoptions=:4
+  au FileType ruby,perl,lua,vim,javascript
+        \ setlocal ts=2 sts=0 sw=2
+  au FileType python
+        \ setlocal expandtab
+  au FileType html,xml,xhtml
+        \ setlocal ts=2 sts=0 sw=2 expandtab
+  au FileType mkd,markdown
+        \ setlocal list listchars=tab:^\ ,trail:»,nbsp:%
+  au FileType mkd,markdown
+        \ highlight! link SpecialKey Identifier
+augroup END
+
+" grep_func関数の検索対象ファイルパターン
+augroup ag_grep_target
   au!
   au FileType *
         \ let b:grep_target_file = '**/*'
