@@ -26,6 +26,13 @@ set novisualbell
 let mapleader = ','
 let g:mapleader = ','
 
+let g:is_windows = has('win16') || has('win32') || has('win64')
+
+" パスの区切り文字に/を使えるようにする
+if g:is_windows
+  set shellslash
+endif
+
 
 " エンコーディング設定 {{{1
 "
@@ -52,8 +59,6 @@ endif
 
 " 環境変数の設定 {{{1
 "
-let g:is_windows = has('win16') || has('win32') || has('win64')
-
 " $VIMLOCALはユーザーランタイムディレクトリを示す。
 if has('vim_starting')
   " Windows
@@ -182,10 +187,6 @@ set statusline=%t\ %m%r%h%w%<[buf:%n][ftyp:%{&ft}][enc:%{&enc}][fenc:%{&fenc}][f
 set showcmd
 " コマンドラインの高さ (gvimはgvimrcで指定)
 set cmdheight=2
-" Windowsでディレクトリパスの区切り文字表示に / を使えるようにする
-if g:is_windows
-  set shellslash
-endif
 " 画面最後の行をできる限り表示する
 set display=lastline
 " タイトルを表示
