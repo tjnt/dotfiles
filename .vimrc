@@ -27,6 +27,29 @@ let mapleader = ','
 let g:mapleader = ','
 
 
+" エンコーディング設定 {{{1
+"
+if &encoding !=? 'utf-8'
+  let &termencoding = &encoding
+  set encoding=utf-8
+endif
+
+scriptencoding utf-8
+
+if has('guess_encode')
+  set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932,utf-8
+else
+  set fileencodings=ucs-bom,iso-2022-jp,euc-jp,cp932,utf-8
+endif
+
+set fileformats=unix,dos,mac
+
+" 新規バッファ生成時のエンコードを指定
+if has('vim_starting')
+  set fileencoding=utf-8
+endif
+
+
 " 環境変数の設定 {{{1
 "
 let g:is_windows = has('win16') || has('win32') || has('win64')
@@ -121,28 +144,6 @@ function! g:myfuncs.find_window_if(pred)
   return 0
 endfunction
 
-
-" エンコーディング設定 {{{1
-"
-if &encoding !=? 'utf-8'
-  let &termencoding = &encoding
-  set encoding=utf-8
-endif
-
-scriptencoding utf-8
-
-if has('guess_encode')
-  set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932,utf-8
-else
-  set fileencodings=ucs-bom,iso-2022-jp,euc-jp,cp932,utf-8
-endif
-
-set fileformats=unix,dos,mac
-
-" 新規バッファ生成時のエンコードを指定
-if has('vim_starting')
-  set fileencoding=utf-8
-endif
 
 " プラグインの読み込み {{{1
 "
