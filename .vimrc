@@ -158,7 +158,9 @@ call s:source_ifexists(s:rc_path('pluginrc'))
 filetype indent plugin on
 
 
-" 画面表示に関する設定 {{{1
+" オプション設定 {{{1
+"
+" 画面表示 {{{2
 "
 " 行番号を表示 (nonumber:非表示)
 set number
@@ -194,7 +196,7 @@ set shortmess+=I
 " Google日本語入力を使用するとIビームカーソルが残る場合にも有効
 set lazyredraw
 
-" 文字表示に関する設定
+" 文字表示 {{{2
 "
 " タブ、空白、改行等の不可視文字を表示する (nolist:非表示)
 set nolist
@@ -204,7 +206,7 @@ set listchars=tab:^\ ,trail:_,nbsp:%
 " 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
 set showmatch matchtime=1
 " □とか○の文字があってもカーソル位置がずれないようにする
-if has('kaoriya') && g:is_win && has('gui_running')
+if has('kaoriya') && has('gui_running')
   set ambiwidth=auto
 else
   set ambiwidth=double
@@ -215,7 +217,8 @@ if &t_Co > 2 || has('gui_running')
   syntax on
 endif
 
-" コンソールでの見た目に関する設定
+" コンソールでの表示 {{{2
+"
 if !has('gui_running')
   " 背景を消してターミナル背景を表示
   augroup ag_remove_background_color
@@ -237,8 +240,7 @@ if !has('gui_running')
   endif
 endif
 
-
-" 編集に関する設定 {{{1
+" 編集操作 {{{2
 "
 " タブの画面上での幅
 set tabstop=4
@@ -294,8 +296,7 @@ set splitbelow
 " 縦分割で右に新しいウィンドウを開く
 set splitright
 
-
-" 検索の挙動に関する設定 {{{1
+" 検索の挙動 {{{2
 "
 " 検索時に大文字小文字を無視 (noignorecase:無視しない)
 set ignorecase
@@ -308,8 +309,7 @@ set wrapscan
 " 検索結果をハイライト
 set hlsearch
 
-
-" ファイル操作に関する設定 {{{1
+" ファイル操作 {{{2
 "
 " 外部のエディタで編集中のファイルが変更されたら自動的に読み直す
 set autoread
@@ -527,7 +527,6 @@ nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 noremap <C-z> <Nop>
 
-
 " smooth scroll (smooth_scroll.vim) {{{2
 "
 " 重く感じるので無効...
@@ -556,7 +555,6 @@ noremap <C-z> <Nop>
 " noremap <silent><C-U> :<C-u>call <SID>smooth_scroll("u",2, 2)<CR>
 " noremap <silent><C-F> :<C-u>call <SID>smooth_scroll("d",1, 1)<CR>
 " noremap <silent><C-B> :<C-u>call <SID>smooth_scroll("u",1, 1)<CR>
-
 
 " grep {{{2
 "
@@ -619,7 +617,6 @@ vnoremap gs :<C-u>call <SID>v_grep_func('s')
 vnoremap gv :<C-u>call <SID>v_grep_func('v')
 " ビジュアルモード選択中文字列をgrep → 新しいタブで開く
 vnoremap gt :<C-u>call <SID>v_grep_func('t')
-
 
 " タグジャンプ {{{2
 "
@@ -783,6 +780,7 @@ endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
 " Simple VCS Diff {{{2
+"
 function! s:vcs_diff(command, only)
   let target = a:only ? expand('%') : ''
   let bufopt = 'buftype=nofile bufhidden=wipe filetype=diff noswf '
@@ -809,6 +807,7 @@ if executable('cvs')
 endif
 
 " C++向け環境の切り替え {{{2
+"
 if has('vim_starting')
   let CppEnv = {}
   let CppEnv.default = {
