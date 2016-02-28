@@ -141,13 +141,6 @@ filetype off
 " matchit.vim
 if !exists('loaded_matchit')
   runtime macros/matchit.vim
-  " 大文字小文字を区別しない
-  let b:match_ignorecase = 1
-  " 対応するペアのパターン
-  let b:match_words = &matchpairs.',' .
-        \ '<begin>:<end>,'.
-        \ '<if>:<endif>,'.
-        \ '<function>:<endfunction>,'
 endif
 
 " 外部プラグインの設定
