@@ -53,7 +53,7 @@ function! s:set_guifont(normal, wide)
   let &guifontwide = join(a:wide, ',')
 endfunction
 
-if g:is_windows
+if g:is_win
   let s:normal = [
         \ 'Consolas:h12',
         \ 'Inconsolata:h12',
@@ -83,7 +83,7 @@ if has('unix')
 endif
 
 " 印刷用フォント
-if has('printer') && g:is_windows
+if has('printer') && g:is_win
   set printfont=MS_Gothic:h11:cDEFAULT
   " set printfont=MS_Mincho:h11:cDEFAULT
 endif

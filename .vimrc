@@ -26,10 +26,10 @@ set novisualbell
 let mapleader = ','
 let g:mapleader = ','
 
-let g:is_windows = has('win16') || has('win32') || has('win64')
+let g:is_win = has('win16') || has('win32') || has('win64')
 
 " パスの区切り文字に/を使えるようにする
-if g:is_windows
+if g:is_win
   set shellslash
 endif
 
@@ -61,7 +61,7 @@ endif
 "
 if has('vim_starting')
   let $VIMLOCAL = expand('$HOME/.vim')
-  if g:is_windows
+  if g:is_win
     set runtimepath+=$VIMLOCAL
     if isdirectory(expand('$VIMLOCAL/bin'))
       let $PATH = $PATH.';'.expand('$VIMLOCAL/bin')
@@ -206,7 +206,7 @@ set listchars=tab:^\ ,trail:_,nbsp:%
 " 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
 set showmatch matchtime=1
 " □とか○の文字があってもカーソル位置がずれないようにする
-if has('kaoriya') && g:is_windows && has('gui_running')
+if has('kaoriya') && g:is_win && has('gui_running')
   set ambiwidth=auto
 else
   set ambiwidth=double
@@ -910,7 +910,7 @@ function! CppEnv.change(name)
   " set to default
   call self.set_default()
   " append parameter path
-  let sp = g:is_windows ? ';' : ':'
+  let sp = g:is_win ? ';' : ':'
   let env = get(self.environment, a:name)
   let $PATH = $PATH.sp.join(get(env, 'path'), sp)
   let $LIB = '.'.sp.join(get(env, 'lib'), sp)
@@ -1021,7 +1021,7 @@ augroup END
 "endfunction
 " VC2005でBOM無しUTF-8を扱うとSJISとして認識されるためBOMを付ける
 function! s:set_utf8_bom()
-  if g:is_windows && &fileencoding ==# 'utf-8'
+  if g:is_win && &fileencoding ==# 'utf-8'
     set bomb
   endif
 endfunction

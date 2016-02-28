@@ -69,7 +69,7 @@ NeoBundleLazy 'vim-scripts/javacomplete', {
 " NeoBundleLazy 'OmniSharp/omnisharp-vim', {
 "       \ 'autoload': { 'filetypes' : 'cs'},
 "       \ 'disabled' : !has('python') ||
-"       \              (g:is_windows && !executable('MsBuild.exe')) ||
+"       \              (g:is_win && !executable('MsBuild.exe')) ||
 "       \              (has('mac') && !executable('xbuild')) ||
 "       \              (has('unix') && !executable('xbuild')),
 "       \ 'build': {
@@ -401,7 +401,7 @@ function! s:bundle.hooks.on_source(bundle)
         \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 
   " unuse vimproc
-  " if g:is_windows
+  " if g:is_win
   "   let g:neocomplete#use_vimproc = 0
   " endif
 
@@ -464,7 +464,7 @@ endfunction
 
 " rsense実行可否チェック
 function! s:executable_rsense()
-  return executable('ruby') && g:is_windows ? s:has_rubygem('win32-service') : 1
+  return executable('ruby') && g:is_win ? s:has_rubygem('win32-service') : 1
 endfunction
 
 " rsenseのロード
@@ -637,7 +637,7 @@ function! s:bundle.hooks.on_source(bundle)
   " call unite#custom_default_action('guicmd', 'start')
 
   " unite-grepに関する設定
-  if g:is_windows
+  if g:is_win
     let g:unite_source_grep_command = "grep"
     let g:unite_source_grep_recursive_opt = "-r"
     let g:unite_source_grep_default_opts = "-Hn"
@@ -1060,7 +1060,7 @@ function! s:bundle.hooks.on_source(bundle)
   " c++
   let g:quickrun_config['cpp'] = {
         \   'type':
-        \     g:is_windows && executable('cl') ? 'cpp/vc' :
+        \     g:is_win && executable('cl') ? 'cpp/vc' :
         \     executable('clang++') ? 'cpp/clang++' :
         \     executable('g++') ? 'cpp/g++' : '',
         \ }
@@ -1099,7 +1099,7 @@ function! s:bundle.hooks.on_source(bundle)
   " SQL
   let g:quickrun_config['sql'] = {
         \   'type':
-        \     g:is_windows && executable('sqlcmd') ? 'sql/sqlserver' : '',
+        \     g:is_win && executable('sqlcmd') ? 'sql/sqlserver' : '',
         \ }
 
   " SQLServer
@@ -1161,7 +1161,7 @@ function! s:bundle.hooks.on_source(bundle)
   " c++
 	let g:quickrun_config["cpp/watchdogs_checker"] = {
         \   'type':
-        \     g:is_windows && executable('cl') ? 'watchdogs_checker/msvc' :
+        \     g:is_win && executable('cl') ? 'watchdogs_checker/msvc' :
         \     executable('clang++') ? 'watchdogs_checker/clang++' :
         \     executable('g++') ? 'watchdogs_checker/g++' : '',
         \ }
@@ -1181,7 +1181,7 @@ function! s:bundle.hooks.on_source(bundle)
   " cs
   let g:quickrun_config['cs/watchdogs_checker'] = {
         \   'type':
-        \     g:is_windows && executable('csc') ? 'watchdogs_checker/csc' :
+        \     g:is_win && executable('csc') ? 'watchdogs_checker/csc' :
         \     executable('mcs') ? 'watchdogs_checker/mcs' : '',
         \ }
 
@@ -1350,7 +1350,7 @@ vmap <LEADER>os <Plug>(openbrowser-smart-search)
 " w3m.vim {{{1
 "
 let g:w3m#command = 
-      \ g:is_windows ? expand('$VIMLOCAL/bin/w3m/w3m.exe') : 'w3m'
+      \ g:is_win ? expand('$VIMLOCAL/bin/w3m/w3m.exe') : 'w3m'
 
 
 " chalice {{{1
