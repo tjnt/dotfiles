@@ -573,50 +573,39 @@ endfunction
 
 " grep関数共通処理
 function! s:grep_func_main(word, target, option)
-  if a:option == ''
-    " no action
-  endif
-  if a:option == 's'
-    split
-  endif
-  if a:option == 'v'
-    vsplit
-  endif
-  if a:option == 't'
-    tabnew
+  if a:option != ''
+    exe a:option
   endif
   echo 'grep 'a:word ' target 'a:target
   exe 'vimgrep /'.a:word.'/ 'a:target' | cw'
 endfunction
 
 function! s:grep_func(option)
-  let word = expand("<cword>")
-  let target = b:grep_target_file
-  call s:grep_func_main(word, target, a:option)
+  call s:grep_func_main(
+        \ expand("<cword>"), b:grep_target_file, a:option)
 endfunction
 
 function! s:v_grep_func(option)
-  let word = s:get_selected_string()
-  let target = b:grep_target_file
-  call s:grep_func_main(word, target, a:option)
+  call s:grep_func_main(
+        \ s:get_selected_string(), b:grep_target_file, a:option)
 endfunction
 
 " g r でカーソル位置の単語をgrep
 nnoremap gr :<C-u>call <SID>grep_func('')
 " g s でカーソル位置の単語をgrep → 分割して開く
-nnoremap gs :<C-u>call <SID>grep_func('s')
+nnoremap gs :<C-u>call <SID>grep_func('split')
 " g v でカーソル位置の単語をgrep → 縦分割して開く
-nnoremap gv :<C-u>call <SID>grep_func('v')
+nnoremap gv :<C-u>call <SID>grep_func('vsplit')
 " g t でカーソル位置の単語をgrep → 新しいタブで開く
-nnoremap gt :<C-u>call <SID>grep_func('t')
+nnoremap gt :<C-u>call <SID>grep_func('tabnew')
 " ビジュアルモード選択中文字列をgrep
 vnoremap gr :<C-u>call <SID>v_grep_func('')
 " ビジュアルモード選択中文字列をgrep → 分割して開く
-vnoremap gs :<C-u>call <SID>v_grep_func('s')
+vnoremap gs :<C-u>call <SID>v_grep_func('split')
 " ビジュアルモード選択中文字列をgrep → 縦分割して開く
-vnoremap gv :<C-u>call <SID>v_grep_func('v')
+vnoremap gv :<C-u>call <SID>v_grep_func('vsplit')
 " ビジュアルモード選択中文字列をgrep → 新しいタブで開く
-vnoremap gt :<C-u>call <SID>v_grep_func('t')
+vnoremap gt :<C-u>call <SID>v_grep_func('tabnew')
 
 " タグジャンプ {{{2
 "
