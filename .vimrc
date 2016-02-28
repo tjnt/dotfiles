@@ -64,16 +64,6 @@ if has('vim_starting')
     if isdirectory($VIMLOCAL.'\bin')
       let $PATH=$PATH.';'.$VIMLOCAL.'\bin'
     endif
-    " PATHにMinGWかCygwinが存在しない場合、
-    " 別のコマンドラインツールの読み込みを試みる
-    if matchstr($PATH, '\MinGW\') == '' &&
-     \ matchstr($PATH, '\cygwin\') == ''
-      " GNU on Windows
-      " vimと同じ階層にgowがあれば読み込む
-      if isdirectory($VIM.'\..\gow')
-        let $PATH=$PATH.';'.$VIM.'\..\gow'
-      endif
-    endif
   " Linux
   elseif has('unix')
     let $VIMLOCAL=$HOME.'/.vim'
@@ -1018,7 +1008,7 @@ augroup ag_ins_enter_leave
   " Insert modeに入るときに一時的にfoldingをmanualに変更
   au InsertEnter * let b:foldstate = &l:foldmethod
         \        | setlocal foldmethod=manual
-  au InsertLeave * if exists('b:foldstate') 
+  au InsertLeave * if exists('b:foldstate')
         \        |   let &l:foldmethod = b:foldstate
         \        | endif
 augroup END
