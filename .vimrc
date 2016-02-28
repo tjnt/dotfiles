@@ -59,19 +59,13 @@ endif
 
 " 環境変数の設定 {{{1
 "
-" $VIMLOCALはユーザーランタイムディレクトリを示す。
 if has('vim_starting')
-  " Windows
+  let $VIMLOCAL = expand('$HOME/.vim')
   if g:is_windows
-    let $VIMLOCAL=$HOME.'\.vim'
     set runtimepath+=$VIMLOCAL
-    " 諸々のバイナリ
-    if isdirectory($VIMLOCAL.'\bin')
-      let $PATH=$PATH.';'.$VIMLOCAL.'\bin'
+    if isdirectory(expand('$VIMLOCAL/bin'))
+      let $PATH = $PATH.';'.expand('$VIMLOCAL/bin')
     endif
-  " Linux
-  elseif has('unix')
-    let $VIMLOCAL=$HOME.'/.vim'
   endif
 endif
 
@@ -80,7 +74,7 @@ endif
 "
 " 設定ファイルのフルパス取得
 function! s:rc_path(name)
-  return $HOME.(g:is_windows ? '\.' : '/.').a:name
+  return expand('$HOME/.'.a:name)
 endfunction
 
 " ファイルがあったら実行
