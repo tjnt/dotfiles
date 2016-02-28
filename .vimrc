@@ -33,8 +33,19 @@ if g:is_win
   set shellslash
 endif
 
+" 環境変数の設定 {{{2
+"
+if has('vim_starting')
+  let $VIMLOCAL = expand('$HOME/.vim')
+  if g:is_win
+    set runtimepath+=$VIMLOCAL
+    if isdirectory(expand('$VIMLOCAL/bin'))
+      let $PATH = $PATH.';'.expand('$VIMLOCAL/bin')
+    endif
+  endif
+endif
 
-" エンコーディング設定 {{{1
+" エンコーディング設定 {{{2
 "
 if &encoding !=? 'utf-8'
   let &termencoding = &encoding
@@ -54,19 +65,6 @@ set fileformats=unix,dos,mac
 " 新規バッファ生成時のエンコードを指定
 if has('vim_starting')
   set fileencoding=utf-8
-endif
-
-
-" 環境変数の設定 {{{1
-"
-if has('vim_starting')
-  let $VIMLOCAL = expand('$HOME/.vim')
-  if g:is_win
-    set runtimepath+=$VIMLOCAL
-    if isdirectory(expand('$VIMLOCAL/bin'))
-      let $PATH = $PATH.';'.expand('$VIMLOCAL/bin')
-    endif
-  endif
 endif
 
 
