@@ -761,6 +761,31 @@ function! s:count_vimrc()
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
 
+" 現在開いているファイルのパスなどをレジスタやクリップボードへ登録する {{{2
+" https://gist.github.com/pinzolo/8168337
+"
+function! s:Clip(data)
+  let @* = a:data
+  echo 'clipped: ' . a:data
+endfunction
+
+" 現在開いているファイルのフルパス(ファイル名含む)をレジスタへ
+command! ClipPath call s:Clip(expand('%:p'))
+
+" 現在開いているファイルのファイル名をレジスタへ
+command! ClipFile call s:Clip(expand('%:t'))
+
+" 現在開いているファイルのディレクトリパスをレジスタへ
+command! ClipDir  call s:Clip(expand('%:p:h'))
+
+" コマンドの出力結果を選択範囲レジスタ(*)に入れる
+function! s:ClipCommandOutput(cmd)
+  redir @*>
+  silent execute a:cmd
+  redir END
+endfunction
+command! -nargs=1 -complete=command ClipCommandOutput call s:ClipCommandOutput(<f-args>)
+
 " Simple VCS Diff {{{2
 "
 function! s:vcs_diff(command, only)
