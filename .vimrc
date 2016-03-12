@@ -2,6 +2,12 @@
 " .vimrc
 "
 "
+if &encoding !=? 'utf-8'
+  let &termencoding = &encoding
+  set encoding=utf-8
+endif
+
+scriptencoding utf-8
 
 " 基本設定 {{{1
 "
@@ -47,13 +53,6 @@ endif
 
 " エンコーディング設定 {{{2
 "
-if &encoding !=? 'utf-8'
-  let &termencoding = &encoding
-  set encoding=utf-8
-endif
-
-scriptencoding utf-8
-
 if has('guess_encode')
   set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932,utf-8
 else
