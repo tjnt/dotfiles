@@ -246,7 +246,7 @@ command! PU PlugUpdate | PlugUpgrade
 " neocomplete.vim {{{1
 "
 if s:plug.is_installed('neocomplete.vim')
-  function! s:plug.hook_neocomplete_vim()
+  function! s:plug_neocomplete_vim()
     " 自動的に起動 (default 0)
     let g:neocomplete#enable_at_startup = 1
     " AutoComplPopのように最初の候補を選択する (default 0)
@@ -336,7 +336,7 @@ if s:plug.is_installed('neocomplete.vim')
   augroup ag_plug_neocomplete_vim
     au!
     au InsertEnter * call plug#load('FastFold', 'neocomplete.vim')
-    au User neocomplete.vim call s:plug.hook_neocomplete_vim() | au! ag_plug_neocomplete_vim
+    au User neocomplete.vim call s:plug_neocomplete_vim() | au! ag_plug_neocomplete_vim
   augroup END
 endif
 
@@ -355,7 +355,7 @@ if s:plug.is_installed('rsense')
     return executable('ruby') && g:is_win ? s:has_rubygem('win32-service') : 1
   endfunction
 
-  function! s:plug.hook_rsense()
+  function! s:plug_rsense()
     let g:rsenseUseOmniFunc = 1
 
     if s:plug.is_installed('neocomplete.vim')
@@ -370,7 +370,7 @@ if s:plug.is_installed('rsense')
   augroup ag_plug_rsense
     au!
     au FileType ruby if <SID>executable_rsense() | call plug#load('rsense') | endif
-    au User rsense call s:plug.hook_rsense() | au! ag_plug_rsense
+    au User rsense call s:plug_rsense() | au! ag_plug_rsense
   augroup END
 endif
 
@@ -378,7 +378,7 @@ endif
 " vim-marching {{{1
 "
 if s:plug.is_installed('vim-marching')
-  function! s:plug.hook_vim_marching()
+  function! s:plug_vim_marching()
     if executable(g:marching_clang_command)
       let g:marching_backend =
             \ s:plug.is_installed('vimproc.vim') ?
@@ -427,7 +427,7 @@ if s:plug.is_installed('vim-marching')
   endfunction
 
   augroup ag_plug_vim_marching
-    au! User vim-marching call s:plug.hook_vim_marching() | au! ag_plug_vim_marching
+    au! User vim-marching call s:plug_vim_marching() | au! ag_plug_vim_marching
   augroup END
 endif
 
@@ -435,7 +435,7 @@ endif
 " javacomplete {{{1
 "
 if s:plug.is_installed('javacomplete')
-  function! s:plug.hook_javacomplete()
+  function! s:plug_javacomplete()
     augroup ag_java_completefunc
       au! FileType java setlocal omnifunc=javacomplete#Complete
                               \ completefunc=javacomplete#CompleteParamsInfo
@@ -443,7 +443,7 @@ if s:plug.is_installed('javacomplete')
   endfunction
 
   augroup ag_plug_javacomplete
-    au! User javacomplete call s:plug.hook_javacomplete() | au! ag_plug_javacomplete
+    au! User javacomplete call s:plug_javacomplete() | au! ag_plug_javacomplete
   augroup END
 endif
 
@@ -451,7 +451,7 @@ endif
 " neosnippet.vim {{{1
 "
 if s:plug.is_installed('neosnippet.vim')
-  function! s:plug.hook_neosnippet_vim()
+  function! s:plug_neosnippet_vim()
     " cache directory
     let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
     " For snippet_complete marker.
@@ -501,7 +501,7 @@ if s:plug.is_installed('neosnippet.vim')
   augroup ag_plug_neosnippet_vim
     au!
     au InsertEnter * call plug#load('neosnippet.vim')
-    au User neosnippet.vim call s:plug.hook_neosnippet_vim() | au! ag_plug_neosnippet_vim
+    au User neosnippet.vim call s:plug_neosnippet_vim() | au! ag_plug_neosnippet_vim
   augroup END
 endif
 
@@ -605,7 +605,7 @@ if s:plug.is_installed('vim-indent-guides')
   " 有効/無効トグル
   noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
 
-  function! s:plug.hook_vim_indent_guides()
+  function! s:plug_vim_indent_guides()
     " デフォルトは無効にしておく <LEADER><LEADER>iで有効化
     let g:indent_guides_enable_on_vim_startup = 0
     " ガイドを見やすく
@@ -614,7 +614,7 @@ if s:plug.is_installed('vim-indent-guides')
   endfunction
 
   augroup ag_plug_indent_guides
-    au! User vim-indent-guides call s:plug.hook_vim_indent_guides() | au! ag_plug_indent_guides
+    au! User vim-indent-guides call s:plug_vim_indent_guides() | au! ag_plug_indent_guides
   augroup END
 endif
 
@@ -639,7 +639,7 @@ endif
 " alpaca_tags {{{1
 "
 if s:plug.is_installed('alpaca_tags')
-  function! s:plug.hook_alpaca_tags()
+  function! s:plug_alpaca_tags()
     " ctags option
     let g:alpaca_tags#config = {
           \   '_' : '-R --sort=yes',
@@ -672,7 +672,7 @@ if s:plug.is_installed('alpaca_tags')
   endfunction
 
   augroup ag_plug_alpaca_tags
-    au! User alpaca_tags call s:plug.hook_alpaca_tags() | au! ag_plug_alpaca_tags
+    au! User alpaca_tags call s:plug_alpaca_tags() | au! ag_plug_alpaca_tags
   augroup END
 endif
 
@@ -740,7 +740,7 @@ if s:plug.is_installed('unite.vim')
   " カラースキーマー検索 自動プレビュー付き
   command! -nargs=0 UniteColorSchemePreview Unite colorscheme -auto-preview
 
-  function! s:plug.hook_unite_vim()
+  function! s:plug_unite_vim()
     " load unite-sources
     call plug#load(
           \ 'unite-outline',
@@ -817,7 +817,7 @@ if s:plug.is_installed('unite.vim')
   endfunction
 
   augroup ag_plug_unite_vim
-    au! User unite.vim call s:plug.hook_unite_vim() | au! ag_plug_unite_vim
+    au! User unite.vim call s:plug_unite_vim() | au! ag_plug_unite_vim
   augroup END
 endif
 
@@ -837,7 +837,7 @@ if s:plug.is_installed('vimfiler.vim')
   nmap     <LEADER>vf [vimfiler]
   nnoremap [vimfiler] :<C-u>VimFiler<CR>
 
-  function! s:plug.hook_vimfiler_vim()
+  function! s:plug_vimfiler_vim()
     " load unite.vim
     call plug#load('unite.vim')
 
@@ -890,7 +890,7 @@ if s:plug.is_installed('vimfiler.vim')
   endfunction
 
   augroup ag_plug_vimfiler_vim
-    au! User vimfiler.vim call s:plug.hook_vimfiler_vim() | au! ag_plug_vimfiler_vim
+    au! User vimfiler.vim call s:plug_vimfiler_vim() | au! ag_plug_vimfiler_vim
   augroup END
 endif
 
@@ -902,7 +902,7 @@ if s:plug.is_installed('vimshell.vim')
   nmap     <LEADER>vs [vimshell]
   nnoremap [vimshell] :<C-u>VimShell<CR>
 
-  function! s:plug.hook_vimshell_vim()
+  function! s:plug_vimshell_vim()
     " ステータスラインを書き換えない
     let g:vimshell_force_overwrite_statusline = 0
     " cache directory
@@ -910,7 +910,7 @@ if s:plug.is_installed('vimshell.vim')
   endfunction
 
   augroup ag_plug_vimshell_vim
-    au! User vimshell.vim call s:plug.hook_vimshell_vim() | au! ag_plug_vimshell_vim
+    au! User vimshell.vim call s:plug_vimshell_vim() | au! ag_plug_vimshell_vim
   augroup END
 endif
 
@@ -932,7 +932,7 @@ if s:plug.is_installed('nerdtree')
     endif
   endfunction
 
-  function! s:plug.hook_nerdtree()
+  function! s:plug_nerdtree()
     " NERDTreeの幅
     " let g:NERDTreeWinSize=40
     " 左側にNERDTreeを表示
@@ -948,14 +948,14 @@ if s:plug.is_installed('nerdtree')
   endfunction
 
   augroup ag_plug_nerdtree
-    au! User nerdtree call s:plug.hook_nerdtree() | au! ag_plug_nerdtree
+    au! User nerdtree call s:plug_nerdtree() | au! ag_plug_nerdtree
   augroup END
 endif
 
 " a.vim {{{1
 "
 if s:plug.is_installed('a.vim')
-  function! s:plug.hook_a_vim()
+  function! s:plug_a_vim()
     nnoremap [avim] <Nop>
     nmap     <LEADER>a [avim]
 
@@ -974,7 +974,7 @@ if s:plug.is_installed('a.vim')
   endfunction
 
   augroup ag_plug_a_vim
-    au! User a.vim call s:plug.hook_a_vim() | au! ag_plug_a_vim
+    au! User a.vim call s:plug_a_vim() | au! ag_plug_a_vim
   augroup END
 endif
 
@@ -1005,7 +1005,7 @@ endif
 if s:plug.is_installed('vim-quickrun')
   nmap <LEADER>r <Plug>(quickrun)
 
-  function! s:plug.hook_vim_quickrun()
+  function! s:plug_vim_quickrun()
     " <C-c> で実行を強制終了させる
     " quickrun.vim が実行していない場合には <C-c> を呼び出す
     nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
@@ -1112,7 +1112,7 @@ if s:plug.is_installed('vim-quickrun')
   endfunction
 
   augroup ag_plug_vim_quickrun
-    au! User vim-quickrun call s:plug.hook_vim_quickrun() | au! ag_plug_vim_quickrun
+    au! User vim-quickrun call s:plug_vim_quickrun() | au! ag_plug_vim_quickrun
   augroup END
 endif
 
@@ -1122,7 +1122,7 @@ endif
 if s:plug.is_installed('vim-watchdogs')
   noremap <silent><LEADER>w :<C-u>WatchdogsRun<CR>
 
-  function! s:plug.hook_vim_watchdogs()
+  function! s:plug_vim_watchdogs()
     " load depend plugins
     call plug#load('vim-quickrun', 'shabadou.vim')
 
@@ -1191,7 +1191,7 @@ if s:plug.is_installed('vim-watchdogs')
   endfunction
 
   augroup ag_plug_vim_watchdogs
-    au! User vim-watchdogs call s:plug.hook_vim_watchdogs() | au! ag_plug_vim_watchdogs
+    au! User vim-watchdogs call s:plug_vim_watchdogs() | au! ag_plug_vim_watchdogs
   augroup END
 endif
 
