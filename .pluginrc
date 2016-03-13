@@ -18,6 +18,11 @@ if has('vim_starting')
     call system('git clone https://github.com/junegunn/vim-plug.git '.
           \ expand('$VIMLOCAL/plugged/vim-plug/autoload'))
   end
+
+  " suppress warning
+  if g:is_win
+    let $PERL_BADLANG = 0
+  endif
 endif
 
 function! BuildVimproc(info)
