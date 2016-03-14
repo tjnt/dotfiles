@@ -234,7 +234,12 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-scripts/Colour-Sampler-Pack'
 
 " load local plugins
-echo glob(expand('$VIMLOCAL/plugged_local/*'))
+function! s:load_local_plugins(dir)
+  for pl in split(glob(a:dir), '\n')
+    Plug pl
+  endfor
+endfunction
+call s:load_local_plugins(expand('$VIMLOCAL/plugged_local/*'))
 
 call plug#end()
 
