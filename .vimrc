@@ -441,7 +441,7 @@ noremap <silent>[tab]h :<C-u>tabprevious<CR>
 
 " [tab]+nでタブを右へ移動
 function! s:tabmove_next()
-  exe 'tabmove'.(tabpagenr() % tabpagenr('$'))
+  exe 'tabmove'.(tabpagenr() == tabpagenr('$') ? 0 : tabpagenr()+1)
 endfunction
 noremap <silent>[tab]n :<C-u>call <SID>tabmove_next()<CR>
 
