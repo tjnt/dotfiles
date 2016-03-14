@@ -938,7 +938,7 @@ command! -nargs=0 CppEnvMSVC2005 call CppEnv.change('msvc_2005')
 " デフォルトは"tcq"  (参照 :help fo-table)
 augroup ag_formatoptions
   au!
-  au FileType * setlocal formatoptions=cqlmMB
+  au FileType * setlocal fo+=l fo+=m fo+=M fo+=B fo-=r fo-=o fo-=t
 augroup END
 
 " ファイルタイプごとの設定
