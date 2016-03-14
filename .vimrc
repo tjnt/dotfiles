@@ -106,7 +106,7 @@ endfunction
 
 " 文字列末尾の改行を削除する
 function! g:myfuncs.chomp(str)
-  return matchstr(a:str, '\zs.*\ze\n')
+  return substitute(a:str, '\n\+$', '', '')
 endfunction
 
 " 条件'pred'を満たすウィンドウを検索し、そのウィンドウ番号を返す
