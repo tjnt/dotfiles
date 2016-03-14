@@ -27,7 +27,6 @@ set novisualbell
 " set visualbell t_vb=
 
 " <LEADER>の変更
-let mapleader = ','
 let g:mapleader = ','
 
 let g:is_win = has('win16') || has('win32') || has('win64')
