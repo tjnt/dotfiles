@@ -1107,11 +1107,11 @@ noremap <C-F10> :<C-u>VimShellBufferDir<CR>
 noremap <C-F11> :<C-u>VimShellPop<CR>
 noremap <C-F12> :<C-u>VimShellBufferDir -popup<CR>
 
-noremap <M-F1>  :<C-u>NeoBundleInstall<CR>
-noremap <M-F2>  :<C-u>NeoBundleUpdate<CR>
-noremap <M-F3>  :<C-u>NeoBundleLog<CR>
+noremap <M-F1>  <Nop>
+noremap <M-F2>  <Nop>
+noremap <M-F3>  <Nop>
 noremap <M-F4>  <Nop>
-noremap <M-F5>  :<C-u>NeoBundleSource<CR>
+noremap <M-F5>  <Nop>
 noremap <M-F6>  <Nop>
 noremap <M-F7>  <Nop>
 noremap <M-F8>  <Nop>
