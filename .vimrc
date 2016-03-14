@@ -258,7 +258,7 @@ set virtualedit+=block
 set wildmenu
 " コードの折りたたみの設定 (ziで有効/無効をトグルできる)
 set nofoldenable
-set foldmethod=syntax
+" set foldmethod=syntax
 set foldlevel=1
 set foldnestmax=3
 " 8進数を無効にする。<C-a>,<C-x>に影響する
