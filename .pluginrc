@@ -12,12 +12,12 @@ endif
 " vim-plug {{{1
 "
 if has('vim_starting')
-  set runtimepath+=$VIMLOCAL/plugged/vim-plug
   if !isdirectory(expand('$VIMLOCAL/plugged/vim-plug'))
     echo 'install vim-plug...'
     call system('git clone https://github.com/junegunn/vim-plug.git '.
           \ expand('$VIMLOCAL/plugged/vim-plug/autoload'))
   end
+  set runtimepath+=$VIMLOCAL/plugged/vim-plug
 
   " suppress warning
   if g:is_win
@@ -25,51 +25,25 @@ if has('vim_starting')
   endif
 endif
 
-function! BuildVimproc(info)
-  if a:info.status == 'installed' || a:info.force
-    if g:is_win
-      call system('tools\\update-dll-mingw')
-    else
-      call system('make')
-    endif
-  endif
-endfunction
-
 call plug#begin(expand('$VIMLOCAL/plugged'))
 
 Plug 'junegunn/vim-plug', {
       \ 'dir': expand('$VIMLOCAL/plugged/vim-plug/autoload') }
 
 if executable('gcc')
+  function! BuildVimproc(info)
+    if a:info.status == 'installed' || a:info.force
+      if g:is_win
+        call system('tools\\update-dll-mingw')
+      else
+        call system('make')
+      endif
+    endif
+  endfunction
   Plug 'Shougo/vimproc.vim', { 'do': function('BuildVimproc') }
 elseif has('kaoriya') && has('vim_starting')
   set runtimepath+=$VIM/plugins/vimproc
 endif
-
-if has('lua')
-  Plug 'Shougo/neocomplete.vim', { 'on': [] }
-        \ | Plug 'Konfekt/FastFold', { 'on': [] }
-endif
-
-if executable('ruby')
-  Plug 'NigoroJr/rsense', { 'for': [] }
-endif
-
-Plug 'osyo-manga/vim-marching', { 'for': 'cpp' }
-
-if executable('javac')
-  Plug 'vim-scripts/javacomplete', {
-        \ 'do': 'javac autoload/Reflection.java',
-        \ 'for': []
-        \ }
-endif
-
-Plug 'Shougo/neosnippet.vim', {
-      \ 'on': [
-      \   '<Plug>(neosnippet_expand_or_jump)',
-      \   '<Plug>(neosnippet_expand_target)'
-      \ ]}
-" Plug 'Shougo/neosnippet-snippets'
 
 Plug 'kana/vim-operator-user'
 
@@ -86,16 +60,6 @@ Plug 'rhysd/vim-operator-surround', {
 
 Plug 'tomtom/tcomment_vim'
 
-Plug 'taku-o/vim-fix-numbering' , {
-      \ 'on': 'FixNumbering'
-      \ }
-
-Plug 'osyo-manga/vim-over' , {
-      \ 'on': 'OverCommandLine'
-      \ }
-
-Plug 'vim-scripts/ShowMarks7'
-
 Plug 't9md/vim-quickhl', {
       \ 'on': [
       \   '<Plug>(quickhl-manual-this)',
@@ -104,6 +68,16 @@ Plug 't9md/vim-quickhl', {
 
 Plug 'nathanaelkane/vim-indent-guides', {
       \ 'on': 'IndentGuidesToggle'
+      \ }
+
+Plug 'vim-scripts/ShowMarks7'
+
+Plug 'taku-o/vim-fix-numbering' , {
+      \ 'on': 'FixNumbering'
+      \ }
+
+Plug 'osyo-manga/vim-over' , {
+      \ 'on': 'OverCommandLine'
       \ }
 
 if executable('ctags')
@@ -116,6 +90,43 @@ if executable('ctags')
       \   'cpp', 'cs', 'java', 'ruby', 'vim'
       \ ]}
 endif
+
+Plug 'vim-scripts/a.vim', {
+      \ 'for': [ 'c', 'cpp' ]
+      \ }
+
+Plug 'vim-jp/cpp-vim', {
+      \ 'for': 'cpp'
+      \ }
+
+Plug 'plasticboy/vim-markdown', {
+      \ 'for': 'mkd'
+      \ }
+
+if has('lua')
+  Plug 'Shougo/neocomplete.vim', { 'on': [] }
+        \ | Plug 'Konfekt/FastFold', { 'on': [] }
+endif
+
+Plug 'osyo-manga/vim-marching', { 'for': 'cpp' }
+
+if executable('javac')
+  Plug 'vim-scripts/javacomplete', {
+        \ 'do': 'javac autoload/Reflection.java',
+        \ 'for': []
+        \ }
+endif
+
+if executable('ruby')
+  Plug 'NigoroJr/rsense', { 'for': [] }
+endif
+
+Plug 'Shougo/neosnippet.vim', {
+      \ 'on': [
+      \   '<Plug>(neosnippet_expand_or_jump)',
+      \   '<Plug>(neosnippet_expand_target)'
+      \ ]}
+" Plug 'Shougo/neosnippet-snippets'
 
 Plug 'Shougo/unite.vim', {
       \ 'on': [
@@ -156,17 +167,25 @@ Plug 'scrooloose/nerdtree', {
       \ 'on': 'NERDTreeToggle'
       \ }
 
-Plug 'vim-jp/cpp-vim', {
-      \ 'for': 'cpp'
-      \ }
+Plug 'thinca/vim-quickrun', {
+      \ 'on': [
+      \   'QuickRun',
+      \   '<Plug>(quickrun)'
+      \ ]}
 
-Plug 'vim-scripts/a.vim', {
-      \ 'for': [ 'c', 'cpp' ]
-      \ }
+Plug 'osyo-manga/shabadou.vim', { 'on': [] }
+Plug 'osyo-manga/vim-watchdogs', {
+      \ 'on': [
+      \   'WatchdogsRun',
+      \   'WatchdogsRunSilent',
+      \   'WatchdogsRunSweep',
+      \ ]}
 
-Plug 'plasticboy/vim-markdown', {
-      \ 'for': 'mkd'
-      \ }
+Plug 'thinca/vim-ref', {
+      \ 'on': [
+      \   'Ref',
+      \   '<Plug>(ref-keyword)'
+      \ ]}
 
 Plug 'tyru/open-browser.vim', {
       \ 'on': [
@@ -177,6 +196,10 @@ Plug 'tyru/open-browser.vim', {
       \   '<Plug>(openbrowser-search)',
       \   '<Plug>(openbrowser-smart-search)',
       \ ]}
+
+Plug 'kannokanno/previm', {
+      \ 'on': 'PrevimOpen'
+      \ }
 
 Plug 'mattn/webapi-vim', { 'on': [] }
 Plug 'mattn/excitetranslate-vim', {
@@ -195,30 +218,6 @@ if executable('w3m')
         \   'W3mVSplit',
         \ ]}
 endif
-
-Plug 'thinca/vim-quickrun', {
-      \ 'on': [
-      \   'QuickRun',
-      \   '<Plug>(quickrun)'
-      \ ]}
-
-Plug 'osyo-manga/vim-watchdogs', {
-      \ 'on': [
-      \   'WatchdogsRun',
-      \   'WatchdogsRunSilent',
-      \   'WatchdogsRunSweep',
-      \ ]}
-Plug 'osyo-manga/shabadou.vim', { 'on': [] }
-
-Plug 'thinca/vim-ref', {
-      \ 'on': [
-      \   'Ref',
-      \   '<Plug>(ref-keyword)'
-      \ ]}
-
-Plug 'kannokanno/previm', {
-      \ 'on': 'PrevimOpen'
-      \ }
 
 Plug 'tyru/restart.vim', {
       \ 'on': 'Restart'
@@ -250,6 +249,212 @@ endfunction
 
 command! PS PlugStatus
 command! PU PlugUpdate | PlugUpgrade
+
+
+" vim-operator-replace {{{1
+"
+if s:plug.is_installed('vim-operator-replace')
+  " Example
+  "   Riw 単語をレジスタの文字で置換え
+  "   Ri# #で囲まれた範囲をレジスタの文字で置換え
+  map <silent>R <Plug>(operator-replace)
+endif
+
+
+" vim-operator-surround {{{1
+"
+if s:plug.is_installed('vim-operator-surround')
+  " Example
+  "   Saiw( 単語を(で囲む
+  "   Sda(  単語を囲む(を削除
+  "   Sra({ 単語を囲む(を{に変更
+  map <silent>Sa <Plug>(operator-surround-append)
+  map <silent>Sd <Plug>(operator-surround-delete)
+  map <silent>Sr <Plug>(operator-surround-replace)
+endif
+
+
+" tcomment.vim {{{1
+"
+if s:plug.is_installed('tcomment_vim')
+  " <LEADER>cでコメントのトグル
+  " 一行コメントは<LEADER>cでトグル
+  let g:tcommentMapLeaderOp1 = '<LEADER>c'
+  let g:tcommentMapLeaderOp2 = '<LEADER>C'
+endif
+
+
+" vim-quickhl {{{1
+"
+if s:plug.is_installed('vim-quickhl')
+  " カーソル下の単語、または選択範囲をハイライト
+  nmap <LEADER>m <Plug>(quickhl-manual-this)
+  xmap <LEADER>m <Plug>(quickhl-manual-this)
+  " すべてのハイライトをクリア
+  nmap <LEADER>M <Plug>(quickhl-manual-reset)
+  xmap <LEADER>M <Plug>(quickhl-manual-reset)
+endif
+
+
+" indent-guides {{{1
+"
+if s:plug.is_installed('vim-indent-guides')
+  " 有効/無効トグル
+  noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
+
+  function! s:plug_vim_indent_guides()
+    " デフォルトは無効にしておく <LEADER><LEADER>iで有効化
+    let g:indent_guides_enable_on_vim_startup = 0
+    " ガイドを見やすく
+    let g:indent_guides_color_change_percent = 5
+    let g:indent_guides_guide_size = 1
+  endfunction
+
+  augroup ag_plug_indent_guides
+    au! User vim-indent-guides call s:plug_vim_indent_guides() | au! ag_plug_indent_guides
+  augroup END
+endif
+
+
+" ShowMarks7 {{{1
+"
+if s:plug.is_installed('ShowMarks7')
+  let showmarks_enable = 1
+  " Show which marks
+  let showmarks_include = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  " help、quickfixと編集不可のバッファのマークを表示しない
+  let showmarks_ignore_type = 'hqm'
+  " Hilight lower & upper marks
+  " let showmarks_hlline_lower = 1
+  " let showmarks_hlline_upper = 1
+
+  " color setting
+  function! s:chg_showmarks_color()
+    hi! link SignColumn LineNr
+    hi! link ShowMarksHLl LineNr
+    hi! link ShowMarksHLu LineNr
+    hi! link ShowMarksHLo LineNr
+    hi! link ShowMarksHLm LineNr
+  endfunction
+
+  augroup ag_chg_showmarks_colors
+    au! ColorScheme * call s:chg_showmarks_color()
+  augroup END
+
+  " change keymap
+  map mt <Plug>ShowmarksShowMarksToggle
+  map mo <Plug>ShowmarksShowMarksOn
+  map mm <Plug>ShowmarksPlaceMark
+  map mc <Plug>ShowmarksClearMark
+  map mM <Plug>ShowmarksClearAll
+  nnoremap <silent><Plug>ShowmarksShowMarksToggle :<C-u>ShowMarksToggle<CR>
+  nnoremap <silent><Plug>ShowmarksShowMarksOn :<C-u>ShowMarksOn<CR>
+  nnoremap <silent><Plug>ShowmarksPlaceMark :<C-u>ShowMarksPlaceMark<CR>
+  nnoremap <silent><Plug>ShowmarksClearMark :<C-u>ShowMarksClearMark<CR>
+  nnoremap <silent><Plug>ShowmarksClearAll :<C-u>ShowMarksClearAll<CR>
+endif
+
+
+" vim-over {{{1
+"
+if s:plug.is_installed('vim-over')
+  nnoremap <silent><LEADER>: :OverCommandLine<CR>
+  " カーソル下の単語をハイライト付きで置換
+  " nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+  " コピーした文字列をハイライト付きで置換
+  " nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+endif
+
+
+" taglist.vim {{{1
+"
+if s:plug.is_installed('taglist.vim')
+  " taglist開閉トグル
+  nnoremap <silent>[toggle]t :TlistToggle<CR>
+
+  function! s:plug_taglist_vim()
+    " 現在表示中のファイルのみのタグしか表示しない
+    let Tlist_Show_One_File = 1
+    " taglisの幅
+    let Tlist_WinWidth = 40
+    " 右側にtaglistを表示
+    let Tlist_Use_Right_Window = 1
+    " taglistのウインドウだけならvimを閉じる
+    let Tlist_Exit_OnlyWindow = 1
+  endfunction
+
+  augroup ag_plug_taglist_vim
+    au! User taglist.vim call s:plug_taglist_vim() | au! ag_plug_taglist_vim
+  augroup END
+endif
+
+
+" alpaca_tags {{{1
+"
+if s:plug.is_installed('alpaca_tags')
+  function! s:plug_alpaca_tags()
+    " ctags option
+    let g:alpaca_tags#config = {
+          \   '_' : '-R --sort=yes',
+          \   'js' : '--languages=+js',
+          \   '-js' : '--languages=-js,JavaScript',
+          \   'vim' : '--languages=+Vim,vim',
+          \   'php' : '--languages=+php',
+          \   '-vim' : '--languages=-Vim,vim',
+          \   '-style': '--languages=-css,scss,js,JavaScript,html',
+          \   'scss' : '--languages=+scss --languages=-css',
+          \   'css' : '--languages=+css',
+          \   'java' : '--languages=+java $JAVA_HOME/src',
+          \   'ruby': '--languages=+Ruby',
+          \   'coffee': '--languages=+coffee',
+          \   '-coffee': '--languages=-coffee',
+          \   'bundle': '--languages=+Ruby',
+          \ }
+
+    " Specify directories to store generated tags.
+    let g:alpaca_tags#cache_dir = $VIMLOCAL.'/tmp/cache/alpaca_tags'
+    " If it is as following, debug is shown.
+    " let g:alpaca_tags#console = { 'report' : 1 }
+
+    augroup ag_alpaca_aucmd
+      au!
+      au BufWritePost Gemfile AlpacaTagsBundle
+      au BufEnter * AlpacaTagsSet
+      au BufWritePost * AlpacaTagsUpdate
+    augroup END
+  endfunction
+
+  augroup ag_plug_alpaca_tags
+    au! User alpaca_tags call s:plug_alpaca_tags() | au! ag_plug_alpaca_tags
+  augroup END
+endif
+
+
+" a.vim {{{1
+"
+if s:plug.is_installed('a.vim')
+  function! s:plug_a_vim()
+    nnoremap [avim] <Nop>
+    nmap     <LEADER>a [avim]
+
+    " C/C++のヘッダーとソースを切り替える
+    nnoremap <silent>[avim]a :<C-u>A<CR>
+    " 縦分割で開く
+    nnoremap <silent>[avim]v :<C-u>AV<CR>
+    " 横分割で開く
+    nnoremap <silent>[avim]s :<C-u>AS<CR>
+    " 新規タブで開く
+    nnoremap <silent>[avim]t :<C-u>AT<CR>
+    " 以下はマッピング済み
+    " <Leader>ih  カーソル下のファイルを開く
+    " <Leader>is  カーソル下のファイルに対応するヘッダー/ソースを分割して開く
+    " <Leader>ihn 循環マッチ?
+  endfunction
+
+  augroup ag_plug_a_vim
+    au! User a.vim call s:plug_a_vim() | au! ag_plug_a_vim
+  augroup END
+endif
 
 
 " neocomplete.vim {{{1
@@ -345,40 +550,6 @@ if s:plug.is_installed('neocomplete.vim')
 endif
 
 
-" rsense {{{1
-"
-if s:plug.is_installed('rsense')
-  " rubygems存在チェック (重い...)
-  function! s:has_rubygem(name)
-    return (executable('gem') &&
-          \ g:myfuncs.chomp(system('gem search -i ^'.a:name.'$')) == 'true')
-  endfunction
-
-  " rsense実行可否チェック
-  function! s:executable_rsense()
-    return executable('ruby') && g:is_win ? s:has_rubygem('win32-service') : 1
-  endfunction
-
-  function! s:plug_rsense()
-    let g:rsenseUseOmniFunc = 1
-
-    if s:plug.is_installed('neocomplete.vim')
-      if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-      endif
-      let g:neocomplete#force_omni_input_patterns.ruby =
-            \ '[^. *\t]\.\w*\|\h\w*::'
-    endif
-  endfunction
-
-  augroup ag_plug_rsense
-    au!
-    au FileType ruby if <SID>executable_rsense() | call plug#load('rsense') | endif
-    au User rsense call s:plug_rsense() | au! ag_plug_rsense
-  augroup END
-endif
-
-
 " vim-marching {{{1
 "
 if s:plug.is_installed('vim-marching')
@@ -452,6 +623,40 @@ if s:plug.is_installed('javacomplete')
 endif
 
 
+" rsense {{{1
+"
+if s:plug.is_installed('rsense')
+  " rubygems存在チェック (重い...)
+  function! s:has_rubygem(name)
+    return (executable('gem') &&
+          \ g:myfuncs.chomp(system('gem search -i ^'.a:name.'$')) == 'true')
+  endfunction
+
+  " rsense実行可否チェック
+  function! s:executable_rsense()
+    return executable('ruby') && g:is_win ? s:has_rubygem('win32-service') : 1
+  endfunction
+
+  function! s:plug_rsense()
+    let g:rsenseUseOmniFunc = 1
+
+    if s:plug.is_installed('neocomplete.vim')
+      if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+      endif
+      let g:neocomplete#force_omni_input_patterns.ruby =
+            \ '[^. *\t]\.\w*\|\h\w*::'
+    endif
+  endfunction
+
+  augroup ag_plug_rsense
+    au!
+    au FileType ruby if <SID>executable_rsense() | call plug#load('rsense') | endif
+    au User rsense call s:plug_rsense() | au! ag_plug_rsense
+  augroup END
+endif
+
+
 " neosnippet.vim {{{1
 "
 if s:plug.is_installed('neosnippet.vim')
@@ -508,183 +713,6 @@ if s:plug.is_installed('neosnippet.vim')
   augroup END
 endif
 
-
-" vim-operator-replace {{{1
-if s:plug.is_installed('vim-operator-replace')
-  " Example
-  "   Riw 単語をレジスタの文字で置換え
-  "   Ri# #で囲まれた範囲をレジスタの文字で置換え
-  map <silent>R <Plug>(operator-replace)
-endif
-
-
-" vim-operator-surround {{{1
-if s:plug.is_installed('vim-operator-surround')
-  " Example
-  "   Saiw( 単語を(で囲む
-  "   Sda(  単語を囲む(を削除
-  "   Sra({ 単語を囲む(を{に変更
-  map <silent>Sa <Plug>(operator-surround-append)
-  map <silent>Sd <Plug>(operator-surround-delete)
-  map <silent>Sr <Plug>(operator-surround-replace)
-endif
-
-
-" tcomment.vim {{{1
-"
-if s:plug.is_installed('tcomment_vim')
-  " <LEADER>cでコメントのトグル
-  " 一行コメントは<LEADER>cでトグル
-  let g:tcommentMapLeaderOp1 = '<LEADER>c'
-  let g:tcommentMapLeaderOp2 = '<LEADER>C'
-endif
-
-
-" vim-over {{{1
-"
-if s:plug.is_installed('vim-over')
-  nnoremap <silent><LEADER>: :OverCommandLine<CR>
-  " カーソル下の単語をハイライト付きで置換
-  " nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-  " コピーした文字列をハイライト付きで置換
-  " nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
-endif
-
-
-" ShowMarks7 {{{1
-"
-if s:plug.is_installed('ShowMarks7')
-  let showmarks_enable = 1
-  " Show which marks
-  let showmarks_include = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  " help、quickfixと編集不可のバッファのマークを表示しない
-  let showmarks_ignore_type = 'hqm'
-  " Hilight lower & upper marks
-  " let showmarks_hlline_lower = 1
-  " let showmarks_hlline_upper = 1
-
-  " color setting
-  function! s:chg_showmarks_color()
-    hi! link SignColumn LineNr
-    hi! link ShowMarksHLl LineNr
-    hi! link ShowMarksHLu LineNr
-    hi! link ShowMarksHLo LineNr
-    hi! link ShowMarksHLm LineNr
-  endfunction
-
-  augroup ag_chg_showmarks_colors
-    au! ColorScheme * call s:chg_showmarks_color()
-  augroup END
-
-  " change keymap
-  map mt <Plug>ShowmarksShowMarksToggle
-  map mo <Plug>ShowmarksShowMarksOn
-  map mm <Plug>ShowmarksPlaceMark
-  map mc <Plug>ShowmarksClearMark
-  map mM <Plug>ShowmarksClearAll
-  nnoremap <silent><Plug>ShowmarksShowMarksToggle :<C-u>ShowMarksToggle<CR>
-  nnoremap <silent><Plug>ShowmarksShowMarksOn :<C-u>ShowMarksOn<CR>
-  nnoremap <silent><Plug>ShowmarksPlaceMark :<C-u>ShowMarksPlaceMark<CR>
-  nnoremap <silent><Plug>ShowmarksClearMark :<C-u>ShowMarksClearMark<CR>
-  nnoremap <silent><Plug>ShowmarksClearAll :<C-u>ShowMarksClearAll<CR>
-endif
-
-
-" vim-quickhl {{{1
-"
-if s:plug.is_installed('vim-quickhl')
-  " カーソル下の単語、または選択範囲をハイライト
-  nmap <LEADER>m <Plug>(quickhl-manual-this)
-  xmap <LEADER>m <Plug>(quickhl-manual-this)
-  " すべてのハイライトをクリア
-  nmap <LEADER>M <Plug>(quickhl-manual-reset)
-  xmap <LEADER>M <Plug>(quickhl-manual-reset)
-endif
-
-
-" indent-guides {{{1
-"
-if s:plug.is_installed('vim-indent-guides')
-  " 有効/無効トグル
-  noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
-
-  function! s:plug_vim_indent_guides()
-    " デフォルトは無効にしておく <LEADER><LEADER>iで有効化
-    let g:indent_guides_enable_on_vim_startup = 0
-    " ガイドを見やすく
-    let g:indent_guides_color_change_percent = 5
-    let g:indent_guides_guide_size = 1
-  endfunction
-
-  augroup ag_plug_indent_guides
-    au! User vim-indent-guides call s:plug_vim_indent_guides() | au! ag_plug_indent_guides
-  augroup END
-endif
-
-
-" taglist.vim {{{1
-"
-if s:plug.is_installed('taglist.vim')
-  " taglist開閉トグル
-  nnoremap <silent>[toggle]t :TlistToggle<CR>
-
-  function! s:plug_taglist_vim()
-    echo 'hooked'
-    " 現在表示中のファイルのみのタグしか表示しない
-    let Tlist_Show_One_File = 1
-    " taglisの幅
-    let Tlist_WinWidth = 40
-    " 右側にtaglistを表示
-    let Tlist_Use_Right_Window = 1
-    " taglistのウインドウだけならvimを閉じる
-    let Tlist_Exit_OnlyWindow = 1
-  endfunction
-
-  augroup ag_plug_taglist_vim
-    au! User taglist.vim call s:plug_taglist_vim() | au! ag_plug_taglist_vim
-  augroup END
-endif
-
-
-" alpaca_tags {{{1
-"
-if s:plug.is_installed('alpaca_tags')
-  function! s:plug_alpaca_tags()
-    " ctags option
-    let g:alpaca_tags#config = {
-          \   '_' : '-R --sort=yes',
-          \   'js' : '--languages=+js',
-          \   '-js' : '--languages=-js,JavaScript',
-          \   'vim' : '--languages=+Vim,vim',
-          \   'php' : '--languages=+php',
-          \   '-vim' : '--languages=-Vim,vim',
-          \   '-style': '--languages=-css,scss,js,JavaScript,html',
-          \   'scss' : '--languages=+scss --languages=-css',
-          \   'css' : '--languages=+css',
-          \   'java' : '--languages=+java $JAVA_HOME/src',
-          \   'ruby': '--languages=+Ruby',
-          \   'coffee': '--languages=+coffee',
-          \   '-coffee': '--languages=-coffee',
-          \   'bundle': '--languages=+Ruby',
-          \ }
-
-    " Specify directories to store generated tags.
-    let g:alpaca_tags#cache_dir = $VIMLOCAL.'/tmp/cache/alpaca_tags'
-    " If it is as following, debug is shown.
-    " let g:alpaca_tags#console = { 'report' : 1 }
-
-    augroup ag_alpaca_aucmd
-      au!
-      au BufWritePost Gemfile AlpacaTagsBundle
-      au BufEnter * AlpacaTagsSet
-      au BufWritePost * AlpacaTagsUpdate
-    augroup END
-  endfunction
-
-  augroup ag_plug_alpaca_tags
-    au! User alpaca_tags call s:plug_alpaca_tags() | au! ag_plug_alpaca_tags
-  augroup END
-endif
 
 " unite.vim {{{1
 "
@@ -962,53 +990,6 @@ if s:plug.is_installed('nerdtree')
   augroup END
 endif
 
-" a.vim {{{1
-"
-if s:plug.is_installed('a.vim')
-  function! s:plug_a_vim()
-    nnoremap [avim] <Nop>
-    nmap     <LEADER>a [avim]
-
-    " C/C++のヘッダーとソースを切り替える
-    nnoremap <silent>[avim]a :<C-u>A<CR>
-    " 縦分割で開く
-    nnoremap <silent>[avim]v :<C-u>AV<CR>
-    " 横分割で開く
-    nnoremap <silent>[avim]s :<C-u>AS<CR>
-    " 新規タブで開く
-    nnoremap <silent>[avim]t :<C-u>AT<CR>
-    " 以下はマッピング済み
-    " <Leader>ih  カーソル下のファイルを開く
-    " <Leader>is  カーソル下のファイルに対応するヘッダー/ソースを分割して開く
-    " <Leader>ihn 循環マッチ?
-  endfunction
-
-  augroup ag_plug_a_vim
-    au! User a.vim call s:plug_a_vim() | au! ag_plug_a_vim
-  augroup END
-endif
-
-
-" open-browser.vim {{{1
-"
-if s:plug.is_installed('open-browser.vim')
-  " カーソル下のURLをブラウザで開く
-  nmap <LEADER>ob <Plug>(openbrowser-open)
-  vmap <LEADER>ob <Plug>(openbrowser-open)
-  " ググる
-  nmap <LEADER>os <Plug>(openbrowser-smart-search)
-  vmap <LEADER>os <Plug>(openbrowser-smart-search)
-endif
-
-
-" excitetranslate-vim {{{1
-"
-if s:plug.is_installed('excitetranslate-vim')
-  augroup ag_plug_excitetranslate_vim
-    au! User excitetranslate-vim call plug#load('webapi-vim') | au! ag_plug_excitetranslate_vim
-  augroup END
-endif
-
 
 " quickrun.vim {{{1
 "
@@ -1223,11 +1204,32 @@ if s:plug.is_installed('vim-ref')
 endif
 
 
+" open-browser.vim {{{1
+"
+if s:plug.is_installed('open-browser.vim')
+  " カーソル下のURLをブラウザで開く
+  nmap <LEADER>ob <Plug>(openbrowser-open)
+  vmap <LEADER>ob <Plug>(openbrowser-open)
+  " ググる
+  nmap <LEADER>os <Plug>(openbrowser-smart-search)
+  vmap <LEADER>os <Plug>(openbrowser-smart-search)
+endif
+
+
 " previm {{{1
 "
 if s:plug.is_installed('previm')
   augroup ag_plug_previm
     au! User previm call plug#load('open-browser.vim') | au! ag_plug_previm
+  augroup END
+endif
+
+
+" excitetranslate-vim {{{1
+"
+if s:plug.is_installed('excitetranslate-vim')
+  augroup ag_plug_excitetranslate_vim
+    au! User excitetranslate-vim call plug#load('webapi-vim') | au! ag_plug_excitetranslate_vim
   augroup END
 endif
 
