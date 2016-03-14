@@ -637,8 +637,7 @@ if s:plug.is_installed('rsense')
   " rsense実行可否チェック
   function! s:executable_rsense()
     return executable('ruby') && g:is_win ?
-          \ g:myfuncs.chomp(system('sc query rsense | find "SERVICE_NAME"')) != ''
-          \ : 1
+          \ g:myfuncs.chomp(system('sc query rsense | find "SERVICE_NAME"')) != '' : 1
   endfunction
 
   function! s:plug_rsense()
