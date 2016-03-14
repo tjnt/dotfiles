@@ -3,7 +3,7 @@
 "
 "
 
-" 基本設定 {{{1
+" Basic Setting {{{1
 "
 " エラー時の音とビジュアルベルの抑制
 set noerrorbells

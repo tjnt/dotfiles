@@ -3,7 +3,7 @@
 "
 "
 
-" First Setting {{{1
+" Basic Setting {{{1
 "
 if &encoding !=? 'utf-8'
   let &termencoding = &encoding
