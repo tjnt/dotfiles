@@ -21,9 +21,6 @@ if has('vim_starting') && has('reltime')
   augroup END
 endif
 
-" Vi互換モードをオフ（Vimの拡張機能を有効）
-set nocompatible
-
 " エラー時の音とビジュアルベルの抑制(gvimは.gvimrcで設定)
 set noerrorbells
 set novisualbell
