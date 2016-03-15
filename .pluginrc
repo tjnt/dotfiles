@@ -60,6 +60,11 @@ Plug 'rhysd/vim-operator-surround', {
 
 Plug 'kana/vim-smartinput', { 'on': [] }
 
+Plug 'cohama/vim-smartinput-endwise', {
+      \ 'for': [
+      \   'ruby', 'vim', 'sh'
+      \ ]}
+
 Plug 'tomtom/tcomment_vim'
 
 Plug 't9md/vim-quickhl', {
@@ -285,10 +290,25 @@ endif
 
 
 " vim-smartinput {{{1
+"
 if s:plug.is_installed('vim-smartinput')
   augroup ag_plug_vim_smartinput
     au!
     au InsertEnter * call plug#load('vim-smartinput') | au! ag_plug_vim_smartinput
+  augroup END
+endif
+
+
+" vim-smartinput-endwise {{{1
+"
+if s:plug.is_installed('vim-smartinput-endwise')
+  function! s:plug_vim_smartinput_endwise()
+    call plug#load('vim-smartinput')
+    call smartinput_endwise#define_default_rules()
+  endfunction
+
+  augroup ag_plug_vim_smartinput_endwise
+    au! User vim-smartinput-endwise call s:plug_vim_smartinput_endwise() | au! ag_plug_vim_smartinput_endwise
   augroup END
 endif
 
@@ -539,12 +559,12 @@ if s:plug.is_installed('neocomplete.vim')
     inoremap <expr><C-l> neocomplete#complete_common_string()
 
     " Enterでポップアップを閉じて改行
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-      return neocomplete#close_popup()."\<CR>"
-      " For no inserting <CR> key.
-      "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-    endfunction
+    " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    " function! s:my_cr_function()
+    "   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+    "   " For no inserting <CR> key.
+    "   "return pumvisible() ? "\<C-y>" : "\<CR>"
+    " endfunction
 
     " TABキーでキーワード補完
     inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
