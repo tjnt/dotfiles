@@ -128,11 +128,7 @@ if executable('ruby')
   Plug 'NigoroJr/rsense', { 'for': [] }
 endif
 
-Plug 'Shougo/neosnippet.vim', {
-      \ 'on': [
-      \   '<Plug>(neosnippet_expand_or_jump)',
-      \   '<Plug>(neosnippet_expand_target)'
-      \ ]}
+Plug 'Shougo/neosnippet.vim', { 'on': [] }
 " Plug 'Shougo/neosnippet-snippets'
 
 Plug 'Shougo/unite.vim', {
@@ -746,6 +742,7 @@ if s:plug.is_installed('neosnippet.vim')
 
   augroup ag_plug_neosnippet_vim
     au!
+    au InsertEnter * call plug#load('neosnippet.vim')
     au User neosnippet.vim call s:plug_neosnippet_vim() | au! ag_plug_neosnippet_vim
   augroup END
 endif
