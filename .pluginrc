@@ -693,11 +693,6 @@ endif
 " neosnippet.vim {{{1
 "
 if s:plug.is_installed('neosnippet.vim')
-  " Plugin key-mappings.
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k> <Plug>(neosnippet_expand_target)
-
   function! s:plug_neosnippet_vim()
     " cache directory
     let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
@@ -730,6 +725,11 @@ if s:plug.is_installed('neosnippet.vim')
     if s:plug.is_installed('vim-snippets')
       let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/bundle/vim-snippets/snippets' ]
     endif
+
+    " Plugin key-mappings.
+    imap <C-k> <Plug>(neosnippet_expand_or_jump)
+    smap <C-k> <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k> <Plug>(neosnippet_expand_target)
 
     " SuperTab like snippets behavior.
     imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
