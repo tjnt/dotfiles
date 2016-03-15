@@ -439,17 +439,9 @@ noremap <silent>[tab]c :<C-u>tabclose<CR>
 noremap <silent>[tab]l :<C-u>tabnext<CR>
 noremap <silent>[tab]h :<C-u>tabprevious<CR>
 
-" [tab]+nでタブを右へ移動
-function! s:tabmove_next()
-  exe 'tabmove'.(tabpagenr() == tabpagenr('$') ? 0 : tabpagenr()+1)
-endfunction
-noremap <silent>[tab]n :<C-u>call <SID>tabmove_next()<CR>
-
-" [tab]+pでタブを左へ移動
-function! s:tabmove_previous()
-  exe 'tabmove'.(tabpagenr() == 1 ? tabpagenr('$') : tabpagenr()-2)
-endfunction
-noremap <silent>[tab]p :<C-u>call <SID>tabmove_previous()<CR>
+" [tab]+n / [tab]+p でタブ移動
+noremap <silent>[tab]n :<C-u>exe tabpagenr() == tabpagenr('$') ? '0tabmove' : '+tabmove'<CR>
+noremap <silent>[tab]p :<C-u>exe tabpagenr() == 1 ? '$tabmove' : '-tabmove'<CR>
 
 function! s:quickfix_operation(direction)
   if g:myfuncs.find_window_if("&filetype == 'qf'")
