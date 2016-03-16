@@ -284,34 +284,54 @@ endif
 "
 if s:plug.is_installed('vim-smartinput')
   function! s:plug_vim_smartinput()
-    let l:cr = s:plug.is_installed('neocomplete.vim') ?
+    let cr = s:plug.is_installed('neocomplete.vim') ?
           \ '<C-r>=neocomplete#close_popup()<CR><CR>' : '<CR>'
+
     " ruby
-    call smartinput#define_rule({
-          \ 'at': '^\s*\%(module\|def\|class\|if\|unless\|for\|while\|until\|case\)\>\%(.*[^.:@$]\<end\>\)\@!.*\%#',
-          \ 'char': '<CR>',
-          \ 'input': l:cr.'end<Esc>O',
-          \ 'filetype': ['ruby'],
-          \ })
-    call smartinput#define_rule({
-          \ 'at': '^\s*\%(begin\)\s*\%#',
-          \ 'char': '<CR>',
-          \ 'input': l:cr.'end<Esc>O',
-          \ 'filetype': ['ruby'],
-          \ })
-    call smartinput#define_rule({
-          \ 'at': '\%(^\s*#.*\)\@<!do\%(\s*|\k\+\%(\s*,\s*\k\+\)*|\)\?\s*\%#',
-          \ 'char': '<CR>',
-          \ 'input': l:cr.'end<Esc>O',
-          \ 'filetype': ['ruby'],
-          \ })
+    for ptn in [
+          \ '^\s*\%(module\|def\|class\|if\|unless\|for\|while\|until\|case\)\>\%(.*[^.:@$]\<end\>\)\@!.*\%#',
+          \ '^\s*\%(begin\)\s*\%#',
+          \ '\%(^\s*#.*\)\@<!do\%(\s*|\k\+\%(\s*,\s*\k\+\)*|\)\?\s*\%#',
+          \ ]
+      call smartinput#define_rule({
+            \ 'at': ptn,
+            \ 'char': '<CR>',
+            \ 'input': cr.'end<Esc>O',
+            \ 'filetype': ['ruby'],
+            \ })
+    endfor
+
     call smartinput#define_rule({
           \ 'at': '\<\%(if\|unless\)\>.*\%#',
           \ 'char': '<CR>',
-          \ 'input': l:cr.'end<Esc>O',
+          \ 'input': cr.'end<Esc>O',
           \ 'filetype': ['ruby'],
           \ 'syntax': ['rubyConditionalExpression']
           \ })
+
+    " vim
+    for word in ['function', 'if', 'for', 'while', 'try']
+      call smartinput#define_rule({
+            \ 'at': '^\s*'.word.'\>.*\%#',
+            \ 'char': '<CR>',
+            \ 'input': cr.'end'.word.'<Esc>O',
+            \ 'filetype': ['vim'],
+            \ })
+    endfor
+
+    " sh
+    for pair in [
+          \ [ '^\s*if\>.*\%#', 'fi' ],
+          \ [ '^\s*case\>.*\%#', 'esac'],
+          \ [ '\%(^\s*#.*\)\@<!do\>.*\%#', 'done' ],
+          \ ]
+      call smartinput#define_rule({
+            \ 'at': pair[0],
+            \ 'char': '<CR>',
+            \ 'input': cr.pair[1].'<Esc>O',
+            \ 'filetype': ['sh', 'zsh'],
+            \ })
+    endfor
   endfunction
 
   augroup ag_plug_vim_smartinput
