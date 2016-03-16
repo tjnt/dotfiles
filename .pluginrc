@@ -60,11 +60,6 @@ Plug 'rhysd/vim-operator-surround', {
 
 Plug 'kana/vim-smartinput', { 'on': [] }
 
-Plug 'cohama/vim-smartinput-endwise', {
-      \ 'for': [
-      \   'ruby', 'vim', 'sh'
-      \ ]}
-
 Plug 'tomtom/tcomment_vim'
 
 Plug 't9md/vim-quickhl', {
@@ -288,23 +283,41 @@ endif
 " vim-smartinput {{{1
 "
 if s:plug.is_installed('vim-smartinput')
-  augroup ag_plug_vim_smartinput
-    au!
-    au InsertEnter * call plug#load('vim-smartinput') | au! ag_plug_vim_smartinput
-  augroup END
-endif
-
-
-" vim-smartinput-endwise {{{1
-"
-if s:plug.is_installed('vim-smartinput-endwise')
-  function! s:plug_vim_smartinput_endwise()
-    call plug#load('vim-smartinput')
-    call smartinput_endwise#define_default_rules()
+  function! s:plug_vim_smartinput()
+    let l:cr = s:plug.is_installed('neocomplete.vim') ?
+          \ '<C-r>=neocomplete#close_popup()<CR><CR>' : '<CR>'
+    " ruby
+    call smartinput#define_rule({
+          \ 'at': '^\s*\%(module\|def\|class\|if\|unless\|for\|while\|until\|case\)\>\%(.*[^.:@$]\<end\>\)\@!.*\%#',
+          \ 'char': '<CR>',
+          \ 'input': l:cr.'end<Esc>O',
+          \ 'filetype': ['ruby'],
+          \ })
+    call smartinput#define_rule({
+          \ 'at': '^\s*\%(begin\)\s*\%#',
+          \ 'char': '<CR>',
+          \ 'input': l:cr.'end<Esc>O',
+          \ 'filetype': ['ruby'],
+          \ })
+    call smartinput#define_rule({
+          \ 'at': '\%(^\s*#.*\)\@<!do\%(\s*|\k\+\%(\s*,\s*\k\+\)*|\)\?\s*\%#',
+          \ 'char': '<CR>',
+          \ 'input': l:cr.'end<Esc>O',
+          \ 'filetype': ['ruby'],
+          \ })
+    call smartinput#define_rule({
+          \ 'at': '\<\%(if\|unless\)\>.*\%#',
+          \ 'char': '<CR>',
+          \ 'input': l:cr.'end<Esc>O',
+          \ 'filetype': ['ruby'],
+          \ 'syntax': ['rubyConditionalExpression']
+          \ })
   endfunction
 
-  augroup ag_plug_vim_smartinput_endwise
-    au! User vim-smartinput-endwise call s:plug_vim_smartinput_endwise() | au! ag_plug_vim_smartinput_endwise
+  augroup ag_plug_vim_smartinput
+    au!
+    au InsertEnter * call plug#load('vim-smartinput')
+    au! User vim-smartinput call s:plug_vim_smartinput() | au! ag_plug_vim_smartinput
   augroup END
 endif
 
