@@ -284,8 +284,7 @@ endif
 "
 if s:plug.is_installed('vim-smartinput')
   function! s:plug_vim_smartinput()
-    let cr = s:plug.is_installed('neocomplete.vim') ?
-          \ '<C-r>=neocomplete#close_popup()<CR><CR>' : '<CR>'
+    let cr = s:plug.is_installed('neocomplete.vim') ? '<C-y><CR>' : '<CR>'
 
     " ruby
     for ptn in [
@@ -599,12 +598,8 @@ if s:plug.is_installed('neocomplete.vim')
     inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
     " neocompleteの補完を選択し、ポップアップメニューを閉じる
-    inoremap <expr><C-y> neocomplete#close_popup()
     inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-    " neocompleteの補完をキャンセルし、ポップアップメニューを閉じる
-    inoremap <expr><C-e> neocomplete#cancel_popup()
 
     " 有効/無効のトグル
     nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
