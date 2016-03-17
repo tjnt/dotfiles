@@ -107,7 +107,6 @@ Plug 'plasticboy/vim-markdown', {
 
 if has('lua')
   Plug 'Shougo/neocomplete.vim', { 'on': [] }
-        \ | Plug 'Konfekt/FastFold', { 'on': [] }
 endif
 
 Plug 'osyo-manga/vim-marching', { 'for': 'cpp' }
@@ -253,6 +252,27 @@ function! s:plug.is_loaded(name)
   return has_key(self.plugs, a:name) ? &runtimepath =~ self.plugs[a:name].dir : 0
 endfunction
 
+function! s:plug.register_hook(name)
+  let subname = substitute(a:name, '[-\|.]', '_', 'g')
+  let aug = 'ag_plug_'.subname
+  let fnc = 's:plug_'.subname.'()'
+  exe 'augroup '.aug
+  exe ' au!'
+  exe ' au User '.a:name.' call '.fnc.' | au! '.aug
+  exe 'augroup END'
+endfunction
+
+function! s:plug.register_insert_hook(name)
+  let subname = substitute(a:name, '[-\|.]', '_', 'g')
+  let aug = 'ag_plug_'.subname
+  let fnc = 's:plug_'.subname.'()'
+  exe 'augroup '.aug
+  exe ' au!'
+  exe ' au InsertEnter * call plug#load('''.a:name.''')'
+  exe ' au User '.a:name.' call '.fnc.' | au! '.aug
+  exe 'augroup END'
+endfunction
+
 command! PS PlugStatus
 command! PU PlugUpdate | PlugUpgrade
 
@@ -333,11 +353,7 @@ if s:plug.is_installed('vim-smartinput')
     endfor
   endfunction
 
-  augroup ag_plug_vim_smartinput
-    au!
-    au InsertEnter * call plug#load('vim-smartinput')
-    au! User vim-smartinput call s:plug_vim_smartinput() | au! ag_plug_vim_smartinput
-  augroup END
+  call s:plug.register_insert_hook('vim-smartinput')
 endif
 
 
@@ -377,9 +393,7 @@ if s:plug.is_installed('vim-indent-guides')
     let g:indent_guides_guide_size = 1
   endfunction
 
-  augroup ag_plug_indent_guides
-    au! User vim-indent-guides call s:plug_vim_indent_guides() | au! ag_plug_indent_guides
-  augroup END
+  call s:plug.register_hook('vim-indent-guides')
 endif
 
 
@@ -450,9 +464,7 @@ if s:plug.is_installed('taglist.vim')
     let Tlist_Exit_OnlyWindow = 1
   endfunction
 
-  augroup ag_plug_taglist_vim
-    au! User taglist.vim call s:plug_taglist_vim() | au! ag_plug_taglist_vim
-  augroup END
+  call s:plug.register_hook('taglist.vim')
 endif
 
 
@@ -491,9 +503,7 @@ if s:plug.is_installed('alpaca_tags')
     augroup END
   endfunction
 
-  augroup ag_plug_alpaca_tags
-    au! User alpaca_tags call s:plug_alpaca_tags() | au! ag_plug_alpaca_tags
-  augroup END
+  call s:plug.register_hook('alpaca_tags')
 endif
 
 
@@ -518,9 +528,7 @@ if s:plug.is_installed('a.vim')
     " <Leader>ihn 循環マッチ?
   endfunction
 
-  augroup ag_plug_a_vim
-    au! User a.vim call s:plug_a_vim() | au! ag_plug_a_vim
-  augroup END
+  call s:plug.register_hook('a.vim')
 endif
 
 
@@ -605,11 +613,7 @@ if s:plug.is_installed('neocomplete.vim')
     nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
   endfunction
 
-  augroup ag_plug_neocomplete_vim
-    au!
-    au InsertEnter * call plug#load('FastFold', 'neocomplete.vim')
-    au User neocomplete.vim call s:plug_neocomplete_vim() | au! ag_plug_neocomplete_vim
-  augroup END
+  call s:plug.register_insert_hook('neocomplete.vim')
 endif
 
 
@@ -664,9 +668,7 @@ if s:plug.is_installed('vim-marching')
     imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
   endfunction
 
-  augroup ag_plug_vim_marching
-    au! User vim-marching call s:plug_vim_marching() | au! ag_plug_vim_marching
-  augroup END
+  call s:plug.register_hook('vim-marching')
 endif
 
 
@@ -680,9 +682,7 @@ if s:plug.is_installed('javacomplete')
     augroup END
   endfunction
 
-  augroup ag_plug_javacomplete
-    au! User javacomplete call s:plug_javacomplete() | au! ag_plug_javacomplete
-  augroup END
+  call s:plug.register_hook('javacomplete')
 endif
 
 
@@ -768,11 +768,7 @@ if s:plug.is_installed('neosnippet.vim')
           \: "\<TAB>"
   endfunction
 
-  augroup ag_plug_neosnippet_vim
-    au!
-    au InsertEnter * call plug#load('neosnippet.vim')
-    au User neosnippet.vim call s:plug_neosnippet_vim() | au! ag_plug_neosnippet_vim
-  augroup END
+  call s:plug.register_insert_hook('neosnippet.vim')
 endif
 
 
@@ -916,9 +912,7 @@ if s:plug.is_installed('unite.vim')
     augroup END
   endfunction
 
-  augroup ag_plug_unite_vim
-    au! User unite.vim call s:plug_unite_vim() | au! ag_plug_unite_vim
-  augroup END
+  call s:plug.register_hook('unite.vim')
 endif
 
 
@@ -989,9 +983,7 @@ if s:plug.is_installed('vimfiler.vim')
     augroup END
   endfunction
 
-  augroup ag_plug_vimfiler_vim
-    au! User vimfiler.vim call s:plug_vimfiler_vim() | au! ag_plug_vimfiler_vim
-  augroup END
+  call s:plug.register_hook('vimfiler.vim')
 endif
 
 
@@ -1009,9 +1001,7 @@ if s:plug.is_installed('vimshell.vim')
     let g:vimshell_data_directory = $VIMLOCAL.'/tmp/cache/vimshell'
   endfunction
 
-  augroup ag_plug_vimshell_vim
-    au! User vimshell.vim call s:plug_vimshell_vim() | au! ag_plug_vimshell_vim
-  augroup END
+  call s:plug.register_hook('vimshell.vim')
 endif
 
 
@@ -1047,9 +1037,7 @@ if s:plug.is_installed('nerdtree')
     augroup END
   endfunction
 
-  augroup ag_plug_nerdtree
-    au! User nerdtree call s:plug_nerdtree() | au! ag_plug_nerdtree
-  augroup END
+  call s:plug.register_hook('nerdtree')
 endif
 
 
@@ -1164,9 +1152,7 @@ if s:plug.is_installed('vim-quickrun')
     nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
   endfunction
 
-  augroup ag_plug_vim_quickrun
-    au! User vim-quickrun call s:plug_vim_quickrun() | au! ag_plug_vim_quickrun
-  augroup END
+  call s:plug.register_hook('vim-quickrun')
 endif
 
 
@@ -1243,9 +1229,7 @@ if s:plug.is_installed('vim-watchdogs')
     call watchdogs#setup(g:quickrun_config)
   endfunction
 
-  augroup ag_plug_vim_watchdogs
-    au! User vim-watchdogs call s:plug_vim_watchdogs() | au! ag_plug_vim_watchdogs
-  augroup END
+  call s:plug.register_hook('vim-watchdogs')
 endif
 
 
@@ -1260,9 +1244,7 @@ if s:plug.is_installed('vim-ref')
     let g:ref_refe_encoding = 'utf-8'
   endfunction
 
-  augroup ag_plug_vim_ref
-    au! User vim-ref call s:plug_vim_ref() | au! ag_plug_vim_ref
-  augroup END
+  call s:plug.register_hook('vim-ref')
 endif
 
 
@@ -1281,18 +1263,22 @@ endif
 " previm {{{1
 "
 if s:plug.is_installed('previm')
-  augroup ag_plug_previm
-    au! User previm call plug#load('open-browser.vim') | au! ag_plug_previm
-  augroup END
+  function! s:plug_previm()
+    call plug#load('open-browser.vim')
+  endfunction
+
+  call s:plug.register_hook('previm')
 endif
 
 
 " excitetranslate-vim {{{1
 "
 if s:plug.is_installed('excitetranslate-vim')
-  augroup ag_plug_excitetranslate_vim
-    au! User excitetranslate-vim call plug#load('webapi-vim') | au! ag_plug_excitetranslate_vim
-  augroup END
+  function! s:plug_excitetranslate_vim()
+    call plug#load('webapi-vim')
+  endfunction
+
+  call s:plug.register_hook('excitetranslate-vim')
 endif
 
 
@@ -1305,9 +1291,7 @@ if s:plug.is_installed('restart.vim')
           \ = 'blank,buffers,curdir,folds,help,localoptions,tabpages'
   endfunction
 
-  augroup ag_restart_vim
-    au! User restart.vim call s:plug_restart_vim() | au! ag_restart_vim
-  augroup END
+  call s:plug.register_hook('restart.vim')
 endif
 
 
