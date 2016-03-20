@@ -58,7 +58,7 @@ Plug 'rhysd/vim-operator-surround', {
       \   '<Plug>(operator-surround-replace)'
       \ ]}
 
-Plug 'kana/vim-smartinput', { 'on': [] }
+Plug 'kana/vim-smartinput', { 'on': [], 'insert': 1 }
 
 Plug 'tomtom/tcomment_vim'
 
@@ -106,7 +106,7 @@ Plug 'plasticboy/vim-markdown', {
       \ }
 
 if has('lua')
-  Plug 'Shougo/neocomplete.vim', { 'on': [] }
+  Plug 'Shougo/neocomplete.vim', { 'on': [], 'insert': 1 }
 endif
 
 Plug 'osyo-manga/vim-marching', { 'for': 'cpp' }
@@ -122,7 +122,7 @@ if executable('ruby')
   Plug 'NigoroJr/rsense', { 'for': [] }
 endif
 
-Plug 'Shougo/neosnippet.vim', { 'on': [] }
+Plug 'Shougo/neosnippet.vim', { 'on': [], 'insert': 1 }
 " Plug 'Shougo/neosnippet-snippets'
 
 Plug 'Shougo/unite.vim', {
@@ -241,7 +241,8 @@ call s:load_local_plugins(expand('$VIMLOCAL/bundle_local/*'))
 call plug#end()
 
 let s:plug = {
-      \   'plugs': get(g:, 'plugs', {})
+      \   'plugs': get(g:, 'plugs', {}),
+      \   'plugs_order': get(g:, 'plugs_order', {})
       \ }
 
 function! s:plug.is_installed(name)
@@ -252,6 +253,23 @@ function! s:plug.is_loaded(name)
   return has_key(self.plugs, a:name) ? &runtimepath =~ self.plugs[a:name].dir : 0
 endfunction
 
+" additional on-demand load
+"
+" insert mode
+function! s:plug.load_on_insert()
+  for name in self.plugs_order
+    if get(self.plugs[name], 'insert', 0)
+      call plug#load(name)
+    endif
+  endfor
+endfunction
+
+augroup MyPlugLoadOnInsert
+  au!
+  au InsertEnter * call s:plug.load_on_insert() | au! MyPlugLoadOnInsert
+augroup END
+
+" register configuration function when loaded
 function! s:plug.register_hook(name)
   let subname = substitute(a:name, '[-\|.]', '_', 'g')
   let aug = 'ag_plug_'.subname
@@ -262,17 +280,7 @@ function! s:plug.register_hook(name)
   exe 'augroup END'
 endfunction
 
-function! s:plug.register_insert_hook(name)
-  let subname = substitute(a:name, '[-\|.]', '_', 'g')
-  let aug = 'ag_plug_'.subname
-  let fnc = 's:plug_'.subname.'()'
-  exe 'augroup '.aug
-  exe ' au!'
-  exe ' au InsertEnter * call plug#load('''.a:name.''')'
-  exe ' au User '.a:name.' call '.fnc.' | au! '.aug
-  exe 'augroup END'
-endfunction
-
+" user command
 command! PS PlugStatus
 command! PU PlugUpdate | PlugUpgrade
 
@@ -353,7 +361,7 @@ if s:plug.is_installed('vim-smartinput')
     endfor
   endfunction
 
-  call s:plug.register_insert_hook('vim-smartinput')
+  call s:plug.register_hook('vim-smartinput')
 endif
 
 
@@ -613,7 +621,7 @@ if s:plug.is_installed('neocomplete.vim')
     nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
   endfunction
 
-  call s:plug.register_insert_hook('neocomplete.vim')
+  call s:plug.register_hook('neocomplete.vim')
 endif
 
 
@@ -768,7 +776,7 @@ if s:plug.is_installed('neosnippet.vim')
           \: "\<TAB>"
   endfunction
 
-  call s:plug.register_insert_hook('neosnippet.vim')
+  call s:plug.register_hook('neosnippet.vim')
 endif
 
 
