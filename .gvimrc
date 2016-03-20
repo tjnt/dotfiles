@@ -104,7 +104,7 @@ function! s:chg_cursor_style()
   " カーソルラインはアンダーラインで表示
   hi CursorLine gui=underline
 endfunction
-augroup ag_chg_colorscheme
+augroup _chg_colorscheme
   au!
   au ColorScheme * call s:chg_cursor_style()
 augroup END
@@ -173,7 +173,7 @@ if has('kaoriya') || has('mac')
   if s:enable_auto_hide_trancy
     let s:gained_trancy_level = 255
     let s:lost_trancy_level   = 100
-    augroup ag_auto_hide_trancy
+    augroup _auto_hide_trancy
       au!
       au FocusGained * let &transparency = s:gained_trancy_level
       au FocusLost * let &transparency = s:lost_trancy_level

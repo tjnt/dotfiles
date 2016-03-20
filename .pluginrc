@@ -264,7 +264,7 @@ function! s:plug.load_on_insert()
   endfor
 endfunction
 
-augroup MyPlugLoadOnInsert
+augroup _plug_load_on_insert
   au!
   au InsertEnter * call s:plug.load_on_insert() | au! MyPlugLoadOnInsert
 augroup END
@@ -272,7 +272,7 @@ augroup END
 " register configuration function when loaded
 function! s:plug.register_hook(name)
   let subname = substitute(a:name, '[-\|.]', '_', 'g')
-  let aug = 'ag_plug_'.subname
+  let aug = '_plug_'.subname
   let fnc = 's:plug_'.subname.'()'
   exe 'augroup '.aug
   exe ' au!'
@@ -426,7 +426,7 @@ if s:plug.is_installed('ShowMarks7')
     hi! link ShowMarksHLm LineNr
   endfunction
 
-  augroup ag_chg_showmarks_colors
+  augroup _chg_showmarks_colors
     au! ColorScheme * call s:chg_showmarks_color()
   augroup END
 
@@ -503,7 +503,7 @@ if s:plug.is_installed('alpaca_tags')
     " If it is as following, debug is shown.
     " let g:alpaca_tags#console = { 'report' : 1 }
 
-    augroup ag_alpaca_aucmd
+    augroup _alpaca_aucmd
       au!
       au BufWritePost Gemfile AlpacaTagsBundle
       au BufEnter * AlpacaTagsSet
@@ -684,7 +684,7 @@ endif
 "
 if s:plug.is_installed('javacomplete')
   function! s:plug_javacomplete()
-    augroup ag_java_completefunc
+    augroup _java_completefunc
       au! FileType java setlocal omnifunc=javacomplete#Complete
                               \ completefunc=javacomplete#CompleteParamsInfo
     augroup END
@@ -718,7 +718,7 @@ if s:plug.is_installed('rsense')
     call SetupRSense()
   endfunction
 
-  augroup ag_plug_rsense
+  augroup _plug_rsense
     au!
     au FileType ruby if <SID>executable_rsense() | call plug#load('rsense') | endif
     au User rsense call s:plug_rsense() | au! ag_plug_rsense
@@ -831,7 +831,7 @@ if s:plug.is_installed('unite.vim')
 
   " vim-ref
   if s:plug.is_installed('vim-ref')
-    augroup ag_unite_ref_keymap
+    augroup _unite_ref_keymap
       au! FileType sh nnoremap <silent>[unite]r  :<C-u>Unite ref/man<CR>
       au! FileType ruby nnoremap <silent>[unite]r  :<C-u>Unite ref/refe<CR>
       au! FileType perl nnoremap <silent>[unite]r  :<C-u>Unite ref/perldoc<CR>
@@ -915,7 +915,7 @@ if s:plug.is_installed('unite.vim')
       inoremap <silent><buffer><ESC><ESC> <ESC>:<C-u>:call <SID>unite_smart_quit()<CR>
     endfunction
 
-    augroup ag_unite_chg_keymap
+    augroup _unite_chg_keymap
       au! FileType unite call s:chg_unite_keymap()
     augroup END
   endfunction
@@ -958,7 +958,7 @@ if s:plug.is_installed('vimfiler.vim')
     call vimfiler#set_execute_file('txt', 'vim')
 
     " 自動的にカーソルラインをオン
-    augroup ag_vimfiler_curline_on
+    augroup _vimfiler_curline_on
       au!
       au FileType vimfiler setlocal cursorline
       au FileType vimfiler hi CursorLine gui=underline
@@ -986,7 +986,7 @@ if s:plug.is_installed('vimfiler.vim')
       " map <buffer> @ <Plug>(vimfiler_set_current_mask)
     endfunction
 
-    augroup ag_vimfiler_chg_keymap
+    augroup _vimfiler_chg_keymap
       au! FileType vimfiler call s:chg_vimfiler_keymap()
     augroup END
   endfunction
@@ -1038,7 +1038,7 @@ if s:plug.is_installed('nerdtree')
     " 隠しファイルを表示する
     let g:NERDTreeShowHidden = 1
     " NERDTreeのウインドウだけならvimを閉じる
-    augroup ag_close_nerdtree_only
+    augroup _close_nerdtree_only
       au!
       au bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
             \ && b:NERDTreeType == "primary") | q | endif

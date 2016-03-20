@@ -15,7 +15,7 @@ scriptencoding utf-8
 " 起動時間の計測
 if has('vim_starting') && has('reltime')
   let g:startuptime = reltime()
-  augroup ag_vimrc_startuptime
+  augroup _startuptime
     au! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw |
                  \ echomsg 'startuptime: '.reltimestr(g:startuptime)
   augroup END
@@ -210,7 +210,7 @@ endif
 "
 if !has('gui_running')
   " 背景を消してターミナル背景を表示
-  augroup ag_remove_background_color
+  augroup _remove_background_color
     au!
     au ColorScheme * highlight! Normal ctermbg=none
     au ColorScheme * highlight! NonText ctermbg=none
@@ -314,7 +314,7 @@ if has('persistent_undo')
   " 全ファイルでpersistent_undoを有効
   set undofile
   " 特定ファイルのみpersistent_undoを有効
-"  augroup ag_vimrc_undofile
+"  augroup _vimrc_undofile
 "    au!
 "    au BufReadPre ~/* setlocal undofile
 "  augroup END
@@ -682,7 +682,7 @@ function! s:check_scratch_written()
     unlet b:cmdex_scratch
   endif
 endfunction
-augroup CmdexScratch
+augroup _scratch
   au!
   au BufWritePost * call <SID>check_scratch_written()
 augroup END
@@ -928,13 +928,13 @@ command! -nargs=0 CppEnvMSVC2005 call CppEnv.change('msvc_2005')
 "
 " テキスト整形設定
 " デフォルトは"tcq"  (参照 :help fo-table)
-augroup ag_formatoptions
+augroup _formatoptions
   au!
   au FileType * setlocal fo+=l fo+=m fo+=M fo+=B fo-=r fo-=o fo-=t
 augroup END
 
 " ファイルタイプごとの設定
-augroup ag_filetype
+augroup _filetype
   au!
   au FileType c,cpp,cs,java
         \ setlocal ts=4 sts=0 sw=4
@@ -952,7 +952,7 @@ augroup ag_filetype
 augroup END
 
 " grep_func関数の検索対象ファイルパターン
-augroup ag_grep_target
+augroup _grep_target
   au!
   au FileType *
         \ let b:grep_target_file = '**/*'
@@ -973,7 +973,7 @@ augroup ag_grep_target
 augroup END
 
 " ファイルを開いた時にカーソル位置を復元する
-augroup ag_restore_cursor
+augroup _restore_cursor
   au! BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe "normal g`\"" |
@@ -981,7 +981,7 @@ augroup ag_restore_cursor
 augroup END
 
 " Insert mode開始/終了時の動作
-augroup ag_ins_enter_leave
+augroup _ins_enter_leave
   au!
   " Normal modeに戻る時に自動的にIMEOFF
   " 再度Insert modeに入るときは元のIME状態に戻す
@@ -998,7 +998,7 @@ augroup ag_ins_enter_leave
 augroup END
 
 " 以下のコマンドの結果は常にQuickFixで表示
-" augroup ag_cmd_qfopen
+" augroup _cmd_qfopen
   " au! QuickfixCmdPost grep,vimgrep,make,copen cw
 " augroup END
 
@@ -1015,7 +1015,7 @@ function! s:set_utf8_bom()
   endif
 endfunction
 " バッファオープン時のエンコード再チェック
-augroup ag_file_enc_check
+augroup _file_enc_check
   au!
 "  au BufReadPost * call s:file_enc_check()
   au FileType c,cpp,cs call s:set_utf8_bom()
@@ -1026,7 +1026,7 @@ augroup END
 "   highlight ZenkakuSpace ctermbg=darkgrey guibg=darkgrey
 " endfunction
 " if has('syntax')
-"   augroup ag_zenkaku_space
+"   augroup _zenkaku_space
 "     au!
 "     au ColorScheme       * call s:zenkaku_space()
 "     au VimEnter,WinEnter * match ZenkakuSpace /　/
@@ -1035,12 +1035,12 @@ augroup END
 " endif
 
 " ファイルオープン時にカレントディレクトリを自動的に移動
-" augroup ag_buf_lcd
+" augroup _buf_lcd
 "   au! BufEnter * lcd %:p:h
 " augroup END
 
 " ファイル保存時に行末の不要スペースを削除する
-" augroup ag_rtrim
+" augroup _rtrim
 "   au! BufWritePre *.c,*.cpp,*.rb,*.php,*.js,*.vim,*.bat call s:rtrim()
 " augroup END
 
@@ -1052,7 +1052,7 @@ if has("unix")
       " echo "Set permission 755"
     endif
   endfunction
-  augroup ag_chg_sh_permission
+  augroup _chg_sh_permission
     au! BufWritePost *.sh call s:chg_sh_permission()
   augroup END
 endif
@@ -1143,7 +1143,7 @@ call s:source_ifexists(s:rc_path('vimlocal'))
 " function! s:set_cpp_env_path()
 "   call g:CppEnv.change('mingw')
 " endfunction
-" augroup ag_cpp_env_path
+" augroup _cpp_env_path
 "   au! FileType c,cpp call s:set_cpp_env_path()
 " augroup END
 
