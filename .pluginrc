@@ -266,7 +266,7 @@ endfunction
 
 augroup _plug_load_on_insert
   au!
-  au InsertEnter * call s:plug.load_on_insert() | au! MyPlugLoadOnInsert
+  au InsertEnter * call s:plug.load_on_insert() | au! _plug_load_on_insert
 augroup END
 
 " register configuration function when loaded
