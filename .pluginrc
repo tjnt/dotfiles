@@ -721,7 +721,7 @@ if s:plug.is_installed('rsense')
   augroup _plug_rsense
     au!
     au FileType ruby if <SID>executable_rsense() | call plug#load('rsense') | endif
-    au User rsense call s:plug_rsense() | au! ag_plug_rsense
+    au User rsense call s:plug_rsense() | au! _plug_rsense
   augroup END
 endif
 
