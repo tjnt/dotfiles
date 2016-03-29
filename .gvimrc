@@ -44,6 +44,9 @@ set guioptions-=m
 set guioptions-=T
 " タブを非表示(テキストベースのタブを使う)
 set guioptions-=e
+" スクロールバーを非表示
+set guioptions-=rL
+
 
 
 " フォント設定 {{{1
