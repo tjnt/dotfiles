@@ -463,13 +463,13 @@ if s:plug.is_installed('taglist.vim')
 
   function! s:plug_taglist_vim()
     " 現在表示中のファイルのみのタグしか表示しない
-    let Tlist_Show_One_File = 1
+    let g:Tlist_Show_One_File = 1
     " taglisの幅
-    let Tlist_WinWidth = 40
+    let g:Tlist_WinWidth = 40
     " 右側にtaglistを表示
-    let Tlist_Use_Right_Window = 1
+    let g:Tlist_Use_Right_Window = 1
     " taglistのウインドウだけならvimを閉じる
-    let Tlist_Exit_OnlyWindow = 1
+    let g:Tlist_Exit_OnlyWindow = 1
   endfunction
 
   call s:plug.register_hook('taglist.vim')
@@ -667,7 +667,7 @@ if s:plug.is_installed('vim-marching')
 
     " vimprocの更新間隔を短くして候補表示を早くする
     if s:plug.is_installed('vimproc.vim')
-      setlocal updatetime=100
+      setlocal updatetime=1000
     endif
 
     " オムニ補完時に補完ワードを挿入したくない場合
