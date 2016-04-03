@@ -634,7 +634,7 @@ if s:plug.is_installed('vim-marching')
             \ s:plug.is_installed('vimproc.vim') ?
             \     'clang_command' : 'sync_clang_command'
       " let g:marching_backend = 'sync_clang_command'
-    else
+    elseif executable('curl') || executable('wget')
       " clang コマンドが実行できなければ wandbox を使用する
       let g:marching_backend = 'sync_wandbox'
       let g:marching_clang_command = ''
