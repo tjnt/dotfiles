@@ -56,8 +56,8 @@ set verbose=15
 " ']]'や'[['で探す候補に日本人として日本語を追加。
 " set nextpattern=^次(へ|の|ペ),^続き,\bnext\b,^>$,^(>>|&#187;)$,^(>|&#187;),(>|&#187;)$,\bmore\b
 " set previouspattern=^前(へ|の|ペ),^戻る,\bprev|previous\b,^<$,^(<<|&#171;)$,^(<|&#171;),(<|&#171;)$
-set nextpattern=^次(へ|の|ペ),^続き,\bnext,^>$,^(>>|»)$,^(>|»),(>|»)$,\bmore\b
-set previouspattern=^前(へ|の|ペ),^戻る\bprev|previous\b,^<$,^(<<|«)$,^(<|«),(<|«)$
+set nextpattern=^次$,^次(へ|の|ペ),^続き,^＞$,\bnext,^>$,^(>>|»)$,^(>|»),(>|»)$,\bmore\b
+set previouspattern=^前$,^前(へ|の|ペ),^戻る,^＜$,\bprev|previous\b,^<$,^(<<|«)$,^(<|«),(<|«)$
 
 
 " コマンドラインモード時に自動でimeをOFFにする
