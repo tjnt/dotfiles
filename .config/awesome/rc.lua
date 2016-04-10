@@ -72,42 +72,42 @@ myutils = {
 
 -- run or raise
 function run_or_raise(cmd, properties)
-   local clients = client.get()
-   local focused = awful.client.next(0)
-   local findex = 0
-   local matched_clients = {}
-   local n = 0
-   for i, c in pairs(clients) do
-      --make an array of matched clients
-      if myutils.match(properties, c) then
-         n = n + 1
-         matched_clients[n] = c
-         if c == focused then
-            findex = n
-         end
+  local clients = client.get()
+  local focused = awful.client.next(0)
+  local findex = 0
+  local matched_clients = {}
+  local n = 0
+  for i, c in pairs(clients) do
+    --make an array of matched clients
+    if myutils.match(properties, c) then
+      n = n + 1
+      matched_clients[n] = c
+      if c == focused then
+        findex = n
       end
-   end
-   if n > 0 then
-      local c = matched_clients[1]
-      -- if the focused window matched switch focus to next in list
-      if 0 < findex and findex < n then
-         c = matched_clients[findex+1]
-      end
-      local ctags = c:tags()
-      if #ctags == 0 then
-         -- ctags is empty, show client on current tag
-         local curtag = awful.tag.selected()
-         awful.client.movetotag(curtag, c)
-      else
-         -- Otherwise, pop to first tag client is visible on
-         awful.tag.viewonly(ctags[1])
-      end
-      -- And then focus the client
-      client.focus = c
-      c:raise()
-      return
-   end
-   awful.util.spawn(cmd)
+    end
+  end
+  if n > 0 then
+    local c = matched_clients[1]
+    -- if the focused window matched switch focus to next in list
+    if 0 < findex and findex < n then
+      c = matched_clients[findex+1]
+    end
+    local ctags = c:tags()
+    if #ctags == 0 then
+      -- ctags is empty, show client on current tag
+      local curtag = awful.tag.selected()
+      awful.client.movetotag(curtag, c)
+    else
+      -- Otherwise, pop to first tag client is visible on
+      awful.tag.viewonly(ctags[1])
+    end
+    -- And then focus the client
+    client.focus = c
+    c:raise()
+    return
+  end
+  awful.util.spawn(cmd)
 end
 
 -- run once
@@ -122,11 +122,11 @@ function run_once(prg, arg, pname, screen)
 
   if not arg then
     awful.util.spawn_with_shell(
-      "pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")", screen)
+    "pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")", screen)
   else
     awful.util.spawn_with_shell(
-      "pgrep -f -u $USER -x '" .. pname .. " " .. arg ..
-        "' || (" .. prg .. " " .. arg .. ")", screen)
+    "pgrep -f -u $USER -x '" .. pname .. " " .. arg ..
+    "' || (" .. prg .. " " .. arg .. ")", screen)
   end
 end
 
