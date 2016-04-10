@@ -147,21 +147,21 @@ layouts = {
   awful.layout.suit.tile.bottom,
   awful.layout.suit.floating
 }
--- original
--- layouts = {
---   awful.layout.suit.floating,
---   awful.layout.suit.tile,
---   awful.layout.suit.tile.left,
---   awful.layout.suit.tile.bottom,
---   awful.layout.suit.tile.top,
---   awful.layout.suit.fair,
---   awful.layout.suit.fair.horizontal,
---   awful.layout.suit.spiral,
---   awful.layout.suit.spiral.dwindle,
---   awful.layout.suit.max,
---   awful.layout.suit.max.fullscreen,
---   awful.layout.suit.magnifier
--- }
+
+full_layouts = {
+  awful.layout.suit.floating,
+  awful.layout.suit.tile,
+  awful.layout.suit.tile.left,
+  awful.layout.suit.tile.bottom,
+  awful.layout.suit.tile.top,
+  awful.layout.suit.fair,
+  awful.layout.suit.fair.horizontal,
+  awful.layout.suit.spiral,
+  awful.layout.suit.spiral.dwindle,
+  awful.layout.suit.max,
+  awful.layout.suit.max.fullscreen,
+  awful.layout.suit.magnifier
+}
 
 -- Tags {{{1
 -- Define a tag table which hold all screen tags.
@@ -175,6 +175,20 @@ end
 -- Menu {{{1
 -- Create a laucher widget and a main menu
 myawesomemenu = {
+  { "layout", {
+    { "floating",        function () awful.layout.set(full_layouts[1])  end },
+    { "tile",            function () awful.layout.set(full_layouts[2])  end },
+    { "tile.left",       function () awful.layout.set(full_layouts[3])  end },
+    { "tile.bottom",     function () awful.layout.set(full_layouts[4])  end },
+    { "tile.top",        function () awful.layout.set(full_layouts[5])  end },
+    { "fair",            function () awful.layout.set(full_layouts[6])  end },
+    { "fair.horizontal", function () awful.layout.set(full_layouts[7])  end },
+    { "spiral",          function () awful.layout.set(full_layouts[8])  end },
+    { "spiral.dwindle",  function () awful.layout.set(full_layouts[9])  end },
+    { "max",             function () awful.layout.set(full_layouts[10]) end },
+    { "max.fullscreen",  function () awful.layout.set(full_layouts[11]) end },
+    { "magnifier",       function () awful.layout.set(full_layouts[12]) end }
+  }},
   { "manual", terminal .. " -e man awesome" },
   { "edit config", editor_cmd .. " " .. awesome.conffile },
   { "restart", awesome.restart },
