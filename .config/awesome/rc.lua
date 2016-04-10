@@ -44,6 +44,32 @@ end
 
 -- Functions definitions {{{1
 --
+-- utility functions
+myutils = {
+  foo = function()
+    print("foo")
+  end,
+
+  find_idx = function(tbl, val)
+    for i = 1, #tbl do
+      if val == tbl[i] then
+        return i
+      end
+    end
+    return nil
+  end,
+
+  -- Returns true if all pairs in table1 are present in table2
+  match = function(table1, table2)
+    for k, v in pairs(table1) do
+      if table2[k] ~= v and not table2[k]:find(v) then
+        return false
+      end
+    end
+    return true
+  end,
+}
+
 -- run or raise
 function run_or_raise(cmd, properties)
    local clients = client.get()
@@ -53,7 +79,7 @@ function run_or_raise(cmd, properties)
    local n = 0
    for i, c in pairs(clients) do
       --make an array of matched clients
-      if match(properties, c) then
+      if myutils.match(properties, c) then
          n = n + 1
          matched_clients[n] = c
          if c == focused then
@@ -82,16 +108,6 @@ function run_or_raise(cmd, properties)
       return
    end
    awful.util.spawn(cmd)
-end
-
--- Returns true if all pairs in table1 are present in table2
-function match(table1, table2)
-   for k, v in pairs(table1) do
-      if table2[k] ~= v and not table2[k]:find(v) then
-         return false
-      end
-   end
-   return true
 end
 
 -- run once
@@ -164,14 +180,7 @@ layouts = {
 }
 
 function inc_layout(tbl, n)
-  crnt = awful.layout.get()
-  found = false
-  for i = 1, table.maxn(tbl) do
-    if crnt == tbl[i] then
-      found = true break
-    end
-  end
-  if found then
+  if myutils.find_idx(tbl, awful.layout.get()) then
     awful.layout.inc(tbl, n)
   else
     awful.layout.set(tbl[1])
