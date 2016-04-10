@@ -141,14 +141,14 @@ editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-layouts = {
+mylayouts = {
   awful.layout.suit.max,
   awful.layout.suit.tile,
   awful.layout.suit.tile.bottom,
   awful.layout.suit.floating
 }
 
-full_layouts = {
+layouts = {
   awful.layout.suit.floating,
   awful.layout.suit.tile,
   awful.layout.suit.tile.left,
@@ -163,31 +163,46 @@ full_layouts = {
   awful.layout.suit.magnifier
 }
 
+function inc_layout(tbl, n)
+  crnt = awful.layout.get()
+  found = false
+  for i = 1, table.maxn(tbl) do
+    if crnt == tbl[i] then
+      found = true break
+    end
+  end
+  if found then
+    awful.layout.inc(tbl, n)
+  else
+    awful.layout.set(tbl[1])
+  end
+end
+
 -- Tags {{{1
 -- Define a tag table which hold all screen tags.
 tags = {}
 for s = 1, screen.count() do
   -- Each screen has its own tag table.
   tags[s] = awful.tag(
-    { 1, 2, 3, 4, 5 }, s, layouts[1])
+    { 1, 2, 3, 4, 5 }, s, mylayouts[1])
 end
 
 -- Menu {{{1
 -- Create a laucher widget and a main menu
 myawesomemenu = {
   { "layout", {
-    { "floating",        function () awful.layout.set(full_layouts[1])  end },
-    { "tile",            function () awful.layout.set(full_layouts[2])  end },
-    { "tile.left",       function () awful.layout.set(full_layouts[3])  end },
-    { "tile.bottom",     function () awful.layout.set(full_layouts[4])  end },
-    { "tile.top",        function () awful.layout.set(full_layouts[5])  end },
-    { "fair",            function () awful.layout.set(full_layouts[6])  end },
-    { "fair.horizontal", function () awful.layout.set(full_layouts[7])  end },
-    { "spiral",          function () awful.layout.set(full_layouts[8])  end },
-    { "spiral.dwindle",  function () awful.layout.set(full_layouts[9])  end },
-    { "max",             function () awful.layout.set(full_layouts[10]) end },
-    { "max.fullscreen",  function () awful.layout.set(full_layouts[11]) end },
-    { "magnifier",       function () awful.layout.set(full_layouts[12]) end }
+    { "floating",        function () awful.layout.set(layouts[1])  end },
+    { "tile",            function () awful.layout.set(layouts[2])  end },
+    { "tile.left",       function () awful.layout.set(layouts[3])  end },
+    { "tile.bottom",     function () awful.layout.set(layouts[4])  end },
+    { "tile.top",        function () awful.layout.set(layouts[5])  end },
+    { "fair",            function () awful.layout.set(layouts[6])  end },
+    { "fair.horizontal", function () awful.layout.set(layouts[7])  end },
+    { "spiral",          function () awful.layout.set(layouts[8])  end },
+    { "spiral.dwindle",  function () awful.layout.set(layouts[9])  end },
+    { "max",             function () awful.layout.set(layouts[10]) end },
+    { "max.fullscreen",  function () awful.layout.set(layouts[11]) end },
+    { "magnifier",       function () awful.layout.set(layouts[12]) end }
   }},
   { "manual", terminal .. " -e man awesome" },
   { "edit config", editor_cmd .. " " .. awesome.conffile },
@@ -332,10 +347,10 @@ for s = 1, screen.count() do
   -- We need one layoutbox per screen.
   mylayoutbox[s] = awful.widget.layoutbox(s)
   mylayoutbox[s]:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-    awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-    awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-    awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)
+    awful.button({ }, 1, function () inc_layout(mylayouts, 1)  end),
+    awful.button({ }, 3, function () inc_layout(mylayouts, -1) end),
+    awful.button({ }, 4, function () inc_layout(mylayouts, 1)  end),
+    awful.button({ }, 5, function () inc_layout(mylayouts, -1) end)
   ))
 
   -- Create a taglist widget
@@ -417,8 +432,8 @@ globalkeys = awful.util.table.join(
   awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)        end),
   awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)           end),
   awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)           end),
-  awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1)   end),
-  awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1)   end),
+  awful.key({ modkey,           }, "space", function () inc_layout(mylayouts, 1)        end),
+  awful.key({ modkey, "Shift"   }, "space", function () inc_layout(mylayouts, -1)       end),
   -- Tag manipulation
   awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
   awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
