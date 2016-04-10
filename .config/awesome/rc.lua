@@ -144,6 +144,7 @@ modkey = "Mod4"
 layouts = {
   awful.layout.suit.max,
   awful.layout.suit.tile,
+  awful.layout.suit.tile.bottom,
   awful.layout.suit.floating
 }
 -- original
@@ -443,7 +444,6 @@ clientkeys = awful.util.table.join(
   awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
   awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
   awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
-  awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
   awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
   awful.key({ modkey,           }, "n",
     function (c)
