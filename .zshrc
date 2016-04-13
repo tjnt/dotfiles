@@ -42,7 +42,7 @@ setopt hist_reduce_blanks
 # historyコマンドはヒストリに追加しない
 setopt hist_no_store
 # 複数セッションでヒストリを共有
-setopt share_history
+# setopt share_history
 
 #-------------------------------------------------
 # Completion
