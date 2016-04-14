@@ -138,6 +138,7 @@ Plug 'tsukkee/unite-tag', { 'on': [] }
 Plug 'tacroe/unite-mark', { 'on': [] }
 Plug 'zhaocai/unite-scriptnames', { 'on': [] }
 Plug 'ujihisa/unite-colorscheme', { 'on': [] }
+Plug 'Shougo/neoyank.vim', { 'on': [] }
 
 Plug 'Shougo/neomru.vim'
 
@@ -853,6 +854,7 @@ if s:plug.is_installed('unite.vim')
           \ 'unite-mark',
           \ 'unite-scriptnames',
           \ 'unite-colorscheme',
+          \ 'neoyank.vim',
           \ )
 
     " 入力モードで開始する
