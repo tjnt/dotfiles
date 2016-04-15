@@ -931,7 +931,7 @@ augroup _filetype
   au!
   au FileType c,cpp,cs,java
         \ setlocal ts=4 sts=0 sw=4
-        \ cindent cinoptions=:4
+        \ cindent cinoptions=>1s,g0
   au FileType ruby,perl,lua,vim,javascript
         \ setlocal ts=2 sts=0 sw=2
   au FileType python
