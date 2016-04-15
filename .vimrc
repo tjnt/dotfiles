@@ -506,7 +506,6 @@ cnoreabbrev ++m ++ff=mac
 " disable keymaps
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
-noremap <C-z> <Nop>
 
 " smooth scroll (smooth_scroll.vim) {{{2
 "
