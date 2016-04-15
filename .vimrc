@@ -590,15 +590,9 @@ vnoremap gt :<C-u>call <SID>v_grep_func('tabnew')
 
 " タグジャンプ {{{2
 "
-" 分割ウィンドウでタグジャンプ
-function! s:split_tagjump()
-  try
-    exe "normal! \<C-w>\<C-]>"
-  catch
-    " suppress error message
-  endtry
-endfunction
-nnoremap <silent><C-]> :<C-u>call <SID>split_tagjump()<CR>
+" 候補が複数ある場合は選択肢を表示
+nnoremap <silent><C-]>      g<C-]>
+nnoremap <silent><C-w><C-]> <C-w>g<C-]>
 
 " Enterでタグジャンプ
 function! s:tagjump_or_cr()
