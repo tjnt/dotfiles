@@ -17,6 +17,10 @@ fi
 # 環境変数
 #
 export EDITOR=vim
-export PAGER=lv
+if type -p lv >/dev/null 2>&1; then
+  export PAGER=lv
+else
+  export PAGER=less
+fi
 
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
