@@ -17,13 +17,15 @@ colors
 # 左プロンプト
 if [ ${UID} = 0 ]; then
   # PROMPT="%{$fg_bold[red]%}%n@%m:%~%#%{$reset_color%} "
-  PROMPT="%F{red}%B%n@%m:%~%#%b%f "
+  # PROMPT="%F{red}%B%n@%m:%~%#%b%f "
+  PROMPT="%F{red}%B%n@%m:%#%b%f "
 else
-  PROMPT="%B%n@%m:%~%#%b "
+  # PROMPT="%B%n@%m:%~%#%b "
+  PROMPT="%B%n@%m:%#%b "
 fi
 # 右プロンプト
-#RPROMPT='%/'
-RPROMPT="%(?.%F{green}%Bヾ（ﾟω ﾟ）ﾉﾞ%b%f.%F{red}%Bヾ（ﾟд ﾟ）ﾉﾞ%b%f)"
+RPROMPT='%B%~%b'
+# RPROMPT="%(?.%F{green}%Bヾ（ﾟω ﾟ）ﾉﾞ%b%f.%F{red}%Bヾ（ﾟд ﾟ）ﾉﾞ%b%f)"
 
 #-------------------------------------------------
 # History
