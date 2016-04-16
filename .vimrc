@@ -269,13 +269,13 @@ set nrformats-=octal
 set hidden
 " ヒストリの保存数
 set history=50
-" ビジュアルモードで選択したテキストが、クリップボードに入るようにする
-" set clipboard+=autoselect
-" 無名レジスタに入るデータを*レジスタにも入れる(クリップボード使用)
-set clipboard+=unnamed
+" クリップボード
+set clipboard&
+set clipboard-=autoselect
 if has("unix")
-  set clipboard=unnamedplus
+  set clipboard^=unnamedplus
 endif
+set clipboard^=unnamed
 " IMEOFFで起動する
 set iminsert=0 imsearch=0
 " tagsファイルを検索する際に、カレントバッファから上に辿って探す
