@@ -270,7 +270,6 @@ set hidden
 " ヒストリの保存数
 set history=50
 " クリップボード
-set clipboard&
 set clipboard-=autoselect
 if has("unix")
   set clipboard^=unnamedplus
