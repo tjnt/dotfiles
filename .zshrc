@@ -137,7 +137,11 @@ alias lv='lv -c'
 alias vi='vim'
 # グローバルエイリアス
 alias -g G='| grep'
-alias -g L='| lv'
+if type -p lv >/dev/null 2>&1; then
+  alias -g L='| lv'
+else
+  alias -g L='| less'
+fi
 
 #-------------------------------------------------
 # Functions
