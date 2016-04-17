@@ -931,7 +931,6 @@ endif
 if has("unix")
   let g:my_cpp_path = [
     \   '.',
-    \   '~/.local/include',
     \   '/usr/local/include',
     \   '/usr/include/boost',
     \   '/usr/include/c++/*',
