@@ -793,128 +793,6 @@ if executable('cvs')
   command! -nargs=0 CvsDiffOnly call <SID>vcs_diff('cvs diff', 1)
 endif
 
-" C++向け環境の切り替え {{{2
-"
-if has('vim_starting')
-  let CppEnv = {}
-  let CppEnv.default = {
-      \   'path': $PATH,
-      \   'lib': $LIB,
-      \   'libpath': $LIBPATH,
-      \   'library_path': $LIBRARY_PATH,
-      \   'include': $INCLUDE,
-      \   'c_include_path': $C_INCLUDE_PATH,
-      \   'cplus_include_path': $CPLUS_INCLUDE_PATH,
-      \   'pa': &path,
-      \ }
-endif
-let CppEnv.current_name = ''
-let CppEnv.environment = {
-      \   'gcc': {
-      \     'path': [
-      \         '/usr/local/bin',
-      \         '/usr/bin',
-      \         '/bin',
-      \     ],
-      \     'lib': [
-      \         '/usr/local/lib',
-      \         '/usr/lib',
-      \         '/lib',
-      \     ],
-      \     'include': [
-      \         '/usr/local/include',
-      \         '/usr/include',
-      \     ] +
-      \     filter(
-      \       split(glob('/usr/include/c++/*'), '\n') +
-      \       split(glob('/usr/include/*/c++/*'), '\n'),
-      \       'isdirectory(v:val)')
-      \   },
-      \   'mingw': {
-      \     'path': [
-      \         'C:\Opt\MinGW\bin',
-      \         'C:\Opt\MinGW\msys\1.0\bin',
-      \     ],
-      \     'lib': [
-      \         'C:\Opt\MinGW\lib',
-      \     ],
-      \     'include': [
-      \         'C:\Opt\MinGW\include',
-      \         'C:\Opt\mingw\x86_64-w64-mingw32\include',
-      \         'C:\Opt\mingw\x86_64-w64-mingw32\include\c++',
-      \     ],
-      \   },
-      \   'cygwin': {
-      \     'path': [
-      \         'C:\Opt\cygwin\bin',
-      \         'C:\Opt\cygwin\usr\sbin',
-      \     ],
-      \     'lib': [
-      \         'C:\Opt\cygwin\lib',
-      \     ],
-      \     'include': [
-      \         'C:\Opt\cygwin\usr\include',
-      \     ],
-      \   },
-      \   'msvc_2005': {
-      \     'path': [
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\Tools',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\Common7\IDE',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\bin',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Bin',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\Bin',
-      \     ],
-      \     'lib': [
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\lib',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\lib',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Lib',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\Lib',
-      \     ],
-      \     'include': [
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\include',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\atlmfc\include',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\VC\PlatformSDK\Include',
-      \         'C:\Program Files (x86)\Microsoft Visual Studio 8\SDK\v2.0\include;',
-      \     ],
-      \   },
-      \ }
-
-function! CppEnv.set_default()
-  let $PATH = get(self.default, 'path')
-  let $LIB = get(self.default, 'lib')
-  let $LIBPATH = get(self.default, 'libpath')
-  let $LIBRARY_PATH = get(self.default, 'library_path')
-  let $INCLUDE = get(self.default, 'include')
-  let $C_INCLUDE_PATH = get(self.default, 'c_include_path')
-  let $CPLUS_INCLUDE_PATH = get(self.default, 'cplus_include_path')
-  let &l:path = get(self.default, 'pa')
-endfunction
-
-function! CppEnv.change(name)
-  " set to default
-  call self.set_default()
-  " append parameter path
-  let sp = g:is_win ? ';' : ':'
-  let env = get(self.environment, a:name)
-  let $PATH = $PATH.sp.join(get(env, 'path'), sp)
-  let $LIB = '.'.sp.join(get(env, 'lib'), sp)
-  let $LIBPATH = $LIB
-  let $LIBRARY_PATH = $LIB
-  let $INCLUDE = '.'.sp.join(get(env, 'include'), sp)
-  let $C_INCLUDE_PATH = $INCLUDE
-  let $CPLUS_INCLUDE_PATH = $INCLUDE
-  let &l:path = '.,'.fnameescape(join(get(env, 'include'), ','))
-  let self.current_name = a:name
-  unlet sp
-  unlet env
-endfunction
-
-command! -nargs=0 CppEnvDefault  call CppEnv.set_default()
-command! -nargs=0 CppEnvGcc      call CppEnv.change('gcc')
-command! -nargs=0 CppEnvMinGW    call CppEnv.change('mingw')
-command! -nargs=0 CppEnvCygwin   call CppEnv.change('cygwin')
-command! -nargs=0 CppEnvMSVC2005 call CppEnv.change('msvc_2005')
-
 
 " Auto Command {{{1
 "
@@ -1049,6 +927,29 @@ if has("unix")
   augroup END
 endif
 
+" environment path for c++
+if has("unix")
+  let g:my_cpp_path = [
+    \   '.',
+    \   '~/.local/include',
+    \   '/usr/local/include',
+    \   '/usr/include/boost',
+    \   '/usr/include/c++/*',
+    \   '/usr/include/*/c++/*',
+    \   '/usr/include'
+    \ ]
+
+  function! s:set_cpp_path()
+    let wk = []
+    call map(copy(g:my_cpp_path), 'extend(wk, split(glob(v:val), "\n"))')
+    let &l:path = join(filter(wk, 'isdirectory(v:val)'), ',')
+  endfunction
+
+  augroup _cpp_env_path
+    au! FileType c,cpp call <SID>set_cpp_path()
+  augroup END
+endif
+
 
 " <Fn> 短縮キーマップ {{{1
 "
@@ -1127,17 +1028,6 @@ endif
 
 " 環境ごとの設定読み込み
 call s:source_ifexists(s:rc_path('vimlocal'))
-
-" Example
-"
-" environment path for c++
-"
-" function! s:set_cpp_env_path()
-"   call g:CppEnv.change('mingw')
-" endfunction
-" augroup _cpp_env_path
-"   au! FileType c,cpp call s:set_cpp_env_path()
-" augroup END
 
 
 " {{{1
