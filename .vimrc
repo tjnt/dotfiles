@@ -190,8 +190,7 @@ set lazyredraw
 " タブ、空白、改行等の不可視文字を表示する (nolist:非表示)
 set nolist
 " どの文字でタブや改行を表示するかを設定
-"set listchars=tab:^\ ,trail:_,extends:»,precedes:«,nbsp:%
-set listchars=tab:^\ ,trail:_,nbsp:%
+set listchars=tab:^\ ,trail:_,nbsp:%,eol:$,extends:»,precedes:«
 " 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
 set showmatch matchtime=1
 " □とか○の文字があってもカーソル位置がずれないようにする
