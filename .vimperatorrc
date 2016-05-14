@@ -176,6 +176,8 @@ set! browser.download.manager.showWhenStarting=false
 set! config.trim_on_minimize=true
 " 位置検出情報を無効にする
 set! geo.enabled=false
+" Hello無効化
+set! loop.enabled=false
 
 
 " カラー設定 {{{1
