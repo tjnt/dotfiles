@@ -286,7 +286,16 @@ vicious.register(myvolume, vicious.widgets.volume,
 mybattery = wibox.widget.textbox()
 vicious.register(mybattery, vicious.widgets.bat,
   function(widget, args)
-    return string.format(" Bat: %3d%% %s |", args[2], args[1])
+    local per = args[2]
+    local pstr
+    if per < 20 then
+      pstr = string.format("<span color='#CC0000'>%3d%%</span>", per)
+    elseif per < 50 then
+      pstr = string.format("<span color='#66CC00'>%3d%%</span>", per)
+    else
+      pstr = string.format("%3d%%", per)
+    end
+    return string.format(" Bat: %s %s |", pstr, args[1])
   end, 5, "C1CB")
 
 -- textclock widget
