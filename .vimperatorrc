@@ -39,10 +39,10 @@ set hlsearch
 set complete=sSlb
 
 " サーチエンジンの設定
-set defsearch=google
+" set defsearch=google
 
 " サジェストエンジンの設定
-set suggestengines=google
+" set suggestengines=google
 
 " コマンド入力時にコマンド名を自動補完
 set wildmode="list:full"
