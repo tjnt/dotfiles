@@ -137,8 +137,8 @@ set! browser.panorama.animate_zoom=false
 " Ctrl+Tabでのタブプレビューを有効化
 " set! browser.ctrlTab.previews=true
 " 右クリックを禁止させない
-set! dom.event.contextmenu.enabled=false
-set! nglayout.events.dispatchLeftClickOnly=true
+" set! dom.event.contextmenu.enabled=false
+" set! nglayout.events.dispatchLeftClickOnly=true
 " フレームの強制リサイズを可能にする
 set! layout.frames.force_resizability=true
 " about:pluginsでプラグインの完全な位置を示します
