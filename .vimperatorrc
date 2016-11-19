@@ -18,7 +18,7 @@ set titlestring=Firefox
 " スクロールバー表示
 set scrollbars=true
 " ツールバー表示
-set toolbars=none,tabs
+set toolbars=all
 " タブ番号を非表示
 set notabnumbers
 
