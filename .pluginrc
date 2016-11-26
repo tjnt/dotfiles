@@ -12,12 +12,12 @@ endif
 " vim-plug {{{1
 "
 if has('vim_starting')
-  if !isdirectory(expand('$VIMLOCAL/bundle/vim-plug'))
+  if !isdirectory(expand('$VIMLOCAL/plugins/vim-plug'))
     echo 'install vim-plug...'
     call system('git clone https://github.com/junegunn/vim-plug.git '.
-          \ expand('$VIMLOCAL/bundle/vim-plug/autoload'))
+          \ expand('$VIMLOCAL/plugins/vim-plug/autoload'))
   end
-  set runtimepath+=$VIMLOCAL/bundle/vim-plug
+  set runtimepath+=$VIMLOCAL/plugins/vim-plug
 
   " suppress warning
   if g:is_win
@@ -25,10 +25,10 @@ if has('vim_starting')
   endif
 endif
 
-call plug#begin(expand('$VIMLOCAL/bundle'))
+call plug#begin(expand('$VIMLOCAL/plugins'))
 
 Plug 'junegunn/vim-plug', {
-      \ 'dir': expand('$VIMLOCAL/bundle/vim-plug/autoload') }
+      \ 'dir': expand('$VIMLOCAL/plugins/vim-plug/autoload') }
 
 if executable('gcc')
   function! BuildVimproc(info)
@@ -237,7 +237,7 @@ function! s:load_local_plugins(dir)
     Plug pl
   endfor
 endfunction
-call s:load_local_plugins(expand('$VIMLOCAL/bundle_local/*'))
+call s:load_local_plugins(expand('$VIMLOCAL/plugins_local/*'))
 
 call plug#end()
 
