@@ -706,6 +706,7 @@ if s:plug.is_installed('rsense')
 
   function! s:plug_rsense()
     let g:rsenseUseOmniFunc = 1
+    let g:rsenseHome = expand("$VIMLOCAL/plugins/rsense")
 
     if s:plug.is_installed('neocomplete.vim')
       if !exists('g:neocomplete#force_omni_input_patterns')
