@@ -755,12 +755,12 @@ if s:plug.is_installed('neosnippet.vim')
 
     " load Shougo/neosnippet-snippets
     if s:plug.is_installed('neosnippet-snippets')
-      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/bundle/neosnippet-snippets/neosnippets' ]
+      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/plugins/neosnippet-snippets/neosnippets' ]
     endif
 
     " load honza/vim-snippets
     if s:plug.is_installed('vim-snippets')
-      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/bundle/vim-snippets/snippets' ]
+      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/plugins/vim-snippets/snippets' ]
     endif
 
     " Plugin key-mappings.
