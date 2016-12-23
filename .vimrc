@@ -3,7 +3,7 @@
 "
 "
 
-" Basic Setting {{{1
+" {{{1
 "
 if &encoding !=? 'utf-8'
   let &termencoding = &encoding
@@ -29,10 +29,6 @@ set novisualbell
 " <LEADER>の変更
 let g:mapleader = ','
 
-" 設定トグルのprefix
-nnoremap [toggle] <Nop>
-nmap     <LEADER><LEADER> [toggle]
-
 let g:is_win = has('win16') || has('win32') || has('win64')
 
 " パスの区切り文字に/を使えるようにする
@@ -40,8 +36,7 @@ if g:is_win
   set shellslash
 endif
 
-" 環境変数の設定 {{{2
-"
+" 環境変数
 if has('vim_starting')
   let $VIMLOCAL = expand('$HOME/.vim')
   if g:is_win
@@ -52,8 +47,7 @@ if has('vim_starting')
   endif
 endif
 
-" ファイルエンコーディング設定 {{{2
-"
+" ファイルエンコーディング
 if has('guess_encode')
   set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932,utf-8
 else
@@ -66,97 +60,6 @@ set fileformats=unix,dos,mac
 if has('vim_starting')
   set fileencoding=utf-8
 endif
-
-
-" 共通関数 {{{1
-"
-" 設定ファイルのフルパス取得
-function! s:rc_path(name)
-  return expand('$HOME/.'.a:name)
-endfunction
-
-" ファイルがあったら実行
-function! s:source_ifexists(file)
-  if filereadable(a:file)
-    exe 'source '.a:file
-  endif
-endfunction
-
-" プラグイン存在チェック
-function! s:has_plugin(name)
-  return globpath(&runtimepath, 'plugin/'.a:name.'.vim') !=# '' ||
-       \ globpath(&runtimepath, 'autoload/'.a:name.'.vim') !=# ''
-endfunction
-command! -nargs=1 HasPlugin echomsg <SID>has_plugin(<q-args>)
-
-" global関数格納変数
-let g:myfuncs = {}
-
-" 外部コマンド実行
-function! g:myfuncs.bang(cmd)
-  let caller = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
-  exe caller.' '.a:cmd
-endfunction
-
-function! g:myfuncs.read(cmd, bufopt)
-  let caller = s:has_plugin('vimproc') ? 'VimProcRead' : '$read!'
-  new
-  if a:bufopt !=# ''
-      exe 'setlocal '.a:bufopt
-  endif
-  exe caller.' '.a:cmd
-  call cursor(1, 0)
-endfunction
-
-" 文字列末尾の改行を削除する
-function! g:myfuncs.chomp(str)
-  return substitute(a:str, '\n\+$', '', '')
-endfunction
-
-" 条件'pred'を満たすウィンドウを検索し、そのウィンドウ番号を返す
-" 開いていないなら0を返す
-function! g:myfuncs.find_window_if(pred)
-  let winnr_save = winnr()
-  let wincount = winnr("$")
-  let i = 1
-  while i <= wincount
-    exe i."wincmd w"
-    if eval(a:pred)
-      exe winnr_save."wincmd w"
-      return i
-    endif
-    let i = i + 1
-  endwhile
-  exe winnr_save."wincmd w"
-  return 0
-endfunction
-
-
-" プラグインの読み込み {{{1
-"
-filetype off
-
-" 標準添付されているプラグインの設定
-"
-" matchit.vim
-if !exists('loaded_matchit')
-  runtime macros/matchit.vim
-endif
-
-" netrw
-if s:has_plugin('netrw')
-  let g:netrw_liststyle = 3
-  let g:netrw_winsize = 30
-
-  nnoremap [toggle]e :<C-u>Lexplore<CR>
-endif
-
-" 外部プラグインの設定
-" .pluginrcが存在する場合は読み込む
-call s:source_ifexists(s:rc_path('pluginrc'))
-
-" ファイルタイププラグインを有効にする
-filetype indent plugin on
 
 
 " オプション設定 {{{1
@@ -214,29 +117,6 @@ endif
 " シンタックスハイライトを有効にする
 if &t_Co > 2 || has('gui_running')
   syntax on
-endif
-
-" コンソールでの表示 {{{2
-"
-if !has('gui_running')
-  " 背景を消してターミナル背景を表示
-  augroup _remove_background_color
-    au!
-    au ColorScheme * highlight! Normal ctermbg=none
-    au ColorScheme * highlight! NonText ctermbg=none
-    au ColorScheme * highlight! LineNr ctermbg=none
-  augroup END
-
-  " カラースキーマ
-  if &t_Co >= 256
-    try
-      colorscheme jellybeans
-    catch
-      colorscheme default
-    endtry
-  else
-    colorschem default
-  endif
 endif
 
 " 編集操作 {{{2
@@ -328,6 +208,70 @@ if has('persistent_undo')
 "    au BufReadPre ~/* setlocal undofile
 "  augroup END
 endif
+
+
+" 関数 {{{1
+"
+" 設定ファイルのフルパス取得
+function! s:rc_path(name)
+  return expand('$HOME/.'.a:name)
+endfunction
+
+" ファイルがあったら実行
+function! s:source_ifexists(file)
+  if filereadable(a:file)
+    exe 'source '.a:file
+  endif
+endfunction
+
+" プラグイン存在チェック
+function! s:has_plugin(name)
+  return globpath(&runtimepath, 'plugin/'.a:name.'.vim') !=# '' ||
+       \ globpath(&runtimepath, 'autoload/'.a:name.'.vim') !=# ''
+endfunction
+command! -nargs=1 HasPlugin echomsg <SID>has_plugin(<q-args>)
+
+" global関数格納変数
+let g:myfuncs = {}
+
+" 外部コマンド実行
+function! g:myfuncs.bang(cmd)
+  let caller = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
+  exe caller.' '.a:cmd
+endfunction
+
+function! g:myfuncs.read(cmd, bufopt)
+  let caller = s:has_plugin('vimproc') ? 'VimProcRead' : '$read!'
+  new
+  if a:bufopt !=# ''
+      exe 'setlocal '.a:bufopt
+  endif
+  exe caller.' '.a:cmd
+  call cursor(1, 0)
+endfunction
+
+" 文字列末尾の改行を削除する
+function! g:myfuncs.chomp(str)
+  return substitute(a:str, '\n\+$', '', '')
+endfunction
+
+" 条件'pred'を満たすウィンドウを検索し、そのウィンドウ番号を返す
+" 開いていないなら0を返す
+function! g:myfuncs.find_window_if(pred)
+  let winnr_save = winnr()
+  let wincount = winnr("$")
+  let i = 1
+  while i <= wincount
+    exe i."wincmd w"
+    if eval(a:pred)
+      exe winnr_save."wincmd w"
+      return i
+    endif
+    let i = i + 1
+  endwhile
+  exe winnr_save."wincmd w"
+  return 0
+endfunction
 
 
 " キーマッピング {{{1
@@ -473,6 +417,10 @@ noremap <silent><C-p><C-p> :<C-u>call <SID>quickfix_operation('u')<CR>
 "inoremap <> <><Left>
 "inoremap “ “<Left>
 
+" 設定トグルのprefix
+nnoremap [toggle] <Nop>
+nmap     <LEADER><LEADER> [toggle]
+
 " 不可視文字表示のトグル
 noremap [toggle]l :<C-u>set list!<CR>
 " カーソルライン表示のトグル
@@ -608,6 +556,60 @@ function! s:tagjump_or_cr()
     endtry
 endfunction
 nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
+
+" <Fn> 短縮キーマップ {{{2
+"
+noremap <F1>    :<C-u>Unite help<CR>
+noremap <F2>    :<C-u>Unite outline<CR>
+noremap <F3>    :<C-u>Unite mark<CR>
+noremap <F4>    :<C-u>Unite -buffer-name=register history/yank<CR>
+noremap <F5>    :<C-u>Unite buffer<CR>
+noremap <F6>    :<C-u>Unite buffer_tab<CR>
+noremap <F7>    :<C-u>Unite -buffer-name=files file<CR>
+noremap <F8>    :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+noremap <F9>    :<C-u>Unite -buffer-name=files file_rec<CR>
+noremap <F10>   :<C-u>Unite -buffer-name=files file_rec:<C-r>=expand('%:p:h:gs?[ :]?\\\0?')<CR><CR>
+noremap <F11>   :<C-u>Unite -buffer-name=files file_mru<CR>
+noremap <F12>   :<C-u>Unite -buffer-name=files directory_mru<CR>
+
+noremap <S-F1>  <Nop>
+noremap <S-F2>  :<C-u>Unite tag<CR>
+noremap <S-F3>  :<C-u>Unite grep<CR>
+noremap <S-F4>  :<C-u>Unite find<CR>
+noremap <S-F5>  :<C-u>Unite command<CR>
+noremap <S-F6>  <Nop>
+noremap <S-F7>  <Nop>
+noremap <S-F8>  :<C-u>UniteResume<CR>
+noremap <S-F9>  <Nop>
+noremap <S-F10> <Nop>
+noremap <S-F11> :<C-u>Unite -buffer-name=files bookmark<CR>
+noremap <S-F12> :<C-u>UniteBookmarkAdd<CR>
+
+noremap <C-F1>  :<C-u>Openvimrc<CR>
+noremap <C-F2>  :<C-u>Opengvimrc<CR>
+noremap <C-F3>  :<C-u>Openpluginrc<CR>
+noremap <C-F4>  :<C-u>Reloadrc<CR>
+noremap <C-F5>  :<C-u>VimFiler<CR>
+noremap <C-F6>  :<C-u>VimFilerBufferDir<CR>
+noremap <C-F7>  :<C-u>VimFiler -buffer-name=explorer -split -simple -winwidth=30 -toggle -no-quit<CR>
+noremap <C-F8>  :<C-u>VimFilerBufferDir -buffer-name=explorer -split -simple -winwidth=30 -toggle -no-quit<CR>
+noremap <C-F9>  :<C-u>VimShell<CR>
+noremap <C-F10> :<C-u>VimShellBufferDir<CR>
+noremap <C-F11> :<C-u>VimShellPop<CR>
+noremap <C-F12> :<C-u>VimShellBufferDir -popup<CR>
+
+noremap <M-F1>  <Nop>
+noremap <M-F2>  <Nop>
+noremap <M-F3>  <Nop>
+noremap <M-F4>  <Nop>
+noremap <M-F5>  <Nop>
+noremap <M-F6>  <Nop>
+noremap <M-F7>  <Nop>
+noremap <M-F8>  <Nop>
+noremap <M-F9>  :<C-u>call ColorRoller.unroll()<CR>
+noremap <M-F10> :<C-u>call ColorRoller.roll()<CR>
+noremap <M-F11> :<C-u>call DecreaseTrancyLevel()<CR>
+noremap <M-F12> :<C-u>call IncreaseTrancyLevel()<CR>
 
 
 " ユーザー定義コマンド {{{1
@@ -800,7 +802,7 @@ if executable('cvs')
 endif
 
 
-" Auto Command {{{1
+" 自動コマンド {{{1
 "
 " テキスト整形設定
 " デフォルトは"tcq"  (参照 :help fo-table)
@@ -958,60 +960,37 @@ if has("unix")
   augroup END
 endif
 
+" コンソールではカラースキーマ設定時に背景透過
+if !has('gui_running')
+  augroup _remove_background_color
+    au!
+    au ColorScheme * highlight! Normal ctermbg=none
+    au ColorScheme * highlight! NonText ctermbg=none
+    au ColorScheme * highlight! LineNr ctermbg=none
+  augroup END
+endif
 
-" <Fn> 短縮キーマップ {{{1
+
+" プラグイン {{{1
 "
-noremap <F1>    :<C-u>Unite help<CR>
-noremap <F2>    :<C-u>Unite outline<CR>
-noremap <F3>    :<C-u>Unite mark<CR>
-noremap <F4>    :<C-u>Unite -buffer-name=register history/yank<CR>
-noremap <F5>    :<C-u>Unite buffer<CR>
-noremap <F6>    :<C-u>Unite buffer_tab<CR>
-noremap <F7>    :<C-u>Unite -buffer-name=files file<CR>
-noremap <F8>    :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-noremap <F9>    :<C-u>Unite -buffer-name=files file_rec<CR>
-noremap <F10>   :<C-u>Unite -buffer-name=files file_rec:<C-r>=expand('%:p:h:gs?[ :]?\\\0?')<CR><CR>
-noremap <F11>   :<C-u>Unite -buffer-name=files file_mru<CR>
-noremap <F12>   :<C-u>Unite -buffer-name=files directory_mru<CR>
+" 標準添付されているプラグインの設定
+"
+" matchit.vim
+if !exists('loaded_matchit')
+  runtime macros/matchit.vim
+endif
 
-noremap <S-F1>  <Nop>
-noremap <S-F2>  :<C-u>Unite tag<CR>
-noremap <S-F3>  :<C-u>Unite grep<CR>
-noremap <S-F4>  :<C-u>Unite find<CR>
-noremap <S-F5>  :<C-u>Unite command<CR>
-noremap <S-F6>  <Nop>
-noremap <S-F7>  <Nop>
-noremap <S-F8>  :<C-u>UniteResume<CR>
-noremap <S-F9>  <Nop>
-noremap <S-F10> <Nop>
-noremap <S-F11> :<C-u>Unite -buffer-name=files bookmark<CR>
-noremap <S-F12> :<C-u>UniteBookmarkAdd<CR>
+" netrw
+if s:has_plugin('netrw')
+  let g:netrw_liststyle = 3
+  let g:netrw_winsize = 30
 
-noremap <C-F1>  :<C-u>Openvimrc<CR>
-noremap <C-F2>  :<C-u>Opengvimrc<CR>
-noremap <C-F3>  :<C-u>Openpluginrc<CR>
-noremap <C-F4>  :<C-u>Reloadrc<CR>
-noremap <C-F5>  :<C-u>VimFiler<CR>
-noremap <C-F6>  :<C-u>VimFilerBufferDir<CR>
-noremap <C-F7>  :<C-u>VimFiler -buffer-name=explorer -split -simple -winwidth=30 -toggle -no-quit<CR>
-noremap <C-F8>  :<C-u>VimFilerBufferDir -buffer-name=explorer -split -simple -winwidth=30 -toggle -no-quit<CR>
-noremap <C-F9>  :<C-u>VimShell<CR>
-noremap <C-F10> :<C-u>VimShellBufferDir<CR>
-noremap <C-F11> :<C-u>VimShellPop<CR>
-noremap <C-F12> :<C-u>VimShellBufferDir -popup<CR>
+  nnoremap [toggle]e :<C-u>Lexplore<CR>
+endif
 
-noremap <M-F1>  <Nop>
-noremap <M-F2>  <Nop>
-noremap <M-F3>  <Nop>
-noremap <M-F4>  <Nop>
-noremap <M-F5>  <Nop>
-noremap <M-F6>  <Nop>
-noremap <M-F7>  <Nop>
-noremap <M-F8>  <Nop>
-noremap <M-F9>  :<C-u>call ColorRoller.unroll()<CR>
-noremap <M-F10> :<C-u>call ColorRoller.roll()<CR>
-noremap <M-F11> :<C-u>call DecreaseTrancyLevel()<CR>
-noremap <M-F12> :<C-u>call IncreaseTrancyLevel()<CR>
+" 外部プラグインの設定
+" .pluginrcが存在する場合は読み込む
+call s:source_ifexists(s:rc_path('pluginrc'))
 
 
 " 起動前処理 {{{1
@@ -1033,6 +1012,18 @@ if has('vim_starting')
   endif
 endif
 
+" コンソールでのカラースキーマ
+if !has('gui_running')
+  if &t_Co >= 256
+    try
+      colorscheme jellybeans
+    catch
+      colorscheme default
+    endtry
+  else
+    colorschem default
+  endif
+endif
 
 " 環境ごとの設定読み込み
 call s:source_ifexists(s:rc_path('vimlocal'))
