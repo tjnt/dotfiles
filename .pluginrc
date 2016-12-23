@@ -394,7 +394,7 @@ endif
 "
 if s:plug.is_installed('vim-indent-guides')
   " 有効/無効トグル
-  noremap <silent>[toggle]i :<C-u>IndentGuidesToggle<CR>
+  noremap [toggle]i :<C-u>IndentGuidesToggle<CR>
 
   function! s:plug_vim_indent_guides()
     " デフォルトは無効にしておく <LEADER><LEADER>iで有効化
@@ -462,7 +462,7 @@ endif
 "
 if s:plug.is_installed('taglist.vim')
   " taglist開閉トグル
-  nnoremap <silent>[toggle]t :TlistToggle<CR>
+  nnoremap [toggle]t :TlistToggle<CR>
 
   function! s:plug_taglist_vim()
     " 現在表示中のファイルのみのタグしか表示しない
@@ -621,7 +621,7 @@ if s:plug.is_installed('neocomplete.vim')
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
     " 有効/無効のトグル
-    nnoremap <silent>[toggle]x :NeoCompleteToggle<CR>
+    nnoremap [toggle]x :NeoCompleteToggle<CR>
   endfunction
 
   call s:plug.register_hook('neocomplete.vim')
@@ -830,8 +830,8 @@ if s:plug.is_installed('unite.vim')
   nnoremap <silent>[unite]m :<C-u>Unite mark<CR>
 
   " outlineトグル
-  nnoremap <silent>[toggle]o :<C-u>Unite -vertical -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
-  nnoremap <silent>[toggle]O :<C-u>Unite -vertical -direction=belowright -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
+  nnoremap [toggle]o :<C-u>Unite -vertical -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
+  nnoremap [toggle]O :<C-u>Unite -vertical -direction=belowright -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
 
   " vim-ref
   if s:plug.is_installed('vim-ref')
@@ -1021,7 +1021,7 @@ endif
 "
 if s:plug.is_installed('nerdtree')
   " NERDTree開閉トグル
-  nnoremap <silent>[toggle]n :NERDTreeToggle<CR>
+  nnoremap [toggle]n :NERDTreeToggle<CR>
   nnoremap <silent><LEADER><Tab> :<C-u>call <SID>jump_nerdtree()<CR>
 
   " 無かったら開く、あったらフォーカス

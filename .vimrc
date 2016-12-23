@@ -29,6 +29,10 @@ set novisualbell
 " <LEADER>の変更
 let g:mapleader = ','
 
+" 設定トグルのprefix
+nnoremap [toggle] <Nop>
+nmap     <LEADER><LEADER> [toggle]
+
 let g:is_win = has('win16') || has('win32') || has('win64')
 
 " パスの区切り文字に/を使えるようにする
@@ -140,8 +144,12 @@ if !exists('loaded_matchit')
 endif
 
 " netrw
-let g:netrw_liststyle = 3
-let g:netrw_winsize = 30
+if s:has_plugin('netrw')
+  let g:netrw_liststyle = 3
+  let g:netrw_winsize = 30
+
+  nnoremap [toggle]e :<C-u>Lexplore<CR>
+endif
 
 " 外部プラグインの設定
 " .pluginrcが存在する場合は読み込む
@@ -465,15 +473,10 @@ noremap <silent><C-p><C-p> :<C-u>call <SID>quickfix_operation('u')<CR>
 "inoremap <> <><Left>
 "inoremap “ “<Left>
 
-nnoremap [toggle] <Nop>
-nmap     <LEADER><LEADER> [toggle]
-
 " 不可視文字表示のトグル
-noremap <silent>[toggle]l :<C-u>set list!<CR>
+noremap [toggle]l :<C-u>set list!<CR>
 " カーソルライン表示のトグル
-noremap <silent>[toggle]c :<C-u>set cursorline!<CR>
-" netrwトグル
-nnoremap <silent>[toggle]e :<C-u>Le<CR>
+noremap [toggle]c :<C-u>set cursorline!<CR>
 
 " emacsキーバインド (インサートモード)
 " inoremap <C-p> <Up>
