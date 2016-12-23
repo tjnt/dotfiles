@@ -5,11 +5,6 @@
 
 " オプション設定 {{{1
 "
-" エラー時の音とビジュアルベルの抑制
-set noerrorbells
-set novisualbell
-" set visualbell t_vb=
-
 if has('vim_starting')
   " ウインドウの幅
   set columns=80

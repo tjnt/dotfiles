@@ -12,23 +12,15 @@ endif
 
 scriptencoding utf-8
 
-" 起動時間の計測
-if has('vim_starting') && has('reltime')
-  let g:startuptime = reltime()
-  augroup _startuptime
-    au! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw |
-                 \ echomsg 'startuptime: '.reltimestr(g:startuptime)
-  augroup END
-endif
-
-" エラー時の音とビジュアルベルの抑制(gvimは.gvimrcで設定)
+set t_vb=
 set noerrorbells
 set novisualbell
-" set visualbell t_vb=
 
-" <LEADER>の変更
-let g:mapleader = ','
 
+" オプション設定 {{{1
+"
+" 環境変数 {{{2
+"
 let g:is_win = has('win16') || has('win32') || has('win64')
 
 " パスの区切り文字に/を使えるようにする
@@ -36,7 +28,6 @@ if g:is_win
   set shellslash
 endif
 
-" 環境変数
 if has('vim_starting')
   let $VIMLOCAL = expand('$HOME/.vim')
   if g:is_win
@@ -47,7 +38,8 @@ if has('vim_starting')
   endif
 endif
 
-" ファイルエンコーディング
+" ファイルエンコーディング {{{2
+"
 if has('guess_encode')
   set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932,utf-8
 else
@@ -61,9 +53,6 @@ if has('vim_starting')
   set fileencoding=utf-8
 endif
 
-
-" オプション設定 {{{1
-"
 " 画面表示 {{{2
 "
 " 行番号を表示 (nonumber:非表示)
@@ -276,6 +265,9 @@ endfunction
 
 " キーマッピング {{{1
 "
+" <LEADER>の変更
+let g:mapleader = ','
+
 " スペースキーでスクロール
 nnoremap <Space>   <C-e>
 nnoremap <S-Space> <C-y>
