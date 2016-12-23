@@ -164,7 +164,7 @@ set wrap
 " 常にステータス行を表示 (詳細は:he laststatus)
 set laststatus=2
 "ステータスラインの表示フォーマット
-set statusline=%t\ %m%r%h%w%<[buf:%n][ftyp:%{&ft}][fenc:%{&fenc}][ffmt:%{&ff}][bomb:%{&bomb}][ascii:\%03.3B]%=%3p%%%3c,%l/%L
+set statusline=%t\ %m%r%h%w%<%=\|buf:%n\|typ:%{&ft}\|enc:%{&fenc}\|fmt:%{&ff}\|bomb:%{&bomb}\|\ %3p%%%3c,%l/%L
 " コマンドをステータス行に表示
 set showcmd
 " コマンドラインの高さ (gvimはgvimrcで指定)
