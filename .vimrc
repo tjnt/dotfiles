@@ -141,6 +141,7 @@ endif
 
 " netrw
 let g:netrw_liststyle = 3
+let g:netrw_winsize = 30
 
 " 外部プラグインの設定
 " .pluginrcが存在する場合は読み込む
