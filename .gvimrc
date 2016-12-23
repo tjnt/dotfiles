@@ -52,7 +52,6 @@ augroup _chg_colorscheme
   au ColorScheme * call s:chg_cursor_style()
 augroup END
 
-
 " フォント {{{1
 "
 function! s:set_guifont(normal, wide)
@@ -95,7 +94,6 @@ if has('printer') && g:is_win
   " set printfont=MS_Mincho:h11:cDEFAULT
 endif
 
-
 " カラースキーマ {{{1
 "
 " ColorRoller
@@ -136,7 +134,6 @@ catch
   colorscheme default
 endtry
 
-
 " 背景透過 {{{1
 "
 if has('kaoriya') || has('mac')
@@ -166,7 +163,6 @@ if has('kaoriya') || has('mac')
     augroup END
   endif
 endif
-
 
 " {{{1
 " vim:set expandtab ft=vim ts=2 sts=2 sw=2 foldmethod=marker:

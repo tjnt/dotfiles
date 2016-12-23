@@ -8,7 +8,6 @@ if !executable('git')
   finish
 endif
 
-
 " vim-plug {{{1
 "
 if has('vim_starting')
@@ -287,7 +286,6 @@ endfunction
 command! PS PlugStatus
 command! PU PlugUpdate | PlugUpgrade
 
-
 " vim-operator-replace {{{1
 "
 if s:plug.is_installed('vim-operator-replace')
@@ -296,7 +294,6 @@ if s:plug.is_installed('vim-operator-replace')
   "   Ri# #で囲まれた範囲をレジスタの文字で置換え
   map <silent>R <Plug>(operator-replace)
 endif
-
 
 " vim-operator-surround {{{1
 "
@@ -309,7 +306,6 @@ if s:plug.is_installed('vim-operator-surround')
   map <silent>Sd <Plug>(operator-surround-delete)
   map <silent>Sr <Plug>(operator-surround-replace)
 endif
-
 
 " vim-smartinput {{{1
 "
@@ -367,7 +363,6 @@ if s:plug.is_installed('vim-smartinput')
   call s:plug.register_hook('vim-smartinput')
 endif
 
-
 " tcomment.vim {{{1
 "
 if s:plug.is_installed('tcomment_vim')
@@ -376,7 +371,6 @@ if s:plug.is_installed('tcomment_vim')
   let g:tcommentMapLeaderOp1 = '<LEADER>c'
   let g:tcommentMapLeaderOp2 = '<LEADER>C'
 endif
-
 
 " vim-quickhl {{{1
 "
@@ -388,7 +382,6 @@ if s:plug.is_installed('vim-quickhl')
   nmap <LEADER>M <Plug>(quickhl-manual-reset)
   xmap <LEADER>M <Plug>(quickhl-manual-reset)
 endif
-
 
 " indent-guides {{{1
 "
@@ -406,7 +399,6 @@ if s:plug.is_installed('vim-indent-guides')
 
   call s:plug.register_hook('vim-indent-guides')
 endif
-
 
 " ShowMarks7 {{{1
 "
@@ -446,7 +438,6 @@ if s:plug.is_installed('ShowMarks7')
   nnoremap <silent><Plug>ShowmarksClearAll :<C-u>ShowMarksClearAll<CR>
 endif
 
-
 " vim-over {{{1
 "
 if s:plug.is_installed('vim-over')
@@ -456,7 +447,6 @@ if s:plug.is_installed('vim-over')
   " コピーした文字列をハイライト付きで置換
   " nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 endif
-
 
 " taglist.vim {{{1
 "
@@ -477,7 +467,6 @@ if s:plug.is_installed('taglist.vim')
 
   call s:plug.register_hook('taglist.vim')
 endif
-
 
 " alpaca_tags {{{1
 "
@@ -517,7 +506,6 @@ if s:plug.is_installed('alpaca_tags')
   call s:plug.register_hook('alpaca_tags')
 endif
 
-
 " a.vim {{{1
 "
 if s:plug.is_installed('a.vim')
@@ -541,7 +529,6 @@ if s:plug.is_installed('a.vim')
 
   call s:plug.register_hook('a.vim')
 endif
-
 
 " neocomplete.vim {{{1
 "
@@ -627,7 +614,6 @@ if s:plug.is_installed('neocomplete.vim')
   call s:plug.register_hook('neocomplete.vim')
 endif
 
-
 " vim-marching {{{1
 "
 if s:plug.is_installed('vim-marching')
@@ -682,7 +668,6 @@ if s:plug.is_installed('vim-marching')
   call s:plug.register_hook('vim-marching')
 endif
 
-
 " javacomplete {{{1
 "
 if s:plug.is_installed('javacomplete')
@@ -696,14 +681,13 @@ if s:plug.is_installed('javacomplete')
   call s:plug.register_hook('javacomplete')
 endif
 
-
 " rsense {{{1
 "
 if s:plug.is_installed('rsense')
   " rsense実行可否チェック
   function! s:executable_rsense()
     return executable('ruby') && g:is_win ?
-          \ g:myfuncs.chomp(system('sc query rsense | find "SERVICE_NAME"')) != '' : 1
+          \ g:myf.chomp(system('sc query rsense | find "SERVICE_NAME"')) != '' : 1
   endfunction
 
   function! s:plug_rsense()
@@ -728,7 +712,6 @@ if s:plug.is_installed('rsense')
     au User rsense call s:plug_rsense() | au! _plug_rsense
   augroup END
 endif
-
 
 " neosnippet.vim {{{1
 "
@@ -782,7 +765,6 @@ if s:plug.is_installed('neosnippet.vim')
 
   call s:plug.register_hook('neosnippet.vim')
 endif
-
 
 " unite.vim {{{1
 "
@@ -927,14 +909,12 @@ if s:plug.is_installed('unite.vim')
   call s:plug.register_hook('unite.vim')
 endif
 
-
 " neomru {{{1
 if s:plug.is_installed('neomru.vim')
   " cache directory
   let g:neomru#file_mru_path = $VIMLOCAL.'/tmp/cache/neomru/file'
   let g:neomru#directory_mru_path = $VIMLOCAL.'/tmp/cache/neomru/directory'
 endif
-
 
 " vimfiler.vim {{{1
 "
@@ -998,7 +978,6 @@ if s:plug.is_installed('vimfiler.vim')
   call s:plug.register_hook('vimfiler.vim')
 endif
 
-
 " vimshell.vim {{{1
 "
 if s:plug.is_installed('vimshell.vim')
@@ -1016,7 +995,6 @@ if s:plug.is_installed('vimshell.vim')
   call s:plug.register_hook('vimshell.vim')
 endif
 
-
 " NERDTree {{{1
 "
 if s:plug.is_installed('nerdtree')
@@ -1026,7 +1004,7 @@ if s:plug.is_installed('nerdtree')
 
   " 無かったら開く、あったらフォーカス
   function! s:jump_nerdtree()
-    let num = g:myfuncs.find_window_if("&filetype == 'nerdtree'")
+    let num = g:myf.find_window_if("&filetype == 'nerdtree'")
     if num
       exe num.'wincmd w'
     else
@@ -1051,7 +1029,6 @@ if s:plug.is_installed('nerdtree')
 
   call s:plug.register_hook('nerdtree')
 endif
-
 
 " quickrun.vim {{{1
 "
@@ -1168,7 +1145,6 @@ if s:plug.is_installed('vim-quickrun')
   call s:plug.register_hook('vim-quickrun')
 endif
 
-
 " vim-watchdogs {{{1
 "
 if s:plug.is_installed('vim-watchdogs')
@@ -1242,7 +1218,6 @@ if s:plug.is_installed('vim-watchdogs')
   call s:plug.register_hook('vim-watchdogs')
 endif
 
-
 " vim-ref {{{1
 "
 if s:plug.is_installed('vim-ref')
@@ -1257,7 +1232,6 @@ if s:plug.is_installed('vim-ref')
   call s:plug.register_hook('vim-ref')
 endif
 
-
 " open-browser.vim {{{1
 "
 if s:plug.is_installed('open-browser.vim')
@@ -1269,7 +1243,6 @@ if s:plug.is_installed('open-browser.vim')
   vmap <LEADER>os <Plug>(openbrowser-smart-search)
 endif
 
-
 " previm {{{1
 "
 if s:plug.is_installed('previm')
@@ -1280,7 +1253,6 @@ if s:plug.is_installed('previm')
   call s:plug.register_hook('previm')
 endif
 
-
 " excitetranslate-vim {{{1
 "
 if s:plug.is_installed('excitetranslate-vim')
@@ -1290,7 +1262,6 @@ if s:plug.is_installed('excitetranslate-vim')
 
   call s:plug.register_hook('excitetranslate-vim')
 endif
-
 
 " restart.vim {{{1
 "
@@ -1303,7 +1274,6 @@ if s:plug.is_installed('restart.vim')
 
   call s:plug.register_hook('restart.vim')
 endif
-
 
 " lightline.vim {{{1
 "
@@ -1385,7 +1355,6 @@ if s:plug.is_installed('lightline.vim')
           \ &fileformat
   endfunction
 endif
-
 
 " vim-loadafterft {{{1
 "

@@ -12,22 +12,16 @@ endif
 
 scriptencoding utf-8
 
-set t_vb=
-set noerrorbells
-set novisualbell
-
-
 " オプション設定 {{{1
 "
-" 環境変数 {{{2
+" 環境変数とランタイムパス {{{2
 "
 let g:is_win = has('win16') || has('win32') || has('win64')
-
 " パスの区切り文字に/を使えるようにする
 if g:is_win
   set shellslash
 endif
-
+" 重複を防ぐため起動時のみ設定
 if has('vim_starting')
   let $VIMLOCAL = expand('$HOME/.vim')
   if g:is_win
@@ -45,27 +39,24 @@ if has('guess_encode')
 else
   set fileencodings=ucs-bom,iso-2022-jp,euc-jp,cp932,utf-8
 endif
-
-set fileformats=unix,dos,mac
-
 " 新規バッファ生成時のエンコードを指定
 if has('vim_starting')
   set fileencoding=utf-8
 endif
+" 改行コード
+set fileformats=unix,dos,mac
 
 " 画面表示 {{{2
 "
-" 行番号を表示 (nonumber:非表示)
+" 行番号を表示
 set number
-" 相対行番号表示(7.3)
-" if version >= 703
-"   set relativenumber
-" endif
-" ルーラーを表示 (noruler:非表示)
+" ルーラーを表示
 set ruler
-" 長い行を折り返して表示 (nowrap:折り返さない)
+" 長い行を折り返して表示
 set wrap
-" 常にステータス行を表示 (詳細は:he laststatus)
+" 画面最後の行をできる限り表示する
+set display=lastline
+" 常にステータス行を表示
 set laststatus=2
 "ステータスラインの表示フォーマット
 set statusline=%t\ %m%r%h%w%<%=\|buf:%n\|typ:%{&ft}\|enc:%{&fenc}\|fmt:%{&ff}\|bomb:%{&bomb}\|%3p%%%3c,%l/%L
@@ -73,28 +64,17 @@ set statusline=%t\ %m%r%h%w%<%=\|buf:%n\|typ:%{&ft}\|enc:%{&fenc}\|fmt:%{&ff}\|b
 set showcmd
 " コマンドラインの高さ (gvimはgvimrcで指定)
 set cmdheight=2
-" 画面最後の行をできる限り表示する
-set display=lastline
 " タイトルを表示
 set title
 " カーソルライン非表示
 set nocursorline
-" スプラッシュ(起動時のメッセージ)を表示しない
-set shortmess+=I
-" 全てのウィンドウのサイズを同じにする
-" set equalalways
 " マクロ実行中などの画面再描画を行わない
-" WindowsXpまたはWindowテーマが「Windowsクラシック」で
-" Google日本語入力を使用するとIビームカーソルが残る場合にも有効
 set lazyredraw
-
-" 文字表示 {{{2
-"
-" タブ、空白、改行等の不可視文字を表示する (nolist:非表示)
+" タブ、空白、改行等の不可視文字を非表示
 set nolist
 " どの文字でタブや改行を表示するかを設定
 set listchars=tab:^\ ,trail:_,nbsp:%,eol:$,extends:»,precedes:«
-" 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
+" 括弧入力時に対応する括弧を表示
 set showmatch matchtime=1
 " □とか○の文字があってもカーソル位置がずれないようにする
 if has('kaoriya') && has('gui_running')
@@ -102,7 +82,6 @@ if has('kaoriya') && has('gui_running')
 else
   set ambiwidth=double
 endif
-
 " シンタックスハイライトを有効にする
 if &t_Co > 2 || has('gui_running')
   syntax on
@@ -116,14 +95,13 @@ set tabstop=4
 set softtabstop=0
 " シフト幅
 set shiftwidth=4
-" タブをスペースに展開しない (expandtab:展開する)
-"set noexpandtab
+" タブをスペースに展開する
 set expandtab
-" 自動的にインデントする (noautoindent:インデントしない)
+" 自動的にインデントする
 set autoindent
 " 新しい行を作ったときに高度な自動インデントを行う
 set smartindent
-"行頭の余白内で Tab を打ち込むと'shiftwidth' の数だけインデントする。
+" 行頭の余白内で Tab を打ち込むと'shiftwidth' の数だけインデントする。
 set smarttab
 " バックスペースでインデントや改行を削除できるようにする
 set backspace=indent,eol,start
@@ -133,7 +111,7 @@ set backspace=indent,eol,start
 set virtualedit+=block
 " w,bの移動で認識する文字
 " set iskeyword=a-z,A-Z,48-57,_,.,-,>
-" コマンドライン補完するときに強化されたものを使う(参照 :help wildmenu)
+" コマンドライン補完するときに強化されたものを使う
 set wildmenu
 " コードの折りたたみの設定 (ziで有効/無効をトグルできる)
 set nofoldenable
@@ -143,7 +121,7 @@ set foldnestmax=3
 " 8進数を無効にする。<C-a>,<C-x>に影響する
 set nrformats-=octal
 " キーコードやマッピングされたキー列が完了するのを待つ時間(ミリ秒)
-"set timeout timeoutlen=3000 ttimeoutlen=100
+" set timeout timeoutlen=3000 ttimeoutlen=100
 " 編集結果非保存のバッファから、新しいバッファを開くときに警告を出さない
 set hidden
 " ヒストリの保存数
@@ -162,42 +140,41 @@ set tags+=./tags
 set splitbelow
 " 縦分割で右に新しいウィンドウを開く
 set splitright
-
-" 検索の挙動 {{{2
-"
-" 検索時に大文字小文字を無視 (noignorecase:無視しない)
+" 検索時に大文字小文字を無視
 set ignorecase
 " 大文字小文字の両方が含まれている場合は大文字小文字を区別
 set smartcase
 " インクリメンタルサーチ
 set incsearch
-" 検索時にファイルの最後まで行ったら最初に戻る (nowrapscan:戻らない)
+" 検索時にファイルの最後まで行ったら最初に戻る
 set wrapscan
 " 検索結果をハイライト
 set hlsearch
 
-" ファイル操作 {{{2
+" ファイル関係 {{{2
 "
 " 外部のエディタで編集中のファイルが変更されたら自動的に読み直す
 set autoread
-" バックアップファイルを作成する (作成しない:nobackup)
+" バックアップファイルを作成する
 set backup
 " バックアップファイルディレクトリ
 set backupdir=$VIMLOCAL/tmp/backup
 " スワップファイルの保存先
 let &directory=$VIMLOCAL.'/tmp/swap'
-" 再読込、vim終了後も継続するアンドゥ  (vim-user.jp hack-162)
+" 再読込、vim終了後も継続するアンドゥ
 if has('persistent_undo')
-  set undodir=$VIMLOCAL/tmp/undo
-  " 全ファイルでpersistent_undoを有効
   set undofile
-  " 特定ファイルのみpersistent_undoを有効
-"  augroup _vimrc_undofile
-"    au!
-"    au BufReadPre ~/* setlocal undofile
-"  augroup END
+  set undodir=$VIMLOCAL/tmp/undo
 endif
 
+" その他 {{{2
+"
+" ビープ音とヴィジュアルベルの抑止
+set t_vb=
+set noerrorbells
+set novisualbell
+" スプラッシュ(起動時のメッセージ)を表示しない
+set shortmess+=I
 
 " 関数 {{{1
 "
@@ -221,15 +198,15 @@ endfunction
 command! -nargs=1 HasPlugin echomsg <SID>has_plugin(<q-args>)
 
 " global関数格納変数
-let g:myfuncs = {}
+let g:myf = {}
 
 " 外部コマンド実行
-function! g:myfuncs.bang(cmd)
+function! g:myf.bang(cmd)
   let caller = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
   exe caller.' '.a:cmd
 endfunction
 
-function! g:myfuncs.read(cmd, bufopt)
+function! g:myf.read(cmd, bufopt)
   let caller = s:has_plugin('vimproc') ? 'VimProcRead' : '$read!'
   new
   if a:bufopt !=# ''
@@ -240,13 +217,13 @@ function! g:myfuncs.read(cmd, bufopt)
 endfunction
 
 " 文字列末尾の改行を削除する
-function! g:myfuncs.chomp(str)
+function! g:myf.chomp(str)
   return substitute(a:str, '\n\+$', '', '')
 endfunction
 
 " 条件'pred'を満たすウィンドウを検索し、そのウィンドウ番号を返す
 " 開いていないなら0を返す
-function! g:myfuncs.find_window_if(pred)
+function! g:myf.find_window_if(pred)
   let winnr_save = winnr()
   let wincount = winnr("$")
   let i = 1
@@ -262,12 +239,13 @@ function! g:myfuncs.find_window_if(pred)
   return 0
 endfunction
 
-
 " キーマッピング {{{1
 "
-" <LEADER>の変更
+" <LEADER>の変更 {{{2
 let g:mapleader = ','
 
+" 基本的なキーマップ {{{2
+"
 " スペースキーでスクロール
 nnoremap <Space>   <C-e>
 nnoremap <S-Space> <C-y>
@@ -348,16 +326,36 @@ noremap <silent>q :<C-u>close<CR>
 " Qでマクロ
 noremap <silent>Q q
 
+" emacsキーバインド {{{2
+"
+" インサートモード
+" inoremap <C-p> <Up>
+" inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-h> <Backspace>
+inoremap <C-d> <Del>
+" コマンドモード
+" cnoremap <C-p> <Up>
+" cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-e> <End>
+cnoremap <C-a> <Home>
+cnoremap <C-h> <Backspace>
+cnoremap <C-d> <Del>
+
+" バッファ関連 {{{2
+"
 " バッファ操作のprefix
 nnoremap [buf] <Nop>
 nmap     <LEADER> [buf]
-
 " バッファ一覧
 nnoremap <silent>[buf]l :<C-u>buffers<CR>
-
 " バッファを閉じる
 nnoremap <silent>[buf]d :<C-u>bdelete<CR>
-
 " バッファ切り替え
 nnoremap <silent>[buf]n :<C-u>bnext<CR>
 nnoremap <silent>[buf]p :<C-u>bprevious<CR>
@@ -371,25 +369,26 @@ nnoremap <silent>[buf]7 :<C-u>buffer 7<CR>
 nnoremap <silent>[buf]8 :<C-u>buffer 8<CR>
 nnoremap <silent>[buf]9 :<C-u>buffer 9<CR>
 
-" tab操作のprefix
+" タブ関連 {{{2
+"
+" タブ操作のprefix
 nnoremap [tab] <Nop>
 nmap     Z [tab]
-
 " [tab]+t 新しいタブ
 noremap <silent>[tab]t :<C-u>tabnew<CR>
 " [tab]+c タブを閉じる
 noremap <silent>[tab]c :<C-u>tabclose<CR>
-
 " [tab]+l / [tab]+h でタブ切り替え
 noremap <silent>[tab]l :<C-u>tabnext<CR>
 noremap <silent>[tab]h :<C-u>tabprevious<CR>
-
 " [tab]+n / [tab]+p でタブ移動
 noremap <silent>[tab]n :<C-u>exe tabpagenr() == tabpagenr('$') ? '0tabmove' : '+tabmove'<CR>
 noremap <silent>[tab]p :<C-u>exe tabpagenr() == 1 ? '$tabmove' : '-tabmove'<CR>
 
+" quickfix関連 {{{2
+"
 function! s:quickfix_operation(direction)
-  if g:myfuncs.find_window_if("&filetype == 'qf'")
+  if g:myf.find_window_if("&filetype == 'qf'")
     exe a:direction == 'd' ? 'cnext' : 'cprevious'
   else
     exe 'copen'
@@ -400,45 +399,20 @@ noremap <silent><C-n><C-n> :<C-u>call <SID>quickfix_operation('d')<CR>
 " Ctrl+p Ctrl+p QuickFixで前へ
 noremap <silent><C-p><C-p> :<C-u>call <SID>quickfix_operation('u')<CR>
 
-" 括弧入力時に自動的に括弧の内側にカーソルを移動する
-"inoremap {} {}<Left>
-"inoremap [] []<Left>
-"inoremap () ()<Left>
-"inoremap “” “”<Left>
-"inoremap ” ”<Left>
-"inoremap <> <><Left>
-"inoremap “ “<Left>
-
+" 設定トグル {{{2
+"
 " 設定トグルのprefix
 nnoremap [toggle] <Nop>
 nmap     <LEADER><LEADER> [toggle]
-
 " 不可視文字表示のトグル
 noremap [toggle]l :<C-u>set list!<CR>
 " カーソルライン表示のトグル
 noremap [toggle]c :<C-u>set cursorline!<CR>
 
-" emacsキーバインド (インサートモード)
-" inoremap <C-p> <Up>
-" inoremap <C-n> <Down>
-inoremap <C-b> <Left>
-inoremap <C-f> <Right>
-inoremap <C-e> <End>
-inoremap <C-a> <Home>
-inoremap <C-h> <Backspace>
-inoremap <C-d> <Del>
-
-" emacsキーバインド (コマンドモード)
-" cnoremap <C-p> <Up>
-" cnoremap <C-n> <Down>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <C-e> <End>
-cnoremap <C-a> <Home>
-cnoremap <C-h> <Backspace>
-cnoremap <C-d> <Del>
-
-" Shortcut enc and ff.
+" エンコーディング切り替え {{{2
+"
+" 例:
+" :e ++u utf8で開きなおす
 cnoreabbrev ++u ++enc=utf8
 cnoreabbrev ++c ++enc=cp932
 cnoreabbrev ++s ++enc=cp932
@@ -448,40 +422,24 @@ cnoreabbrev ++x ++ff=unix
 cnoreabbrev ++d ++ff=dos
 cnoreabbrev ++m ++ff=mac
 
-" disable keymaps
-nnoremap ZZ <Nop>
-nnoremap ZQ <Nop>
-
-" smooth scroll (smooth_scroll.vim) {{{2
+" タグジャンプ {{{2
 "
-" 重く感じるので無効...
-" let g:scroll_factor = 5000
-" function! s:smooth_scroll(dir, windiv, factor)
-"    let wh=winheight(0)
-"    let i=0
-"    while i < wh / a:windiv
-"       let t1=reltime()
-"       let i = i + 1
-"       if a:dir=="d"
-"          silent normal! j
-"       else
-"          silent normal! k
-"       end
-"       redraw
-"       while 1
-"          let t2=reltime(t1,reltime())
-"          if t2[1] > g:scroll_factor * a:factor
-"             break
-"          endif
-"       endwhile
-"    endwhile
-" endfunction
-" noremap <silent><C-D> :<C-u>call <SID>smooth_scroll("d",2, 2)<CR>
-" noremap <silent><C-U> :<C-u>call <SID>smooth_scroll("u",2, 2)<CR>
-" noremap <silent><C-F> :<C-u>call <SID>smooth_scroll("d",1, 1)<CR>
-" noremap <silent><C-B> :<C-u>call <SID>smooth_scroll("u",1, 1)<CR>
+" 候補が複数ある場合は選択肢を表示
+nnoremap <silent><C-]>      g<C-]>
+nnoremap <silent><C-w><C-]> <C-w>g<C-]>
 
-" grep {{{2
+" Enterでタグジャンプ
+function! s:tagjump_or_cr()
+    try
+      exe (bufname('%') == '[Command Line]' || &buftype == 'quickfix') ?
+            \ "normal! \<CR>" : "normal! \<C-]>"
+    catch
+      " suppress error message
+    endtry
+endfunction
+nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
+
+" 簡易grep {{{2
 "
 " 使用するgrepの指定
 let mygrepprg = 'internal'
@@ -532,24 +490,36 @@ vnoremap gv :<C-u>call <SID>v_grep_func('vsplit')
 " ビジュアルモード選択中文字列をgrep → 新しいタブで開く
 vnoremap gt :<C-u>call <SID>v_grep_func('tabnew')
 
-" タグジャンプ {{{2
+" smooth scroll (smooth_scroll.vim) {{{2
 "
-" 候補が複数ある場合は選択肢を表示
-nnoremap <silent><C-]>      g<C-]>
-nnoremap <silent><C-w><C-]> <C-w>g<C-]>
+" 重く感じるので無効...
+" let g:scroll_factor = 5000
+" function! s:smooth_scroll(dir, windiv, factor)
+"    let wh=winheight(0)
+"    let i=0
+"    while i < wh / a:windiv
+"       let t1=reltime()
+"       let i = i + 1
+"       if a:dir=="d"
+"          silent normal! j
+"       else
+"          silent normal! k
+"       end
+"       redraw
+"       while 1
+"          let t2=reltime(t1,reltime())
+"          if t2[1] > g:scroll_factor * a:factor
+"             break
+"          endif
+"       endwhile
+"    endwhile
+" endfunction
+" noremap <silent><C-D> :<C-u>call <SID>smooth_scroll("d",2, 2)<CR>
+" noremap <silent><C-U> :<C-u>call <SID>smooth_scroll("u",2, 2)<CR>
+" noremap <silent><C-F> :<C-u>call <SID>smooth_scroll("d",1, 1)<CR>
+" noremap <silent><C-B> :<C-u>call <SID>smooth_scroll("u",1, 1)<CR>
 
-" Enterでタグジャンプ
-function! s:tagjump_or_cr()
-    try
-      exe (bufname('%') == '[Command Line]' || &buftype == 'quickfix') ?
-            \ "normal! \<CR>" : "normal! \<C-]>"
-    catch
-      " suppress error message
-    endtry
-endfunction
-nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
-
-" <Fn> 短縮キーマップ {{{2
+" <Fn>短縮キーマップ {{{2
 "
 noremap <F1>    :<C-u>Unite help<CR>
 noremap <F2>    :<C-u>Unite outline<CR>
@@ -603,6 +573,10 @@ noremap <M-F10> :<C-u>call ColorRoller.roll()<CR>
 noremap <M-F11> :<C-u>call DecreaseTrancyLevel()<CR>
 noremap <M-F12> :<C-u>call IncreaseTrancyLevel()<CR>
 
+" キーマップの無効化 {{{2
+"
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
 
 " ユーザー定義コマンド {{{1
 "
@@ -710,7 +684,7 @@ command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only(<q-args>, '<
 
 " タグファイル生成
 function! s:ctags_r()
-  call g:myfuncs.bang('ctags -R')
+  call g:myf.bang('ctags -R')
   if s:has_plugin('neocomplete')
     NeoCompleteTagMakeCache
   endif
@@ -736,7 +710,7 @@ command! -nargs=* -complete=mapping AllMaps map <args> | map! <args> | lmap <arg
 
 " vimrcの行数を数える
 function! s:count_vimrc()
-  call g:myfuncs.bang(join(
+  call g:myf.bang(join(
           \ ['wc -l', s:rc_path('vimrc'), s:rc_path('gvimrc'), s:rc_path('pluginrc')], ' '))
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
@@ -771,7 +745,7 @@ command! -nargs=1 -complete=command ClipCommandOutput call s:ClipCommandOutput(<
 function! s:vcs_diff(command, only)
   let target = a:only ? expand('%') : ''
   let bufopt = 'buftype=nofile bufhidden=wipe filetype=diff noswf '
-  call g:myfuncs.read(a:command.' '.target, bufopt)
+  call g:myf.read(a:command.' '.target, bufopt)
   unlet target
 endfunction
 
@@ -792,7 +766,6 @@ if executable('cvs')
   command! -nargs=0 CvsDiff     call <SID>vcs_diff('cvs diff', 0)
   command! -nargs=0 CvsDiffOnly call <SID>vcs_diff('cvs diff', 1)
 endif
-
 
 " 自動コマンド {{{1
 "
@@ -962,7 +935,6 @@ if !has('gui_running')
   augroup END
 endif
 
-
 " プラグイン {{{1
 "
 " 標準添付されているプラグインの設定
@@ -983,7 +955,6 @@ endif
 " 外部プラグインの設定
 " .pluginrcが存在する場合は読み込む
 call s:source_ifexists(s:rc_path('pluginrc'))
-
 
 " 起動前処理 {{{1
 "
@@ -1019,7 +990,6 @@ endif
 
 " 環境ごとの設定読み込み
 call s:source_ifexists(s:rc_path('vimlocal'))
-
 
 " {{{1
 " vim:set expandtab ft=vim ts=2 sts=2 sw=2 foldmethod=marker:
