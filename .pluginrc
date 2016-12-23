@@ -30,11 +30,13 @@ call plug#begin(expand('$VIMLOCAL/plugins'))
 Plug 'junegunn/vim-plug', {
       \ 'dir': expand('$VIMLOCAL/plugins/vim-plug/autoload') }
 
-if executable('gcc')
+if (g:is_win && executable('mingw32-make')) || (has('unix') && executable('make'))
   function! BuildVimproc(info)
     if a:info.status == 'installed' || a:info.force
       if g:is_win
         call system('tools\\update-dll-mingw')
+      elseif has('win32unix')
+        call system('make -f make_cygwin.mak')
       else
         call system('make')
       endif
