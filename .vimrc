@@ -406,7 +406,7 @@ nnoremap [buf] <Nop>
 nmap     <LEADER> [buf]
 
 " バッファ一覧
-nnoremap <silent>[buf]l :<C-u>ls<CR>
+nnoremap <silent>[buf]l :<C-u>buffers<CR>
 
 " バッファを閉じる
 nnoremap <silent>[buf]d :<C-u>bdelete<CR>
@@ -414,15 +414,15 @@ nnoremap <silent>[buf]d :<C-u>bdelete<CR>
 " バッファ切り替え
 nnoremap <silent>[buf]n :<C-u>bnext<CR>
 nnoremap <silent>[buf]p :<C-u>bprevious<CR>
-nnoremap <silent>[buf]1 :<C-u>e #1<CR>
-nnoremap <silent>[buf]2 :<C-u>e #2<CR>
-nnoremap <silent>[buf]3 :<C-u>e #3<CR>
-nnoremap <silent>[buf]4 :<C-u>e #4<CR>
-nnoremap <silent>[buf]5 :<C-u>e #5<CR>
-nnoremap <silent>[buf]6 :<C-u>e #6<CR>
-nnoremap <silent>[buf]7 :<C-u>e #7<CR>
-nnoremap <silent>[buf]8 :<C-u>e #8<CR>
-nnoremap <silent>[buf]9 :<C-u>e #9<CR>
+nnoremap <silent>[buf]1 :<C-u>buffer 1<CR>
+nnoremap <silent>[buf]2 :<C-u>buffer 2<CR>
+nnoremap <silent>[buf]3 :<C-u>buffer 3<CR>
+nnoremap <silent>[buf]4 :<C-u>buffer 4<CR>
+nnoremap <silent>[buf]5 :<C-u>buffer 5<CR>
+nnoremap <silent>[buf]6 :<C-u>buffer 6<CR>
+nnoremap <silent>[buf]7 :<C-u>buffer 7<CR>
+nnoremap <silent>[buf]8 :<C-u>buffer 8<CR>
+nnoremap <silent>[buf]9 :<C-u>buffer 9<CR>
 
 " tab操作のprefix
 nnoremap [tab] <Nop>
