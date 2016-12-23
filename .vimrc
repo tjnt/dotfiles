@@ -714,7 +714,7 @@ command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only(<q-args>, '<
 " タグファイル生成
 function! s:ctags_r()
   call g:myfuncs.bang('ctags -R')
-  if s:has_plugin('neocomplete.vim')
+  if s:has_plugin('neocomplete')
     NeoCompleteTagMakeCache
   endif
 endfunction
