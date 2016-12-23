@@ -426,7 +426,7 @@ nnoremap <silent>[buf]9 :<C-u>e #9<CR>
 
 " tab操作のprefix
 nnoremap [tab] <Nop>
-nmap     t [tab]
+nmap     Z [tab]
 
 " [tab]+t 新しいタブ
 noremap <silent>[tab]t :<C-u>tabnew<CR>
