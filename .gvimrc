@@ -3,12 +3,34 @@
 "
 "
 
-" Basic Setting {{{1
+" オプション設定 {{{1
 "
 " エラー時の音とビジュアルベルの抑制
 set noerrorbells
 set novisualbell
 " set visualbell t_vb=
+
+if has('vim_starting')
+  " ウインドウの幅
+  set columns=80
+  " ウインドウの高さ
+  set lines=25
+endif
+
+" コマンドラインの高さ(GUI使用時)
+set cmdheight=2
+
+" 行間隔
+set linespace=1
+
+" メニューを非表示
+set guioptions-=m
+" ツールバーを非表示
+set guioptions-=T
+" タブを非表示(テキストベースのタブを使う)
+set guioptions-=e
+" スクロールバーを非表示
+set guioptions-=rL
 
 " マウスに関する設定
 if has('mouse')
@@ -20,36 +42,23 @@ if has('mouse')
   set mousehide
 endif
 
-" ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
-"set guioptions+=a
+" カーソルの変更
+function! s:chg_cursor_style()
+  " IMEの状態でカーソル色を変更する
+  if has('multi_byte_ime')
+    "  highlight Cursor guifg=NONE guibg=Green
+    highlight CursorIM guifg=NONE guibg=Purple
+  endif
+  " カーソルラインはアンダーラインで表示
+  hi CursorLine gui=underline
+endfunction
+augroup _chg_colorscheme
+  au!
+  au ColorScheme * call s:chg_cursor_style()
+augroup END
 
 
-" ウインドウに関する設定 {{{1
-"
-if has('vim_starting')
-  " ウインドウの幅
-  set columns=80
-  " ウインドウの高さ
-  set lines=25
-endif
-" コマンドラインの高さ(GUI使用時)
-set cmdheight=2
-
-
-" メニューに関する設定 {{{1
-"
-" メニューを非表示
-set guioptions-=m
-" ツールバーを非表示
-set guioptions-=T
-" タブを非表示(テキストベースのタブを使う)
-set guioptions-=e
-" スクロールバーを非表示
-set guioptions-=rL
-
-
-
-" フォント設定 {{{1
+" フォント {{{1
 "
 function! s:set_guifont(normal, wide)
   let &guifont = join(a:normal, ',')
@@ -91,29 +100,8 @@ if has('printer') && g:is_win
   " set printfont=MS_Mincho:h11:cDEFAULT
 endif
 
-" 行間隔の設定
-set linespace=1
 
-
-" カーソルやステータスラインの設定 {{{1
-"
-" カーソルの変更
-function! s:chg_cursor_style()
-  " IMEの状態でカーソル色を変更する
-  if has('multi_byte_ime')
-    "  highlight Cursor guifg=NONE guibg=Green
-    highlight CursorIM guifg=NONE guibg=Purple
-  endif
-  " カーソルラインはアンダーラインで表示
-  hi CursorLine gui=underline
-endfunction
-augroup _chg_colorscheme
-  au!
-  au ColorScheme * call s:chg_cursor_style()
-augroup END
-
-
-" カラー設定 {{{1
+" カラースキーマ {{{1
 "
 " ColorRoller
 let ColorRoller = {}
@@ -154,7 +142,7 @@ catch
 endtry
 
 
-" 背景透過設定 {{{1
+" 背景透過 {{{1
 "
 if has('kaoriya') || has('mac')
   gui
