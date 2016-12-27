@@ -581,10 +581,10 @@ nnoremap ZQ <Nop>
 " ユーザー定義コマンド {{{1
 "
 " ディレクトリ移動
-command! -nargs=0 CC cd %:h
-command! -nargs=0 CDV cd $VIM
-command! -nargs=0 CDVL cd $VIMLOCAL
-command! -nargs=0 CDH cd $HOME
+command! -nargs=0 CC lcd %:h
+command! -nargs=0 CDV lcd $VIM
+command! -nargs=0 CDVL lcd $VIMLOCAL
+command! -nargs=0 CDH lcd $HOME
 
 " 保存せずに終了
 command! -nargs=0 Q q!
