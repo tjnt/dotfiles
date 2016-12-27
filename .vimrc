@@ -949,7 +949,15 @@ if s:has_plugin('netrw')
   let g:netrw_liststyle = 3
   let g:netrw_winsize = 30
 
-  nnoremap [toggle]e :<C-u>Lexplore<CR>
+  function! s:toggle_netrw()
+    let w = g:myf.find_window_if("&filetype == 'netrw'")
+    if w != 0
+      exe w.'close'
+    else
+      exe 'Lexplore'
+    endif
+  endfunction
+  nnoremap [toggle]e :<C-u>call <SID>toggle_netrw()<CR>
 endif
 
 " 外部プラグインの設定
