@@ -704,9 +704,9 @@ if s:plug.is_installed('vim-marching')
 
     " オプションの設定
     " これは clang のコマンドに渡される
-    " let g:marching#clang_command#options = {
-    "       \	'cpp': '-std=gnu++1y'
-    "       \}
+    let g:marching#clang_command#options = {
+          \	'cpp': '-std=c++1y'
+          \ }
 
     " インクルードディレクトリのパスを設定
     " let g:marching_include_paths = [
@@ -907,9 +907,9 @@ if s:plug.is_installed('vim-watchdogs')
     " load depend plugins
     call plug#load('vim-quickrun', 'shabadou.vim')
 
-    " ファイル書き込み時の自動シンタックスチェックをしない
+    " ファイル書き込み時にシンタックスチェックをする
     let g:watchdogs_check_BufWritePost_enable = 0
-    " :wq時にシンタックスチェックしない
+    " :wq時にシンタックスチェックをしない
     let g:watchdogs_check_BufWritePost_enable_on_wq = 0
 
     " c++
