@@ -502,6 +502,51 @@ if s:plug.is_installed('a.vim')
   call s:plug.register_hook('a.vim')
 endif
 
+" ctrlp.vim {{{1
+"
+if s:plug.is_installed('ctrlp.vim')
+  let g:ctrlp_map = '<Nop>'
+  let g:ctrlp_show_hidden = 1
+  nnoremap <silent><LEADER>f :<C-u>CtrlPCurWD<CR>
+  nnoremap <silent><LEADER>F :<C-u>CtrlPCurFile<CR>
+  nnoremap <silent><LEADER>b :<C-u>CtrlPBuffer<CR>
+endif
+
+" NERDTree {{{1
+"
+if s:plug.is_installed('nerdtree')
+  " NERDTree開閉トグル
+  nnoremap [toggle]n :NERDTreeToggle<CR>
+  nnoremap <silent><LEADER><Tab> :<C-u>call <SID>jump_nerdtree()<CR>
+
+  " 無かったら開く、あったらフォーカス
+  function! s:jump_nerdtree()
+    let num = g:myf.find_window_if("&filetype == 'nerdtree'")
+    if num
+      exe num.'wincmd w'
+    else
+      exe 'NERDTreeToggle'
+    endif
+  endfunction
+
+  function! s:plug_nerdtree()
+    " NERDTreeの幅
+    " let g:NERDTreeWinSize=40
+    " 左側にNERDTreeを表示
+    let g:NERDTreeWinPos = "left"
+    " 隠しファイルを表示する
+    let g:NERDTreeShowHidden = 1
+    " NERDTreeのウインドウだけならvimを閉じる
+    augroup _close_nerdtree_only
+      au!
+      au bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
+            \ && b:NERDTreeType == "primary") | q | endif
+    augroup END
+  endfunction
+
+  call s:plug.register_hook('nerdtree')
+endif
+
 " neocomplete.vim {{{1
 "
 if s:plug.is_installed('neocomplete.vim')
@@ -584,6 +629,59 @@ if s:plug.is_installed('neocomplete.vim')
   endfunction
 
   call s:plug.register_hook('neocomplete.vim')
+endif
+
+" neosnippet.vim {{{1
+"
+if s:plug.is_installed('neosnippet.vim')
+  function! s:plug_neosnippet_vim()
+    " cache directory
+    let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
+    " For snippet_complete marker.
+    if has('conceal')
+      set conceallevel=2 concealcursor=i
+    endif
+
+    " Enable snipMate compatibility feature.
+    let g:neosnippet#enable_snipmate_compatibility = 1
+
+    " disable runtime snippets
+    let g:neosnippet#disable_runtime_snippets = { '_': 1, }
+
+    " initialize snippets directory
+    let g:neosnippet#snippets_directory = []
+
+    " load my snippets
+    let mysnip = $VIMLOCAL.'/snippets'
+    if isdirectory(mysnip)
+      let g:neosnippet#snippets_directory += [ mysnip ]
+    endif
+
+    " load Shougo/neosnippet-snippets
+    if s:plug.is_installed('neosnippet-snippets')
+      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/plugins/neosnippet-snippets/neosnippets' ]
+    endif
+
+    " load honza/vim-snippets
+    if s:plug.is_installed('vim-snippets')
+      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/plugins/vim-snippets/snippets' ]
+    endif
+
+    " Plugin key-mappings.
+    imap <C-k> <Plug>(neosnippet_expand_or_jump)
+    smap <C-k> <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k> <Plug>(neosnippet_expand_target)
+
+    " SuperTab like snippets behavior.
+    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+          \ "\<Plug>(neosnippet_expand_or_jump)"
+          \: pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+          \ "\<Plug>(neosnippet_expand_or_jump)"
+          \: "\<TAB>"
+  endfunction
+
+  call s:plug.register_hook('neosnippet.vim')
 endif
 
 " vim-marching {{{1
@@ -683,104 +781,6 @@ if s:plug.is_installed('rsense')
     au FileType ruby if <SID>executable_rsense() | call plug#load('rsense') | endif
     au User rsense call s:plug_rsense() | au! _plug_rsense
   augroup END
-endif
-
-" neosnippet.vim {{{1
-"
-if s:plug.is_installed('neosnippet.vim')
-  function! s:plug_neosnippet_vim()
-    " cache directory
-    let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
-    " For snippet_complete marker.
-    if has('conceal')
-      set conceallevel=2 concealcursor=i
-    endif
-
-    " Enable snipMate compatibility feature.
-    let g:neosnippet#enable_snipmate_compatibility = 1
-
-    " disable runtime snippets
-    let g:neosnippet#disable_runtime_snippets = { '_': 1, }
-
-    " initialize snippets directory
-    let g:neosnippet#snippets_directory = []
-
-    " load my snippets
-    let mysnip = $VIMLOCAL.'/snippets'
-    if isdirectory(mysnip)
-      let g:neosnippet#snippets_directory += [ mysnip ]
-    endif
-
-    " load Shougo/neosnippet-snippets
-    if s:plug.is_installed('neosnippet-snippets')
-      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/plugins/neosnippet-snippets/neosnippets' ]
-    endif
-
-    " load honza/vim-snippets
-    if s:plug.is_installed('vim-snippets')
-      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/plugins/vim-snippets/snippets' ]
-    endif
-
-    " Plugin key-mappings.
-    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Plug>(neosnippet_expand_or_jump)
-    xmap <C-k> <Plug>(neosnippet_expand_target)
-
-    " SuperTab like snippets behavior.
-    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-          \ "\<Plug>(neosnippet_expand_or_jump)"
-          \: pumvisible() ? "\<C-n>" : "\<TAB>"
-    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-          \ "\<Plug>(neosnippet_expand_or_jump)"
-          \: "\<TAB>"
-  endfunction
-
-  call s:plug.register_hook('neosnippet.vim')
-endif
-
-" ctrlp.vim {{{1
-"
-if s:plug.is_installed('ctrlp.vim')
-  let g:ctrlp_map = '<Nop>'
-  let g:ctrlp_show_hidden = 1
-  nnoremap <silent><LEADER>f :<C-u>CtrlPCurWD<CR>
-  nnoremap <silent><LEADER>F :<C-u>CtrlPCurFile<CR>
-  nnoremap <silent><LEADER>b :<C-u>CtrlPBuffer<CR>
-endif
-
-" NERDTree {{{1
-"
-if s:plug.is_installed('nerdtree')
-  " NERDTree開閉トグル
-  nnoremap [toggle]n :NERDTreeToggle<CR>
-  nnoremap <silent><LEADER><Tab> :<C-u>call <SID>jump_nerdtree()<CR>
-
-  " 無かったら開く、あったらフォーカス
-  function! s:jump_nerdtree()
-    let num = g:myf.find_window_if("&filetype == 'nerdtree'")
-    if num
-      exe num.'wincmd w'
-    else
-      exe 'NERDTreeToggle'
-    endif
-  endfunction
-
-  function! s:plug_nerdtree()
-    " NERDTreeの幅
-    " let g:NERDTreeWinSize=40
-    " 左側にNERDTreeを表示
-    let g:NERDTreeWinPos = "left"
-    " 隠しファイルを表示する
-    let g:NERDTreeShowHidden = 1
-    " NERDTreeのウインドウだけならvimを閉じる
-    augroup _close_nerdtree_only
-      au!
-      au bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
-            \ && b:NERDTreeType == "primary") | q | endif
-    augroup END
-  endfunction
-
-  call s:plug.register_hook('nerdtree')
 endif
 
 " quickrun.vim {{{1
