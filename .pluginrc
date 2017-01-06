@@ -126,41 +126,7 @@ endif
 Plug 'Shougo/neosnippet.vim', { 'on': [], 'insert': 1 }
 " Plug 'Shougo/neosnippet-snippets'
 
-Plug 'Shougo/unite.vim', {
-      \ 'on': [
-      \   'Unite',
-      \   'UniteWithBufferDir',
-      \   'UniteWithCursorWord',
-      \   'UniteWithInput',
-      \ ]}
-Plug 'Shougo/unite-outline', { 'on': [] }
-Plug 'Shougo/unite-help', { 'on': [] }
-Plug 'tsukkee/unite-tag', { 'on': [] }
-Plug 'tacroe/unite-mark', { 'on': [] }
-Plug 'zhaocai/unite-scriptnames', { 'on': [] }
-Plug 'ujihisa/unite-colorscheme', { 'on': [] }
-
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/neoyank.vim'
-
-Plug 'Shougo/vimfiler.vim', {
-      \ 'on': [
-      \   'VimFiler',
-      \   'VimFilerDouble',
-      \   'VimFilerTab',
-      \   'VimFilerBufferDir',
-      \   'VimFilerExplorer',
-      \ ]}
-
-Plug 'Shougo/vimshell.vim', {
-      \ 'on': [
-      \   'VimShell',
-      \   'VimShellBufferDir',
-      \   'VimShellExecute',
-      \   'VimShellInteractive',
-      \   'VimShellTerminal',
-      \   'VimShellPop'
-      \ ]}
+Plug 'Kien/ctrlp.vim'
 
 Plug 'scrooloose/nerdtree', {
       \ 'on': 'NERDTreeToggle'
@@ -766,233 +732,13 @@ if s:plug.is_installed('neosnippet.vim')
   call s:plug.register_hook('neosnippet.vim')
 endif
 
-" unite.vim {{{1
+" ctrlp.vim {{{1
 "
-if s:plug.is_installed('unite.vim')
-  " キーマップ定義
-  nnoremap [unite] <Nop>
-  nmap     <LEADER>u [unite]
-  " 常用セット
-  nnoremap <silent>[unite]u  :<C-u>Unite -buffer-name=files buffer file file_mru bookmark<CR>
-  " レジューム
-  nnoremap <silent>[unite]U  :<C-u>UniteResume<CR>
-  " バッファ一覧
-  nnoremap <silent>[unite]b  :<C-u>Unite buffer<CR>
-  " バッファ一覧(カレントタブ)
-  nnoremap <silent>[unite]B  :<C-u>Unite buffer_tab<CR>
-  " ファイル一覧
-  nnoremap <silent>[unite]f  :<C-u>Unite -buffer-name=files file<CR>
-  " ファイル一覧(現在開いているファイルのディレクトリ)
-  nnoremap <silent>[unite]F  :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-  " ファイル一覧(再帰)
-  nnoremap <silent>[unite]r  :<C-u>Unite -buffer-name=files file_rec<CR>
-  " ファイル一覧(再帰 現在開いているファイルのディレクトリ)
-  nnoremap <silent>[unite]R  :<C-u>UniteWithBufferDir -buffer-name=files file_rec<CR>
-  " nnoremap <silent>[unite]FR :<C-u>Unite -buffer-name=files file_rec:<C-r>=expand('%:p:h:gs?[ :]?\\\0?')<CR><CR>
-  " ディレクトリ一覧
-  nnoremap <silent>[unite]d  :<C-u>Unite -buffer-name=files directory<CR>
-  " ディレクトリ一覧(現在開いているファイルのディレクトリ)
-  nnoremap <silent>[unite]D  :<C-u>UniteWithBufferDir -buffer-name=files directory<CR>
-  " 最近使用したファイル一覧
-  nnoremap <silent>[unite]mf :<C-u>Unite -buffer-name=files file_mru<CR>
-  " 最近使用したディレクトリ一覧
-  nnoremap <silent>[unite]md :<C-u>Unite -buffer-name=files directory_mru<CR>
-  " ブックマーク一覧
-  nnoremap <silent>[unite]M  :<C-u>Unite -buffer-name=files bookmark<CR>
-  " ヤンク履歴
-  nnoremap <silent>[unite]y  :<C-u>Unite -buffer-name=register history/yank<CR>
-  " コマンド一覧
-  nnoremap <silent>[unite]c  :<C-u>Unite command<CR>
-  " 以下、追加source
-  " ヘルプ (unite-help)
-  nnoremap <silent>[unite]h  :<C-u>Unite help<CR>
-  " アウトライン (unite-outline)
-  nnoremap <silent>[unite]o :<C-u>Unite outline<CR>
-  " マーク一覧 (unite-mark)
-  nnoremap <silent>[unite]m :<C-u>Unite mark<CR>
-
-  " outlineトグル
-  nnoremap [toggle]o :<C-u>Unite -vertical -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
-  nnoremap [toggle]O :<C-u>Unite -vertical -direction=belowright -no-quit -toggle -no-focus -no-start-insert -winwidth=40 outline<CR>
-
-  " vim-ref
-  if s:plug.is_installed('vim-ref')
-    augroup _unite_ref_keymap
-      au! FileType sh nnoremap <silent>[unite]r  :<C-u>Unite ref/man<CR>
-      au! FileType ruby nnoremap <silent>[unite]r  :<C-u>Unite ref/refe<CR>
-      au! FileType perl nnoremap <silent>[unite]r  :<C-u>Unite ref/perldoc<CR>
-      au! FileType python nnoremap <silent>[unite]r  :<C-u>Unite ref/pydoc<CR>
-    augroup END
-  endif
-
-  " キーマップ一覧
-  command! -nargs=0 UniteKeyMap Unite output:map|map!|lmap
-  " カラースキーマー検索 自動プレビュー付き
-  command! -nargs=0 UniteColorSchemePreview Unite colorscheme -auto-preview
-
-  function! s:plug_unite_vim()
-    " load unite-sources
-    call plug#load(
-          \ 'unite-outline',
-          \ 'unite-help',
-          \ 'unite-tag',
-          \ 'unite-mark',
-          \ 'unite-scriptnames',
-          \ 'unite-colorscheme',
-          \ )
-
-    " 入力モードで開始する
-    let g:unite_enable_start_insert = 1
-    " Uniteを縦分割で開始する
-    "let g:unite_enable_split_vertically
-    " history/yankの有効化
-    let g:unite_source_history_yank_enable = 1
-    " ステータスラインを書き換えない
-    let g:unite_force_overwrite_statusline = 0
-    " cache directory
-    let g:unite_data_directory = $VIMLOCAL.'/tmp/cache/unite'
-
-    " default actionの変更
-    call unite#custom_default_action('source/bookmark/directory', 'vimfiler')
-    call unite#custom_default_action('vimshell/history', 'insert')
-    " call unite#custom_default_action('guicmd', 'start')
-
-    " unite-grepに関する設定
-    if g:is_win
-      let g:unite_source_grep_command = "grep"
-      let g:unite_source_grep_recursive_opt = "-r"
-      let g:unite_source_grep_default_opts = "-Hn"
-    endif
-
-    " no-quit付きで開かれているバッファは閉じないquit
-    function! s:unite_smart_quit()
-        if (exists("b:unite.context.no_quit") && b:unite.context.no_quit)
-          " do nothing
-        else
-          exe "normal \<Plug>(unite_exit)"
-        endif
-    endfunction
-
-    function! s:chg_unite_keymap()
-      " 普通に開く
-      nnoremap <silent><buffer><expr>o unite#do_action('open')
-      inoremap <silent><buffer><expr>o unite#smart_map("o", unite#do_action('open'))
-      " 横に分割して開く
-      nnoremap <silent><buffer><expr>s unite#do_action('split')
-      inoremap <silent><buffer><expr>s unite#smart_map("s", unite#do_action('split'))
-      " 縦に分割して開く
-      nnoremap <silent><buffer><expr>v unite#do_action('vsplit')
-      inoremap <silent><buffer><expr>v unite#smart_map("v", unite#do_action('vsplit'))
-      " タブで開く
-      nnoremap <silent><buffer><expr>t unite#do_action('tabopen')
-      inoremap <silent><buffer><expr>t unite#smart_map("t", unite#do_action('tabopen'))
-
-      " 再描画と再キャッシュ
-      nmap <buffer><C-r> <Plug>(unite_redraw)
-
-      " Ctrl+h,j,k,lで分割ウィンドウ移動
-      noremap <silent><buffer><C-h> <C-w>h
-      noremap <silent><buffer><C-j> <C-w>j
-      noremap <silent><buffer><C-k> <C-w>k
-      noremap <silent><buffer><C-l> <C-w>l
-
-      " ESCキーを2回押すと終了する
-      nnoremap <silent><buffer><ESC><ESC> :<C-u>:call <SID>unite_smart_quit()<CR>
-      inoremap <silent><buffer><ESC><ESC> <ESC>:<C-u>:call <SID>unite_smart_quit()<CR>
-    endfunction
-
-    augroup _unite_chg_keymap
-      au! FileType unite call s:chg_unite_keymap()
-    augroup END
+if s:plug.is_installed('ctrlp.vim')
+  function! s:plug_ctrlp_vim()
+    " nothing...
   endfunction
-
-  call s:plug.register_hook('unite.vim')
-endif
-
-" neomru {{{1
-if s:plug.is_installed('neomru.vim')
-  " cache directory
-  let g:neomru#file_mru_path = $VIMLOCAL.'/tmp/cache/neomru/file'
-  let g:neomru#directory_mru_path = $VIMLOCAL.'/tmp/cache/neomru/directory'
-endif
-
-" vimfiler.vim {{{1
-"
-if s:plug.is_installed('vimfiler.vim')
-  nnoremap [vimfiler] <Nop>
-  nmap     <LEADER>vf [vimfiler]
-  nnoremap [vimfiler] :<C-u>VimFiler<CR>
-
-  function! s:plug_vimfiler_vim()
-    " load unite.vim
-    call plug#load('unite.vim')
-
-    let g:vimfiler_as_default_explorer = 1
-    " Enable file operation commands.
-    let g:vimfiler_safe_mode_by_default = 0
-    " Use trashbox.
-    let g:unite_kind_file_use_trashbox = 1
-    " ステータスラインを書き換えない
-    let g:vimfiler_force_overwrite_statusline = 0
-    " cache directory
-    let g:vimfiler_data_directory = $VIMLOCAL.'/tmp/cache/vimfiler'
-
-    " 関連付け
-    call vimfiler#set_execute_file('vim', 'vim')
-    call vimfiler#set_execute_file('txt', 'vim')
-
-    " 自動的にカーソルラインをオン
-    augroup _vimfiler_curline_on
-      au!
-      au FileType vimfiler setlocal cursorline
-      au FileType vimfiler hi CursorLine gui=underline
-    augroup END
-
-    function! s:chg_vimfiler_keymap()
-      " Enterでディレクトリはツリー展開、ファイルは開く
-      nmap <silent><buffer><expr><CR> vimfiler#smart_cursor_map(
-            \ "\<Plug>(vimfiler_expand_tree)", "\<Plug>(vimfiler_edit_file)")
-      " 普通に開く
-      nmap <silent><buffer><expr>o vimfiler#smart_cursor_map(
-            \ "\<Plug>(vimfiler_expand_tree)", vimfiler#do_action('open'))
-      " 横に分割して開く
-      nmap <silent><buffer><expr>s vimfiler#smart_cursor_map(
-            \ "\<Plug>(vimfiler_expand_tree)", vimfiler#do_action('split'))
-      " 縦に分割して開く
-      nmap <silent><buffer><expr>v vimfiler#smart_cursor_map(
-            \ "\<Plug>(vimfiler_expand_tree)", vimfiler#do_action('vsplit'))
-      " タブで開く
-      nnoremap <silent><buffer><expr>t vimfiler#do_action('tabopen')
-      " Unite bookmarkを開く
-      nnoremap <buffer>b :<C-u>Unite -buffer-name=files bookmark<CR>
-      " map <buffer> a <Plug>(vimfiler_toggle_mark_all_lines)
-      " map <End> <Plug>(vimfiler_clear_mark_all_lines)
-      " map <buffer> @ <Plug>(vimfiler_set_current_mask)
-    endfunction
-
-    augroup _vimfiler_chg_keymap
-      au! FileType vimfiler call s:chg_vimfiler_keymap()
-    augroup END
-  endfunction
-
-  call s:plug.register_hook('vimfiler.vim')
-endif
-
-" vimshell.vim {{{1
-"
-if s:plug.is_installed('vimshell.vim')
-  nnoremap [vimshell] <Nop>
-  nmap     <LEADER>vs [vimshell]
-  nnoremap [vimshell] :<C-u>VimShell<CR>
-
-  function! s:plug_vimshell_vim()
-    " ステータスラインを書き換えない
-    let g:vimshell_force_overwrite_statusline = 0
-    " cache directory
-    let g:vimshell_data_directory = $VIMLOCAL.'/tmp/cache/vimshell'
-  endfunction
-
-  call s:plug.register_hook('vimshell.vim')
+  call s:plug.register_hook('ctrlp.vim')
 endif
 
 " NERDTree {{{1
@@ -1308,9 +1054,6 @@ if s:plug.is_installed('lightline.vim')
     return index([
           \   'help',
           \   'qf',
-          \   'unite',
-          \   'vimfiler',
-          \   'vimshell',
           \   'quickrun',
           \   'nerdtree',
           \ ], &ft) != -1
@@ -1327,10 +1070,7 @@ if s:plug.is_installed('lightline.vim')
   endfunction
 
   function! MyFilename()
-    return  &ft == 'unite' ? unite#get_status_string() :
-          \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-          \ &ft == 'vimshell' ? vimshell#get_status_string() :
-          \ &ft == 'quickrun' ? '' :
+    return  &ft == 'quickrun' ? '' :
           \ &ft == 'nerdtree' ? '' :
           \ strlen(expand('%:t')) ? expand('%:t') : '[No Name]'
   endfunction

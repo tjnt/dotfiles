@@ -519,60 +519,6 @@ vnoremap gt :<C-u>call <SID>v_grep_func('tabnew')
 " noremap <silent><C-F> :<C-u>call <SID>smooth_scroll("d",1, 1)<CR>
 " noremap <silent><C-B> :<C-u>call <SID>smooth_scroll("u",1, 1)<CR>
 
-" <Fn>短縮キーマップ {{{2
-"
-noremap <F1>    :<C-u>Unite help<CR>
-noremap <F2>    :<C-u>Unite outline<CR>
-noremap <F3>    :<C-u>Unite mark<CR>
-noremap <F4>    :<C-u>Unite -buffer-name=register history/yank<CR>
-noremap <F5>    :<C-u>Unite buffer<CR>
-noremap <F6>    :<C-u>Unite buffer_tab<CR>
-noremap <F7>    :<C-u>Unite -buffer-name=files file<CR>
-noremap <F8>    :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-noremap <F9>    :<C-u>Unite -buffer-name=files file_rec<CR>
-noremap <F10>   :<C-u>Unite -buffer-name=files file_rec:<C-r>=expand('%:p:h:gs?[ :]?\\\0?')<CR><CR>
-noremap <F11>   :<C-u>Unite -buffer-name=files file_mru<CR>
-noremap <F12>   :<C-u>Unite -buffer-name=files directory_mru<CR>
-
-noremap <S-F1>  <Nop>
-noremap <S-F2>  :<C-u>Unite tag<CR>
-noremap <S-F3>  :<C-u>Unite grep<CR>
-noremap <S-F4>  :<C-u>Unite find<CR>
-noremap <S-F5>  :<C-u>Unite command<CR>
-noremap <S-F6>  <Nop>
-noremap <S-F7>  <Nop>
-noremap <S-F8>  :<C-u>UniteResume<CR>
-noremap <S-F9>  <Nop>
-noremap <S-F10> <Nop>
-noremap <S-F11> :<C-u>Unite -buffer-name=files bookmark<CR>
-noremap <S-F12> :<C-u>UniteBookmarkAdd<CR>
-
-noremap <C-F1>  :<C-u>Openvimrc<CR>
-noremap <C-F2>  :<C-u>Opengvimrc<CR>
-noremap <C-F3>  :<C-u>Openpluginrc<CR>
-noremap <C-F4>  :<C-u>Reloadrc<CR>
-noremap <C-F5>  :<C-u>VimFiler<CR>
-noremap <C-F6>  :<C-u>VimFilerBufferDir<CR>
-noremap <C-F7>  :<C-u>VimFiler -buffer-name=explorer -split -simple -winwidth=30 -toggle -no-quit<CR>
-noremap <C-F8>  :<C-u>VimFilerBufferDir -buffer-name=explorer -split -simple -winwidth=30 -toggle -no-quit<CR>
-noremap <C-F9>  :<C-u>VimShell<CR>
-noremap <C-F10> :<C-u>VimShellBufferDir<CR>
-noremap <C-F11> :<C-u>VimShellPop<CR>
-noremap <C-F12> :<C-u>VimShellBufferDir -popup<CR>
-
-noremap <M-F1>  <Nop>
-noremap <M-F2>  <Nop>
-noremap <M-F3>  <Nop>
-noremap <M-F4>  <Nop>
-noremap <M-F5>  <Nop>
-noremap <M-F6>  <Nop>
-noremap <M-F7>  <Nop>
-noremap <M-F8>  <Nop>
-noremap <M-F9>  :<C-u>call ColorRoller.unroll()<CR>
-noremap <M-F10> :<C-u>call ColorRoller.roll()<CR>
-noremap <M-F11> :<C-u>call DecreaseTrancyLevel()<CR>
-noremap <M-F12> :<C-u>call IncreaseTrancyLevel()<CR>
-
 " キーマップの無効化 {{{2
 "
 nnoremap ZZ <Nop>
