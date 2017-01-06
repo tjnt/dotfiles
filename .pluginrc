@@ -126,7 +126,13 @@ endif
 Plug 'Shougo/neosnippet.vim', { 'on': [], 'insert': 1 }
 " Plug 'Shougo/neosnippet-snippets'
 
-Plug 'Kien/ctrlp.vim'
+Plug 'Kien/ctrlp.vim', {
+      \ 'on': [
+      \   'CtrlP',
+      \   'CtrlPCurWD',
+      \   'CtrlPCurFile',
+      \   'CtrlPBuffer',
+      \ ]}
 
 Plug 'scrooloose/nerdtree', {
       \ 'on': 'NERDTreeToggle'
@@ -735,10 +741,11 @@ endif
 " ctrlp.vim {{{1
 "
 if s:plug.is_installed('ctrlp.vim')
-  function! s:plug_ctrlp_vim()
-    " nothing...
-  endfunction
-  call s:plug.register_hook('ctrlp.vim')
+  let g:ctrlp_map = '<Nop>'
+  let g:ctrlp_show_hidden = 1
+  nnoremap <silent><LEADER>f :<C-u>CtrlPCurWD<CR>
+  nnoremap <silent><LEADER>F :<C-u>CtrlPCurFile<CR>
+  nnoremap <silent><LEADER>b :<C-u>CtrlPBuffer<CR>
 endif
 
 " NERDTree {{{1
