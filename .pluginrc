@@ -4,14 +4,10 @@
 " プラグイン毎の設定
 "
 
-if !executable('git')
-  finish
-endif
-
 " vim-plug {{{1
 "
 if has('vim_starting')
-  if !isdirectory(expand('$VIMLOCAL/plugins/vim-plug'))
+  if executable('git') && !isdirectory(expand('$VIMLOCAL/plugins/vim-plug'))
     echo 'install vim-plug...'
     call system('git clone https://github.com/junegunn/vim-plug.git '.
           \ expand('$VIMLOCAL/plugins/vim-plug/autoload'))
@@ -24,7 +20,11 @@ if has('vim_starting')
   endif
 endif
 
-call plug#begin(expand('$VIMLOCAL/plugins'))
+if executable('git')
+  call plug#begin(expand('$VIMLOCAL/plugins'))
+else
+  silent! call plug#begin(expand('$VIMLOCAL/plugins'))
+endif
 
 Plug 'junegunn/vim-plug', {
       \ 'dir': expand('$VIMLOCAL/plugins/vim-plug/autoload') }
