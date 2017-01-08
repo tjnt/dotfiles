@@ -158,6 +158,8 @@ Plug 'thinca/vim-ref', {
       \   '<Plug>(ref-keyword)'
       \ ]}
 
+Plug 'tpope/vim-fugitive'
+
 Plug 'tyru/open-browser.vim', {
       \ 'on': [
       \   'OpenBrowser',
