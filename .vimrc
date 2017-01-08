@@ -369,6 +369,15 @@ nnoremap <silent>[buf]7 :<C-u>buffer 7<CR>
 nnoremap <silent>[buf]8 :<C-u>buffer 8<CR>
 nnoremap <silent>[buf]9 :<C-u>buffer 9<CR>
 
+" バッファ一覧 をquickfixで開く(実験中)
+function! s:qfix_buffers()
+  call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'),
+        \ '{"bufnr":v:val, "lnum":getbufinfo(v:val)[0].lnum}'))
+  exe 'copen'
+endfunction
+command! -nargs=0 QfixBuffers call <SID>qfix_buffers()
+nnoremap <silent>[buf]b :<C-u>QfixBuffers<CR>
+
 " タブ関連 {{{2
 "
 " タブ操作のprefix
