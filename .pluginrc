@@ -126,7 +126,7 @@ endif
 Plug 'Shougo/neosnippet.vim', { 'on': [], 'insert': 1 }
 " Plug 'Shougo/neosnippet-snippets'
 
-Plug 'Kien/ctrlp.vim', {
+Plug 'ctrlpvim/ctrlp.vim', {
       \ 'on': [
       \   'CtrlP',
       \   'CtrlPCurWD',
