@@ -158,7 +158,9 @@ Plug 'thinca/vim-ref', {
       \   '<Plug>(ref-keyword)'
       \ ]}
 
-Plug 'tpope/vim-fugitive'
+if executable('git')
+  Plug 'tpope/vim-fugitive'
+endif
 
 Plug 'tyru/open-browser.vim', {
       \ 'on': [
