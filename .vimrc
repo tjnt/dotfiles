@@ -369,10 +369,18 @@ nnoremap <silent>[buf]7 :<C-u>buffer 7<CR>
 nnoremap <silent>[buf]8 :<C-u>buffer 8<CR>
 nnoremap <silent>[buf]9 :<C-u>buffer 9<CR>
 
-" バッファ一覧 をquickfixで開く(実験中)
+" バッファ一覧 をquickfixで開く
 function! s:qfix_buffers()
-  call setqflist(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'),
-        \ '{"bufnr":v:val, "lnum":getbufinfo(v:val)[0].lnum}'))
+  let qflist = []
+  for i in filter(range(1, bufnr('$')),
+        \ 'v:val != bufnr("%") && buflisted(v:val) && getbufvar(v:val, "&filetype") != "qf"')
+    let bi = getbufinfo(i)[0]
+    call add(qflist, {
+          \ 'bufnr': bi.bufnr,
+          \ 'lnum': bi.lnum
+          \ })
+  endfor
+  call setqflist(qflist)
   exe 'copen'
 endfunction
 command! -nargs=0 QfixBuffers call <SID>qfix_buffers()
