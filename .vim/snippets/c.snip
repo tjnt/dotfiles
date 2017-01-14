@@ -70,21 +70,24 @@ alias		func
 snippet		struct
 abbr		struct {}
 options		head
-	struct ${1:#:name} {
+	struct ${1:#:name}
+	{
 		${0:TARGET}
 	};
 
 snippet		struct_typedef
 abbr		typedef struct {}
 options		head
-	typedef struct ${1:#:name} {
+	typedef struct ${1:#:name}
+	{
 		${0:TARGET}
 	} ${2:#:name};
 
 snippet		enum
 abbr		enum {}
 options		head
-	enum ${1:#:name} {
+	enum ${1:#:name}
+	{
 		${0:TARGET}
 	};
 
