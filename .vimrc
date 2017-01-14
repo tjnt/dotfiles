@@ -743,7 +743,7 @@ augroup END
 augroup _filetype
   au!
   au FileType c,cpp,cs
-        \ setlocal ts=4 sts=0 sw=4
+        \ setlocal ts=2 sts=0 sw=2
         \ cindent cinoptions=>1s,g0
   au FileType java
         \ setlocal ts=4 sts=0 sw=4
