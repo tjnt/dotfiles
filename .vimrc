@@ -586,7 +586,7 @@ command! -nargs=1 -complete=file VDsplit vertical diffsplit <args>
 function! s:diff_clip(reg) range
   exe "let @a=@".a:reg
   exe a:firstline.",".a:lastline."y b"
-  new
+  tabnew
   " このウィンドウを閉じたらバッファを消去するようにする
   set buftype=nofile bufhidden=wipe
   put a
