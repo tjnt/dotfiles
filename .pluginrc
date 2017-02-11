@@ -25,9 +25,6 @@ else
   silent! call plug#begin(expand('$VIMLOCAL/plugins'))
 endif
 
-Plug 'junegunn/vim-plug', {
-      \ 'dir': expand('$VIMLOCAL/plugins/vim-plug/autoload') }
-
 if (g:is_win && executable('mingw32-make')) || (has('unix') && executable('make'))
   function! BuildVimproc(info)
     if a:info.status == 'installed' || a:info.force
