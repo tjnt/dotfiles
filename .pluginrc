@@ -7,13 +7,12 @@
 " vim-plug {{{1
 "
 if has('vim_starting')
-  if executable('git') && !isdirectory(expand('$VIMLOCAL/plugins/vim-plug'))
+  let path = expand('$VIMLOCAL/autoload/plug.vim')
+  if !filereadable(path) && executable('curl')
     echo 'install vim-plug...'
-    call system('git clone https://github.com/junegunn/vim-plug.git '.
-          \ expand('$VIMLOCAL/plugins/vim-plug/autoload'))
-  end
-  set runtimepath+=$VIMLOCAL/plugins/vim-plug
-
+    call system('curl -fLo '.path.' --create-dirs '.
+        \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+  endif
   " suppress warning
   if g:is_win
     let $PERL_BADLANG = 0
