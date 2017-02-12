@@ -42,6 +42,12 @@ options		head
 		${0:TARGET}
 	};
 
+snippet		template
+abbr		template <>
+options		head
+	template <typename ${1:T}>
+	${0:TARGET}
+
 snippet		try_catch
 alias		try
 abbr		try ... catch ...
@@ -78,7 +84,7 @@ options		head
 # static assert ( C++11 feature )
 snippet		static_assert
 abbr		static_assert(,"")
-	static_assert( ${1}, "${2}" );
+	static_assert(${1}, "${2}");
 
 delete		namespace
 snippet		namespace
