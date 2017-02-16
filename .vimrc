@@ -44,7 +44,11 @@ if has('vim_starting')
   set fileencoding=utf-8
 endif
 " 改行コード
-set fileformats=unix,dos,mac
+if g:is_win
+  set fileformats=dos,unix,mac
+else
+  set fileformats=unix,dos,mac
+endif
 
 " 画面表示 {{{2
 "
