@@ -198,7 +198,7 @@ function! s:has_plugin(name)
 endfunction
 command! -nargs=1 HasPlugin echomsg <SID>has_plugin(<q-args>)
 
-" global関数格納変数
+" global定義の格納用変数
 let g:my = {}
 
 " 外部コマンド実行
@@ -870,7 +870,7 @@ endif
 
 " environment path for c++
 if has("unix")
-  let g:my_cpp_path = [
+  let g:my.cpp_path = [
     \   '.',
     \   '/usr/local/include',
     \   '/usr/include/boost',
@@ -881,7 +881,7 @@ if has("unix")
 
   function! s:set_cpp_path()
     let wk = []
-    call map(copy(g:my_cpp_path), 'extend(wk, split(glob(v:val), "\n"))')
+    call map(copy(g:my.cpp_path), 'extend(wk, split(glob(v:val), "\n"))')
     let &l:path = join(filter(wk, 'isdirectory(v:val)'), ',')
   endfunction
 
