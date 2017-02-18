@@ -80,14 +80,14 @@ Plug 'osyo-manga/vim-over' , {
       \ }
 
 if executable('ctags')
-  Plug 'vim-scripts/taglist.vim', {
-      \ 'on': 'TlistToggle'
-      \ }
-
-  Plug 'alpaca-tc/alpaca_tags', {
+  Plug 'szw/vim-tags', {
       \ 'for': [
       \   'cpp', 'cs', 'java', 'ruby', 'vim'
       \ ]}
+
+  Plug 'vim-scripts/taglist.vim', {
+      \ 'on': 'TlistToggle'
+      \ }
 endif
 
 Plug 'vim-scripts/a.vim', {
@@ -416,6 +416,12 @@ if s:plug.is_installed('vim-over')
   " nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 endif
 
+" vim-tags {{{1
+"
+if s:plug.is_installed('vim-tags')
+  let g:vim_tags_cache_dir = $VIMLOCAL.'/tmp/cache'
+endif
+
 " taglist.vim {{{1
 "
 if s:plug.is_installed('taglist.vim')
@@ -434,44 +440,6 @@ if s:plug.is_installed('taglist.vim')
   endfunction
 
   call s:plug.register_hook('taglist.vim')
-endif
-
-" alpaca_tags {{{1
-"
-if s:plug.is_installed('alpaca_tags')
-  function! s:plug_alpaca_tags()
-    " ctags option
-    let g:alpaca_tags#config = {
-          \   '_' : '-R --sort=yes',
-          \   'js' : '--languages=+js',
-          \   '-js' : '--languages=-js,JavaScript',
-          \   'vim' : '--languages=+Vim,vim',
-          \   'php' : '--languages=+php',
-          \   '-vim' : '--languages=-Vim,vim',
-          \   '-style': '--languages=-css,scss,js,JavaScript,html',
-          \   'scss' : '--languages=+scss --languages=-css',
-          \   'css' : '--languages=+css',
-          \   'java' : '--languages=+java $JAVA_HOME/src',
-          \   'ruby': '--languages=+Ruby',
-          \   'coffee': '--languages=+coffee',
-          \   '-coffee': '--languages=-coffee',
-          \   'bundle': '--languages=+Ruby',
-          \ }
-
-    " Specify directories to store generated tags.
-    let g:alpaca_tags#cache_dir = $VIMLOCAL.'/tmp/cache/alpaca_tags'
-    " If it is as following, debug is shown.
-    " let g:alpaca_tags#console = { 'report' : 1 }
-
-    augroup _alpaca_aucmd
-      au!
-      au BufWritePost Gemfile AlpacaTagsBundle
-      au BufEnter * AlpacaTagsSet
-      au BufWritePost * AlpacaTagsUpdate
-    augroup END
-  endfunction
-
-  call s:plug.register_hook('alpaca_tags')
 endif
 
 " a.vim {{{1
