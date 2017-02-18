@@ -199,15 +199,15 @@ endfunction
 command! -nargs=1 HasPlugin echomsg <SID>has_plugin(<q-args>)
 
 " global関数格納変数
-let g:myf = {}
+let g:my = {}
 
 " 外部コマンド実行
-function! g:myf.bang(cmd)
+function! g:my.bang(cmd)
   let caller = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
   exe caller.' '.a:cmd
 endfunction
 
-function! g:myf.read(cmd, bufopt)
+function! g:my.read(cmd, bufopt)
   let caller = s:has_plugin('vimproc') ? 'VimProcRead' : '$read!'
   new
   if a:bufopt !=# ''
@@ -218,13 +218,13 @@ function! g:myf.read(cmd, bufopt)
 endfunction
 
 " 文字列末尾の改行を削除する
-function! g:myf.chomp(str)
+function! g:my.chomp(str)
   return substitute(a:str, '\n\+$', '', '')
 endfunction
 
 " 条件'pred'を満たすウィンドウを検索し、そのウィンドウ番号を返す
 " 開いていないなら0を返す
-function! g:myf.find_window_if(pred)
+function! g:my.find_window_if(pred)
   let winnr_save = winnr()
   let wincount = winnr("$")
   let i = 1
@@ -406,7 +406,7 @@ noremap <silent>[tab]p :<C-u>exe tabpagenr() == 1 ? '$tabmove' : '-tabmove'<CR>
 " quickfix関連 {{{2
 "
 function! s:quickfix_operation(direction)
-  if g:myf.find_window_if("&filetype == 'qf'")
+  if g:my.find_window_if("&filetype == 'qf'")
     exe a:direction == 'd' ? 'cnext' : 'cprevious'
   else
     exe 'copen'
@@ -648,7 +648,7 @@ command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only(<q-args>, '<
 
 " タグファイル生成
 function! s:ctags_r()
-  call g:myf.bang('ctags -R')
+  call g:my.bang('ctags -R')
   if s:has_plugin('neocomplete')
     NeoCompleteTagMakeCache
   endif
@@ -674,7 +674,7 @@ command! -nargs=* -complete=mapping AllMaps map <args> | map! <args> | lmap <arg
 
 " vimrcの行数を数える
 function! s:count_vimrc()
-  call g:myf.bang(join(
+  call g:my.bang(join(
           \ ['wc -l', s:rc_path('vimrc'), s:rc_path('gvimrc'), s:rc_path('pluginrc')], ' '))
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
@@ -709,7 +709,7 @@ command! -nargs=1 -complete=command ClipCommandOutput call s:ClipCommandOutput(<
 function! s:vcs_diff(command, only)
   let target = a:only ? expand('%') : ''
   let bufopt = 'buftype=nofile bufhidden=wipe filetype=diff noswf '
-  call g:myf.read(a:command.' '.target, bufopt)
+  call g:my.read(a:command.' '.target, bufopt)
   unlet target
 endfunction
 
@@ -914,7 +914,7 @@ if s:has_plugin('netrw')
   let g:netrw_winsize = 30
 
   function! s:toggle_netrw()
-    let w = g:myf.find_window_if("&filetype == 'netrw'")
+    let w = g:my.find_window_if("&filetype == 'netrw'")
     if w != 0
       exe w.'close'
     else
