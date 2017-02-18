@@ -459,9 +459,6 @@ nnoremap <silent><Enter> :<C-u>call <SID>tagjump_or_cr()<CR>
 
 " 簡易grep {{{2
 "
-" 使用するgrepの指定
-let mygrepprg = 'internal'
-
 " ビジュアルモード選択文字列取得
 function! s:get_selected_string()
   let old_reg = getreg('a')
