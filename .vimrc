@@ -647,8 +647,9 @@ endfunction
 command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only(<q-args>, '<bang>')
 
 " タグファイル生成
+let g:my.ctags_option = "--recurse=yes --sort=yes"
 function! s:ctags_r()
-  call g:my.bang('ctags -R')
+  call g:my.bang('ctags ' . g:my.ctags_option)
   if s:has_plugin('neocomplete')
     NeoCompleteTagMakeCache
   endif
