@@ -469,41 +469,47 @@ function! s:get_selected_string()
   return selected
 endfunction
 
-" grep関数共通処理
-function! s:grep_func_main(word, target, option)
-  if a:option != ''
-    exe a:option
+" 検索対象ファイルパターン
+let s:grep_file_patterns = {
+    \ 'c':      [ 'c', 'h' ],
+    \ 'cpp':    [ 'c', 'cc', 'cpp', 'cxx', 'h', 'hpp' ],
+    \ 'cs':     [ 'cs' ],
+    \ 'java':   [ 'java' ],
+    \ 'ruby':   [ 'rb' ],
+    \ 'perl':   [ 'pl' ],
+    \ 'python': [ 'py' ],
+    \ 'vim':    [ 'vim' ],
+    \ }
+
+function! s:easy_grep(vmode, newbuf)
+  let word = a:vmode == 1 ?
+        \ s:get_selected_string() : expand("<cword>")
+  let pattern = get(s:grep_file_patterns, &filetype, [])
+  let target = !empty(pattern) ?
+        \ join(map(copy(pattern), '"**/*." . v:val'), ' ') : '**/*'
+  if a:newbuf != ''
+    exe a:newbuf
   endif
-  echo 'grep 'a:word ' target 'a:target
-  exe 'vimgrep /'.a:word.'/ 'a:target' | cw'
-endfunction
-
-function! s:grep_func(option)
-  call s:grep_func_main(
-        \ expand("<cword>"), b:grep_target_file, a:option)
-endfunction
-
-function! s:v_grep_func(option)
-  call s:grep_func_main(
-        \ s:get_selected_string(), b:grep_target_file, a:option)
+  echo 'grep 'word ' target 'target
+  exe 'vimgrep /'.word.'/ 'target' | cw'
 endfunction
 
 " g r でカーソル位置の単語をgrep
-nnoremap gr :<C-u>call <SID>grep_func('')
+nnoremap gr :<C-u>call <SID>easy_grep(0, '')
 " g s でカーソル位置の単語をgrep → 分割して開く
-nnoremap gs :<C-u>call <SID>grep_func('split')
+nnoremap gs :<C-u>call <SID>easy_grep(0, 'split')
 " g v でカーソル位置の単語をgrep → 縦分割して開く
-nnoremap gv :<C-u>call <SID>grep_func('vsplit')
+nnoremap gv :<C-u>call <SID>easy_grep(0, 'vsplit')
 " g t でカーソル位置の単語をgrep → 新しいタブで開く
-nnoremap gt :<C-u>call <SID>grep_func('tabnew')
+nnoremap gt :<C-u>call <SID>easy_grep(0, 'tabnew')
 " ビジュアルモード選択中文字列をgrep
-vnoremap gr :<C-u>call <SID>v_grep_func('')
+vnoremap gr :<C-u>call <SID>easy_grep(1, '')
 " ビジュアルモード選択中文字列をgrep → 分割して開く
-vnoremap gs :<C-u>call <SID>v_grep_func('split')
+vnoremap gs :<C-u>call <SID>easy_grep(1, 'split')
 " ビジュアルモード選択中文字列をgrep → 縦分割して開く
-vnoremap gv :<C-u>call <SID>v_grep_func('vsplit')
+vnoremap gv :<C-u>call <SID>easy_grep(1, 'vsplit')
 " ビジュアルモード選択中文字列をgrep → 新しいタブで開く
-vnoremap gt :<C-u>call <SID>v_grep_func('tabnew')
+vnoremap gt :<C-u>call <SID>easy_grep(1, 'tabnew')
 
 " smooth scroll (smooth_scroll.vim) {{{2
 "
@@ -757,27 +763,6 @@ augroup _filetype
         \ setlocal list listchars=tab:^\ ,trail:»,nbsp:%
   au FileType mkd,markdown
         \ highlight! link SpecialKey Identifier
-augroup END
-
-" grep_func関数の検索対象ファイルパターン
-augroup _grep_target
-  au!
-  au FileType *
-        \ let b:grep_target_file = '**/*'
-  au FileType c,cpp
-        \ let b:grep_target_file = '**/*.c **/*.cpp **/*.cxx **/*.cc **/*.h **/*.hpp'
-  au FileType cs
-        \ let b:grep_target_file = '**/*.cs'
-  au FileType java
-        \ let b:grep_target_file = '**/*.java'
-  au FileType ruby
-        \ let b:grep_target_file = '**/*.rb'
-  au FileType perl
-        \ let b:grep_target_file = '**/*.pl'
-  au FileType python
-        \ let b:grep_target_file = '**/*.py'
-  au FileType vim
-        \ let b:grep_target_file = '**/*.vim'
 augroup END
 
 " ファイルを開いた時にカーソル位置を復元する
