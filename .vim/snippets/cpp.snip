@@ -17,8 +17,7 @@ options		head
 snippet		struct_ctor
 abbr		struct {}
 options		head
-	struct ${1:#:name}
-	{
+	struct ${1:#:name} {
 		$1(${2});
 		${0:TARGET}
 	};
@@ -26,8 +25,7 @@ options		head
 snippet		class
 abbr		class {}
 options		head
-	class ${1:#:name}
-	{
+	class ${1:#:name} {
 	public:
 		${0:TARGET}
 	};
@@ -35,8 +33,7 @@ options		head
 snippet		class_ctor
 abbr		class {}
 options		head
-	class ${1:#:name}
-	{
+	class ${1:#:name} {
 	public:
 		$1(${2});
 		${0:TARGET}
@@ -90,8 +87,7 @@ delete		namespace
 snippet		namespace
 abbr		namespace {}
 options		head
-	namespace ${1:#:name}
-	{
+	namespace ${1:#:name} {
 		${0:TARGET}
 	} // namespace $1
 
@@ -134,8 +130,7 @@ options		head
 snippet		helloworld
 options		head
 	#include <iostream>
-	int main(int argc, const char* argv[])
-	{
+	int main(int argc, const char* argv[]) {
 		std::cout << "hello, world!" << std::endl;
 		return 0;
 	}

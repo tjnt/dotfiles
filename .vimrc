@@ -791,9 +791,9 @@ augroup _ins_enter_leave
 augroup END
 
 " 以下のコマンドの結果は常にQuickFixで表示
-" augroup _cmd_qfopen
-  " au! QuickfixCmdPost grep,vimgrep,make,copen cw
-" augroup END
+augroup _cmd_qfopen
+  au! QuickfixCmdPost grep,vimgrep,make,copen cw
+augroup END
 
 "function! s:file_enc_check()
 "  日本語を含まない場合はfileencoding にencoding を使うようにする

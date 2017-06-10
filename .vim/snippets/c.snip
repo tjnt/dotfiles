@@ -70,32 +70,28 @@ alias		func
 snippet		struct
 abbr		struct {}
 options		head
-	struct ${1:#:name}
-	{
+	struct ${1:#:name} {
 		${0:TARGET}
 	};
 
 snippet		struct_typedef
 abbr		typedef struct {}
 options		head
-	typedef struct ${1:#:name}
-	{
+	typedef struct ${1:#:name} {
 		${0:TARGET}
 	} ${2:#:name};
 
 snippet		enum
 abbr		enum {}
 options		head
-	enum ${1:#:name}
-	{
+	enum ${1:#:name} {
 		${0:TARGET}
 	};
 
 snippet		main
 abbr		main()
 options		head
-	int main(int argc, const char* argv[])
-	{
+	int main(int argc, const char* argv[]) {
 		${0:TARGET}
 		return 0;
 	}
@@ -180,8 +176,7 @@ abbr		fgets(row, length, file);
 snippet		helloworld
 options		head
 	#include <stdio.h>
-	int main(int argc, const char* argv[])
-	{
+	int main(int argc, const char* argv[]) {
 		puts("hello, world!");
 		return 0;
 	}
