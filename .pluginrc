@@ -57,10 +57,22 @@ Plug 'rhysd/vim-operator-surround', {
 
 Plug 'kana/vim-textobj-user'
 
+Plug 'kana/vim-textobj-entire', {
+      \ 'on': [
+      \   '<Plug>(textobj-entire-a)',
+      \   '<Plug>(textobj-entire-i)'
+      \ ]}
+
 Plug 'kana/vim-textobj-line', {
       \ 'on': [
       \   '<Plug>(textobj-line-a)',
       \   '<Plug>(textobj-line-i)'
+      \ ]}
+
+Plug 'thinca/vim-textobj-comment', {
+      \ 'on': [
+      \   '<Plug>(textobj-comment-a)',
+      \   '<Plug>(textobj-comment-i)'
       \ ]}
 
 Plug 'osyo-manga/vim-textobj-multiblock', {
@@ -272,6 +284,15 @@ if s:plug.is_installed('vim-operator-replace')
   map <silent>R <Plug>(operator-replace)
 endif
 
+" vim-textobj-entire {{{1
+"
+if s:plug.is_installed('vim-textobj-entire')
+  omap ae <Plug>(textobj-entire-a)
+  omap ie <Plug>(textobj-entire-i)
+  xmap ae <Plug>(textobj-entire-a)
+  xmap ie <Plug>(textobj-entire-i)
+endif
+
 " vim-textobj-line {{{1
 "
 if s:plug.is_installed('vim-textobj-line')
@@ -279,6 +300,15 @@ if s:plug.is_installed('vim-textobj-line')
   omap il <Plug>(textobj-line-i)
   xmap al <Plug>(textobj-line-a)
   xmap il <Plug>(textobj-line-i)
+endif
+
+" vim-textobj-comment {{{1
+"
+if s:plug.is_installed('vim-textobj-comment')
+  omap ac <Plug>(textobj-comment-a)
+  omap ic <Plug>(textobj-comment-i)
+  xmap ac <Plug>(textobj-comment-a)
+  xmap ic <Plug>(textobj-comment-i)
 endif
 
 " vim-textobj-multiblock {{{1
