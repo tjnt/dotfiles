@@ -55,6 +55,12 @@ Plug 'rhysd/vim-operator-surround', {
       \   '<Plug>(operator-surround-replace)'
       \ ]}
 
+Plug 'emonkak/vim-operator-comment', {
+      \ 'on': [
+      \   '<Plug>(operator-comment)',
+      \   '<Plug>(operator-uncomment)'
+      \ ]}
+
 Plug 'kana/vim-textobj-user'
 
 Plug 'kana/vim-textobj-entire', {
@@ -330,6 +336,13 @@ if s:plug.is_installed('vim-operator-surround')
   map <silent>Sa <Plug>(operator-surround-append)
   map <silent>Sd <Plug>(operator-surround-delete)
   map <silent>Sr <Plug>(operator-surround-replace)
+endif
+
+" vim-operator-comment {{{1
+"
+if s:plug.is_installed('vim-operator-comment')
+  map <silent>Xc <Plug>(operator-comment)
+  map <silent>Xd <Plug>(operator-uncomment)
 endif
 
 " vim-smartinput {{{1
