@@ -179,6 +179,10 @@ set! geo.enabled=false
 " Hello無効化
 set! loop.enabled=false
 
+" Enable E10S
+set! browser.tabs.remote.autostart=true
+set! browser.tabs.remote.force-enable=true
+
 
 " カラー設定 {{{1
 "
