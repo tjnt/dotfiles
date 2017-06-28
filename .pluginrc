@@ -55,6 +55,20 @@ Plug 'rhysd/vim-operator-surround', {
       \   '<Plug>(operator-surround-replace)'
       \ ]}
 
+Plug 'kana/vim-textobj-user'
+
+Plug 'kana/vim-textobj-line', {
+      \ 'on': [
+      \   '<Plug>(textobj-line-a)',
+      \   '<Plug>(textobj-line-i)'
+      \ ]}
+
+Plug 'osyo-manga/vim-textobj-multiblock', {
+      \ 'on': [
+      \   '<Plug>(textobj-multiblock-a)',
+      \   '<Plug>(textobj-multiblock-i)'
+      \ ]}
+
 Plug 'kana/vim-smartinput', { 'on': [], 'insert': 1 }
 
 Plug 'tomtom/tcomment_vim'
@@ -256,6 +270,24 @@ if s:plug.is_installed('vim-operator-replace')
   "   Riw 単語をレジスタの文字で置換え
   "   Ri# #で囲まれた範囲をレジスタの文字で置換え
   map <silent>R <Plug>(operator-replace)
+endif
+
+" vim-textobj-line {{{1
+"
+if s:plug.is_installed('vim-textobj-line')
+  omap al <Plug>(textobj-line-a)
+  omap il <Plug>(textobj-line-i)
+  xmap al <Plug>(textobj-line-a)
+  xmap il <Plug>(textobj-line-i)
+endif
+
+" vim-textobj-multiblock {{{1
+"
+if s:plug.is_installed('vim-textobj-multiblock')
+  omap ab <Plug>(textobj-multiblock-a)
+  omap ib <Plug>(textobj-multiblock-i)
+  xmap ab <Plug>(textobj-multiblock-a)
+  xmap ib <Plug>(textobj-multiblock-i)
 endif
 
 " vim-operator-surround {{{1
