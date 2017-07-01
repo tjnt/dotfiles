@@ -747,10 +747,11 @@ augroup END
 " ファイルタイプごとの設定
 augroup _filetype
   au!
-  au FileType c,cpp,cs
+  au FileType c,cpp
         \ setlocal ts=2 sts=0 sw=2
         \ cindent cinoptions=>1s,g0
-  au FileType java
+        \ commentstring=//%s
+  au FileType cs,java
         \ setlocal ts=4 sts=0 sw=4
         \ cindent cinoptions=>1s,j1
   au FileType ruby,perl,lua,vim,javascript
