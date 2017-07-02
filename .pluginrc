@@ -233,7 +233,7 @@ function! s:load_local_plugins(dir)
     Plug pl
   endfor
 endfunction
-call s:load_local_plugins(expand('$VIMLOCAL/plugins_local/*'))
+call s:load_local_plugins('$VIMLOCAL/plugins_local/*')
 
 call plug#end()
 
