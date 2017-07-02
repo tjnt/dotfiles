@@ -506,6 +506,15 @@ if s:plug.is_installed('taglist.vim')
   call s:plug.register_hook('taglist.vim')
 endif
 
+" gtags.vim {{{1
+"
+if s:plug.is_installed('gtags')
+  nnoremap <silent><C-g>j :<C-u>Gtags <C-r><C-w><CR>
+  nnoremap <silent><C-g>k :<C-u>Gtags -r <C-r><C-w><CR>
+  nnoremap <silent><C-g>l :<C-u>Gtags -f %<CR>
+  nnoremap <silent><C-g>g :<C-u>Gtags -g<CR>
+endif
+
 " a.vim {{{1
 "
 if s:plug.is_installed('a.vim')

@@ -651,13 +651,19 @@ command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only(<q-args>, '<
 
 " タグファイル生成
 let g:my.ctags_option = "--recurse=yes --sort=yes"
-function! s:make_tags()
+
+function! s:make_ctags()
   call g:my.bang('ctags ' . g:my.ctags_option)
   if s:has_plugin('neocomplete')
     NeoCompleteTagMakeCache
   endif
 endfunction
-command! -nargs=0 Ctags call <SID>make_tags()
+command! -nargs=0 MakeCtags call <SID>make_ctags()
+
+function! s:make_gtags()
+  call g:my.bang('gtags -q')
+endfunction
+command! -nargs=0 MakeGtags call <SID>make_gtags()
 
 " 行末の不要スペースを削除する
 function! s:rtrim()
@@ -839,16 +845,17 @@ augroup END
 " augroup END
 
 " カレントディレクトリにtagsがある場合は保存時に更新する
-if executable('ctags')
-  function! s:update_tags()
-    if filewritable(getcwd().'/tags') == 1
-      call <SID>make_tags()
-    endif
-  endfunction
-  augroup _update_tags
-    au! BufWritePost * call s:update_tags()
-  augroup END
-endif
+function! s:update_tags()
+  if executable('ctags') && filewritable(getcwd().'/tags')
+    call <SID>make_ctags()
+  endif
+  if executable('gtags') && filewritable(getcwd().'/GTAGS')
+    call <SID>make_gtags()
+  endif
+endfunction
+augroup _update_tags
+  au! BufWritePost * call s:update_tags()
+augroup END
 
 " shファイルの保存時にはファイルのパーミッションを755にする
 if has("unix")
