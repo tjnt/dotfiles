@@ -871,7 +871,15 @@ if has("unix")
 endif
 
 " environment path for c++
-if has("unix")
+if has('win32unix')
+  " mingw64
+  let g:my.cpp_path = [
+    \   '.',
+    \   '/mingw64/include/boost',
+    \   '/mingw64/include/c++/*',
+    \   '/mingw64/include'
+    \ ]
+elseif has("unix")
   let g:my.cpp_path = [
     \   '.',
     \   '/usr/local/include',
@@ -880,17 +888,17 @@ if has("unix")
     \   '/usr/include/*/c++/*',
     \   '/usr/include'
     \ ]
-
-  function! s:set_cpp_path()
-    let wk = []
-    call map(copy(g:my.cpp_path), 'extend(wk, split(glob(v:val), "\n"))')
-    let &l:path = join(filter(wk, 'isdirectory(v:val)'), ',')
-  endfunction
-
-  augroup _cpp_env_path
-    au! FileType c,cpp call <SID>set_cpp_path()
-  augroup END
 endif
+
+function! s:set_cpp_path()
+  let wk = []
+  call map(copy(g:my.cpp_path), 'extend(wk, split(glob(v:val), "\n"))')
+  let &l:path = join(filter(wk, 'isdirectory(v:val)'), ',')
+endfunction
+
+augroup _cpp_env_path
+  au! FileType c,cpp call <SID>set_cpp_path()
+augroup END
 
 " コンソールではカラースキーマ設定時に背景透過
 if !has('gui_running')
