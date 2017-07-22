@@ -906,7 +906,9 @@ if !has('gui_running')
     au!
     au ColorScheme * highlight! Normal ctermbg=none
     au ColorScheme * highlight! NonText ctermbg=none
+    au ColorScheme * highlight! SpecialKey ctermbg=none
     au ColorScheme * highlight! LineNr ctermbg=none
+    au ColorScheme * highlight! EndOfBuffer ctermbg=none
   augroup END
 endif
 
