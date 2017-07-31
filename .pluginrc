@@ -549,6 +549,12 @@ if s:plug.is_installed('ctrlp.vim')
   nnoremap <silent><LEADER>f :<C-u>CtrlPCurWD<CR>
   nnoremap <silent><LEADER>F :<C-u>CtrlPCurFile<CR>
   nnoremap <silent><LEADER>b :<C-u>CtrlPBuffer<CR>
+  let g:ctrlp_prompt_mappings = {
+    \ 'PrtCurLeft()':         ['<left>', '<c-^>'],
+    \ 'PrtBS()':              ['<bs>', '<c-]>', '<c-h>'],
+    \ 'AcceptSelection("h")': ['<c-cr>', '<c-s>'],
+    \ 'PrtDeleteEnt()':       ['<F7>', '<c-x>'],
+    \ }
 endif
 
 " NERDTree {{{1
