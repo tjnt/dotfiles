@@ -546,6 +546,10 @@ if s:plug.is_installed('ctrlp.vim')
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_switch_buffer = ''
   let g:ctrlp_cache_dir = $VIMLOCAL.'/tmp/cache/ctrlp'
+  let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(o|d|so|out|exe|dll)$',
+    \ }
   nnoremap <silent><LEADER>f :<C-u>CtrlPCurWD<CR>
   nnoremap <silent><LEADER>F :<C-u>CtrlPCurFile<CR>
   nnoremap <silent><LEADER>b :<C-u>CtrlPBuffer<CR>
