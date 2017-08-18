@@ -128,6 +128,8 @@ alias mv='mv -iv'
 alias rm='rm -iv'
 alias ln='ln -v'
 alias mkdir='mkdir -p'
+# grep
+alias grep='grep --color'
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
 # other alias
