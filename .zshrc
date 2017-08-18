@@ -151,6 +151,11 @@ bk() {
   cp -rp "$1" "$1_`date +%y%m%d%H%M`"
 }
 
+# calc
+calc() {
+  awk "BEGIN { print $* }"
+}
+
 # ranger
 # Start new ranger instance only if it's not running in current shell
 rg() {
