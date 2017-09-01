@@ -741,6 +741,20 @@ if executable('cvs')
   command! -nargs=0 CvsDiffOnly call <SID>vcs_diff('cvs diff', 1)
 endif
 
+" include guardを挿入する {{{2
+"
+function! <SID>include_guard(...)
+  let file = fnamemodify(expand('%'),':t')
+  let part = substitute(
+        \ toupper(a:0 == 0 ? file : a:1.'_'.file),
+        \ '\.','_','g')
+  let head = '#ifndef '.part."\n#define ".part."\n"
+  let foot = "\n".'#endif // '.part
+  silent! execute '1s/^/\=head'
+  silent! execute '$s/$/\=foot'
+endfunction
+command! -nargs=? IncludeGuard call <SID>include_guard(<f-args>)
+
 " 自動コマンド {{{1
 "
 " テキスト整形設定
