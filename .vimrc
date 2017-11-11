@@ -578,6 +578,7 @@ endfunction
 command! -nargs=0 Openvimrc call <SID>open_rc('vimrc')
 command! -nargs=0 Opengvimrc call <SID>open_rc('gvimrc')
 command! -nargs=0 Openpluginrc call <SID>open_rc('pluginrc')
+command! -nargs=0 Openlocalrc call <SID>open_rc('vimlocal')
 
 " 保存前の状態とdiffをとる
 command! -nargs=0 DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
