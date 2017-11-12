@@ -778,6 +778,8 @@ augroup _filetype
         \ setlocal ts=2 sts=0 sw=2
   au FileType python
         \ setlocal expandtab
+  au FileType haskell
+        \ setlocal ts< sts=2 sw=2
   au FileType html,xml,xhtml
         \ setlocal ts=2 sts=0 sw=2 expandtab
   au FileType mkd,markdown
