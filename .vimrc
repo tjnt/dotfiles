@@ -35,9 +35,9 @@ endif
 " ファイルエンコーディング {{{2
 "
 if has('guess_encode')
-  set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932,utf-8
+  set fileencodings=ucs-bom,guess,euc-jp,cp932,utf-8
 else
-  set fileencodings=ucs-bom,iso-2022-jp,euc-jp,cp932,utf-8
+  set fileencodings=ucs-bom,euc-jp,cp932,utf-8
 endif
 " 新規バッファ生成時のエンコードを指定
 if has('vim_starting')
@@ -578,6 +578,7 @@ endfunction
 command! -nargs=0 Openvimrc call <SID>open_rc('vimrc')
 command! -nargs=0 Opengvimrc call <SID>open_rc('gvimrc')
 command! -nargs=0 Openpluginrc call <SID>open_rc('pluginrc')
+command! -nargs=0 Openlocalrc call <SID>open_rc('vimlocal')
 
 " 保存前の状態とdiffをとる
 command! -nargs=0 DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
