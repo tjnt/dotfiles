@@ -31,7 +31,7 @@ if (g:is_win && executable('mingw32-make')) || (has('unix') && executable('make'
       if g:is_win
         call system('tools\\update-dll-mingw')
       elseif has('win32unix')
-        call system('make -f make_mingw64.mak')
+        call system('make -f make_cygwin.mak')
       else
         call system('make')
       endif
