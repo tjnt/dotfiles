@@ -245,12 +245,7 @@ awesomebutton = awful.widget.launcher({
 app_table = {
   { "urxvt", "/usr/share/icons/gnome/32x32/apps/terminal.png" },
   { "gvim", "/usr/share/icons/hicolor/48x48/apps/gvim.png" },
-  { "firefox", "/usr/share/icons/hicolor/32x32/apps/firefox-esr.png" },
-  -- { "pcmanfm", "/usr/share/icons/gnome/32x32/apps/file-manager.png" },
-  -- { "firefox", "/home/tjnt/.local/share/icons/hicolor/32x32/apps/firefox-nightly.png" },
-  -- { "iceweasel", "/usr/share/icons/hicolor/32x32/apps/iceweasel.png" },
-  -- { "icedove", "/usr/share/icons/hicolor/32x32/apps/icedove.png" },
-
+  { "firefox", "/usr/share/icons/hicolor/32x32/apps/firefox.png" },
 }
 
 mybuttons = wibox.layout.fixed.horizontal()
