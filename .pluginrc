@@ -125,6 +125,10 @@ Plug 'vim-jp/cpp-vim', {
       \ 'for': 'cpp'
       \ }
 
+Plug 'kana/vim-filetype-haskell', {
+      \ 'for': 'haskell'
+      \ }
+
 Plug 'plasticboy/vim-markdown', {
       \ 'for': 'mkd'
       \ }
