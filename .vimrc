@@ -316,11 +316,11 @@ noremap <C-l> <C-w>l
 nnoremap <Tab>   <C-w>w
 nnoremap <S-Tab> <C-w><S-w>
 
-" Ctrl+矢印で分割画面のサイズ変更
-noremap <C-Up>    <C-w>+
-noremap <C-Down>  <C-w>-
-noremap <C-Right> <C-w>>
-noremap <C-Left>  <C-w><
+" 矢印で分割画面のサイズ変更
+noremap <Up>    <C-w>-
+noremap <Down>  <C-w>+
+noremap <Right> <C-w>>
+noremap <Left>  <C-w><
 
 " qでウィンドウを閉じる
 noremap <silent>q :<C-u>close<CR>
