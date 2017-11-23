@@ -150,6 +150,11 @@ if executable('ruby')
   Plug 'NigoroJr/rsense', { 'for': [] }
 endif
 
+if executable('ghc-mod')
+  Plug 'ujihisa/neco-ghc', { 'for': 'haskell' }
+  Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }
+endif
+
 Plug 'Shougo/neosnippet.vim', { 'on': [], 'insert': 1 }
 " Plug 'Shougo/neosnippet-snippets'
 
