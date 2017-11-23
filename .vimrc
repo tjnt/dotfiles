@@ -35,13 +35,9 @@ endif
 " ファイルエンコーディング {{{2
 "
 if has('guess_encode')
-  set fileencodings=ucs-bom,guess,euc-jp,cp932,utf-8
+  set fileencodings=guess,utf-8,cp932,euc-jp
 else
-  set fileencodings=ucs-bom,euc-jp,cp932,utf-8
-endif
-" 新規バッファ生成時のエンコードを指定
-if has('vim_starting')
-  set fileencoding=utf-8
+  set fileencodings=utf-8,cp932,euc-jp
 endif
 " 改行コード
 if g:is_win
