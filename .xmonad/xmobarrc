@@ -1,0 +1,52 @@
+-- -*- mode:haskell -*-
+
+Config {
+    font = "xft: VL PGothic-9:Bold, Unifont, Unifont Upper",
+    bgColor = "#080808",
+    fgColor = "#808080",
+    position = Top,
+    lowerOnStart = False,
+    commands = [
+        Run Network "wlan0" [ "-t",       " ⇩ <rx> : ⇧ <tx>",
+                              "-L",       "40",
+                              "-H",       "200",
+                              "--normal", "#C7F09F",
+                              "--high",   "#d75f5f"
+                            ] 10,
+        Run Cpu             [ "-t",       "🄲 <total>%",
+                              "-L",       "40",
+                              "-H",       "85",
+                              "--normal", "#C7F09F",
+                              "--high",   "#d75f5f"
+                            ] 50,
+        Run Memory          [ "-t",       "🄼 <usedratio>%",
+                              "-L",       "40",
+                              "-H",       "90",
+                              "--normal", "#C7F09F",
+                              "--high",   "#d75f5f"
+                            ] 10,
+        -- Run Brightness      [ "-t", "<ipat>",
+        --                       "--",
+        --                       "--brightness-icon-pattern", "<icon=bright_%%.xpm/>"
+        --                     ] 30,
+        -- Run Volume          "default" "Master" [] 10,
+        Run BatteryP        ["C1CB"]
+                            [ "-t",       "<acstatus>",
+                              "-L",       "20",
+                              "-H",       "80",
+                              "--low",    "#d75f5f",
+                              "--normal", "#C7F09F",
+                              "--",
+                              "-o", "🔋 <left>% (<timeleft>)",
+                              "-O", "🔌 <left>%",
+                              "-i", "🔌 <left>%"
+                             ] 50,
+        Run Date "%a %m/%d %H:%M" "date" 10,
+        Run StdinReader
+      ],
+    sepChar = "%",
+    alignSep = "}{",
+    template = " %StdinReader% }{ %cpu%   %memory%  %wlan0%   %battery%   <fc=#87af5f>%date%</fc> "
+  }
+
+-- vim:set ft=haskell:
