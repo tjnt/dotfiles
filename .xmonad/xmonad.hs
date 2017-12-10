@@ -4,7 +4,8 @@ import XMonad.Actions.CopyWindow(kill1)
 import XMonad.Prompt
 import XMonad.Prompt.Shell(shellPrompt)
 import XMonad.Hooks.DynamicLog
--- import XMonad.Util.Run
+import XMonad.Layout.MultiToggle
+import XMonad.Layout.MultiToggle.Instances
 import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.SpawnOnce
 import ColorScheme.JellyBeans
@@ -12,7 +13,11 @@ import ColorScheme.JellyBeans
 myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
 
+-- Keys
+
 myKeys = [
+    -- toggle fullscreen
+    ("M-f",        sendMessage $ Toggle FULL),
     -- shell prompt
     ("M-p",        shellPrompt myXPConfig),
     -- close window
@@ -22,6 +27,15 @@ myKeys = [
     -- launch
     ("M-<Return>", spawn "urxvt")
   ]
+
+-- Layout
+
+myLayout = tiled ||| Mirror tiled
+  where
+    tiled   = Tall nmaster delta ratio
+    nmaster = 1
+    ratio   = 1/2
+    delta = 3/100
 
 -- xmobar
 
@@ -43,6 +57,7 @@ myPP = xmobarPP {
 toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 
 -- shell prompt
+
 myXPConfig = defaultXPConfig {
                font              = "xft:Ricty Diminished:size=12:antialias=true",
                bgColor           = colorbg,
@@ -70,6 +85,7 @@ myConfig = desktopConfig {
              focusFollowsMouse = True,
              normalBorderColor = color6,
              focusedBorderColor = color1,
+             layoutHook = mkToggle1 FULL $ myLayout,
              startupHook = myStartupHook
            }
            `additionalKeysP` myKeys
