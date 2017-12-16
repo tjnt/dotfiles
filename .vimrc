@@ -776,7 +776,7 @@ augroup _filetype
   au FileType python
         \ setlocal ts< sts=4 sw=4
   au FileType haskell
-        \ setlocal ts< sts=2 sw=2
+        \ setlocal ts< sts=4 sw=4
   au FileType html,xml,xhtml
         \ setlocal ts=2 sts=0 sw=2
   au FileType markdown
