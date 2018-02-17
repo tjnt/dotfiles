@@ -132,6 +132,9 @@ alias mkdir='mkdir -p'
 alias grep='grep --color'
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
+# python
+alias python='python3'
+alias venv='python3 -m venv'
 # other alias
 alias jobs='jobs -l'
 alias dirs='dirs -v'
