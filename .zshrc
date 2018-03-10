@@ -48,8 +48,8 @@ setopt hist_no_store
 # Completion
 #
 # 補完機能を有効にする
-autoload -Uz compinit
-compinit -u
+autoload -U +X compinit && compinit -u
+autoload -U +X bashcompinit && bashcompinit
 # 補完候補を詰めて表示する
 setopt list_packed
 # 末尾のスラッシュを削除しない
@@ -176,6 +176,8 @@ rg() {
 #
 # ctrl-sによる端末ロックを無効化
 stty stop undef
+# stackのサブコマンドを補完する
+eval "$(stack --bash-completion-script stack)"
 
 #-------------------------------------------------
 # tmux
