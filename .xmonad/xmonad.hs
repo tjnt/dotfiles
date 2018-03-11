@@ -17,15 +17,15 @@ myWorkspaces = [ show x | x <- [1..5] ]
 
 myKeys =
     [ -- toggle fullscreen
-      ("M-f",        sendMessage $ Toggle FULL),
+      ("M-f",        sendMessage $ Toggle FULL)
       -- shell prompt
-      ("M-p",        shellPrompt myXPConfig),
+    , ("M-p",        shellPrompt myXPConfig)
       -- close window
-      ("M-c",        kill1),
+    , ("M-c",        kill1)
       -- shutdown
-      ("M-<Esc>",    spawn "sudo shutdown -h now"),
+    , ("M-<Esc>",    spawn "sudo shutdown -h now")
       -- launch
-      ("M-<Return>", spawn "urxvt")
+    , ("M-<Return>", spawn "urxvt")
     ]
 
 -- Layout
