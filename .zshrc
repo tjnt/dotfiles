@@ -176,9 +176,17 @@ rg() {
 #
 # ctrl-sによる端末ロックを無効化
 stty stop undef
+
 # stackのサブコマンドを補完する
 if type -p stack >/dev/null 2>&1; then
   eval "$(stack --bash-completion-script stack)"
+fi
+
+# msys/mingwで補完を有効にする
+if [ ! -v $COMSPEC ]; then
+  drives=$(mount | sed -rn 's#^[A-Z]: on /([a-z]).*#\1#p' | tr '\n' ' ')
+  zstyle ':completion:*' fake-files /: "/:$drives"
+  unset drives
 fi
 
 #-------------------------------------------------
