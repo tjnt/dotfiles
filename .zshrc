@@ -177,7 +177,9 @@ rg() {
 # ctrl-sによる端末ロックを無効化
 stty stop undef
 # stackのサブコマンドを補完する
-eval "$(stack --bash-completion-script stack)"
+if type -p stack >/dev/null 2>&1; then
+  eval "$(stack --bash-completion-script stack)"
+fi
 
 #-------------------------------------------------
 # tmux
