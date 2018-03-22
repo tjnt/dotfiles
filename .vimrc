@@ -771,10 +771,12 @@ augroup _filetype
   au FileType cs,java
         \ setlocal ts=4 sts=0 sw=4
         \ cindent cinoptions=>1s,j1
-  au FileType ruby,python,perl,lua,vim,javascript
+  au FileType ruby,perl,lua,vim,javascript
         \ setlocal ts< sts=2 sw=2
   au FileType python
         \ setlocal ts< sts=4 sw=4
+        \ colorcolumn=79
+        \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
   au FileType haskell
         \ setlocal ts< sts=4 sw=4
   au FileType html,xml,xhtml
