@@ -900,6 +900,8 @@ elseif has("unix")
     \   '/usr/include/*/c++/*',
     \   '/usr/include'
     \ ]
+else
+  let g:my.cpp_path = ['.']
 endif
 
 function! s:set_cpp_path()
