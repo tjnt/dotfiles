@@ -754,16 +754,11 @@ command! -nargs=? IncludeGuard call <SID>include_guard(<f-args>)
 
 " 自動コマンド {{{1
 "
-" テキスト整形設定
-" デフォルトは"tcq"  (参照 :help fo-table)
-augroup _formatoptions
-  au!
-  au FileType * setlocal fo+=l fo+=m fo+=M fo+=B fo-=r fo-=o fo-=t
-augroup END
-
 " ファイルタイプごとの設定
 augroup _filetype
   au!
+  au FileType *
+        \ setlocal fo+=lmMB fo-=rot
   au FileType c,cpp
         \ setlocal ts=2 sts=0 sw=2
         \ cindent cinoptions=>1s,g0
