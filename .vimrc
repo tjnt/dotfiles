@@ -781,6 +781,8 @@ augroup _filetype
         \ setlocal ts< sts=4 sw=4
   au FileType html,xml,xhtml
         \ setlocal ts=2 sts=0 sw=2
+  au FileType make
+        \ setlocal noexpandtab
   au FileType markdown
         \ setlocal list listchars=tab:^\ ,trail:»,nbsp:%
   au FileType markdown
