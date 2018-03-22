@@ -820,18 +820,20 @@ augroup END
 "    let &fileencoding=&encoding
 "  endif
 "endfunction
+
 " VC2005でBOM無しUTF-8を扱うとSJISとして認識されるためBOMを付ける
-function! s:set_utf8_bom()
-  if g:is_win && &fileencoding ==# 'utf-8'
-    set bomb
-  endif
-endfunction
-" バッファオープン時のエンコード再チェック
-augroup _file_enc_check
-  au!
-"  au BufReadPost * call s:file_enc_check()
-  au FileType c,cpp,cs call s:set_utf8_bom()
-augroup END
+" function! s:set_utf8_bom()
+"   if g:is_win && &fileencoding ==# 'utf-8'
+"     set bomb
+"   endif
+" endfunction
+
+" " バッファオープン時のエンコード再チェック
+" augroup _file_enc_check
+"   au!
+" "  au BufReadPost * call s:file_enc_check()
+"   au FileType c,cpp,cs call s:set_utf8_bom()
+" augroup END
 
 " 全角スペースを視覚化
 " function! s:zenkaku_space()
