@@ -1,14 +1,14 @@
+import ColorScheme.JellyBeans
 import XMonad
-import XMonad.Config.Desktop (desktopConfig)
-import XMonad.Actions.CopyWindow(kill1)
-import XMonad.Prompt
-import XMonad.Prompt.Shell(shellPrompt)
+import XMonad.Actions.CopyWindow           (kill1)
+import XMonad.Config.Desktop               (desktopConfig)
 import XMonad.Hooks.DynamicLog
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
-import XMonad.Util.EZConfig(additionalKeysP)
+import XMonad.Prompt
+import XMonad.Prompt.Shell                 (shellPrompt)
+import XMonad.Util.EZConfig                (additionalKeysP)
 import XMonad.Util.SpawnOnce
-import ColorScheme.JellyBeans
 
 myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
