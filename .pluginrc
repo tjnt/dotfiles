@@ -422,15 +422,6 @@ if s:plug.is_installed('vim-smartinput')
   call s:plug.register_hook('vim-smartinput')
 endif
 
-" tcomment.vim {{{1
-"
-if s:plug.is_installed('tcomment_vim')
-  " <LEADER>cでコメントのトグル
-  " 一行コメントは<LEADER>cでトグル
-  let g:tcommentMapLeaderOp1 = '<LEADER>c'
-  let g:tcommentMapLeaderOp2 = '<LEADER>C'
-endif
-
 " vim-quickhl {{{1
 "
 if s:plug.is_installed('vim-quickhl')
