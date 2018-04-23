@@ -6,20 +6,19 @@ Config
     , fgColor = "#808080"
     , position = Top
     , lowerOnStart = False
+    , overrideRedirect = False
+    , sepChar = "%"
+    , alignSep = "}{"
+    , template = " %StdinReader% }{ %cpu% | %memory% | %bright% | %dynnetwork% | %battery% | <fc=#87af5f>%date%</fc> "
     , commands =
-        [ Run Network "wlan0"
-            [ "-t",       " ⇩ <rx> : ⇧ <tx>"
-            , "-L",       "40"
-            , "-H",       "200"
-            , "--normal", "#C7F09F"
-            , "--high",   "#d75f5f"
-            ] 10
+        [ Run StdinReader
         , Run Cpu
             [ "-t",       "🄲 <total>%"
             , "-L",       "40"
             , "-H",       "85"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
+            , "-w",       "3"
             ] 50
         , Run Memory
             [ "-t",       "🄼 <usedratio>%"
@@ -27,30 +26,37 @@ Config
             , "-H",       "90"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
+            , "-w",       "3"
             ] 10
-          -- Run Brightness
-          --   [ "-t", "<ipat>"
-          --     "--"
-          --     "--brightness-icon-pattern", "<icon=bright_%%.xpm/>"
-          --     ] 30
-          -- Run Volume "default" "Master" [] 10
-        , Run BatteryP ["C1CB"]
+        , Run DynNetwork
+            [ "-t",       " ⇩ <rx> : ⇧ <tx>"
+            , "-L",       "40"
+            , "-H",       "200"
+            , "--normal", "#C7F09F"
+            , "--high",   "#d75f5f"
+            , "-w",       "4"
+            ] 10
+        , Run Brightness
+            [ "-t",       "💡 <percent>"
+            , "-w",       "3"
+            , "--"
+            , "-D",       "intel_backlight"
+            ] 30
+        -- , Run Volume "default" "Master" [] 10
+        , Run Battery
             [ "-t",       "<acstatus>"
             , "-L",       "20"
             , "-H",       "80"
             , "--low",    "#d75f5f"
             , "--normal", "#C7F09F"
+            , "-w",       "3"
             , "--"
-            , "-o", "🔋 <left>% (<timeleft>)"
-            , "-O", "🔌 <left>%"
-            , "-i", "🔌 <left>%"
+            , "-o",       "🔋 <left>% (<timeleft>)"
+            , "-O",       "🔌 <left>%"
+            , "-i",       "🔌 <left>%"
             ] 50
         , Run Date "%a %m/%d %H:%M" "date" 10
-        , Run StdinReader
         ]
-    , sepChar = "%"
-    , alignSep = "}{"
-    , template = " %StdinReader% }{ %cpu%   %memory%  %wlan0%   %battery%   <fc=#87af5f>%date%</fc> "
   }
 
 -- vim:set ft=haskell:
