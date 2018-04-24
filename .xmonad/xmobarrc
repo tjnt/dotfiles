@@ -19,7 +19,7 @@ Config
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
             , "-w",       "3"
-            ] 50
+            ] 10
         , Run Memory
             [ "-t",       "🄼 <usedratio>%"
             , "-L",       "40"
@@ -41,7 +41,7 @@ Config
             , "-w",       "3"
             , "--"
             , "-D",       "intel_backlight"
-            ] 30
+            ] 10
         -- , Run Volume "default" "Master" [] 10
         , Run Battery
             [ "-t",       "<acstatus>"
