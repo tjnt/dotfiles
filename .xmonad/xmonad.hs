@@ -1,15 +1,18 @@
-import ColorScheme.JellyBeans
-import XMonad
-import XMonad.Actions.CopyWindow           (kill1)
-import XMonad.Config.Desktop               (desktopConfig)
-import XMonad.Hooks.DynamicLog
-import XMonad.Layout.MultiToggle
-import XMonad.Layout.MultiToggle.Instances
-import XMonad.Prompt
-import XMonad.Prompt.Shell                 (shellPrompt)
-import XMonad.Util.EZConfig                (additionalKeysP)
-import XMonad.Util.SpawnOnce
-import XMonad.Util.Run                     (runProcessWithInput)
+import           ColorScheme.JellyBeans
+import           XMonad
+import           XMonad.Actions.CopyWindow           (kill1)
+import           XMonad.Config.Desktop               (desktopConfig)
+import           XMonad.Hooks.DynamicLog
+import           XMonad.Layout.Gaps
+import           XMonad.Layout.MultiToggle
+import           XMonad.Layout.MultiToggle.Instances
+import           XMonad.Layout.ResizableTile
+import           XMonad.Layout.Spacing
+import           XMonad.Prompt
+import           XMonad.Prompt.Shell                 (shellPrompt)
+import           XMonad.Util.EZConfig                (additionalKeysP)
+import           XMonad.Util.Run                     (runProcessWithInput)
+import           XMonad.Util.SpawnOnce
 
 myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
@@ -50,19 +53,21 @@ myKeys =
 
 -- Layout
 
-myLayout = tiled ||| Mirror tiled
-  where
-    tiled   = Tall nmaster delta ratio
-    nmaster = 1
-    ratio   = 1/2
-    delta = 3/100
+gwU = (U, 2)
+gwD = (D, 2)
+gwL = (L, 4)
+gwR = (R, 4)
+
+myLayout = spacing 2 $ gaps [gwU, gwD, gwL, gwR]
+           $ (ResizableTall 1 (3/100) (3/5) [])
+           ||| Mirror (Tall 1 (3/100) (1/2))
 
 -- xmobar
 
 myBar = "xmobar $HOME/.xmonad/xmobarrc"
 
 myPP = xmobarPP
-    { ppOrder           = \(ws:l:t:_)  -> [ws, l, t]
+    { ppOrder           = \(ws:l:t:_)  -> [ws, t]
     , ppCurrent         = xmobarColor color1 colorbg . \s -> "●"
     , ppUrgent          = xmobarColor color6 colorbg . \s -> "●"
     , ppVisible         = xmobarColor color1 colorbg . \s -> "⦿"
