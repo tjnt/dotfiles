@@ -9,9 +9,26 @@ import XMonad.Prompt
 import XMonad.Prompt.Shell                 (shellPrompt)
 import XMonad.Util.EZConfig                (additionalKeysP)
 import XMonad.Util.SpawnOnce
+import XMonad.Util.Run                     (runProcessWithInput)
 
 myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
+
+-- Functions
+
+brightnessCtrl :: Int -> X ()
+brightnessCtrl param = do
+    maxV <- fmap read $ runProcessWithInput "cat" [ fileMax ] []
+    curV <- fmap read $ runProcessWithInput "cat" [ fileCur ] []
+    let step = maxV `div` 100
+        minV = step * 10
+        value = curV + step * param
+        ajust = max minV $ min maxV value
+    spawn $ "echo " ++ (show ajust) ++ " | sudo tee " ++ fileCur ++ " > /dev/null"
+  where
+    prefix = "/sys/class/backlight/intel_backlight/"
+    fileMax = prefix ++ "max_brightness"
+    fileCur = prefix ++ "brightness"
 
 -- Keys
 
@@ -26,6 +43,9 @@ myKeys =
     , ("M-<Esc>",    spawn "sudo shutdown -h now")
       -- launch
     , ("M-<Return>", spawn "urxvt")
+      -- brightness control
+    , ("<XF86MonBrightnessUp>",   brightnessCtrl 10)
+    , ("<XF86MonBrightnessDown>", brightnessCtrl (-10))
     ]
 
 -- Layout
