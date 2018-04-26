@@ -134,6 +134,8 @@ alias grep='grep --color'
 alias sudo='sudo '
 # python
 alias python='python3'
+alias pip='python3 -m pip'
+alias pdb='python3 -m pdb'
 alias venv='python3 -m venv'
 # other alias
 alias jobs='jobs -l'
