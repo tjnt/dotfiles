@@ -1,7 +1,7 @@
 -- -*- mode:haskell -*-
 
 Config
-    { font = "xft: VL PGothic-9:Bold, Unifont, Unifont Upper"
+    { font = "xft: VL Gothic-9:Bold, Unifont, Unifont Upper"
     , bgColor = "#080808"
     , fgColor = "#808080"
     , position = Top
@@ -9,7 +9,7 @@ Config
     , overrideRedirect = False
     , sepChar = "%"
     , alignSep = "}{"
-    , template = " %StdinReader% }{ %cpu% | %memory% | %bright% | %dynnetwork% | %battery% | <fc=#87af5f>%date%</fc> "
+    , template = " %StdinReader% }{ %cpu% | %memory% | %bright% | %volume% | %dynnetwork% | %battery% | <fc=#87af5f>%date%</fc> "
     , commands =
         [ Run StdinReader
         , Run Cpu
@@ -29,12 +29,12 @@ Config
             , "-w",       "3"
             ] 10
         , Run DynNetwork
-            [ "-t",       " ⇩ <rx> : ⇧ <tx>"
+            [ "-t",       "⇩ <rx> : ⇧ <tx>"
             , "-L",       "40"
             , "-H",       "200"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
-            , "-w",       "4"
+            , "-w",       "3"
             ] 10
         , Run Brightness
             [ "-t",       "💡 <percent>"
@@ -42,7 +42,13 @@ Config
             , "--"
             , "-D",       "intel_backlight"
             ] 10
-        -- , Run Volume "default" "Master" [] 10
+        , Run Com "/bin/bash"
+            [ "-c"
+            , "amixer get Master | awk -F'[]%[]' '/%/ {
+                 if ($7 == \"off\") { printf \"🔇%5s\", \"\" }
+                 else { printf \"🔉%4d%%\", $2 } }'"
+            ]
+            "volume" 10
         , Run Battery
             [ "-t",       "<acstatus>"
             , "-L",       "20"
