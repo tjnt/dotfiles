@@ -110,6 +110,7 @@ myConfig = desktopConfig
     , focusFollowsMouse = True
     , normalBorderColor = color6
     , focusedBorderColor = color1
+    , borderWidth = 4
     , layoutHook = mkToggle1 FULL $ myLayout
     , startupHook = myStartupHook
     }
