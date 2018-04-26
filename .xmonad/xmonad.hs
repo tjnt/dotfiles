@@ -50,6 +50,10 @@ myKeys =
       -- brightness control
     , ("<XF86MonBrightnessUp>",   brightnessCtrl 10)
     , ("<XF86MonBrightnessDown>", brightnessCtrl (-10))
+    -- volume control
+    , ("<XF86AudioRaiseVolume>", spawn "amixer -q set Master playback 10%+")
+    , ("<XF86AudioLowerVolume>", spawn "amixer -q set Master playback 10%-")
+    , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
     ]
 
 -- Layout
