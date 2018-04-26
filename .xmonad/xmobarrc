@@ -9,7 +9,7 @@ Config
     , overrideRedirect = False
     , sepChar = "%"
     , alignSep = "}{"
-    , template = " %StdinReader% }{ %cpu% | %memory% | %bright% | %volume% | %dynnetwork% | %battery% | <fc=#87af5f>%date%</fc> "
+    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %bright% | %volume% | %battery% | <fc=#87af5f>%date%</fc> "
     , commands =
         [ Run StdinReader
         , Run Cpu
