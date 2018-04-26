@@ -7,13 +7,13 @@ import           XMonad.Hooks.ManageDocks    (avoidStruts)
 import           XMonad.Layout.Gaps
 import           XMonad.Layout.NoBorders     (noBorders)
 import           XMonad.Layout.ResizableTile
-import           XMonad.Layout.Spacing
+import           XMonad.Layout.Spacing       (spacing)
 import           XMonad.Layout.ToggleLayouts
 import           XMonad.Prompt
 import           XMonad.Prompt.Shell         (shellPrompt)
 import           XMonad.Util.EZConfig        (additionalKeysP)
 import           XMonad.Util.Run             (runProcessWithInput)
-import           XMonad.Util.SpawnOnce
+import           XMonad.Util.SpawnOnce       (spawnOnce)
 
 myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
