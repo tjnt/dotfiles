@@ -1,17 +1,18 @@
 import           ColorScheme.JellyBeans
 import           XMonad
-import           XMonad.Actions.CopyWindow           (kill1)
-import           XMonad.Config.Desktop               (desktopConfig)
+import           XMonad.Actions.CopyWindow   (kill1)
+import           XMonad.Config.Desktop       (desktopConfig)
 import           XMonad.Hooks.DynamicLog
+import           XMonad.Hooks.ManageDocks    (avoidStruts)
 import           XMonad.Layout.Gaps
-import           XMonad.Layout.MultiToggle
-import           XMonad.Layout.MultiToggle.Instances
+import           XMonad.Layout.NoBorders     (noBorders)
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.Spacing
+import           XMonad.Layout.ToggleLayouts
 import           XMonad.Prompt
-import           XMonad.Prompt.Shell                 (shellPrompt)
-import           XMonad.Util.EZConfig                (additionalKeysP)
-import           XMonad.Util.Run                     (runProcessWithInput)
+import           XMonad.Prompt.Shell         (shellPrompt)
+import           XMonad.Util.EZConfig        (additionalKeysP)
+import           XMonad.Util.Run             (runProcessWithInput)
 import           XMonad.Util.SpawnOnce
 
 myModMask = mod4Mask
@@ -37,7 +38,7 @@ brightnessCtrl param = do
 
 myKeys =
     [ -- toggle fullscreen
-      ("M-f",        sendMessage $ Toggle FULL)
+      ("M-f",        sendMessage $ ToggleLayout)
       -- shell prompt
     , ("M-p",        shellPrompt myXPConfig)
       -- close window
@@ -111,7 +112,7 @@ myConfig = desktopConfig
     , normalBorderColor = color6
     , focusedBorderColor = color1
     , borderWidth = 4
-    , layoutHook = mkToggle1 FULL $ myLayout
+    , layoutHook = toggleLayouts (noBorders Full) $ avoidStruts $ myLayout
     , startupHook = myStartupHook
     }
     `additionalKeysP` myKeys
