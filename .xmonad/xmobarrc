@@ -45,8 +45,8 @@ Config
         , Run Com "/bin/bash"
             [ "-c"
             , "amixer get Master | awk -F'[]%[]' '/%/ {
-                 if ($7 == \"off\") { printf \"🔇%5s\", \"\" }
-                 else { printf \"🔉%4d%%\", $2 } }'"
+                 if ($5 == \"off\") { printf \"🔇%4d%%\", $2 }
+                 else { printf \"🔉%4d%%\", $2 } exit }'"
             ]
             "volume" 10
         , Run Battery
