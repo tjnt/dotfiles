@@ -1,7 +1,7 @@
 -- -*- mode:haskell -*-
 
 Config
-    { font = "xft: VL Gothic-9:Bold, Unifont, Unifont Upper"
+    { font = "xft: VL Gothic-12:Bold, Unifont-12, Unifont Upper-12"
     , bgColor = "#080808"
     , fgColor = "#808080"
     , position = Top
