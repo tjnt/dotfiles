@@ -95,7 +95,7 @@ myXPConfig = defaultXPConfig
     , promptBorderWidth = 0
     , position          = Top
     , alwaysHighlight   = True
-    , height            = 20
+    , height            = 24
     }
 
 -- startup hook
