@@ -173,6 +173,13 @@ rg() {
   fi
 }
 
+# anacondaをパスに追加してプロンプトを変える
+anaconda() {
+  path=($HOME/.local/anaconda3/bin(N-/) $path)
+  PROMPT="%Banaconda:%~%#%b "
+  unset -f anaconda
+}
+
 #-------------------------------------------------
 # その他の設定
 #
