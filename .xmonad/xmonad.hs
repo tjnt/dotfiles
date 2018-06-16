@@ -44,7 +44,7 @@ myKeys =
       -- close window
     , ("M-c",        kill1)
       -- shutdown
-    , ("M-<Esc>",    spawn "sudo shutdown -h now")
+    , ("M-S-<Esc>",  spawn "sudo shutdown -h now")
       -- launch
     , ("M-<Return>", spawn "urxvt")
       -- brightness control
