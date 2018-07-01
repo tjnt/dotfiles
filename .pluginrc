@@ -945,21 +945,6 @@ if s:plug.is_installed('vim-quickrun')
           \   'exec': '%s %a',
           \ }
 
-    " SQL
-    let g:quickrun_config['sql'] = {
-          \   'type':
-          \     g:is_win && executable('sqlcmd') ? 'sql/sqlserver' : '',
-          \ }
-
-    " SQLServer
-    let g:quickrun_config['sql/sqlserver'] = {
-          \   'command': 'sqlcmd',
-          \   'cmdopt': '-S "localhost\SQLEXPRESS" -W',
-          \   'exec': '%C %o -i "%S"',
-          \   'runner': 'system',
-          \   'hook/output_encode/encoding': 'sjis',
-          \ }
-
     " xml
     let g:quickrun_config['xml'] = {
           \   'type': 'open_browser',
