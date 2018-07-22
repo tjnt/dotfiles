@@ -554,6 +554,11 @@ endif
 " ctrlp.vim {{{1
 "
 if s:plug.is_installed('ctrlp.vim')
+  if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  endif
+
   let g:ctrlp_map = '<Nop>'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_switch_buffer = ''
