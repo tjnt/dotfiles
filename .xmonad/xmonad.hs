@@ -46,7 +46,7 @@ myKeys =
       -- shutdown
     , ("M-S-<Esc>",  spawn "sudo shutdown -h now")
       -- launch
-    , ("M-<Return>", spawn "urxvt")
+    , ("M-S-<Return>", spawn "urxvt")
       -- brightness control
     , ("<XF86MonBrightnessUp>",   brightnessCtrl 10)
     , ("<XF86MonBrightnessDown>", brightnessCtrl (-10))
