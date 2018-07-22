@@ -117,6 +117,10 @@ if executable('ctags')
       \ }
 endif
 
+if executable('ag')
+  Plug 'mileszs/ack.vim'
+endif
+
 if has('lua')
   Plug 'Shougo/neocomplete.vim', { 'on': [], 'insert': 1 }
 endif
@@ -549,6 +553,12 @@ if s:plug.is_installed('a.vim')
   endfunction
 
   call s:plug.register_hook('a.vim')
+endif
+
+" ack.vim {{{1
+"
+if s:plug.is_installed('ack.vim')
+  let g:ackprg = "ag --vimgrep"
 endif
 
 " ctrlp.vim {{{1
