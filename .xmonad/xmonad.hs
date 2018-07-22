@@ -102,9 +102,9 @@ myXPConfig = defaultXPConfig
 
 myStartupHook = do
     spawn "rm -f $HOME/.xmonad/xmonad.state"
-    spawnOnce "feh --randomize --bg-scale $HOME/.wallpaper/*"
+    spawnOnce "feh --randomize --bg-fill $HOME/.wallpaper/*"
+    spawnOnce "dropbox start"
     -- spawnOnce "conky -bd"
-    -- spawnOnce "dropbox start"
 
 -- main
 
