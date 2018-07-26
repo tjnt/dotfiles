@@ -784,6 +784,13 @@ augroup _filetype
         \ highlight! link SpecialKey Identifier
 augroup END
 
+" 拡張子によるファイルタイプの自動決定
+augroup _detect_filetype
+  au!
+  au BufRead,BufNewFile *.jsp,*.vm,*.ftl,*.mustache
+        \ setfiletype html
+augroup END
+
 " ファイルを開いた時にカーソル位置を復元する
 augroup _restore_cursor
   au! BufReadPost *
