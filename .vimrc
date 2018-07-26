@@ -858,6 +858,12 @@ augroup END
 "   au! BufWritePre *.c,*.cpp,*.rb,*.php,*.js,*.vim,*.bat call s:rtrim()
 " augroup END
 
+augroup _close_tag
+  au!
+  au Filetype xml inoremap <buffer> </ </<C-x><C-o>
+  au Filetype html inoremap <buffer> </ </<C-x><C-o>
+augroup END
+
 " カレントディレクトリにtagsがある場合は保存時に更新する
 function! s:update_tags()
   if executable('ctags') && filewritable(getcwd().'/tags')
