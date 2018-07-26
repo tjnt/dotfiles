@@ -861,8 +861,7 @@ augroup END
 " 閉じタグの自動挿入
 augroup _close_tag
   au!
-  au Filetype xml inoremap <buffer> </ </<C-x><C-o>
-  au Filetype html inoremap <buffer> </ </<C-x><C-o>
+  au Filetype xml,html,xhtml inoremap <buffer> </ </<C-x><C-o>
 augroup END
 
 " カレントディレクトリにtagsがある場合は保存時に更新する
