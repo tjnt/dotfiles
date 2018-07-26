@@ -858,6 +858,7 @@ augroup END
 "   au! BufWritePre *.c,*.cpp,*.rb,*.php,*.js,*.vim,*.bat call s:rtrim()
 " augroup END
 
+" 閉じタグの自動挿入
 augroup _close_tag
   au!
   au Filetype xml inoremap <buffer> </ </<C-x><C-o>
