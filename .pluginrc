@@ -572,7 +572,7 @@ if s:plug.is_installed('ctrlp.vim')
   let g:ctrlp_map = '<Nop>'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_switch_buffer = ''
-  let g:ctrlp_cache_dir = $VIMLOCAL.'/tmp/cache/ctrlp'
+  let g:ctrlp_cache_dir = $CACHE_ROOT.'/ctrlp'
   let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](\.git|\.hg|\.svn|bin|build|target)$',
     \ 'file': '\v\.(o|d|so|out|exe|dll)$',
@@ -653,7 +653,7 @@ if s:plug.is_installed('neocomplete.vim')
     "         \ }
 
     " cache directory
-    let g:neocomplete#data_directory = $VIMLOCAL.'/tmp/cache/neocomplete'
+    let g:neocomplete#data_directory = $CACHE_ROOT.'/neocomplete'
 
     " Define keyword.
     if !exists('g:neocomplete#keyword_patterns')
@@ -712,7 +712,7 @@ endif
 if s:plug.is_installed('neosnippet.vim')
   function! s:plug_neosnippet_vim()
     " cache directory
-    let g:neosnippet#data_directory = $VIMLOCAL.'/tmp/cache/neosnippet'
+    let g:neosnippet#data_directory = $CACHE_ROOT.'/neosnippet'
     " For snippet_complete marker.
     if has('conceal')
       set conceallevel=2 concealcursor=i
@@ -1077,7 +1077,7 @@ if s:plug.is_installed('vim-ref')
 
   function! s:plug_vim_ref()
     " キャッシュディレクトリ
-    let g:ref_cache_dir = $VIMLOCAL.'/tmp/cache/vim_ref_cache'
+    let g:ref_cache_dir = $CACHE_ROOT.'/vim_ref_cache'
     let g:ref_refe_encoding = 'utf-8'
   endfunction
 

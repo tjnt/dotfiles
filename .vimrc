@@ -30,6 +30,7 @@ if has('vim_starting')
       let $PATH = $PATH.';'.expand('$VIMLOCAL/bin')
     endif
   endif
+  let $CACHE_ROOT = expand('$HOME/.cache/vim')
 endif
 
 " ファイルエンコーディング {{{2
@@ -155,13 +156,13 @@ set autoread
 " バックアップファイルを作成する
 set backup
 " バックアップファイルディレクトリ
-set backupdir=$VIMLOCAL/tmp/backup
+set backupdir=$CACHE_ROOT/backup
 " スワップファイルの保存先
-let &directory=$VIMLOCAL.'/tmp/swap'
+set directory=$CACHE_ROOT/swap
 " 再読込、vim終了後も継続するアンドゥ
 if has('persistent_undo')
   set undofile
-  set undodir=$VIMLOCAL/tmp/undo
+  set undodir=$CACHE_ROOT/undo
 endif
 
 " その他 {{{2
