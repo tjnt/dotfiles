@@ -89,13 +89,13 @@ toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 -- shell prompt
 
 myXPConfig = defaultXPConfig
-    { font              = "xft:VL Gothic-9:Bold:antialias=true"
+    { font              = "xft:VL Gothic-10"
     , bgColor           = colorbg
     , fgColor           = colorfg
     , promptBorderWidth = 0
     , position          = Top
     , alwaysHighlight   = True
-    , height            = 24
+    , height            = 28
     }
 
 -- startup hook
