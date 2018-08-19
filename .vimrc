@@ -521,7 +521,7 @@ function! s:toggle_window_size()
     let t:toggle_window_size = 1
   endif
 endfunction
-nnoremap <C-m> :<C-u>call <SID>toggle_window_size()<CR>
+nnoremap <C-w><C-f> :<C-u>call <SID>toggle_window_size()<CR>
 
 " smooth scroll (smooth_scroll.vim) {{{2
 "
