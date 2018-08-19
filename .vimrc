@@ -508,6 +508,21 @@ vnoremap gv :<C-u>call <SID>easy_grep(1, 'vsplit')
 " ビジュアルモード選択中文字列をgrep → 新しいタブで開く
 vnoremap gt :<C-u>call <SID>easy_grep(1, 'tabnew')
 
+" 分割ウィンドウを一時的に最大化する {{{2
+" https://qiita.com/grohiro/items/e3dbcc93510bc8c4c812
+function! s:toggle_window_size()
+  let t:toggle_window_size = get(t:, 'toggle_window_size', 0)
+  if t:toggle_window_size == 1
+    exec "normal \<C-w>="
+    let t:toggle_window_size = 0
+  else
+    :resize
+    :vertical resize
+    let t:toggle_window_size = 1
+  endif
+endfunction
+nnoremap <C-m> :<C-u>call <SID>toggle_window_size()<CR>
+
 " smooth scroll (smooth_scroll.vim) {{{2
 "
 " 重く感じるので無効...
