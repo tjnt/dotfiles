@@ -217,6 +217,13 @@ Plug 'vim-scripts/a.vim', {
 
 Plug 'osyo-manga/vim-marching', { 'for': 'cpp' }
 
+" Python
+if executable('python') && has('python3')
+  Plug 'davidhalter/jedi-vim', {
+        \ 'for': [ 'python' ]
+        \ }
+endif
+
 " Ruby
 if executable('ruby')
   Plug 'NigoroJr/rsense', { 'for': [] }
@@ -825,6 +832,39 @@ if s:plug.is_installed('javacomplete')
   endfunction
 
   call s:plug.register_hook('javacomplete')
+endif
+
+" jedi-vim {{{1
+"
+if s:plug.is_installed('jedi-vim')
+  function! s:plug_jedi_vim()
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#completions_enabled = 0
+    let g:jedi#goto_command = '<leader>D'
+    let g:jedi#goto_assignments_command = '<leader>G'
+    let g:jedi#rename_command = '<leader>R'
+    let g:jedi#usages_command = '<leader>N'
+
+    if s:plug.is_installed('neocomplete.vim')
+      if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+      endif
+      let g:neocomplete#force_omni_input_patterns.python =
+            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+    endif
+
+    augroup _jedi_vim
+      au! FileType python setlocal omnifunc=jedi#completions
+            \ completeopt-=preview
+    augroup END
+
+    " for anaconda
+    if $ANACONDA == 1
+      let g:jedi#force_py_version=3.7
+    endif
+  endfunction
+
+  call s:plug.register_hook('jedi-vim')
 endif
 
 " rsense {{{1

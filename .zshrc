@@ -177,6 +177,7 @@ rg() {
 anaconda() {
   path=($HOME/.local/anaconda3/bin(N-/) $path)
   PROMPT="%Banaconda:%~%#%b "
+  export ANACONDA=1
   unset -f anaconda
 }
 
