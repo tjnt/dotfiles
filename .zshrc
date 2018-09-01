@@ -16,11 +16,12 @@ colors
 
 # プロンプト
 prompt() {
+  local user=${1:-'%n'}
   local c1='009', c2='104', c3='084', c4='196'
   local mark="%B%F{${c1}}%# %f%b"
-  local userhost="%B%F{${c1}}%n@%m:%f%b"
+  local userhost="%B%F{${c1}}${user}@%m:%f%b"
   local location="%B%F{$c2}%~%f%b"
-  local number_of_jobs="%(1j.%F{${c1}} | %f%F{${c3}}%B%j%b%f.)"
+  local number_of_jobs="%(1j.%F{${c1}} | %f%B%F{${c3}}%j%b%f.)"
   local status_code="%(?,,%F{${c1}} > %f%B%F{${c4}}%?%f%b)"
   PROMPT="${userhost}${location}${number_of_jobs}${status_code}
 ${mark}"
@@ -188,7 +189,7 @@ rg() {
 # anacondaをパスに追加してプロンプトを変える
 anaconda() {
   path=($HOME/.local/anaconda3/bin(N-/) $path)
-  PROMPT="%Banaconda:%~%#%b "
+  prompt 'anaconda'
   export ANACONDA=1
   unset -f anaconda
 }
