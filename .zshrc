@@ -124,6 +124,7 @@ bindkey '^R' history-incremental-pattern-search-backward
 # ls
 eval "`dircolors -b`"
 alias ls='ls --color=auto'
+alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
 alias lf='ls -F'
