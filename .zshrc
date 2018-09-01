@@ -14,16 +14,28 @@ umask 022
 autoload -Uz colors
 colors
 
-# 左プロンプト
-if [ ${UID} = 0 ]; then
-  # PROMPT="%{$fg_bold[red]%}%n@%m:%~%#%{$reset_color%} "
-  PROMPT="%F{red}%B%n@%m:%~%#%b%f "
-else
-  PROMPT="%B%n@%m:%~%#%b "
-fi
-# 右プロンプト
-# RPROMPT='%B%~%b'
-# RPROMPT="%(?.%F{green}%Bヾ（ﾟω ﾟ）ﾉﾞ%b%f.%F{red}%Bヾ（ﾟд ﾟ）ﾉﾞ%b%f)"
+# プロンプト
+prompt() {
+  local c1='009', c2='104', c3='084', c4='196'
+  local mark="%B%F{${c1}}%# %f%b"
+  local userhost="%B%F{${c1}}%n@%m:%f%b"
+  local location="%B%F{$c2}%~%f%b"
+  local number_of_jobs="%(1j.%F{${c1}} | %f%F{${c3}}%B%j%b%f.)"
+  local status_code="%(?,,%F{${c1}} > %f%B%F{${c4}}%?%f%b)"
+  PROMPT="${userhost}${location}${number_of_jobs}${status_code}
+${mark}"
+
+  autoload -Uz vcs_info
+  setopt prompt_subst
+  zstyle ':vcs_info:git:*' check-for-changes true
+  zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+  zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+  zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
+  zstyle ':vcs_info:*' actionformats '[%b|%a]'
+  precmd () { vcs_info }
+  RPROMPT=$RPROMPT'${vcs_info_msg_0_}'
+}
+prompt
 
 #-------------------------------------------------
 # History
