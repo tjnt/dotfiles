@@ -3,7 +3,6 @@
 #-------------------------------------------------
 # PATH
 #
-# 重複したパスを登録しない
 typeset -U path
 
 path=($HOME/.local/bin(N-/) $path)
@@ -14,7 +13,6 @@ if type rbenv > /dev/null 2>&1 ; then
 fi
 
 #-------------------------------------------------
-# 環境変数
 #
 export EDITOR=vim
 # if type -p lv >/dev/null 2>&1; then
