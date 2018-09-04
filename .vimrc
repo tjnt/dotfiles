@@ -414,6 +414,12 @@ noremap <silent><C-n><C-n> :<C-u>call <SID>quickfix_operation('d')<CR>
 " Ctrl+p Ctrl+p QuickFixで前へ
 noremap <silent><C-p><C-p> :<C-u>call <SID>quickfix_operation('u')<CR>
 
+" terminal関連 {{{2
+"
+set termwinkey=<C-q>
+" ESCでノーマルモードに移行
+tnoremap <Esc> <C-q><S-n>
+
 " 設定トグル {{{2
 "
 " 設定トグルのprefix
