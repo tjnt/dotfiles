@@ -194,7 +194,8 @@ anaconda() {
 #-------------------------------------------------
 # その他の設定
 #
-# ctrl-sによる端末ロックを無効化
+# 画面出力のstart/stopを無効化
+stty start undef
 stty stop undef
 
 # stackのサブコマンドを補完する
