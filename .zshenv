@@ -3,9 +3,15 @@
 #-------------------------------------------------
 # PATH
 #
-typeset -U path
-
 path=($HOME/.local/bin(N-/) $path)
+
+if [ -z "${ld_library_path}" ]; then
+  typeset -T LD_LIBRARY_PATH ld_library_path
+fi
+ld_library_path=(${HOME}/.local/lib(N-/) $ld_library_path)
+
+typeset -U path ld_library_path
+export PATH LD_LIBRARY_PATH
 
 # rbenv initialize
 if type rbenv > /dev/null 2>&1 ; then
@@ -15,10 +21,9 @@ fi
 #-------------------------------------------------
 #
 export EDITOR=vim
-# if type -p lv >/dev/null 2>&1; then
-#   export PAGER=lv
-# else
-#   export PAGER=less
-# fi
+export CVSEDITOR="${EDITOR}"
+export SVN_EDITOR="${EDITOR}"
+export GIT_EDITOR="${EDITOR}"
+export PAGER=less
 
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
