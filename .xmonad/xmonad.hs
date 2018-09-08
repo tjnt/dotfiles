@@ -46,7 +46,7 @@ myKeys =
       -- shutdown
     , ("M-S-<Esc>",  spawn "sudo shutdown -h now")
       -- launch
-    , ("M-S-<Return>", spawn "urxvt")
+    , ("M-S-<Return>", spawn "termite")
       -- brightness control
     , ("<XF86MonBrightnessUp>",   brightnessCtrl 10)
     , ("<XF86MonBrightnessDown>", brightnessCtrl (-10))
@@ -110,7 +110,7 @@ myStartupHook = do
 
 myConfig = desktopConfig
     { modMask = myModMask
-    , terminal = "urxvt"
+    , terminal = "termite"
     , workspaces = myWorkspaces
     , focusFollowsMouse = True
     , normalBorderColor = color6
