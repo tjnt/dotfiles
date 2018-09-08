@@ -1004,6 +1004,48 @@ endif
 " .pluginrcが存在する場合は読み込む
 call s:source_ifexists(s:rc_path('pluginrc'))
 
+" カラースキーマ {{{1
+"
+let s:color_roller = {}
+let s:color_roller.colors = [
+      \ 'jellybeans',
+      \ 'molokai',
+      \ 'wombat256',
+      \ 'lucius',
+      \ 'rootwater',
+      \ 'candycode',
+      \ 'elflord',
+      \ ]
+
+function! s:color_roller.change()
+  let color = get(self.colors, 0)
+  silent exe 'colorscheme '.color
+  redraw
+  echon self.colors
+endfunction
+
+function! s:color_roller.roll()
+  let item = remove(self.colors, 0)
+  call insert(self.colors, item, len(self.colors))
+  call self.change()
+endfunction
+
+function! s:color_roller.unroll()
+  let item = remove(self.colors, -1)
+  call insert(self.colors, item, 0)
+  call self.change()
+endfunction
+
+command! -nargs=0 ColorRoll call s:color_roller.roll()
+command! -nargs=0 ColorUnroll call s:color_roller.unroll()
+
+" ColorRollerの先頭をデフォルトのカラースキーマとして使用する
+try
+  silent exe "colorscheme ".s:color_roller.colors[0]
+catch
+  colorscheme default
+endtry
+
 " 起動前処理 {{{1
 "
 " ディレクトリ作成 (vim-user.jp hack-202)
@@ -1020,19 +1062,6 @@ if has('vim_starting')
   call s:auto_mkdir(&directory, 1)
   if has('persistent_undo')
     call s:auto_mkdir(&undodir, 1)
-  endif
-endif
-
-" コンソールでのカラースキーマ
-if !has('gui_running')
-  if &t_Co >= 256
-    try
-      colorscheme jellybeans
-    catch
-      colorscheme default
-    endtry
-  else
-    colorschem default
   endif
 endif
 

@@ -84,46 +84,6 @@ if has('printer') && g:is_win
   " set printfont=MS_Mincho:h11:cDEFAULT
 endif
 
-" カラースキーマ {{{1
-"
-" ColorRoller
-let ColorRoller = {}
-let ColorRoller.colors = [
-      \ 'jellybeans',
-      \ 'molokai',
-      \ 'wombat256',
-      \ 'lucius',
-      \ 'rootwater',
-      \ 'candycode',
-      \ 'elflord',
-      \ ]
-
-function! ColorRoller.change()
-  let color = get(self.colors, 0)
-  silent exe 'colorscheme '.color
-  redraw
-  echon self.colors
-endfunction
-
-function! ColorRoller.roll()
-  let item = remove(self.colors, 0)
-  call insert(self.colors, item, len(self.colors))
-  call self.change()
-endfunction
-
-function! ColorRoller.unroll()
-  let item = remove(self.colors, -1)
-  call insert(self.colors, item, 0)
-  call self.change()
-endfunction
-
-" ColorRollerの先頭をデフォルトのカラースキーマとして使用する
-try
-  silent exe "colorscheme ".ColorRoller.colors[0]
-catch
-  colorscheme default
-endtry
-
 " 背景透過 {{{1
 "
 if has('kaoriya') || has('mac')
