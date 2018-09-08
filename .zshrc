@@ -152,6 +152,7 @@ alias jobs='jobs -l'
 alias dirs='dirs -v'
 alias lv='lv -c'
 alias vi='vim'
+alias standby='xset dpms force standby'
 # グローバルエイリアス
 alias -g G='| grep'
 if type -p lv >/dev/null 2>&1; then
