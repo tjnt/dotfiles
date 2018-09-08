@@ -27,16 +27,6 @@ set guioptions-=e
 " スクロールバーを非表示
 set guioptions-=rL
 
-" マウスに関する設定
-if has('mouse')
-  " どのモードでもマウスを使えるようにする
-  set mouse=a
-  " マウスの移動でフォーカスを自動的に切替えない (mousefocus:切替る)
-  set nomousefocus
-  " 入力時にマウスポインタを隠す (nomousehide:隠さない)
-  set mousehide
-endif
-
 " カーソルの変更
 function! s:chg_cursor_style()
   " IMEの状態でカーソル色を変更する

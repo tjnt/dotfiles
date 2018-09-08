@@ -174,6 +174,18 @@ set novisualbell
 " スプラッシュ(起動時のメッセージ)を表示しない
 set shortmess+=I
 
+" マウスに関する設定
+if has('mouse')
+  " どのモードでもマウスを使えるようにする
+  set mouse=a
+  " マウスの移動でフォーカスを自動的に切替えない (mousefocus:切替る)
+  set nomousefocus
+  " 入力時にマウスポインタを隠す (nomousehide:隠さない)
+  set mousehide
+  " tmux上のvimでもマウスによるウィンドウサイズ変更を可能にする
+  set ttymouse=xterm2
+endif
+
 " 関数 {{{1
 "
 " 設定ファイルのフルパス取得
