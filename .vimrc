@@ -977,18 +977,6 @@ augroup _cpp_env_path
   au! FileType c,cpp call <SID>set_cpp_path()
 augroup END
 
-" コンソールではカラースキーマ設定時に背景透過
-if !has('gui_running')
-  augroup _remove_background_color
-    au!
-    au ColorScheme * highlight! Normal ctermbg=none
-    au ColorScheme * highlight! NonText ctermbg=none
-    au ColorScheme * highlight! SpecialKey ctermbg=none
-    au ColorScheme * highlight! LineNr ctermbg=none
-    au ColorScheme * highlight! EndOfBuffer ctermbg=none
-  augroup END
-endif
-
 " プラグイン {{{1
 "
 " 標準添付されているプラグインの設定
@@ -1052,6 +1040,18 @@ endfunction
 
 command! -nargs=0 ColorRoll call s:color_roller.roll()
 command! -nargs=0 ColorUnroll call s:color_roller.unroll()
+
+" コンソールではカラースキーマ設定時に背景透過
+if !has('gui_running')
+  augroup _remove_background_color
+    au!
+    au ColorScheme * highlight! Normal ctermbg=none
+    au ColorScheme * highlight! NonText ctermbg=none
+    au ColorScheme * highlight! SpecialKey ctermbg=none
+    au ColorScheme * highlight! LineNr ctermbg=none
+    au ColorScheme * highlight! EndOfBuffer ctermbg=none
+  augroup END
+endif
 
 " ColorRollerの先頭をデフォルトのカラースキーマとして使用する
 try
