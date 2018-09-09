@@ -816,6 +816,8 @@ augroup _filetype
         \ setlocal list listchars=tab:^\ ,trail:»,nbsp:%
   au FileType markdown
         \ highlight! link SpecialKey Identifier
+  au FileType terminal
+        \ setlocal nonumber
 augroup END
 
 " 拡張子によるファイルタイプの自動決定
@@ -853,6 +855,18 @@ augroup END
 " 以下のコマンドの結果は常にQuickFixで表示
 augroup _cmd_qfopen
   au! QuickfixCmdPost grep,vimgrep,make,copen cw
+augroup END
+
+" terminalのウィンドウにfiletypeを設定する
+function! s:termbufnew()
+  if &buftype == "terminal" && &filetype == ""
+    setlocal filetype=terminal
+  endif
+endfunction
+
+augroup _terminal
+  au!
+  au BufNew * call timer_start(0, { -> s:termbufnew() })
 augroup END
 
 "function! s:file_enc_check()
