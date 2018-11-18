@@ -582,7 +582,7 @@ if s:plug.is_installed('ctrlp.vim')
   let g:ctrlp_cache_dir = $CACHE_ROOT.'/ctrlp'
   let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](\.git|\.hg|\.svn|bin|build|target)$',
-    \ 'file': '\v\.(o|d|so|out|exe|dll)$',
+    \ 'file': '\v\.(o|d|so|out|exe|dll|class)$',
     \ }
   nnoremap <silent><LEADER>f :<C-u>CtrlPCurWD<CR>
   nnoremap <silent><LEADER>F :<C-u>CtrlPCurFile<CR>
