@@ -118,6 +118,11 @@ bindkey -e
 # ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
 bindkey '^R' history-incremental-pattern-search-backward
 
+# Edit command lineを有効
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\C-x\C-e' edit-command-line
+
 #-------------------------------------------------
 # Alias
 #
