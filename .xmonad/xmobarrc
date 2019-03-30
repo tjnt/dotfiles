@@ -4,7 +4,7 @@ Config
     { font = "xft:VL Gothic-10, Unifont-10, Unifont Upper-10"
     , bgColor = "#080808"
     , fgColor = "#808080"
-    , position = Top
+    , position = TopW L 98
     , lowerOnStart = False
     , overrideRedirect = False
     , sepChar = "%"
