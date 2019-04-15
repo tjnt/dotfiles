@@ -4,6 +4,7 @@ import           XMonad.Actions.CopyWindow   (kill1)
 import           XMonad.Config.Desktop       (desktopConfig)
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks    (avoidStruts)
+import           XMonad.Layout.Circle
 import           XMonad.Layout.Gaps
 import           XMonad.Layout.NoBorders     (noBorders)
 import           XMonad.Layout.ResizableTile
@@ -66,6 +67,7 @@ gwR = (R, 4)
 myLayout = spacing 2 $ gaps [gwU, gwD, gwL, gwR]
            $ (ResizableTall 1 (3/100) (3/5) [])
            ||| Mirror (Tall 1 (3/100) (1/2))
+           ||| Circle
 
 -- xmobar
 
