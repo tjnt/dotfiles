@@ -139,6 +139,7 @@ Plug 'ctrlpvim/ctrlp.vim', {
 Plug 'scrooloose/nerdtree', {
       \ 'on': 'NERDTreeToggle'
       \ }
+Plug 'ryanoasis/vim-devicons'
 
 Plug 'thinca/vim-quickrun', {
       \ 'on': [
@@ -619,6 +620,8 @@ if s:plug.is_installed('nerdtree')
     let g:NERDTreeWinPos = "left"
     " 隠しファイルを表示する
     let g:NERDTreeShowHidden = 1
+    " ディレクトリのアイコン表示
+    let g:WebDevIconsUnicodeDecorateFolderNodes = 1
     " NERDTreeのウインドウだけならvimを閉じる
     augroup _close_nerdtree_only
       au!
@@ -1228,7 +1231,7 @@ if s:plug.is_installed('lightline.vim')
 
   function! MyFiletype()
     return  <SID>special_filetype() || winwidth('.') < 60 ?  '' :
-          \ (strlen(&filetype) ? &filetype : 'no ft')
+          \ (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft')
   endfunction
 
   function! MyFileencoding()
@@ -1238,7 +1241,7 @@ if s:plug.is_installed('lightline.vim')
 
   function! MyFileformat()
     return  <SID>special_filetype() || winwidth('.') < 60 ?  '' :
-          \ &fileformat
+          \ &fileformat . ' ' . WebDevIconsGetFileFormatSymbol()
   endfunction
 endif
 
