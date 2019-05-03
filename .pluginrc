@@ -958,11 +958,11 @@ if s:plug.is_installed('vim-quickrun')
           \ }
 
     let g:quickrun_config['cpp/clang++'] = {
-          \   'cmdopt': '-std=c++1y -Wall -pthread',
+          \   'cmdopt': '-std=c++17 -Wall -pthread',
           \ }
 
     let g:quickrun_config['cpp/g++'] = {
-          \   'cmdopt': '-std=c++1y -Wall -pthread',
+          \   'cmdopt': '-std=c++17 -Wall -pthread',
           \ }
 
     let g:quickrun_config['cpp/vc'] = {
