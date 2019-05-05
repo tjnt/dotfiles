@@ -572,18 +572,15 @@ endif
 " ctrlp.vim {{{1
 "
 if s:plug.is_installed('ctrlp.vim')
-  if executable('ag')
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  endif
-
   let g:ctrlp_map = '<Nop>'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_switch_buffer = ''
   let g:ctrlp_cache_dir = $CACHE_ROOT.'/ctrlp'
+  " ctrlp_user_commandを使う場合は使用されない
   let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](\.git|\.hg|\.svn|bin|build|target)$',
     \ 'file': '\v\.(o|d|so|out|exe|dll|class)$',
+    \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
     \ }
   nnoremap <silent><LEADER>f :<C-u>CtrlPCurWD<CR>
   nnoremap <silent><LEADER>F :<C-u>CtrlPCurFile<CR>
@@ -594,6 +591,11 @@ if s:plug.is_installed('ctrlp.vim')
     \ 'AcceptSelection("h")': ['<c-cr>', '<c-s>'],
     \ 'PrtDeleteEnt()':       ['<F7>', '<c-x>'],
     \ }
+
+  if executable('ag')
+    let g:ctrlp_user_command = 'ag %s -il --nocolor --nogroup --hidden -g ""'
+    let g:ctrlp_use_caching = 0
+  endif
 endif
 
 " NERDTree {{{1
