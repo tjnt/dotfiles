@@ -105,7 +105,7 @@ myXPConfig = defaultXPConfig
 myStartupHook = do
     spawn "rm -f $HOME/.xmonad/xmonad.state"
     spawnOnce "compton -b"
-    spawnOnce "trayer --edge top --align right --width 3 --height 31 \
+    spawnOnce "trayer --edge top --align right --width 6 --height 31 \
                \--transparent true --alpha 0 --tint 0x080808 \
                \--SetDockType true --SetPartialStrut true"
     spawnOnce "feh --randomize --bg-fill $HOME/.wallpaper/*"
