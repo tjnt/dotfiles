@@ -37,13 +37,15 @@ RPROMPT='${vcs_info_msg_0_}'
 #-------------------------------------------------
 # History
 #
-HISTFILE=~/.histfile
-HISTSIZE=10000
-SAVEHIST=10000
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
 # コマンドの実行時間もヒストリに記録
 setopt extended_history
 # 同じコマンドを連続して実行した場合、ヒストリには一つしか記録しない
-setopt hist_ignore_dups
+# setopt hist_ignore_dups
+# ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
+setopt hist_ignore_all_dups
 # スペースから始まるコマンド行はヒストリに残さない
 setopt hist_ignore_space
 # ヒストリに保存するときに余分なスペースを削除する
@@ -51,7 +53,7 @@ setopt hist_reduce_blanks
 # historyコマンドはヒストリに追加しない
 setopt hist_no_store
 # 複数セッションでヒストリを共有
-# setopt share_history
+setopt share_history
 
 #-------------------------------------------------
 # Completion
