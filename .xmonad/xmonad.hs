@@ -3,11 +3,12 @@ import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
 import           XMonad.Config.Desktop       (desktopConfig)
 import           XMonad.Hooks.DynamicLog
-import           XMonad.Hooks.EwmhDesktops   (ewmh)
+import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts)
 import           XMonad.Layout.Circle
 import           XMonad.Layout.Gaps
 import           XMonad.Layout.NoBorders     (noBorders)
+import           XMonad.Layout.NoBorders     (smartBorders)
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.Spacing       (spacing)
 import           XMonad.Layout.ToggleLayouts
@@ -16,7 +17,6 @@ import           XMonad.Prompt.Shell         (shellPrompt)
 import           XMonad.Util.EZConfig        (additionalKeysP)
 import           XMonad.Util.Run             (runProcessWithInput)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
-
 
 myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
@@ -59,7 +59,7 @@ myKeys =
     , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
     ]
 
--- Layout
+-- Layout Hook
 
 gwU = (U, 2)
 gwD = (D, 2)
@@ -124,7 +124,8 @@ myConfig = ewmh desktopConfig
     , normalBorderColor = color6
     , focusedBorderColor = color1
     , borderWidth = 4
-    , layoutHook = toggleLayouts (noBorders Full) $ avoidStruts $ myLayout
+    , layoutHook = toggleLayouts (noBorders Full) $ smartBorders . avoidStruts $ myLayout
+    , handleEventHook = fullscreenEventHook
     , startupHook = myStartupHook
     }
     `additionalKeysP` myKeys
