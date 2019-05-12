@@ -1,10 +1,9 @@
 import           ColorScheme.JellyBeans
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
-import           XMonad.Config.Desktop       (desktopConfig)
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
-import           XMonad.Hooks.ManageDocks    (avoidStruts)
+import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
 import           XMonad.Layout.Circle
 import           XMonad.Layout.Gaps
 import           XMonad.Layout.NoBorders     (noBorders)
@@ -37,6 +36,18 @@ brightnessCtrl param = do
     fileMax = prefix ++ "max_brightness"
     fileCur = prefix ++ "brightness"
 
+-- shell prompt
+
+myXPConfig = defaultXPConfig
+    { font              = "xft:VL Gothic-10"
+    , bgColor           = colorbg
+    , fgColor           = colorfg
+    , promptBorderWidth = 0
+    , position          = Top
+    , alwaysHighlight   = True
+    , height            = 30
+    }
+
 -- Keys
 
 myKeys =
@@ -61,15 +72,37 @@ myKeys =
 
 -- Layout Hook
 
-gwU = (U, 2)
-gwD = (D, 2)
-gwL = (L, 4)
-gwR = (R, 4)
+myLayoutHook = toggleLayouts full normal
+  where
+    gwU = (U, 2)
+    gwD = (D, 2)
+    gwL = (L, 4)
+    gwR = (R, 4)
+    gapW = spacing 2 . gaps [gwU, gwD, gwL, gwR]
+    normal = smartBorders . avoidStruts . gapW
+               $ (ResizableTall 1 (3/100) (3/5) [])
+               ||| Mirror (Tall 1 (3/100) (1/2))
+               ||| Circle
+    full = noBorders . avoidStruts .gapW $ Full
 
-myLayout = spacing 2 $ gaps [gwU, gwD, gwL, gwR]
-           $ (ResizableTall 1 (3/100) (3/5) [])
-           ||| Mirror (Tall 1 (3/100) (1/2))
-           ||| Circle
+-- Manage Hook
+
+myManageHook = manageDocks <+> composeAll
+    [ className =? "MPlayer"  --> doFloat
+    , className =? "mplayer2" --> doFloat
+    ]
+
+-- Startup Hook
+
+myStartupHook = do
+    spawn "rm -f $HOME/.xmonad/xmonad.state"
+    spawnOnce "compton -b"
+    spawnOnce "trayer --edge top --align right --width 6 --height 31 \
+               \--transparent true --alpha 0 --tint 0x080808 \
+               \--SetDockType true --SetPartialStrut true"
+    spawnOnce "feh --randomize --bg-fill $HOME/.wallpaper/*"
+    spawnOnce "dropbox start"
+    -- spawnOnce "conky -bd"
 
 -- xmobar
 
@@ -90,33 +123,9 @@ myPP = xmobarPP
 
 toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 
--- shell prompt
-
-myXPConfig = defaultXPConfig
-    { font              = "xft:VL Gothic-10"
-    , bgColor           = colorbg
-    , fgColor           = colorfg
-    , promptBorderWidth = 0
-    , position          = Top
-    , alwaysHighlight   = True
-    , height            = 30
-    }
-
--- startup hook
-
-myStartupHook = do
-    spawn "rm -f $HOME/.xmonad/xmonad.state"
-    spawnOnce "compton -b"
-    spawnOnce "trayer --edge top --align right --width 6 --height 31 \
-               \--transparent true --alpha 0 --tint 0x080808 \
-               \--SetDockType true --SetPartialStrut true"
-    spawnOnce "feh --randomize --bg-fill $HOME/.wallpaper/*"
-    spawnOnce "dropbox start"
-    -- spawnOnce "conky -bd"
-
 -- main
 
-myConfig = ewmh desktopConfig
+myConfig = ewmh defaultConfig
     { modMask = myModMask
     , terminal = "termite"
     , workspaces = myWorkspaces
@@ -124,7 +133,8 @@ myConfig = ewmh desktopConfig
     , normalBorderColor = color6
     , focusedBorderColor = color1
     , borderWidth = 4
-    , layoutHook = toggleLayouts (noBorders Full) $ smartBorders . avoidStruts $ myLayout
+    , layoutHook = myLayoutHook
+    , manageHook = myManageHook
     , handleEventHook = fullscreenEventHook
     , startupHook = myStartupHook
     }
