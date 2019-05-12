@@ -130,7 +130,11 @@ bindkey '\C-x\C-e' edit-command-line
 #
 # ls
 eval "`dircolors -b`"
-alias ls='ls --color=auto'
+if type -p lv >/dev/null 2>&1; then
+  alias ls='lsd'
+else
+  alias ls='ls --color=auto'
+fi
 alias l='ls'
 alias ll='ls -l'
 alias la='ls -a'
