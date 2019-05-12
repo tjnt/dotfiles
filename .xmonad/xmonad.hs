@@ -3,6 +3,7 @@ import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
 import           XMonad.Config.Desktop       (desktopConfig)
 import           XMonad.Hooks.DynamicLog
+import           XMonad.Hooks.EwmhDesktops   (ewmh)
 import           XMonad.Hooks.ManageDocks    (avoidStruts)
 import           XMonad.Layout.Circle
 import           XMonad.Layout.Gaps
@@ -15,6 +16,7 @@ import           XMonad.Prompt.Shell         (shellPrompt)
 import           XMonad.Util.EZConfig        (additionalKeysP)
 import           XMonad.Util.Run             (runProcessWithInput)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
+
 
 myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
@@ -114,7 +116,7 @@ myStartupHook = do
 
 -- main
 
-myConfig = desktopConfig
+myConfig = ewmh desktopConfig
     { modMask = myModMask
     , terminal = "termite"
     , workspaces = myWorkspaces
