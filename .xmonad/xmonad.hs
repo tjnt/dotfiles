@@ -91,7 +91,7 @@ myKeys =
       ("M-f",        sendMessage $ ToggleLayout)
       -- shell prompt
     , ("M-p",        shellPrompt myXPConfig)
-      -- tree menu
+      -- tree select
     , ("M-s",        treeselectAction myTreeSelectConfig myTreeSelect)
       -- close window
     , ("M-c",        kill1)
@@ -124,7 +124,8 @@ myLayoutHook = toggleLayouts full normal
 -- Manage Hook
 
 myManageHook = manageDocks <+> composeAll
-    [ className =? "MPlayer"  --> doFloat
+    [ className =? "Xmessage" --> doFloat
+    , className =? "MPlayer"  --> doFloat
     , className =? "mplayer2" --> doFloat
     ]
 
