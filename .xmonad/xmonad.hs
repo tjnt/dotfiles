@@ -5,18 +5,23 @@ import           Data.Tree                   (Tree (Node))
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
 import           XMonad.Actions.TreeSelect   (TSConfig (..), TSNode (..),
+                                              defaultNavigation,
                                               treeselectAction, tsDefaultConfig)
-import           XMonad.Hooks.DynamicLog
+import           XMonad.Hooks.DynamicLog     (PP (..), statusBar, xmobarColor,
+                                              xmobarPP)
 import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
-import           XMonad.Layout.Circle
-import           XMonad.Layout.Gaps
+import           XMonad.Layout.Circle        (Circle (..))
+import           XMonad.Layout.Gaps          (Direction2D (..), gaps)
 import           XMonad.Layout.NoBorders     (noBorders)
 import           XMonad.Layout.NoBorders     (smartBorders)
-import           XMonad.Layout.ResizableTile
+import           XMonad.Layout.ResizableTile (ResizableTall (..))
 import           XMonad.Layout.Spacing       (spacing)
-import           XMonad.Layout.ToggleLayouts
-import           XMonad.Prompt
+import           XMonad.Layout.ToggleLayouts (ToggleLayout (..), toggleLayouts)
+import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
+                                              bgColor, defaultXPConfig, fgColor,
+                                              font, height, position,
+                                              promptBorderWidth)
 import           XMonad.Prompt.Shell         (shellPrompt)
 import           XMonad.Util.EZConfig        (additionalKeysP)
 import           XMonad.Util.Run             (runProcessWithInput)
@@ -41,10 +46,6 @@ brightnessCtrl param = do
     fileMax = prefix ++ "max_brightness"
     fileCur = prefix ++ "brightness"
 
-readHexColor :: Read a => String -> String -> a
-readHexColor color alpha =
-    read . (++) "0x" . (++) alpha . tail $ color
-
 -- shell prompt
 
 myXPConfig = defaultXPConfig
@@ -57,19 +58,31 @@ myXPConfig = defaultXPConfig
     , height            = 30
     }
 
--- tree menu
+-- tree select
 
-myTreeMenu =
+myTreeSelect =
    [ Node (TSNode "Shutdown" "Poweroff the system" (spawn "sudo shutdown -h now")) []
    , Node (TSNode "Reboot"   "Reboot the system"   (spawn "sudo reboot")) []
    ]
 
-myTreeConfig = tsDefaultConfig
-    { ts_font         = "xft:VL Gothic-10"
-    , ts_node         = (0xff000000, readHexColor color12 "FF")
-    , ts_nodealt      = (0xff000000, readHexColor color4  "FF")
-    , ts_highlight    = (0xffffffff, readHexColor color1  "FF")
+myTreeSelectConfig = tsDefaultConfig
+    { ts_hidechildren = True
+    , ts_font         = "xft:VL Gothic-10"
+    , ts_background   = readColor colorbg "C0"
+    , ts_node         = (0xff000000, readColor color12 "FF")
+    , ts_nodealt      = (0xff000000, readColor color4  "FF")
+    , ts_highlight    = (0xffffffff, readColor color1  "FF")
+    , ts_extra        = 0xffffffff
+    , ts_node_width   = 200
+    , ts_node_height  = 30
+    , ts_originX      = 0
+    , ts_originY      = 0
+    , ts_indent       = 80
+    , ts_navigate     = defaultNavigation
     }
+  where
+    readColor color alpha =
+        read . (++) "0x" . (++) alpha . tail $ color
 
 -- Keys
 
@@ -79,7 +92,7 @@ myKeys =
       -- shell prompt
     , ("M-p",        shellPrompt myXPConfig)
       -- tree menu
-    , ("M-m",        treeselectAction myTreeConfig myTreeMenu)
+    , ("M-s",        treeselectAction myTreeSelectConfig myTreeSelect)
       -- close window
     , ("M-c",        kill1)
       -- launch
