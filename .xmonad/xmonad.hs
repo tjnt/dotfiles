@@ -1,6 +1,11 @@
+{-# LANGUAGE TemplateHaskell #-}
+
 import           ColorScheme.JellyBeans
+import           Data.Tree                   (Tree (Node))
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
+import           XMonad.Actions.TreeSelect   (TSConfig (..), TSNode (..),
+                                              treeselectAction, tsDefaultConfig)
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
@@ -36,6 +41,10 @@ brightnessCtrl param = do
     fileMax = prefix ++ "max_brightness"
     fileCur = prefix ++ "brightness"
 
+readHexColor :: Read a => String -> String -> a
+readHexColor color alpha =
+    read . (++) "0x" . (++) alpha . tail $ color
+
 -- shell prompt
 
 myXPConfig = defaultXPConfig
@@ -48,6 +57,20 @@ myXPConfig = defaultXPConfig
     , height            = 30
     }
 
+-- tree menu
+
+myTreeMenu =
+   [ Node (TSNode "Shutdown" "Poweroff the system" (spawn "sudo shutdown -h now")) []
+   , Node (TSNode "Reboot"   "Reboot the system"   (spawn "sudo reboot")) []
+   ]
+
+myTreeConfig = tsDefaultConfig
+    { ts_font         = "xft:VL Gothic-10"
+    , ts_node         = (0xff000000, readHexColor color12 "FF")
+    , ts_nodealt      = (0xff000000, readHexColor color4  "FF")
+    , ts_highlight    = (0xffffffff, readHexColor color1  "FF")
+    }
+
 -- Keys
 
 myKeys =
@@ -55,16 +78,16 @@ myKeys =
       ("M-f",        sendMessage $ ToggleLayout)
       -- shell prompt
     , ("M-p",        shellPrompt myXPConfig)
+      -- tree menu
+    , ("M-m",        treeselectAction myTreeConfig myTreeMenu)
       -- close window
     , ("M-c",        kill1)
-      -- shutdown
-    , ("M-S-<Esc>",  spawn "sudo shutdown -h now")
       -- launch
     , ("M-S-<Return>", spawn "termite")
       -- brightness control
     , ("<XF86MonBrightnessUp>",   brightnessCtrl 10)
     , ("<XF86MonBrightnessDown>", brightnessCtrl (-10))
-    -- volume control
+      -- volume control
     , ("<XF86AudioRaiseVolume>", spawn "amixer -q set Master playback 10%+")
     , ("<XF86AudioLowerVolume>", spawn "amixer -q set Master playback 10%-")
     , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
