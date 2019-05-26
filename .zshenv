@@ -26,4 +26,7 @@ export SVN_EDITOR="${EDITOR}"
 export GIT_EDITOR="${EDITOR}"
 export PAGER=less
 
+# export JAVA_HOME=$HOME/.local/share/jdk1.8.0_202
+# path=($JAVA_HOME/bin(N-/) $path)
+
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
