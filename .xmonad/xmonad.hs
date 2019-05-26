@@ -61,8 +61,28 @@ myXPConfig = defaultXPConfig
 -- tree select
 
 myTreeSelect =
-   [ Node (TSNode "Shutdown" "Poweroff the system" (spawn "sudo shutdown -h now")) []
-   , Node (TSNode "Reboot"   "Reboot the system"   (spawn "sudo reboot")) []
+   [ Node (TSNode "Application Menu" "Open application menu" (return ()))
+       [
+         Node (TSNode "Browser" "" (return ()))
+           [ Node (TSNode "Firefox" "" (spawn "firefox")) []
+           , Node (TSNode "Firefox (Private)" "" (spawn "firefox -private-window")) []
+           , Node (TSNode "Chromium" "" (spawn "chromium")) []
+           ]
+       , Node (TSNode "WPS Office" "" (return ()))
+           [ Node (TSNode "SpreadSheets" "" (spawn "wps-spreadsheets")) []
+             , Node (TSNode "Writer" "" (spawn "wps-writer"))  []
+             , Node (TSNode "Presentation" "" (spawn "wps-presentation"))  []
+           ]
+       , Node (TSNode "Tools" "" (return ()))
+           [ Node (TSNode "Calculator" "" (spawn "qalculate"))  []
+           , Node (TSNode "Paint" "" (spawn "pinta"))  []
+           , Node (TSNode "Remote Desktop" "" (spawn "remmina"))  []
+           ]
+       ]
+   , Node (TSNode "System menu" "Open system menu" (return ()))
+       [ Node (TSNode "Shutdown" "Poweroff the system" (spawn "sudo shutdown -h now")) []
+       , Node (TSNode "Reboot"   "Reboot the system"   (spawn "sudo reboot")) []
+       ]
    ]
 
 myTreeSelectConfig = tsDefaultConfig
