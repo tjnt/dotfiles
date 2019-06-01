@@ -117,6 +117,8 @@ myKeys =
     , ("M-c",        kill1)
       -- launch
     , ("M-S-<Return>", spawn "termite")
+      -- screenshot
+    , ("<Print>", spawn "sleep 0.2; scrot -s ~/Pictures/%Y-%m-%d-%T-shot.png")
       -- brightness control
     , ("<XF86MonBrightnessUp>",   brightnessCtrl 10)
     , ("<XF86MonBrightnessDown>", brightnessCtrl (-10))
