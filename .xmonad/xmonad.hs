@@ -1,6 +1,5 @@
-{-# LANGUAGE TemplateHaskell #-}
-
 import           ColorScheme.JellyBeans
+import           Control.Applicative         ((<$>))
 import           Data.Tree                   (Tree (Node))
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
@@ -13,8 +12,7 @@ import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
 import           XMonad.Layout.Circle        (Circle (..))
 import           XMonad.Layout.Gaps          (Direction2D (..), gaps)
-import           XMonad.Layout.NoBorders     (noBorders)
-import           XMonad.Layout.NoBorders     (smartBorders)
+import           XMonad.Layout.NoBorders     (noBorders, smartBorders)
 import           XMonad.Layout.ResizableTile (ResizableTall (..))
 import           XMonad.Layout.Spacing       (spacing)
 import           XMonad.Layout.ToggleLayouts (ToggleLayout (..), toggleLayouts)
@@ -34,13 +32,13 @@ myWorkspaces = [ show x | x <- [1..5] ]
 
 brightnessCtrl :: Int -> X ()
 brightnessCtrl param = do
-    maxV <- fmap read $ runProcessWithInput "cat" [ fileMax ] []
-    curV <- fmap read $ runProcessWithInput "cat" [ fileCur ] []
+    maxV <- read <$> runProcessWithInput "cat" [fileMax] []
+    curV <- read <$> runProcessWithInput "cat" [ fileCur ] []
     let step = maxV `div` 100
         minV = step * 10
         value = curV + step * param
         ajust = max minV $ min maxV value
-    spawn $ "echo " ++ (show ajust) ++ " | sudo tee " ++ fileCur ++ " > /dev/null"
+    spawn $ "echo " ++ show ajust ++ " | sudo tee " ++ fileCur ++ " > /dev/null"
   where
     prefix = "/sys/class/backlight/intel_backlight/"
     fileMax = prefix ++ "max_brightness"
@@ -108,7 +106,7 @@ myTreeSelectConfig = tsDefaultConfig
 
 myKeys =
     [ -- toggle fullscreen
-      ("M-f",        sendMessage $ ToggleLayout)
+      ("M-f",        sendMessage ToggleLayout)
       -- shell prompt
     , ("M-p",        shellPrompt myXPConfig)
       -- tree select
@@ -138,7 +136,7 @@ myLayoutHook = toggleLayouts full normal
     gwR = (R, 4)
     gapW = spacing 2 . gaps [gwU, gwD, gwL, gwR]
     normal = smartBorders . avoidStruts . gapW
-               $ (ResizableTall 1 (3/100) (3/5) [])
+               $ ResizableTall 1 (3/100) (3/5) []
                ||| Mirror (Tall 1 (3/100) (1/2))
                ||| Circle
     full = noBorders . avoidStruts .gapW $ Full
@@ -169,11 +167,11 @@ myBar = "xmobar $HOME/.xmonad/xmobarrc"
 
 myPP = xmobarPP
     { ppOrder           = \(ws:l:t:_)  -> [ws, t]
-    , ppCurrent         = xmobarColor color1 colorbg . \s -> "●"
-    , ppUrgent          = xmobarColor color6 colorbg . \s -> "●"
-    , ppVisible         = xmobarColor color1 colorbg . \s -> "⦿"
-    , ppHidden          = xmobarColor color6 colorbg . \s -> "●"
-    , ppHiddenNoWindows = xmobarColor color6 colorbg . \s -> "○"
+    , ppCurrent         = xmobarColor color1 colorbg . const "●"
+    , ppUrgent          = xmobarColor color6 colorbg . const "●"
+    , ppVisible         = xmobarColor color1 colorbg . const "⦿"
+    , ppHidden          = xmobarColor color6 colorbg . const "●"
+    , ppHiddenNoWindows = xmobarColor color6 colorbg . const "○"
     , ppTitle           = xmobarColor color4 colorbg
     , ppOutput          = putStrLn
     , ppWsSep           = " "
