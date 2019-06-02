@@ -124,6 +124,8 @@ myKeys =
     , ("<XF86AudioRaiseVolume>", spawn "amixer -q set Master playback 10%+")
     , ("<XF86AudioLowerVolume>", spawn "amixer -q set Master playback 10%-")
     , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
+      -- toggle monitor
+    , ("<XF86Display>",          spawn "dualmonitor auto")
     ]
 
 -- Layout Hook
