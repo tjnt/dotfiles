@@ -121,9 +121,10 @@ if executable('ag')
   Plug 'rking/ag.vim'
 endif
 
-if has('lua')
-  Plug 'Shougo/neocomplete.vim', { 'on': [], 'insert': 1 }
-endif
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp', { 'for': ['cpp', 'python', 'haskell'] }
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] } " on-demand load
 
 Plug 'Shougo/neosnippet.vim', { 'on': [], 'insert': 1 }
 " Plug 'Shougo/neosnippet-snippets'
@@ -216,37 +217,10 @@ Plug 'vim-scripts/a.vim', {
       \ 'for': [ 'c', 'cpp' ]
       \ }
 
-Plug 'osyo-manga/vim-marching', { 'for': 'cpp' }
-
-" Python
-if executable('python') && has('python3')
-  Plug 'davidhalter/jedi-vim', {
-        \ 'for': [ 'python' ]
-        \ }
-endif
-
-" Ruby
-if executable('ruby')
-  Plug 'NigoroJr/rsense', { 'for': [] }
-endif
-
-" Java
-if executable('javac')
-  Plug 'vim-scripts/javacomplete', {
-        \ 'do': 'javac autoload/Reflection.java',
-        \ 'for': []
-        \ }
-endif
-
 " Haskell
 Plug 'neovimhaskell/haskell-vim', {
       \ 'for': 'haskell'
       \ }
-
-if executable('ghc-mod')
-  Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
-  Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }
-endif
 
 if executable('stylish-haskell')
   Plug 'nbouscal/vim-stylish-haskell', {
@@ -382,7 +356,7 @@ endif
 "
 if s:plug.is_installed('vim-smartinput')
   function! s:plug_vim_smartinput()
-    let cr = s:plug.is_installed('neocomplete.vim') ? '<C-y><CR>' : '<CR>'
+    let cr = '<CR>'
 
     " ruby
     for ptn in [
@@ -635,88 +609,78 @@ if s:plug.is_installed('nerdtree')
   call s:plug.register_hook('nerdtree')
 endif
 
-" neocomplete.vim {{{1
+" vim-lsp {{{1
 "
-if s:plug.is_installed('neocomplete.vim')
-  " 自動的に起動 (default 0)
-  let g:neocomplete#enable_at_startup = 1
+if s:plug.is_installed('vim-lsp')
+  function! s:plug_vim_lsp()
 
-  function! s:plug_neocomplete_vim()
-    " AutoComplPopのように最初の候補を選択する (default 0)
-    let g:neocomplete#enable_auto_select = 0
-    " neocomplcacheのsmart case機能を有効化 (default infercase)
-    let g:neocomplete#enable_smart_case = 1
-    " 自動補完開始までの待ち時間 (default 2)
-    " g:neocomplete#skip_auto_completion_time = 2
+    function! s:find_root_uri(names)
+      let root_uri = lsp#utils#path_to_uri(
+      \  lsp#utils#find_nearest_parent_file_directory(
+      \    lsp#utils#get_buffer_path(), a:names))
+      return empty(root_uri) ? '.' : root_uri
+    endfunction
 
-    " 補完候補最大表示件数 (default 100)
-    let g:neocomplete#max_list = 100
-
-    " シンタックスをキャッシュするときの最小文字長 (default 4)
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-    " neocomplcacheを自動的にロックするバッファ名のパターンを指定
-    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-    " 辞書ディレクトリ
-    " let g:neocomplete#sources#dictionary#dictionaries = {
-    "     \ 'default': '',
-    "     \ 'vimshell': $HOME.'/.vimshell_hist',
-    "     \ 'scheme': $HOME.'/.gosh_completions'
-    "         \ }
-
-    " cache directory
-    let g:neocomplete#data_directory = $CACHE_ROOT.'/neocomplete'
-
-    " Define keyword.
-    if !exists('g:neocomplete#keyword_patterns')
-        let g:neocomplete#keyword_patterns = {}
+    " cquery (c/cpp)
+    if executable('cquery')
+      au User lsp_setup call lsp#register_server({
+        \   'name': 'cquery',
+        \   'cmd': { server_info->['cquery'] },
+        \   'root_uri': { server_info->s:find_root_uri(
+        \     ['compile_commands.json', '.cquery']) },
+        \   'initialization_options': { 'cacheDirectory': $CACHE_ROOT.'/cquery' },
+        \   'whitelist': ['c', 'cc', 'cpp', 'cxx', 'objc', 'objcpp'],
+        \ })
     endif
-    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-    " オムニ補完キーワード
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-      let g:neocomplete#sources#omni#input_patterns = {}
+    " pyls (python)
+    if executable('pyls')
+      au User lsp_setup call lsp#register_server({
+        \   'name': 'pyls',
+        \   'cmd': { server_info -> ['pyls'] },
+        \   'whitelist': ['python'],
+        \   'workspace_config': {'pyls': {'plugins': {
+        \     'pycodestyle': {'enabled': v:true },
+        \     'jedi_definition': {
+        \       'follow_imports': v:true,
+        \       'follow_builtin_imports': v:true 
+        \     },
+        \   }}}
+        \ })
     endif
-    let g:neocomplete#sources#omni#input_patterns.c =
-          \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
-    let g:neocomplete#sources#omni#input_patterns.cpp =
-          \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-    let g:neocomplete#sources#omni#input_patterns.ruby =
-          \ '[^. *\t]\.\w*\|\h\w*::'
-    let g:neocomplete#sources#omni#input_patterns.php =
-          \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-    let g:neocomplete#sources#omni#input_patterns.perl =
-          \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 
-    " キーワード補完
-    inoremap <expr><C-n> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
-    inoremap <expr><C-p> pumvisible() ? "\<C-n>" : neocomplete#start_manual_complete()
+    " haskell-ide-engine (haskell)
+    if executable('hie')
+      au User lsp_setup call lsp#register_server({
+        \   'name': 'hie',
+        \   'cmd': { server_info->['stack', 'exec', '--', 'hie-wrapper', '--lsp'] },
+        \   'root_uri': { server_info->s:find_root_uri(['stack.yaml']) },
+        \   'whitelist': ['haskell'],
+        \ })
+    endif
 
-    " 前回の保管候補をキャンセル
-    inoremap <expr><C-g> neocomplete#undo_completion()
-    " 補完候補のなかから、共通する部分を補完
-    inoremap <expr><C-l> neocomplete#complete_common_string()
+    " asyncomplete-lsp on-demand load
+    if s:plug.is_loaded('vim-lsp')
+      call plug#load('asyncomplete-lsp.vim')
+    endif
 
-    " Enterでポップアップを閉じて改行
-    " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    " function! s:my_cr_function()
-    "   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-    "   " For no inserting <CR> key.
-    "   "return pumvisible() ? "\<C-y>" : "\<CR>"
-    " endfunction
-
-    " TABキーでキーワード補完
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
-    " neocompleteの補完を選択し、ポップアップメニューを閉じる
-    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-    " 有効/無効のトグル
-    nnoremap [toggle]x :NeoCompleteToggle<CR>
+    " for debug
+    " let g:lsp_log_verbose = 1
+    " let g:lsp_log_file = expand('~/vim-lsp.log')
   endfunction
 
-  call s:plug.register_hook('neocomplete.vim')
+  call s:plug.register_hook('vim-lsp')
+endif
+
+" asyncomplete.vim {{{1
+"
+if s:plug.is_installed('asyncomplete.vim')
+  " insert selected candidate and close popup menu 
+  inoremap <expr><C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
+  " cancel completion and close popup menu
+  inoremap <expr><C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<C-e>"
+  " for debug
+  " let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 endif
 
 " neosnippet.vim {{{1
@@ -770,138 +734,6 @@ if s:plug.is_installed('neosnippet.vim')
   endfunction
 
   call s:plug.register_hook('neosnippet.vim')
-endif
-
-" vim-marching {{{1
-"
-if s:plug.is_installed('vim-marching')
-  function! s:plug_vim_marching()
-    if executable(g:marching_clang_command)
-      let g:marching_backend =
-            \ s:plug.is_installed('vimproc.vim') ?
-            \     'clang_command' : 'sync_clang_command'
-      " let g:marching_backend = 'sync_clang_command'
-    elseif executable('curl') || executable('wget')
-      " clang コマンドが実行できなければ wandbox を使用する
-      let g:marching_backend = 'sync_wandbox'
-      let g:marching_clang_command = ''
-    endif
-
-    " 複数候補があった時に重複して表示しない
-    " let g:marching_enable_dup = 0
-
-    " オプションの設定
-    " これは clang のコマンドに渡される
-    let g:marching#clang_command#options = {
-          \	'cpp': '-std=c++1y'
-          \ }
-
-    " インクルードディレクトリのパスを設定
-    " let g:marching_include_paths = [
-    " \   'C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++'
-    " \   'C:/cpp/boost'
-    " \]
-
-    " neocompleteとの連携
-    if s:plug.is_installed('neocomplete.vim')
-      let g:marching_enable_neocomplete = 1
-      if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-      endif
-      let g:neocomplete#force_omni_input_patterns.cpp =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-    endif
-
-    " vimprocの更新間隔を短くして候補表示を早くする
-    if s:plug.is_installed('vimproc.vim')
-      setlocal updatetime=1000
-    endif
-
-    " オムニ補完時に補完ワードを挿入したくない場合
-    imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-    " キャッシュを削除してからオムに補完を行う
-    imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
-  endfunction
-
-  call s:plug.register_hook('vim-marching')
-endif
-
-" javacomplete {{{1
-"
-if s:plug.is_installed('javacomplete')
-  function! s:plug_javacomplete()
-    augroup _java_completefunc
-      au! FileType java setlocal omnifunc=javacomplete#Complete
-                              \ completefunc=javacomplete#CompleteParamsInfo
-    augroup END
-  endfunction
-
-  call s:plug.register_hook('javacomplete')
-endif
-
-" jedi-vim {{{1
-"
-if s:plug.is_installed('jedi-vim')
-  function! s:plug_jedi_vim()
-    let g:jedi#auto_vim_configuration = 0
-    let g:jedi#completions_enabled = 0
-    let g:jedi#goto_command = '<leader>D'
-    let g:jedi#goto_assignments_command = '<leader>G'
-    let g:jedi#rename_command = '<leader>R'
-    let g:jedi#usages_command = '<leader>N'
-
-    if s:plug.is_installed('neocomplete.vim')
-      if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-      endif
-      let g:neocomplete#force_omni_input_patterns.python =
-            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-    endif
-
-    augroup _jedi_vim
-      au! FileType python setlocal omnifunc=jedi#completions
-            \ completeopt-=preview
-    augroup END
-
-    " for anaconda
-    if $ANACONDA == 1
-      let g:jedi#force_py_version=3.7
-    endif
-  endfunction
-
-  call s:plug.register_hook('jedi-vim')
-endif
-
-" rsense {{{1
-"
-if s:plug.is_installed('rsense')
-  " rsense実行可否チェック
-  function! s:executable_rsense()
-    return executable('ruby') && g:is_win ?
-          \ g:my.chomp(system('sc query rsense | find "SERVICE_NAME"')) != '' : 1
-  endfunction
-
-  function! s:plug_rsense()
-    let g:rsenseUseOmniFunc = 1
-    let g:rsenseHome = expand("$VIMLOCAL/plugins/rsense")
-
-    if s:plug.is_installed('neocomplete.vim')
-      if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-      endif
-      let g:neocomplete#force_omni_input_patterns.ruby =
-            \ '[^. *\t]\.\w*\|\h\w*::'
-    endif
-
-    " 確実に有効化するための措置
-    call SetupRSense()
-  endfunction
-
-  augroup _plug_rsense
-    au!
-    au FileType ruby if <SID>executable_rsense() | call plug#load('rsense') | endif
-    au User rsense call s:plug_rsense() | au! _plug_rsense
-  augroup END
 endif
 
 " haskell-vim {{{1

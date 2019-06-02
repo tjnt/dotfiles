@@ -687,9 +687,6 @@ let g:my.ctags_option = "--recurse=yes --sort=yes"
 
 function! s:make_ctags()
   call g:my.bang('ctags ' . g:my.ctags_option)
-  if s:has_plugin('neocomplete')
-    NeoCompleteTagMakeCache
-  endif
 endfunction
 command! -nargs=0 MakeCtags call <SID>make_ctags()
 
