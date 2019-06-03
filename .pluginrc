@@ -122,7 +122,7 @@ if executable('ag')
 endif
 
 Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp', { 'for': ['cpp', 'python', 'haskell'] }
+Plug 'prabirshrestha/vim-lsp', { 'for': ['cpp', 'python', 'haskell', 'rust' ] }
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] } " on-demand load
 
@@ -656,6 +656,16 @@ if s:plug.is_installed('vim-lsp')
         \   'cmd': { server_info->['stack', 'exec', '--', 'hie-wrapper', '--lsp'] },
         \   'root_uri': { server_info->s:find_root_uri(['stack.yaml']) },
         \   'whitelist': ['haskell'],
+        \ })
+    endif
+
+    " rls (rust)
+    if executable('rls')
+      au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
+        \ 'whitelist': ['rust'],
         \ })
     endif
 
