@@ -3,6 +3,10 @@
 #-------------------------------------------------
 # PATH
 #
+if [ -d $HOME/.cargo/bin ]; then
+  path=($HOME/.cargo/bin(N-/) $path)
+fi
+
 path=($HOME/.local/bin(N-/) $path)
 
 if [ -z "${ld_library_path}" ]; then
