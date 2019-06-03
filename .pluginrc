@@ -156,12 +156,6 @@ Plug 'osyo-manga/vim-watchdogs', {
       \   'WatchdogsRunSweep',
       \ ]}
 
-Plug 'thinca/vim-ref', {
-      \ 'on': [
-      \   'Ref',
-      \   '<Plug>(ref-keyword)'
-      \ ]}
-
 Plug 'tyru/open-browser.vim', {
       \ 'on': [
       \   'OpenBrowser',
@@ -955,20 +949,6 @@ if s:plug.is_installed('vim-watchdogs')
   endfunction
 
   call s:plug.register_hook('vim-watchdogs')
-endif
-
-" vim-ref {{{1
-"
-if s:plug.is_installed('vim-ref')
-  nmap K <Plug>(ref-keyword)
-
-  function! s:plug_vim_ref()
-    " キャッシュディレクトリ
-    let g:ref_cache_dir = $CACHE_ROOT.'/vim_ref_cache'
-    let g:ref_refe_encoding = 'utf-8'
-  endfunction
-
-  call s:plug.register_hook('vim-ref')
 endif
 
 " open-browser.vim {{{1
