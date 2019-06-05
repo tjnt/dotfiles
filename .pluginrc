@@ -663,6 +663,8 @@ if s:plug.is_installed('vim-lsp')
     nnoremap <buffer><C-]> :<C-u>LspDefinition<CR>
     nnoremap <buffer>K :<C-u>LspHover<CR>
     nnoremap <buffer><LEADER>d :<C-u>LspDefinition<CR>
+    nnoremap <buffer><LEADER>D :<C-u>LspDeclaration<CR>
+    nnoremap <buffer><LEADER>t :<C-u>LspTypeDefinition<CR>
     nnoremap <buffer><LEADER>r :<C-u>LspReferences<CR>
     nnoremap <buffer><LEADER>s :<C-u>LspDocumentSymbol<CR>
     nnoremap <buffer><LEADER>S :<C-u>LspWorkspaceSymbol<CR>
