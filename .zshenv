@@ -17,11 +17,6 @@ ld_library_path=(${HOME}/.local/lib(N-/) $ld_library_path)
 typeset -U path ld_library_path
 export PATH LD_LIBRARY_PATH
 
-# rbenv initialize
-if type rbenv > /dev/null 2>&1 ; then
-  eval "$(rbenv init -)"
-fi
-
 #-------------------------------------------------
 #
 export EDITOR=vim
@@ -32,5 +27,17 @@ export PAGER=less
 
 # export JAVA_HOME=$HOME/.local/share/jdk1.8.0_202
 # path=($JAVA_HOME/bin(N-/) $path)
+
+# rbenv initialize
+if type rbenv > /dev/null 2>&1 ; then
+  eval "$(rbenv init -)"
+fi
+
+# nvm
+if [ -d $HOME/.nvm ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
 
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
