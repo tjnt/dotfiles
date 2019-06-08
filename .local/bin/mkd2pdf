@@ -1,9 +1,13 @@
 #!/bin/bash
 
+if ! type markdown-pdf > /dev/null 2>&1 ; then
+    echo 'this script required markdown-pdf.'
+    exit 1
+fi
+
 export OPENSSL_CONF=/etc/ssl
-markdownpdf=$HOME/.local/lib/node_modules/markdown-pdf/bin/markdown-pdf
 input=$1
 output=$2
 csspath="$HOME/.local/lib/mkd2pdf/css/github.css"
 
-node "$markdownpdf" "$input" -o "$output" -s "$csspath"
+markdown-pdf "$input" -o "$output" -s "$csspath"
