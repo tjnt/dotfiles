@@ -122,7 +122,9 @@ if executable('ag')
 endif
 
 Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp', { 'for': ['cpp', 'python', 'haskell', 'rust' ] }
+Plug 'prabirshrestha/vim-lsp', {
+      \ 'for': ['c', 'cpp', 'python', 'haskell', 'rust', 'javascript', 'typescript' ]
+      \ }
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] } " on-demand load
 
@@ -213,6 +215,11 @@ if executable('stylish-haskell')
       \ 'for': 'haskell'
       \ }
 endif
+
+" TypeScript
+Plug 'leafgarland/typescript-vim', {
+      \ 'for': 'typescript'
+      \ }
 
 " Markdown
 Plug 'plasticboy/vim-markdown', {
@@ -615,7 +622,7 @@ if s:plug.is_installed('vim-lsp')
         \   'root_uri': { server_info->s:find_root_uri(
         \     ['compile_commands.json', '.cquery']) },
         \   'initialization_options': { 'cacheDirectory': $CACHE_ROOT.'/cquery' },
-        \   'whitelist': ['c', 'cc', 'cpp', 'cxx', 'objc', 'objcpp'],
+        \   'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
         \ })
     endif
 
@@ -648,10 +655,19 @@ if s:plug.is_installed('vim-lsp')
     " rls (rust)
     if executable('rls')
       au User lsp_setup call lsp#register_server({
-        \ 'name': 'rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
-        \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
-        \ 'whitelist': ['rust'],
+        \   'name': 'rls',
+        \   'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \   'workspace_config': {'rust': {'clippy_preference': 'on'}},
+        \   'whitelist': ['rust'],
+        \ })
+    endif
+
+    " typescript-language-server
+    if executable('typescript-language-server')
+      au User lsp_setup call lsp#register_server({
+        \   'name': 'typescript-language-server',
+        \   'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+        \   'whitelist': ['javascript', 'javascript.jsx', 'typescript', 'typescript.tsx'],
         \ })
     endif
 
