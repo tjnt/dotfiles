@@ -150,6 +150,12 @@ Plug 'thinca/vim-quickrun', {
       \   '<Plug>(quickrun)'
       \ ]}
 
+Plug 'thinca/vim-ref', {
+      \ 'on': [
+      \   'Ref',
+      \   '<Plug>(ref-keyword)'
+      \ ]}
+
 Plug 'tyru/open-browser.vim', {
       \ 'on': [
       \   'OpenBrowser',
@@ -900,6 +906,29 @@ if s:plug.is_installed('vim-quickrun')
   endfunction
 
   call s:plug.register_hook('vim-quickrun')
+endif
+
+" vim-ref {{{1
+"
+if s:plug.is_installed('vim-ref')
+  " nmap K <Plug>(ref-keyword)
+
+  function! s:plug_vim_ref()
+    " キャッシュディレクトリ
+    let g:ref_cache_dir = $CACHE_ROOT.'/vim_ref_cache'
+    let g:ref_refe_encoding = 'utf-8'
+    let g:ref_source_webdict_sites = {
+    \   'hoogle' : {
+    \     'url' : 'http://localhost:8080/?hoogle=%s'
+    \   }
+    \ }
+  endfunction
+
+  " search by local hoogle
+  "  hoogle server [--port xxxx]
+  command! -nargs=+ Hoogle Ref webdict hoogle <q-args>
+
+  call s:plug.register_hook('vim-ref')
 endif
 
 " open-browser.vim {{{1
