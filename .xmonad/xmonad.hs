@@ -74,6 +74,7 @@ myTreeSelect =
        , Node (TSNode "Tools" "" (return ()))
            [ Node (TSNode "Calculator" "" (spawn "qalculate"))  []
            , Node (TSNode "Paint" "" (spawn "pinta"))  []
+           , Node (TSNode "Peek" "" (spawn "peek"))  []
            , Node (TSNode "Remote Desktop" "" (spawn "remmina"))  []
            ]
        ]
@@ -149,6 +150,7 @@ myManageHook = manageDocks <+> composeAll
     [ className =? "Xmessage" --> doFloat
     , className =? "MPlayer"  --> doFloat
     , className =? "mplayer2" --> doFloat
+    , className =? "Peek" --> doFloat
     ]
 
 -- Startup Hook
