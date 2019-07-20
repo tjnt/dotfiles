@@ -34,7 +34,7 @@ Config
             , "-H",       "200"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
-            , "-w",       "3"
+            , "-w",       "4"
             ] 10
         , Run Brightness
             [ "-t",       "💡 <percent>"
