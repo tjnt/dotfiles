@@ -216,12 +216,6 @@ Plug 'neovimhaskell/haskell-vim', {
       \ 'for': 'haskell'
       \ }
 
-if executable('stylish-haskell')
-  Plug 'nbouscal/vim-stylish-haskell', {
-      \ 'for': 'haskell'
-      \ }
-endif
-
 " TypeScript
 Plug 'leafgarland/typescript-vim', {
       \ 'for': 'typescript'
