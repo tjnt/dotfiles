@@ -127,9 +127,10 @@ Plug 'prabirshrestha/vim-lsp', {
       \ }
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] } " on-demand load
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 
-Plug 'Shougo/neosnippet.vim', { 'on': [], 'insert': 1 }
-" Plug 'Shougo/neosnippet-snippets'
+Plug 'SirVer/ultisnips', { 'on': [], 'insert': 1 }
+" Plug 'honza/vim-snippets'
 
 Plug 'ctrlpvim/ctrlp.vim', {
       \ 'on': [
@@ -710,57 +711,29 @@ if s:plug.is_installed('asyncomplete.vim')
   " let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 endif
 
-" neosnippet.vim {{{1
+" ultisnips {{{1
 "
-if s:plug.is_installed('neosnippet.vim')
-  function! s:plug_neosnippet_vim()
-    " cache directory
-    let g:neosnippet#data_directory = $CACHE_ROOT.'/neosnippet'
-    " For snippet_complete marker.
-    if has('conceal')
-      set conceallevel=2 concealcursor=i
-    endif
+if s:plug.is_installed('ultisnips')
+  let g:UltiSnipsExpandTrigger = '<c-i>'
+  let g:UltiSnipsJumpForwardTrigger  = '<c-j>'
+  let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
-    " Enable snipMate compatibility feature.
-    let g:neosnippet#enable_snipmate_compatibility = 1
+  " load my snippets
+  " let snippets_dir = $VIMLOCAL.'/snippets'
+  " if isdirectory(snippets_dir)
+  "   let g:UltiSnipsSnippetsDir = snippets_dir
+  " endif
 
-    " disable runtime snippets
-    let g:neosnippet#disable_runtime_snippets = { '_': 1, }
-
-    " initialize snippets directory
-    let g:neosnippet#snippets_directory = []
-
-    " load my snippets
-    let mysnip = $VIMLOCAL.'/snippets'
-    if isdirectory(mysnip)
-      let g:neosnippet#snippets_directory += [ mysnip ]
-    endif
-
-    " load Shougo/neosnippet-snippets
-    if s:plug.is_installed('neosnippet-snippets')
-      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/plugins/neosnippet-snippets/neosnippets' ]
-    endif
-
-    " load honza/vim-snippets
-    if s:plug.is_installed('vim-snippets')
-      let g:neosnippet#snippets_directory += [ $VIMLOCAL.'/plugins/vim-snippets/snippets' ]
-    endif
-
-    " Plugin key-mappings.
-    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Plug>(neosnippet_expand_or_jump)
-    xmap <C-k> <Plug>(neosnippet_expand_target)
-
-    " SuperTab like snippets behavior.
-    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-          \ "\<Plug>(neosnippet_expand_or_jump)"
-          \: pumvisible() ? "\<C-n>" : "\<TAB>"
-    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-          \ "\<Plug>(neosnippet_expand_or_jump)"
-          \: "\<TAB>"
+  function! s:plug_ultisnips()
+    call asyncomplete#register_source(
+        \ asyncomplete#sources#ultisnips#get_source_options({
+        \   'name': 'ultisnips',
+        \   'whitelist': ['*'],
+        \   'completor': function('asyncomplete#sources#ultisnips#completor'),
+        \ }))
   endfunction
 
-  call s:plug.register_hook('neosnippet.vim')
+  call s:plug.register_hook('ultisnips')
 endif
 
 " haskell-vim {{{1
