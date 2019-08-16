@@ -1,6 +1,50 @@
+snippet import "import module"
+	import ${1:module}
+
+snippet import_qualified "import qualified"
+	import qualified ${1:module} as ${2:alias}
 
 snippet main "main function"
 	main :: IO ()
 	main = do
 		${0:code}
 		return ()
+
+snippet func "function"
+	${1:name} :: ${2:type}
+	$1 ${3:args} = ${0:code}
+
+snippet readString "入力から文字列を読み込む"
+	${0:var} <- getLine :: IO String
+
+snippet readStringList "入力から文字列のリストを読み込む"
+	${0:var} <- words <$> getLine :: IO [String]
+
+snippet readInt "入力から数値を読み込む"
+	${0:var} <- readLn :: IO Int
+
+snippet readIntList "入力から数値のリストを読み込む"
+	${0:var} <- map read . words <$> getLine :: IO [Int]
+
+snippet readLinesInt "複数行の入力から数値を読み込む"
+	${0:var}  <- map read . lines <$> getContents :: IO [Int]
+
+snippet readLinesIntList "複数行の入力から数値のリストを読み込む"
+	${0:var}  <- map (map read . words) . lines <$> getContents :: IO [[Int]]
+
+snippet readLinesIntTupleList "複数行の入力から数値(タプル)のリストを読み込む"
+	${0:var} <- map ((\[a,b] -> (a,b)) . (map read . words)) . lines <$> getContents :: IO [(Int,Int)]
+
+snippet BSreadIntList "(BS)入力から数値のリストを読み込む"
+	${0:var} <- map (fst . fromJust . BS.readInt) . BS.words <$> BS.getLine
+
+snippet BSreadLinesInt "(BS)複数行の入力から数値を読み込む"
+	${0:var} <- map (fst . fromJust . BS.readInt) . BS.lines <$> BS.getContents
+
+snippet BSreadLinesIntList "(BS)複数行の入力から数値のリストを読み込む"
+	${0:var} <- map (map (fst . fromJust . BS.readInt) . BS.words) . BS.lines <$> BS.getContents
+
+snippet BSreadLinesIntTupleList "(BS)数行の入力から数値(タプル)のリストを読み込む"
+	${0:var} <- map ((\[a,b] -> (a,b)) . map (fst . fromJust . BS.readInt) . BS.words) . BS.lines <$> BS.getContents
+
+# vim:set list noexpandtab:
