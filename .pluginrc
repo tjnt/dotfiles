@@ -714,7 +714,7 @@ endif
 " ultisnips {{{1
 "
 if s:plug.is_installed('ultisnips')
-  let g:UltiSnipsExpandTrigger = '<c-i>'
+  let g:UltiSnipsExpandTrigger = '<c-l>'
   let g:UltiSnipsJumpForwardTrigger  = '<c-j>'
   let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
