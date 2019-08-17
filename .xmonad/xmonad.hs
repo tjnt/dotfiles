@@ -75,6 +75,7 @@ myTreeSelect =
            [ Node (TSNode "Calculator" "" (spawn "qalculate"))  []
            , Node (TSNode "Paint" "" (spawn "pinta"))  []
            , Node (TSNode "Peek" "" (spawn "peek"))  []
+           , Node (TSNode "ARandR" "" (spawn "arandr"))  []
            , Node (TSNode "Remote Desktop" "" (spawn "remmina"))  []
            ]
        ]
