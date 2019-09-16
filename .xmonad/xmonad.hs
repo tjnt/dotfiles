@@ -75,6 +75,7 @@ myTreeSelect =
            [ Node (TSNode "Calculator" "" (spawn "qalculate"))  []
            , Node (TSNode "Paint" "" (spawn "pinta"))  []
            , Node (TSNode "Peek" "" (spawn "peek"))  []
+           , Node (TSNode "pavucontrol" "" (spawn "pavucontrol"))  []
            , Node (TSNode "ARandR" "" (spawn "arandr"))  []
            , Node (TSNode "Remote Desktop" "" (spawn "remmina"))  []
            ]
@@ -163,6 +164,7 @@ myStartupHook = do
                \--transparent true --alpha 0 --tint 0x080808 \
                \--SetDockType true --SetPartialStrut true"
     spawnOnce "feh --randomize --bg-fill $HOME/.wallpaper/*"
+    spawnOnce "blueman-applet"
     spawnOnce "dropbox start"
     -- spawnOnce "conky -bd"
 
