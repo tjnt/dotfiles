@@ -121,12 +121,16 @@ if executable('ag')
   Plug 'rking/ag.vim'
 endif
 
+let g:my.enable_completion_lang =
+      \ ['c', 'cpp', 'python', 'haskell',
+      \  'rust', 'javascript', 'typescript' ]
+
 Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp', {
-      \ 'for': ['c', 'cpp', 'python', 'haskell', 'rust', 'javascript', 'typescript' ]
-      \ }
+Plug 'prabirshrestha/vim-lsp',
+      \ { 'for': g:my.enable_completion_lang }
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] } " on-demand load
+Plug 'prabirshrestha/asyncomplete-lsp.vim',
+      \ { 'for': g:my.enable_completion_lang }
 Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 
 Plug 'SirVer/ultisnips', { 'on': [], 'insert': 1 }
@@ -670,11 +674,6 @@ if s:plug.is_installed('vim-lsp')
         \   'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
         \   'whitelist': ['javascript', 'javascript.jsx', 'typescript', 'typescript.tsx'],
         \ })
-    endif
-
-    " asyncomplete-lsp on-demand load
-    if s:plug.is_loaded('vim-lsp')
-      call plug#load('asyncomplete-lsp.vim')
     endif
 
     nnoremap <buffer><C-]> :<C-u>LspDefinition<CR>
