@@ -1,6 +1,31 @@
 ##### .zshrc #####
 
 #-------------------------------------------------
+# Plugin
+#
+[ -d ~/.zplug ] && ENABLE_PLUGIN=1 || :
+
+if [ -v ENABLE_PLUGIN ]; then
+  source ~/.zplug/init.zsh
+
+  zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+  zplug 'mafredri/zsh-async', from:github
+  zplug 'sindresorhus/pure', use:'pure.zsh', from:github, as:theme
+  zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+  zplug 'zsh-users/zsh-completions'
+  zplug 'zsh-users/zsh-autosuggestions'
+
+  if ! zplug check --verbose; then
+    printf 'Install? [y/N]: '
+    if read -q; then
+      echo; zplug install
+    fi
+  fi
+
+  zplug load
+fi
+
+#-------------------------------------------------
 # umask
 #
 # file rw-r--r--
@@ -15,24 +40,26 @@ autoload -Uz colors
 colors
 
 # プロンプト
-local c1='009', c2='104', c3='084', c4='196'
-local mark="%B%F{${c1}}%# %f%b"
-local userhost="%B%F{${c1}}%n@%m:%f%b"
-local location="%B%F{$c2}%~%f%b"
-local number_of_jobs="%(1j.%F{${c1}} | %f%B%F{${c3}}%j%b%f.)"
-local status_code="%(?,,%F{${c1}} > %f%B%F{${c4}}%?%f%b)"
-PROMPT="${userhost}${location}${number_of_jobs}${status_code}
+if [ ! -v ENABLE_PLUGIN ]; then
+  local c1='009', c2='104', c3='084', c4='196'
+  local mark="%B%F{${c1}}%# %f%b"
+  local userhost="%B%F{${c1}}%n@%m:%f%b"
+  local location="%B%F{$c2}%~%f%b"
+  local number_of_jobs="%(1j.%F{${c1}} | %f%B%F{${c3}}%j%b%f.)"
+  local status_code="%(?,,%F{${c1}} > %f%B%F{${c4}}%?%f%b)"
+  PROMPT="${userhost}${location}${number_of_jobs}${status_code}
 ${mark}"
 
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd() { vcs_info }
-RPROMPT='${vcs_info_msg_0_}'
+  autoload -Uz vcs_info
+  setopt prompt_subst
+  zstyle ':vcs_info:git:*' check-for-changes true
+  zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+  zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+  zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
+  zstyle ':vcs_info:*' actionformats '[%b|%a]'
+  precmd() { vcs_info }
+  RPROMPT='${vcs_info_msg_0_}'
+fi
 
 #-------------------------------------------------
 # History
@@ -201,6 +228,11 @@ anaconda() {
   PROMPT="%B%F{228}[anaconda] %f%b${PROMPT}"
   export ANACONDA=1
   unset -f anaconda
+}
+
+install_zplug() {
+  curl -sL --proto-redir -all,https \
+    https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 }
 
 #-------------------------------------------------
