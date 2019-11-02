@@ -6,6 +6,19 @@ snippet import_qualified "import qualified"
 import qualified ${1:module} as ${2:alias}
 endsnippet
 
+snippet import_ByteString
+import qualified Data.ByteString.Char8 as BS
+import Data.Maybe (fromJust)
+endsnippet
+
+snippet import_List
+import Data.List
+endsnippet
+
+snippet import_Monad
+import Control.Monad
+endsnippet
+
 snippet main "main function"
 main :: IO ()
 main = do
@@ -35,31 +48,36 @@ ${0:var} <- map read . words <$> getLine :: IO [Int]
 endsnippet
 
 snippet readLinesInt "複数行の入力から数値を読み込む"
-${0:var}  <- map read . lines <$> getContents :: IO [Int]
+${0:var} <- map read . lines <$> getContents :: IO [Int]
 endsnippet
 
 snippet readLinesIntList "複数行の入力から数値のリストを読み込む"
-${0:var}  <- map (map read . words) . lines <$> getContents :: IO [[Int]]
+${0:var} <- map (map read . words) . lines <$> getContents :: IO [[Int]]
 endsnippet
 
 snippet readLinesIntTupleList "複数行の入力から数値(タプル)のリストを読み込む"
-${0:var} <- map ((\[a,b] -> (a,b)) . (map read . words)) . lines <$> getContents :: IO [(Int,Int)]
+${0:var} <- map ((\[a,b] -> (a,b)) . (map read . words))
+    . lines <$> getContents :: IO [(Int,Int)]
 endsnippet
 
 snippet BSreadIntList "(BS)入力から数値のリストを読み込む"
-${0:var} <- map (fst . fromJust . BS.readInt) . BS.words <$> BS.getLine
+${0:var} <- map (fst . fromJust . BS.readInt)
+    . BS.words <$> BS.getLine :: IO [Int]
 endsnippet
 
 snippet BSreadLinesInt "(BS)複数行の入力から数値を読み込む"
-${0:var} <- map (fst . fromJust . BS.readInt) . BS.lines <$> BS.getContents
+${0:var} <- map (fst . fromJust . BS.readInt)
+    . BS.lines <$> BS.getContents :: IO [Int]
 endsnippet
 
 snippet BSreadLinesIntList "(BS)複数行の入力から数値のリストを読み込む"
-${0:var} <- map (map (fst . fromJust . BS.readInt) . BS.words) . BS.lines <$> BS.getContents
+${0:var} <- map (map (fst . fromJust . BS.readInt) . BS.words)
+    . BS.lines <$> BS.getContents :: IO [[Int]]
 endsnippet
 
 snippet BSreadLinesIntTupleList "(BS)数行の入力から数値(タプル)のリストを読み込む"
-${0:var} <- map ((\[a,b] -> (a,b)) . map (fst . fromJust . BS.readInt) . BS.words) . BS.lines <$> BS.getContents
+${0:var} <- map ((\[a,b] -> (a,b)) . map (fst . fromJust . BS.readInt) . BS.words)
+    . BS.lines <$> BS.getContents :: IO [(Int,Int)]
 endsnippet
 
 # vim:set list expandtab:
