@@ -267,10 +267,14 @@ if [ -f ~/.zplug/init.zsh ]; then
 
   zplug 'zplug/zplug', hook-build:'zplug --self-manage'
   zplug 'mafredri/zsh-async', from:github
-  zplug 'sindresorhus/pure', use:'pure.zsh', from:github, as:theme
+  zplug 'sindresorhus/pure', use:pure.zsh, from:github, as:theme
   zplug 'zsh-users/zsh-syntax-highlighting', defer:2
   zplug 'zsh-users/zsh-completions'
   zplug 'zsh-users/zsh-autosuggestions'
+  zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf
+  zplug 'junegunn/fzf', as:command, use:bin/fzf-tmux
+  zplug 'junegunn/fzf', use:shell/key-bindings.zsh
+  zplug 'junegunn/fzf', use:shell/completion.zsh
 
   if ! zplug check --verbose; then
     printf 'Install? [y/N]: '
@@ -280,6 +284,14 @@ if [ -f ~/.zplug/init.zsh ]; then
   fi
 
   zplug load
+fi
+
+#-------------------------------------------------
+# fzf
+#
+if type fzf > /dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='ag --nocolor --hidden -g ""'
+  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --inline-info'
 fi
 
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
