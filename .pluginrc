@@ -117,10 +117,6 @@ if executable('ctags')
       \ }
 endif
 
-if executable('ag')
-  Plug 'rking/ag.vim'
-endif
-
 let g:my.enable_completion_lang =
       \ ['c', 'cpp', 'python', 'haskell',
       \  'rust', 'javascript', 'typescript' ]
@@ -538,12 +534,6 @@ if s:plug.is_installed('a.vim')
   endfunction
 
   call s:plug.register_hook('a.vim')
-endif
-
-" ag.vim {{{1
-"
-if s:plug.is_installed('ag.vim')
-  let g:ag_prg="ag --vimgrep --smart-case"
 endif
 
 " fzf.vim {{{1
