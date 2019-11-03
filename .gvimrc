@@ -67,10 +67,12 @@ endif
 
 if has('unix')
   let s:normal= [
+        \ 'RictyDiminished Nerd Font 12',
         \ 'Ricty Diminished 12',
         \ 'Ricty 12',
         \ ]
   let s:wide= [
+        \ 'RictyDiminished Nerd Font 12',
         \ 'Ricty Diminished 12',
         \ 'Ricty 12',
         \ 'Monospace 12',
