@@ -136,13 +136,18 @@ Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 Plug 'SirVer/ultisnips', { 'on': [], 'insert': 1 }
 " Plug 'honza/vim-snippets'
 
-Plug 'ctrlpvim/ctrlp.vim', {
-      \ 'on': [
-      \   'CtrlP',
-      \   'CtrlPCurWD',
-      \   'CtrlPCurFile',
-      \   'CtrlPBuffer',
-      \ ]}
+if executable('fzf')
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+  Plug 'junegunn/fzf.vim'
+else
+  Plug 'ctrlpvim/ctrlp.vim', {
+        \ 'on': [
+        \   'CtrlP',
+        \   'CtrlPCurWD',
+        \   'CtrlPCurFile',
+        \   'CtrlPBuffer',
+        \ ]}
+endif
 
 Plug 'scrooloose/nerdtree', {
       \ 'on': 'NERDTreeToggle'
@@ -539,6 +544,19 @@ endif
 "
 if s:plug.is_installed('ag.vim')
   let g:ag_prg="ag --vimgrep --smart-case"
+endif
+
+" fzf.vim {{{1
+"
+if s:plug.is_installed('fzf.vim')
+  nnoremap <silent><LEADER>f :<C-u>Files<CR>
+  nnoremap <silent><LEADER>F :<C-u>Files %:h<CR>
+  nnoremap <silent><LEADER>g :<C-u>GFiles<CR>
+  nnoremap <silent><LEADER>G :<C-u>GFiles?<CR>
+  nnoremap <silent><LEADER>b :<C-u>Buffers<CR>
+  nnoremap <silent><LEADER>l :<C-u>BLines<CR>
+  nnoremap <silent><LEADER>h :<C-u>History<CR>
+  " nnoremap <silent><LEADER>m :Mark<CR>
 endif
 
 " ctrlp.vim {{{1
