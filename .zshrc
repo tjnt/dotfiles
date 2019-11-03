@@ -292,6 +292,56 @@ fi
 if type fzf > /dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='ag --nocolor --hidden -g ""'
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --inline-info'
+
+  # fd - cd to selected directory
+  fd() {
+    local dir
+    dir=$(find ${1:-.} -path '*/\.*' -prune \
+                       -o -type d -print 2> /dev/null | fzf +m) &&
+    cd "$dir"
+  }
+
+  # fda - including hidden directories
+  fda() {
+    local dir
+    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+  }
+
+  # fdr - cd to selected parent directory
+  fdr() {
+    local declare dirs=()
+    get_parent_dirs() {
+      [[ -d "${1}" ]] && dirs+=("$1")
+      if [[ "${1}" == '/' ]]; then
+        for _dir in "${dirs[@]}"; do echo $_dir; done
+      else
+        get_parent_dirs $(dirname "$1")
+      fi
+    }
+    local dir=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf +m --tac)
+    cd "$dir"
+  }
+
+  # fe - Open the selected file with the default editor
+  fe() {
+    local files
+    IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+    [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  }
+
+  # fe - Open the selected file with xdg-open
+  fo() {
+    local files
+    IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+    [[ -n "$files" ]] && xdg-open "${files[@]}" 2> /dev/null
+  }
+
+  # fkill - kill processes
+  fkill() {
+    local pid
+    pid=$(ps -fu $UID | sed 1d | fzf -m | awk '{print $2}')
+    [[ -n $pid ]] && echo $pid | xargs kill -${1:-15}
+  }
 fi
 
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
