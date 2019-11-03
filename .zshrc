@@ -152,7 +152,7 @@ alias mkdir='mkdir -p'
 # grep
 alias grep='grep --color'
 # sudo の後のコマンドでエイリアスを有効にする
-alias sudo='sudo '
+# alias sudo='sudo '
 # python
 alias python='python3'
 alias pip='python3 -m pip'
