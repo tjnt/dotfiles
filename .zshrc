@@ -178,6 +178,7 @@ alias jobs='jobs -l'
 alias dirs='dirs -v'
 alias lv='lv -c'
 alias vi='vim'
+alias open='xdg-open'
 alias standby='xset dpms force standby'
 # translate-shell
 if _executable trans; then
