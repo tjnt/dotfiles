@@ -182,8 +182,13 @@ if _executable trans; then
 fi
 
 # グローバルエイリアス
-alias -g G='| grep'
+alias -g A='| awk'
+alias -g C='| xclip -i -selection clipboard'
+alias -g G='| grep --color=auto'
+alias -g H='| head'
+alias -g T='| tail'
 alias -g L='| $PAGER'
+alias -g X='| xargs'
 
 #-------------------------------------------------
 # Functions
