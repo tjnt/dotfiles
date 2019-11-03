@@ -1,6 +1,14 @@
 ##### .zshenv #####
 
 #-------------------------------------------------
+# Internal Functions
+#
+# executable check function
+_executable() {
+  return $(whence $1 >/dev/null)
+}
+
+#-------------------------------------------------
 # PATH
 #
 if [ -d $HOME/.cargo/bin ]; then
@@ -29,7 +37,7 @@ export PAGER=less
 # path=($JAVA_HOME/bin(N-/) $path)
 
 # rbenv initialize
-if type rbenv > /dev/null 2>&1 ; then
+if _executable rbenv; then
   eval "$(rbenv init -)"
 fi
 

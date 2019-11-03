@@ -130,7 +130,7 @@ bindkey '\C-x\C-e' edit-command-line
 #
 # ls
 eval "`dircolors -b`"
-if type -p lv >/dev/null 2>&1; then
+if _executable lsd; then
   alias ls='lsd'
 else
   alias ls='ls --color=auto'
@@ -166,11 +166,7 @@ alias vi='vim'
 alias standby='xset dpms force standby'
 # グローバルエイリアス
 alias -g G='| grep'
-if type -p lv >/dev/null 2>&1; then
-  alias -g L='| lv'
-else
-  alias -g L='| less'
-fi
+alias -g L='| $PAGER'
 
 #-------------------------------------------------
 # Functions
@@ -203,22 +199,12 @@ anaconda() {
   unset -f anaconda
 }
 
-install_zplug() {
-  curl -sL --proto-redir -all,https \
-    https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-}
-
 #-------------------------------------------------
 # その他の設定
 #
 # 画面出力のstart/stopを無効化
 stty start undef
 stty stop undef
-
-# stackのサブコマンドを補完する
-if type -p stack >/dev/null 2>&1; then
-  eval "$(stack --bash-completion-script stack)"
-fi
 
 # msys/mingwで補完を有効にする
 if [ ! -v $COMSPEC ]; then
@@ -231,31 +217,33 @@ fi
 # tmux
 #
 # tmux自動起動
-is_screen_running() {
-  # tscreen also uses this varariable.
-  [ ! -z "$WINDOW" ]
-}
-is_tmux_runnning() {
-  [ ! -z "$TMUX" ]
-}
-is_screen_or_tmux_running() {
-  is_screen_running || is_tmux_runnning
-}
-shell_has_started_interactively() {
-  [ ! -z "$PS1" ]
-}
-if ! is_screen_or_tmux_running && shell_has_started_interactively; then
-  for cmd in tmux tscreen screen; do
-    if type -p $cmd >/dev/null 2>/dev/null; then
-      eval $cmd
-      break
-    fi
-  done
-fi
+if _executable tmux; then
+  is_screen_running() {
+    # tscreen also uses this varariable.
+    [ ! -z "$WINDOW" ]
+  }
+  is_tmux_runnning() {
+    [ ! -z "$TMUX" ]
+  }
+  is_screen_or_tmux_running() {
+    is_screen_running || is_tmux_runnning
+  }
+  shell_has_started_interactively() {
+    [ ! -z "$PS1" ]
+  }
+  if ! is_screen_or_tmux_running && shell_has_started_interactively; then
+    for cmd in tmux tscreen screen; do
+      if _executable "$cmd"; then
+        eval "$cmd"
+        break
+      fi
+    done
+  fi
 
-# alias
-alias tls='tmux ls'
-alias tat='tmux attach -t'
+  # alias
+  alias tls='tmux ls'
+  alias tat='tmux attach -t'
+fi
 
 #-------------------------------------------------
 # プラグインのロード
@@ -286,10 +274,15 @@ if [ -f ~/.zplug/init.zsh ]; then
   zplug load
 fi
 
+install_zplug() {
+  curl -sL --proto-redir -all,https \
+    https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+}
+
 #-------------------------------------------------
 # fzf
 #
-if type fzf > /dev/null 2>&1; then
+if _executable fzf; then
   export FZF_DEFAULT_COMMAND='ag --nocolor --hidden -g ""'
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --inline-info'
 
