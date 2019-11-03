@@ -19,11 +19,7 @@ if has('vim_starting')
   endif
 endif
 
-if executable('git')
-  call plug#begin(expand('$VIMLOCAL/plugins'))
-else
-  silent! call plug#begin(expand('$VIMLOCAL/plugins'))
-endif
+call plug#begin(expand('$VIMLOCAL/plugins'))
 
 if (g:is_win && executable('mingw32-make')) || (has('unix') && executable('make'))
   function! BuildVimproc(info)
