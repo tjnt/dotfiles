@@ -150,6 +150,8 @@ Plug 'scrooloose/nerdtree', {
       \ }
 Plug 'ryanoasis/vim-devicons'
 
+Plug 'airblade/vim-gitgutter'
+
 Plug 'thinca/vim-quickrun', {
       \ 'on': [
       \   'QuickRun',
