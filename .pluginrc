@@ -146,8 +146,6 @@ Plug 'scrooloose/nerdtree', {
       \ }
 Plug 'ryanoasis/vim-devicons'
 
-Plug 'airblade/vim-gitgutter'
-
 Plug 'thinca/vim-quickrun', {
       \ 'on': [
       \   'QuickRun',
@@ -159,6 +157,10 @@ Plug 'thinca/vim-ref', {
       \   'Ref',
       \   '<Plug>(ref-keyword)'
       \ ]}
+
+" git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 Plug 'tyru/open-browser.vim', {
       \ 'on': [
