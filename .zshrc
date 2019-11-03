@@ -164,6 +164,12 @@ alias dirs='dirs -v'
 alias lv='lv -c'
 alias vi='vim'
 alias standby='xset dpms force standby'
+# translate-shell
+if _executable trans; then
+  alias transJ='trans -shell -brief ja:en'
+  alias transE='trans -shell -brief en:ja'
+fi
+
 # グローバルエイリアス
 alias -g G='| grep'
 alias -g L='| $PAGER'
