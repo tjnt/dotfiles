@@ -26,7 +26,7 @@ import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
                                               promptBorderWidth)
 import           XMonad.Prompt.Shell         (shellPrompt)
 import           XMonad.Util.EZConfig        (additionalKeysP)
-import           XMonad.Util.Run             (runProcessWithInput)
+-- import           XMonad.Util.Run             (runProcessWithInput)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
 
 myModMask = mod4Mask
@@ -36,8 +36,8 @@ myWorkspaces = [ show x | x <- [1..5] ]
 
 brightnessCtrl :: Int -> X ()
 brightnessCtrl param = do
-    maxV <- read <$> runProcessWithInput "cat" [fileMax] []
-    curV <- read <$> runProcessWithInput "cat" [ fileCur ] []
+    maxV <- io $ read <$> readFile fileMax :: X Int
+    curV <- io $ read <$> readFile fileCur :: X Int
     let step = maxV `div` 100
         minV = step * 10
         value = curV + step * param
