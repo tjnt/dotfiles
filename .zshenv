@@ -11,13 +11,13 @@ _executable() {
 #-------------------------------------------------
 # PATH
 #
-if [ -d $HOME/.cargo/bin ]; then
+if [[ -d $HOME/.cargo/bin ]]; then
   path=($HOME/.cargo/bin(N-/) $path)
 fi
 
 path=($HOME/.local/bin(N-/) $path)
 
-if [ -z "${ld_library_path}" ]; then
+if [[ -z "${ld_library_path}" ]]; then
   typeset -T LD_LIBRARY_PATH ld_library_path
 fi
 ld_library_path=(${HOME}/.local/lib(N-/) $ld_library_path)
@@ -42,10 +42,10 @@ if _executable rbenv; then
 fi
 
 # nvm
-if [ -d $HOME/.nvm ]; then
+if [[ -d $HOME/.nvm ]]; then
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:

@@ -211,7 +211,7 @@ calc() {
 # ranger
 # Start new ranger instance only if it's not running in current shell
 rg() {
-  if [ -z "$RANGER_LEVEL" ]; then
+  if [[ -z "$RANGER_LEVEL" ]]; then
     ranger
   else
     exit
@@ -267,7 +267,7 @@ stty start undef
 stty stop undef
 
 # msys/mingwで補完を有効にする
-if [ ! -v $COMSPEC ]; then
+if [[ ! -v $COMSPEC ]]; then
   drives=$(mount | sed -rn 's#^[A-Z]: on /([a-z]).*#\1#p' | tr '\n' ' ')
   zstyle ':completion:*' fake-files /: "/:$drives"
   unset drives
@@ -280,16 +280,16 @@ fi
 if _executable tmux; then
   is_screen_running() {
     # tscreen also uses this varariable.
-    [ ! -z "$WINDOW" ]
+    [[ ! -z "$WINDOW" ]]
   }
   is_tmux_runnning() {
-    [ ! -z "$TMUX" ]
+    [[ ! -z "$TMUX" ]]
   }
   is_screen_or_tmux_running() {
     is_screen_running || is_tmux_runnning
   }
   shell_has_started_interactively() {
-    [ ! -z "$PS1" ]
+    [[ ! -z "$PS1" ]]
   }
   if ! is_screen_or_tmux_running && shell_has_started_interactively; then
     for cmd in tmux tscreen screen; do
@@ -308,7 +308,7 @@ fi
 #-------------------------------------------------
 # プラグインのロード
 #
-if [ -f ~/.zplug/init.zsh ]; then
+if [[ -f ~/.zplug/init.zsh ]]; then
   unset PROMPT RPROMPT # pureのプロンプトを使うためクリア
 
   source ~/.zplug/init.zsh
