@@ -1,6 +1,10 @@
 import           ColorScheme.JellyBeans
 import           Control.Applicative         ((<$>))
+import           Control.Exception           (catch)
+import           GHC.IO.Exception            (IOException)
 import           Data.Tree                   (Tree (Node))
+import           System.IO                   (readFile, writeFile)
+import           Text.Printf                 (printf)
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
 import           XMonad.Actions.TreeSelect   (TSConfig (..), TSNode (..),
@@ -43,6 +47,25 @@ brightnessCtrl param = do
     prefix = "/sys/class/backlight/intel_backlight/"
     fileMax = prefix ++ "max_brightness"
     fileCur = prefix ++ "brightness"
+
+cycleMonitor :: (String, String) -> X ()
+cycleMonitor (primary, secondary) = do
+    x <- io $ (read <$> readFile file) `catch` handler :: X Int
+    io $ x `seq` writeFile file $ show (succ x `rem` 4)
+    spawn $ "xrandr " ++
+        case x of
+            0 -> single
+            1 -> rightof
+            2 -> leftof
+            3 -> external
+  where
+    handler :: IOException -> IO Int
+    handler e = return 0
+    file     = "/tmp/monitor-mode"
+    single   = printf "--output %s --auto --output %s --off" primary secondary
+    rightof  = printf "--output %s --auto --output %s --auto --right-of eDP-1" primary secondary
+    leftof   = printf "--output %s --auto --output %s --auto --left-of eDP-1" primary secondary
+    external = printf "--output %s --off --output %s --auto" primary secondary
 
 -- shell prompt
 
@@ -129,7 +152,7 @@ myKeys =
     , ("<XF86AudioLowerVolume>", spawn "amixer -q set Master playback 10%-")
     , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
       -- toggle monitor
-    , ("<XF86Display>",          spawn "dualmonitor auto")
+    , ("<XF86Display>",          cycleMonitor ("eDP-1", "HDMI-2"))
     ]
 
 -- Layout Hook
