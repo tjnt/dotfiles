@@ -218,6 +218,39 @@ rg() {
   fi
 }
 
+# xdg
+# 現在の関連付けを表示
+xdg-default-show() {
+  if [[ $# -ne 1 ]]; then
+    echo 'Usage: xdg-default-show [filepath]' >&2
+    return 1
+  fi
+  local file="$1"
+  local mime=$(xdg-mime query filetype "$file")
+  xdg-mime query default "$mime"
+}
+
+# 関連付けを登録
+xdg-default-regist() {
+  if [[ $# -ne 2 ]]; then
+    echo 'Usage: xdg-default-regist [application] [filepath]' >&2
+    return 1
+  fi
+  local app="$1"
+  local file="$2"
+  local desktop=$(find /usr/share/applications -name "${app}.desktop")
+  if [[ ! -n "$desktop" ]]; then
+    echo 'desktop entry not found.' >&2
+    return 1
+  fi
+  local mime=$(xdg-mime query filetype "$file")
+  if [[ "$mime" == 'inode/x-empty' ]]; then
+    echo 'mime type x-empty.' >&2
+    return 1
+  fi
+  xdg-mime default "${desktop##*/}" "$mime"
+}
+
 # anacondaをパスに追加してプロンプトを変える
 anaconda() {
   path=($HOME/.local/anaconda3/bin(N-/) $path)
