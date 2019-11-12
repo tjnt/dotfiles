@@ -807,6 +807,10 @@ augroup _filetype
         \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
   au FileType haskell
         \ setlocal ts< sts=4 sw=4
+        \ | if executable('stylish-haskell')
+        \ |   setlocal formatprg=stylish-haskell
+        \ |   exe 'command! -nargs=0 StylishHaskell :%!stylish-haskell'
+        \ | endif
   au FileType html,xml,xhtml
         \ setlocal ts=2 sts=0 sw=2
   au FileType make
