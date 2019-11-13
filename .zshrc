@@ -397,4 +397,16 @@ if _executable fzf; then
   }
 fi
 
+#-------------------------------------------------
+# clipboard
+#
+if _executable fzf && _executable clipc; then
+  alias clip='clip_fzf'
+
+  clip_fzf() {
+    local recid=$(clipc --list | fzf | awk '{print $1}')
+    [[ -n $recid ]] && clipc --select $recid
+  }
+fi
+
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:

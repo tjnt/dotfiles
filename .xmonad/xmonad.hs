@@ -192,6 +192,7 @@ myStartupHook = do
     spawnOnce "nm-tray"
     spawnOnce "blueman-applet"
     spawnOnce "dropbox start"
+    spawnOnce "clipd"
     -- spawnOnce "conky -bd"
 
 -- xmobar
