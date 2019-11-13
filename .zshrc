@@ -34,6 +34,10 @@ zstyle ':vcs_info:*' actionformats '[%b|%a]'
 precmd() { vcs_info }
 RPROMPT='${vcs_info_msg_0_}'
 
+# 補完候補の色表示
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
 #-------------------------------------------------
 # History
 #
@@ -54,6 +58,8 @@ setopt hist_reduce_blanks
 setopt hist_no_store
 # 複数セッションでヒストリを共有
 setopt share_history
+# シェルの終了を待たずに履歴を保存
+setopt inc_append_history
 
 #-------------------------------------------------
 # Completion
