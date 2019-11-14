@@ -19,7 +19,7 @@ Config
             , "-H",       "85"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
-            , "-w",       "3"
+            , "-w",       "4"
             ] 10
         , Run Memory
             [ "-t",       "<icon=mem.xbm/><usedratio>%"
@@ -27,7 +27,7 @@ Config
             , "-H",       "90"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
-            , "-w",       "3"
+            , "-w",       "4"
             ] 10
         , Run DynNetwork
             [ "-t",       "<icon=arrow_down.xbm/><rx> : <icon=arrow_up.xbm/><tx>"
@@ -38,8 +38,8 @@ Config
             , "-w",       "4"
             ] 10
         , Run Brightness
-            [ "-t",       "💡 <percent>"
-            , "-w",       "3"
+            [ "-t",       "💡<percent>"
+            , "-w",       "4"
             , "--"
             , "-D",       "intel_backlight"
             ] 10
@@ -56,7 +56,7 @@ Config
             , "-H",       "80"
             , "--low",    "#d75f5f"
             , "--normal", "#C7F09F"
-            , "-w",       "3"
+            , "-w",       "4"
             , "--"
             , "-o",       "<left>% (<timeleft>)"
             , "-O",       "<left>%"
