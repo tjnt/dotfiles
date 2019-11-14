@@ -3,7 +3,9 @@ import           Control.Applicative         ((<$>))
 import           Control.Exception           (catch)
 import           Data.Tree                   (Tree (Node))
 import           GHC.IO.Exception            (IOException)
+import           System.Environment          (getEnv)
 import           System.IO                   (readFile, writeFile)
+import           System.IO.Unsafe            (unsafePerformIO)
 import           Text.Printf                 (printf)
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
@@ -16,6 +18,7 @@ import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
 import           XMonad.Layout.Circle        (Circle (..))
 import           XMonad.Layout.Gaps          (Direction2D (..), gaps)
+import           XMonad.Layout.Named         (named)
 import           XMonad.Layout.NoBorders     (noBorders, smartBorders)
 import           XMonad.Layout.ResizableTile (ResizableTall (..))
 import           XMonad.Layout.Spacing       (spacing)
@@ -26,9 +29,8 @@ import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
                                               promptBorderWidth)
 import           XMonad.Prompt.Shell         (shellPrompt)
 import           XMonad.Util.EZConfig        (additionalKeysP)
--- import           XMonad.Util.Run             (runProcessWithInput)
-import           XMonad.Layout.Named         (named)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
+-- import           XMonad.Util.Run             (runProcessWithInput)
 
 myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
@@ -165,14 +167,16 @@ myLayoutHook = toggleLayouts expand normal
     gwL = (L, 4)
     gwR = (R, 4)
     gapW = spacing 2 . gaps [gwU, gwD, gwL, gwR]
-    normal  =     named "<icon=layout-im-tall.xbm/>" tall
-              ||| named "<icon=layout-im-mirror.xbm/>" mirror
-              ||| named "<icon=layout-full.xbm/>" circle
-    expand  =     named "<icon=layout-tall-left.xbm/>" full
-    tall    = smartBorders . avoidStruts . gapW $ ResizableTall 1 (3/100) (3/5) []
-    mirror  = smartBorders . avoidStruts . gapW $ Mirror (Tall 1 (3/100) (1/2))
-    circle  = Circle
-    full    = noBorders . avoidStruts .gapW $ Full
+    tall   = smartBorders . avoidStruts . gapW $ ResizableTall 1 (3/100) (3/5) []
+    mirror = smartBorders . avoidStruts . gapW $ Mirror (Tall 1 (3/100) (1/2))
+    circle = Circle
+    full   = noBorders . avoidStruts .gapW $ Full
+    icondir = unsafePerformIO (getEnv "HOME") ++ "/.xmonad/icons"
+    icon = printf "<icon=%s/%s/>" icondir
+    normal =     named (icon "layout-tall-right.xbm") tall
+             ||| named (icon "layout-im-mirror.xbm")  mirror
+             ||| named (icon "layout-im-tall.xbm")    circle
+    expand =     named (icon "layout-full.xbm")       full
 
 -- Manage Hook
 
