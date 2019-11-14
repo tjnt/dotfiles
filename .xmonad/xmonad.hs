@@ -170,7 +170,7 @@ myLayoutHook = toggleLayouts expand normal
               ||| named "<icon=layout-full.xbm/>" circle
     expand  =     named "<icon=layout-tall-left.xbm/>" full
     tall    = smartBorders . avoidStruts . gapW $ ResizableTall 1 (3/100) (3/5) []
-    mirror  = Mirror (Tall 1 (3/100) (1/2))
+    mirror  = smartBorders . avoidStruts . gapW $ Mirror (Tall 1 (3/100) (1/2))
     circle  = Circle
     full    = noBorders . avoidStruts .gapW $ Full
 
