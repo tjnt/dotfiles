@@ -1,6 +1,7 @@
 import           ColorScheme.JellyBeans
 import           Control.Applicative         ((<$>))
 import           Control.Exception           (catch)
+import           Data.Default                (def)
 import           Data.Tree                   (Tree (Node))
 import           GHC.IO.Exception            (IOException)
 import           System.IO                   (readFile, writeFile)
@@ -22,9 +23,8 @@ import           XMonad.Layout.ResizableTile (ResizableTall (..))
 import           XMonad.Layout.Spacing       (spacing)
 import           XMonad.Layout.ToggleLayouts (ToggleLayout (..), toggleLayouts)
 import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
-                                              bgColor, defaultXPConfig, fgColor,
-                                              font, height, position,
-                                              promptBorderWidth)
+                                              bgColor, fgColor, font, height,
+                                              position, promptBorderWidth)
 import           XMonad.Prompt.Shell         (shellPrompt)
 import           XMonad.Util.EZConfig        (additionalKeysP)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
@@ -70,7 +70,7 @@ cycleMonitor (primary, secondary) = do
 
 -- shell prompt
 
-myXPConfig = defaultXPConfig
+myXPConfig = def
     { font              = "xft:VL Gothic-10"
     , bgColor           = colorbg
     , fgColor           = colorfg
@@ -221,7 +221,7 @@ toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 
 -- main
 
-myConfig = ewmh defaultConfig
+myConfig = ewmh def
     { modMask = myModMask
     , terminal = "termite"
     , workspaces = myWorkspaces
