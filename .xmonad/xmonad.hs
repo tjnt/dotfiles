@@ -165,10 +165,10 @@ myLayoutHook = toggleLayouts expand normal
     gwL = (L, 4)
     gwR = (R, 4)
     gapW = spacing 2 . gaps [gwU, gwD, gwL, gwR]
-    normal  =     named "<icon=~/.xmonad/icons/layout-im-tall.xbm/>" tall
-              ||| named "<icon=~/.xmonad/icons/layout-im-mirror.xbm/>" mirror
-              ||| named "<icon=~/.xmonad/icons/layout-full.xbm/>" circle
-    expand  =     named "<icon=~/.xmonad/icons/layout-tall-left.xbm/>" full
+    normal  =     named "<icon=layout-im-tall.xbm/>" tall
+              ||| named "<icon=layout-im-mirror.xbm/>" mirror
+              ||| named "<icon=layout-full.xbm/>" circle
+    expand  =     named "<icon=layout-tall-left.xbm/>" full
     tall    = smartBorders . avoidStruts . gapW $ ResizableTall 1 (3/100) (3/5) []
     mirror  = Mirror (Tall 1 (3/100) (1/2))
     circle  = Circle
