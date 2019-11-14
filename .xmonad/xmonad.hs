@@ -1,8 +1,8 @@
 import           ColorScheme.JellyBeans
 import           Control.Applicative         ((<$>))
 import           Control.Exception           (catch)
-import           GHC.IO.Exception            (IOException)
 import           Data.Tree                   (Tree (Node))
+import           GHC.IO.Exception            (IOException)
 import           System.IO                   (readFile, writeFile)
 import           Text.Printf                 (printf)
 import           XMonad
@@ -27,6 +27,7 @@ import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
 import           XMonad.Prompt.Shell         (shellPrompt)
 import           XMonad.Util.EZConfig        (additionalKeysP)
 -- import           XMonad.Util.Run             (runProcessWithInput)
+import           XMonad.Layout.Named         (named)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
 
 myModMask = mod4Mask
@@ -157,18 +158,21 @@ myKeys =
 
 -- Layout Hook
 
-myLayoutHook = toggleLayouts full normal
+myLayoutHook = toggleLayouts expand normal
   where
     gwU = (U, 2)
     gwD = (D, 2)
     gwL = (L, 4)
     gwR = (R, 4)
     gapW = spacing 2 . gaps [gwU, gwD, gwL, gwR]
-    normal = smartBorders . avoidStruts . gapW
-               $ ResizableTall 1 (3/100) (3/5) []
-               ||| Mirror (Tall 1 (3/100) (1/2))
-               ||| Circle
-    full = noBorders . avoidStruts .gapW $ Full
+    normal  =     named "<icon=~/.xmonad/icons/layout-im-tall.xbm/>" tall
+              ||| named "<icon=~/.xmonad/icons/layout-im-mirror.xbm/>" mirror
+              ||| named "<icon=~/.xmonad/icons/layout-full.xbm/>" circle
+    expand  =     named "<icon=~/.xmonad/icons/layout-tall-left.xbm/>" full
+    tall    = smartBorders . avoidStruts . gapW $ ResizableTall 1 (3/100) (3/5) []
+    mirror  = Mirror (Tall 1 (3/100) (1/2))
+    circle  = Circle
+    full    = noBorders . avoidStruts .gapW $ Full
 
 -- Manage Hook
 
@@ -200,7 +204,7 @@ myStartupHook = do
 myBar = "xmobar $HOME/.xmonad/xmobarrc"
 
 myPP = xmobarPP
-    { ppOrder           = \(ws:l:t:_)  -> [ws, t]
+    { ppOrder           = \(ws:l:t:_)  -> [ws, l, t]
     , ppCurrent         = xmobarColor color1 colorbg . const "●"
     , ppUrgent          = xmobarColor color6 colorbg . const "●"
     , ppVisible         = xmobarColor color1 colorbg . const "⦿"
