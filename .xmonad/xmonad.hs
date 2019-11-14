@@ -3,9 +3,7 @@ import           Control.Applicative         ((<$>))
 import           Control.Exception           (catch)
 import           Data.Tree                   (Tree (Node))
 import           GHC.IO.Exception            (IOException)
-import           System.Environment          (getEnv)
 import           System.IO                   (readFile, writeFile)
-import           System.IO.Unsafe            (unsafePerformIO)
 import           Text.Printf                 (printf)
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
@@ -171,8 +169,7 @@ myLayoutHook = toggleLayouts expand normal
     mirror = smartBorders . avoidStruts . gapW $ Mirror (Tall 1 (3/100) (1/2))
     circle = Circle
     full   = noBorders . avoidStruts .gapW $ Full
-    icondir = unsafePerformIO (getEnv "HOME") ++ "/.xmonad/icons"
-    icon = printf "<icon=%s/%s/>" icondir
+    icon = printf "<icon=%s/>"
     normal =     named (icon "layout-tall-right.xbm") tall
              ||| named (icon "layout-im-mirror.xbm")  mirror
              ||| named (icon "layout-im-tall.xbm")    circle
