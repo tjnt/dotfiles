@@ -7,13 +7,14 @@ Config
     , position = TopW L 94
     , lowerOnStart = False
     , overrideRedirect = False
+    , iconRoot = "/home/tjnt/.xmonad/icons"
     , sepChar = "%"
     , alignSep = "}{"
     , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %bright% | %volume% | %battery% | <fc=#87af5f>%date%</fc> "
     , commands =
         [ Run StdinReader
         , Run Cpu
-            [ "-t",       "🄲 <total>%"
+            [ "-t",       "<icon=cpu.xbm/><total>%"
             , "-L",       "40"
             , "-H",       "85"
             , "--normal", "#C7F09F"
@@ -21,7 +22,7 @@ Config
             , "-w",       "3"
             ] 10
         , Run Memory
-            [ "-t",       "🄼 <usedratio>%"
+            [ "-t",       "<icon=mem.xbm/><usedratio>%"
             , "-L",       "40"
             , "-H",       "90"
             , "--normal", "#C7F09F"
@@ -29,7 +30,7 @@ Config
             , "-w",       "3"
             ] 10
         , Run DynNetwork
-            [ "-t",       "⇩ <rx> : ⇧ <tx>"
+            [ "-t",       "<icon=arrow_down.xbm/><rx> : <icon=arrow_up.xbm/><tx>"
             , "-L",       "40"
             , "-H",       "200"
             , "--normal", "#C7F09F"
@@ -50,16 +51,19 @@ Config
             ]
             "volume" 10
         , Run Battery
-            [ "-t",       "<acstatus>"
+            [ "-t",       "<leftipat><acstatus>"
             , "-L",       "20"
             , "-H",       "80"
             , "--low",    "#d75f5f"
             , "--normal", "#C7F09F"
             , "-w",       "3"
             , "--"
-            , "-o",       "🔋 <left>% (<timeleft>)"
-            , "-O",       "🔌 <left>%"
-            , "-i",       "🔌 <left>%"
+            , "-o",       "<left>% (<timeleft>)"
+            , "-O",       "<left>%"
+            , "-i",       "<left>%"
+            , "--on-icon-pattern",   "<icon=power-ac.xbm/>"
+            , "--off-icon-pattern",  "<icon=power-bat2.xbm/>"
+            , "--idle-icon-pattern", "<icon=power-ac.xbm/>"
             ] 50
         , Run Date "%a %m/%d %H:%M" "date" 10
         ]
