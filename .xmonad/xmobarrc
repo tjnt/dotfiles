@@ -11,7 +11,7 @@ Config
     , iconRoot = "/home/tjnt/.xmonad/icons"
     , sepChar = "%"
     , alignSep = "}{"
-    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %wlp3s0wi% | %bright% | %volume% | %battery% | <fc=#87af5f>%date%</fc> %trayerpad%"
+    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %wlp3s0wi% | %bright% | %default:Master% | %battery% | <fc=#87af5f>%date%</fc> %trayerpad%"
     , commands =
         [ Run StdinReader
         , Run Cpu
@@ -48,13 +48,15 @@ Config
             , "--"
             , "-D",       "intel_backlight"
             ] 10
-        , Run Com "/bin/bash"
-            [ "-c"
-            , "amixer get Master | awk -F'[]%[]' '/%/ {
-                 if ($5 == \"off\") { printf \"🔇%4d%%\", $2 }
-                 else { printf \"🔉%4d%%\", $2 } exit }'"
-            ]
-            "volume" 10
+        , Run Volume "default" "Master"
+            [ "-t",       "<status> <volume>%"
+            , "-w",       "3"
+            , "--"
+            , "-O",       "🔉"
+            , "-o",       "🔇"
+            , "-C",       "#C7F09F"
+            , "-c",       "#d75f5f"
+            ] 10
         , Run Battery
             [ "-t",       "<leftipat>  <acstatus>"
             , "-L",       "20"
