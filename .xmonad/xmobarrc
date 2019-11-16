@@ -11,7 +11,7 @@ Config
     , iconRoot = "/home/tjnt/.xmonad/icons"
     , sepChar = "%"
     , alignSep = "}{"
-    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %bright% | %volume% | %battery% | <fc=#87af5f>%date%</fc> %trayerpad%"
+    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %wlp3s0wi% | %bright% | %volume% | %battery% | <fc=#87af5f>%date%</fc> %trayerpad%"
     , commands =
         [ Run StdinReader
         , Run Cpu
@@ -37,6 +37,9 @@ Config
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
             , "-w",       "4"
+            ] 10
+        , Run Wireless "wlp3s0"
+            [ "-t",       "<icon=wifi.xbm/> <essid> <qualityvbar>"
             ] 10
         , Run Brightness
             [ "-t",       "💡<percent>%"
