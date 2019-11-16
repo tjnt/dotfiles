@@ -31,12 +31,15 @@ Config
             , "-w",       "3"
             ] 10
         , Run DynNetwork
-            [ "-t",       "<icon=arrow_down.xbm/> <rx>kb : <icon=arrow_up.xbm/> <tx>kb"
-            , "-L",       "40"
-            , "-H",       "200"
+            [ "-t",       "<rxipat> <rx>kb : <txipat> <tx>kb"
+            , "-L",       "102400"
+            , "-H",       "1024000"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
             , "-w",       "4"
+            , "--"
+            , "--rx-icon-pattern", "<icon=arrow_down.xbm/>"
+            , "--tx-icon-pattern", "<icon=arrow_up.xbm/>"
             ] 10
         , Run Wireless "wlp3s0"
             [ "-t",       "<icon=wifi.xbm/> <quality>%"
