@@ -15,23 +15,23 @@ Config
     , commands =
         [ Run StdinReader
         , Run Cpu
-            [ "-t",       "<icon=cpu.xbm/><total>%"
+            [ "-t",       "<icon=cpu.xbm/> <total>%"
             , "-L",       "40"
             , "-H",       "85"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
-            , "-w",       "4"
+            , "-w",       "3"
             ] 10
         , Run Memory
-            [ "-t",       "<icon=mem.xbm/><usedratio>%"
+            [ "-t",       "<icon=mem.xbm/> <usedratio>%"
             , "-L",       "40"
             , "-H",       "90"
             , "--normal", "#C7F09F"
             , "--high",   "#d75f5f"
-            , "-w",       "4"
+            , "-w",       "3"
             ] 10
         , Run DynNetwork
-            [ "-t",       "<icon=arrow_down.xbm/><rx> : <icon=arrow_up.xbm/><tx>"
+            [ "-t",       "<icon=arrow_down.xbm/> <rx> : <icon=arrow_up.xbm/> <tx>"
             , "-L",       "40"
             , "-H",       "200"
             , "--normal", "#C7F09F"
@@ -39,12 +39,12 @@ Config
             , "-w",       "4"
             ] 10
         , Run Wireless "wlp3s0"
-            [ "-t",       "<icon=wifi.xbm/><quality>%"
-            , "-w",       "4"
+            [ "-t",       "<icon=wifi.xbm/> <quality>%"
+            , "-w",       "3"
             ] 10
         , Run Brightness
-            [ "-t",       "💡<percent>%"
-            , "-w",       "4"
+            [ "-t",       "💡 <percent>%"
+            , "-w",       "3"
             , "--"
             , "-D",       "intel_backlight"
             ] 10
