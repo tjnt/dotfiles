@@ -11,7 +11,7 @@ Config
     , iconRoot = "/home/tjnt/.xmonad/icons"
     , sepChar = "%"
     , alignSep = "}{"
-    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %wlp3s0wi% | %bright% | %default:Master% | %battery% | <fc=#69b2b2>%date%</fc> %trayerpad%"
+    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %wlp3s0wi% | %bright% | %default:Master% | %battery% | %date% | %trayerpad%"
     , commands =
         [ Run StdinReader
         , Run Cpu
@@ -71,7 +71,7 @@ Config
             , "--off-icon-pattern",  "<icon=power-bat2.xbm/>"
             , "--idle-icon-pattern", "<icon=power-ac.xbm/>"
             ] 50
-        , Run Date "%a %m/%d %H:%M" "date" 10
+        , Run Date "%m/%d (%a) %H:%M" "date" 10
         , Run Com "trayer-padding-icon.sh" [] "trayerpad" 100
         ]
   }
