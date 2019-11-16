@@ -189,8 +189,8 @@ myManageHook = manageDocks <+> composeAll
 myStartupHook = do
     spawn "rm -f $HOME/.xmonad/xmonad.state"
     spawnOnce "compton -b"
-    spawnOnce "trayer --edge top --align right --width 6 --height 31 \
-               \--transparent true --alpha 0 --tint 0x080808 \
+    spawnOnce "trayer --edge top --align right --widthtype request --height 31 \
+               \--expand true --transparent true --alpha 0 --tint 0x080808 \
                \--SetDockType true --SetPartialStrut true"
     spawnOnce "feh --randomize --bg-fill $HOME/.wallpaper/*"
     spawnOnce "xbindkeys"

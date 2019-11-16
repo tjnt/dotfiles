@@ -4,13 +4,14 @@ Config
     { font = "xft:VL Gothic-10, Unifont-10, Unifont Upper-10"
     , bgColor = "#080808"
     , fgColor = "#808080"
-    , position = TopW L 94
-    , lowerOnStart = False
-    , overrideRedirect = False
+    , position = Top L
+    , lowerOnStart = True
+    , overrideRedirect = True
+    , persistent = True
     , iconRoot = "/home/tjnt/.xmonad/icons"
     , sepChar = "%"
     , alignSep = "}{"
-    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %bright% | %volume% | %battery% | <fc=#87af5f>%date%</fc> "
+    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %bright% | %volume% | %battery% | <fc=#87af5f>%date%</fc> %trayerpad%"
     , commands =
         [ Run StdinReader
         , Run Cpu
@@ -66,6 +67,7 @@ Config
             , "--idle-icon-pattern", "<icon=power-ac.xbm/>"
             ] 50
         , Run Date "%a %m/%d %H:%M" "date" 10
+        , Run Com "trayer-padding-icon.sh" [] "trayerpad" 100
         ]
   }
 
