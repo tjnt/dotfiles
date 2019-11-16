@@ -11,7 +11,7 @@ Config
     , iconRoot = "/home/tjnt/.xmonad/icons"
     , sepChar = "%"
     , alignSep = "}{"
-    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %wlp3s0wi% | %bright% | %default:Master% | %battery% | <fc=#87af5f>%date%</fc> %trayerpad%"
+    , template = " %StdinReader% }{ %cpu% | %memory% | %dynnetwork% | %wlp3s0wi% | %bright% | %default:Master% | %battery% | <fc=#69b2b2>%date%</fc> %trayerpad%"
     , commands =
         [ Run StdinReader
         , Run Cpu
