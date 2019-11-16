@@ -39,7 +39,7 @@ Config
             , "-w",       "4"
             ] 10
         , Run Brightness
-            [ "-t",       "💡<percent>"
+            [ "-t",       "💡<percent>%"
             , "-w",       "4"
             , "--"
             , "-D",       "intel_backlight"
