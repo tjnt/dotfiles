@@ -31,7 +31,7 @@ Config
             , "-w",       "3"
             ] 10
         , Run DynNetwork
-            [ "-t",       "<icon=arrow_down.xbm/> <rx> : <icon=arrow_up.xbm/> <tx>"
+            [ "-t",       "<icon=arrow_down.xbm/> <rx>kb : <icon=arrow_up.xbm/> <tx>kb"
             , "-L",       "40"
             , "-H",       "200"
             , "--normal", "#C7F09F"
