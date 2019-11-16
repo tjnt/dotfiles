@@ -39,7 +39,8 @@ Config
             , "-w",       "4"
             ] 10
         , Run Wireless "wlp3s0"
-            [ "-t",       "<icon=wifi.xbm/> <essid> <qualityvbar>"
+            [ "-t",       "<icon=wifi.xbm/><quality>%"
+            , "-w",       "4"
             ] 10
         , Run Brightness
             [ "-t",       "💡<percent>%"
