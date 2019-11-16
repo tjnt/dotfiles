@@ -52,12 +52,11 @@ Config
             ]
             "volume" 10
         , Run Battery
-            [ "-t",       "<leftipat><acstatus>"
+            [ "-t",       "<leftipat>  <acstatus>"
             , "-L",       "20"
             , "-H",       "80"
             , "--low",    "#d75f5f"
             , "--normal", "#C7F09F"
-            , "-w",       "4"
             , "--"
             , "-o",       "<left>% (<timeleft>)"
             , "-O",       "<left>%"
