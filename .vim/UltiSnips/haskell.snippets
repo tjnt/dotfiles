@@ -55,7 +55,7 @@ snippet readLinesIntList "複数行の入力から数値のリストを読み込
 ${0:var} <- map (map read . words) . lines <$> getContents :: IO [[Int]]
 endsnippet
 
-snippet readLinesIntTupleList "複数行の入力から数値(タプル)のリストを読み込む"
+snippet readLinesIntTuple "複数行の入力から数値のタプルを読み込む"
 ${0:var} <- map ((\[a,b] -> (a,b)) . (map read . words))
     . lines <$> getContents :: IO [(Int,Int)]
 endsnippet
@@ -75,9 +75,13 @@ ${0:var} <- map (map (fst . fromJust . BS.readInt) . BS.words)
     . BS.lines <$> BS.getContents :: IO [[Int]]
 endsnippet
 
-snippet BSreadLinesIntTupleList "(BS)数行の入力から数値(タプル)のリストを読み込む"
+snippet BSreadLinesIntTuple "(BS)数行の入力から数値のタプルを読み込む"
 ${0:var} <- map ((\[a,b] -> (a,b)) . map (fst . fromJust . BS.readInt) . BS.words)
     . BS.lines <$> BS.getContents :: IO [(Int,Int)]
 endsnippet
 
+snippet BSreadLinesDoubleTuple "(BS)数行の入力から少数値のタプルを読み込む"
+${0:var} <- map ((\[a,b] -> (a,b)) . map ((read :: String -> Double) . BS.unpack) . BS.words)
+    . BS.lines <$> BS.getContents :: IO [(Double,Double)]
+endsnippet
 # vim:set list expandtab:
