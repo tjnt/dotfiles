@@ -28,7 +28,12 @@ endsnippet
 
 snippet func "function"
 ${1:name} :: ${2:type}
-$1 ${3:args} = ${0:code}
+$1 ${3:args} = ${0:undefined}
+endsnippet
+
+snippet solve "solve function"
+solve :: ${1:type}
+solve ${2:args} = ${0:undefined}
 endsnippet
 
 snippet readString "入力から文字列を読み込む"
@@ -84,4 +89,10 @@ snippet BSreadLinesDoubleTuple "(BS)数行の入力から少数値のタプル�
 ${0:var} <- map ((\[a,b] -> (a,b)) . map ((read :: String -> Double) . BS.unpack) . BS.words)
     . BS.lines <$> BS.getContents :: IO [(Double,Double)]
 endsnippet
+
+snippet debug "デバッグ関数"
+import Debug.Trace
+_t x = traceShow x x
+endsnippet
+
 # vim:set list expandtab:
