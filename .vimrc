@@ -811,6 +811,10 @@ augroup _filetype
         \ |   setlocal formatprg=stylish-haskell
         \ |   exe 'command! -nargs=0 StylishHaskell :%!stylish-haskell'
         \ | endif
+  au FileType rust
+        \   if executable('rustup')
+        \ |   exe 'command! -nargs=+ RustDoc :call system(''rustup doc <q-args>'')'
+        \ | endif
   au FileType html,xml,xhtml
         \ setlocal ts=2 sts=0 sw=2
   au FileType make
