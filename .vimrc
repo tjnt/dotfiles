@@ -210,22 +210,6 @@ command! -nargs=1 HasPlugin echomsg <SID>has_plugin(<q-args>)
 " global定義の格納用変数
 let g:my = {}
 
-" 外部コマンド実行
-function! g:my.bang(cmd)
-  let caller = s:has_plugin('vimproc') ? 'VimProcBang' : '!'
-  exe caller.' '.a:cmd
-endfunction
-
-function! g:my.read(cmd, bufopt)
-  let caller = s:has_plugin('vimproc') ? 'VimProcRead' : '$read!'
-  new
-  if a:bufopt !=# ''
-      exe 'setlocal '.a:bufopt
-  endif
-  exe caller.' '.a:cmd
-  call cursor(1, 0)
-endfunction
-
 " 文字列末尾の改行を削除する
 function! g:my.chomp(str)
   return substitute(a:str, '\n\+$', '', '')
@@ -686,12 +670,12 @@ command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only(<q-args>, '<
 let g:my.ctags_option = "--recurse=yes --sort=yes"
 
 function! s:make_ctags()
-  call g:my.bang('ctags ' . g:my.ctags_option)
+  call system('ctags ' . g:my.ctags_option)
 endfunction
 command! -nargs=0 MakeCtags call <SID>make_ctags()
 
 function! s:make_gtags()
-  call g:my.bang('gtags -q')
+  call system('gtags -q')
 endfunction
 command! -nargs=0 MakeGtags call <SID>make_gtags()
 
@@ -714,7 +698,7 @@ command! -nargs=* -complete=mapping AllMaps map <args> | map! <args> | lmap <arg
 
 " vimrcの行数を数える
 function! s:count_vimrc()
-  call g:my.bang(join(
+  exe '!'.(join(
           \ ['wc -l', s:rc_path('vimrc'), s:rc_path('gvimrc'), s:rc_path('pluginrc')], ' '))
 endfunction
 command! -nargs=0 CountVimrc call <SID>count_vimrc()
@@ -748,8 +732,10 @@ command! -nargs=1 -complete=command ClipCommandOutput call s:ClipCommandOutput(<
 "
 function! s:vcs_diff(command, only)
   let target = a:only ? expand('%') : ''
-  let bufopt = 'buftype=nofile bufhidden=wipe filetype=diff noswf '
-  call g:my.read(a:command.' '.target, bufopt)
+  new
+  exe 'setlocal buftype=nofile bufhidden=wipe filetype=diff noswf'
+  exe '$read! '.a:command.' '.target
+  call cursor(1, 0)
   unlet target
 endfunction
 
