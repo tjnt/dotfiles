@@ -21,23 +21,6 @@ endif
 
 call plug#begin(expand('$VIMLOCAL/plugins'))
 
-if (g:is_win && executable('mingw32-make')) || (has('unix') && executable('make'))
-  function! BuildVimproc(info)
-    if a:info.status == 'installed' || a:info.force
-      if g:is_win
-        call system('tools\\update-dll-mingw')
-      elseif has('win32unix')
-        call system('make -f make_cygwin.mak')
-      else
-        call system('make')
-      endif
-    endif
-  endfunction
-  Plug 'Shougo/vimproc.vim', { 'do': function('BuildVimproc') }
-elseif has('kaoriya') && has('vim_starting')
-  set runtimepath+=$VIM/plugins/vimproc
-endif
-
 Plug 'kana/vim-operator-user'
 
 Plug 'kana/vim-operator-replace', {
