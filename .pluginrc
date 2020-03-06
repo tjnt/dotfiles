@@ -185,8 +185,6 @@ Plug 'lilydjwg/colorizer', { 'on': [] }
 
 Plug 'itchyny/lightline.vim'
 
-Plug 'deris/vim-loadafterft'
-
 Plug 'vim-jp/vimdoc-ja'
 
 Plug 'vim-scripts/Colour-Sampler-Pack'
@@ -1025,27 +1023,6 @@ if s:plug.is_installed('lightline.vim')
     return  <SID>special_filetype() || winwidth('.') < 60 ?  '' :
           \ &fileformat . ' ' . WebDevIconsGetFileFormatSymbol()
   endfunction
-endif
-
-" vim-loadafterft {{{1
-"
-if s:plug.is_installed('vim-loadafterft')
-  " ftpluginロード後に実行するコマンド
-  let g:execcmd_after_ftplugin = {
-        \    '_': [
-        \        'setlocal fo+=l fo+=m fo+=M fo+=B fo-=r fo-=o fo-=t',
-        \    ],
-        \ }
-
-  " indentロード後に実行するコマンド
-  " let g:execcmd_after_indent = {
-  "       \    '_': [
-  "       \        'setlocal fo-=t fo-=c fo-=r fo-=o',
-  "       \    ],
-  "       \    'php': [
-  "       \        'setlocal fo-=t fo-=c fo-=r fo-=o',
-  "       \    ],
-  "       \ }
 endif
 
 " {{{1
