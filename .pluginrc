@@ -109,7 +109,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim',
 Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 
 Plug 'SirVer/ultisnips', { 'on': [], 'insert': 1 }
-" Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 
 if executable('fzf')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
@@ -198,6 +198,11 @@ Plug 'vim-jp/cpp-vim', {
 
 Plug 'vim-scripts/a.vim', {
       \ 'for': [ 'c', 'cpp' ]
+      \ }
+
+" Rust
+Plug 'rust-lang/rust.vim', {
+      \ 'for': 'rust'
       \ }
 
 " Haskell
