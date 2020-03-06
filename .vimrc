@@ -795,7 +795,8 @@ augroup _filetype
         \ setlocal ts=4 sts=0 sw=4
         \ cindent cinoptions=>1s,j1
   au FileType rust
-        \   if executable('rustup')
+        \ setlocal ts=8 sts=4 sw=4 expandtab
+        \ | if executable('rustup')
         \ |   exe 'command! -nargs=+ RustDoc :call system(''rustup doc <q-args>'')'
         \ | endif
   au FileType haskell
