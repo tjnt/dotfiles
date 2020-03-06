@@ -97,8 +97,8 @@ if executable('ctags')
 endif
 
 let g:my.enable_completion_lang =
-      \ ['c', 'cpp', 'python', 'haskell',
-      \  'rust', 'javascript', 'typescript' ]
+      \ ['c', 'cpp', 'rust', 'haskell',
+      \  'python', 'javascript', 'typescript' ]
 
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp',
@@ -627,19 +627,13 @@ if s:plug.is_installed('vim-lsp')
         \ })
     endif
 
-    " pyls (python)
-    if executable('pyls')
+    " rls (rust)
+    if executable('rls')
       au User lsp_setup call lsp#register_server({
-        \   'name': 'pyls',
-        \   'cmd': { server_info -> ['pyls'] },
-        \   'whitelist': ['python'],
-        \   'workspace_config': {'pyls': {'plugins': {
-        \     'pycodestyle': {'enabled': v:true },
-        \     'jedi_definition': {
-        \       'follow_imports': v:true,
-        \       'follow_builtin_imports': v:true 
-        \     },
-        \   }}}
+        \   'name': 'rls',
+        \   'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \   'workspace_config': {'rust': {'clippy_preference': 'on'}},
+        \   'whitelist': ['rust'],
         \ })
     endif
 
@@ -653,13 +647,19 @@ if s:plug.is_installed('vim-lsp')
         \ })
     endif
 
-    " rls (rust)
-    if executable('rls')
+    " pyls (python)
+    if executable('pyls')
       au User lsp_setup call lsp#register_server({
-        \   'name': 'rls',
-        \   'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
-        \   'workspace_config': {'rust': {'clippy_preference': 'on'}},
-        \   'whitelist': ['rust'],
+        \   'name': 'pyls',
+        \   'cmd': { server_info -> ['pyls'] },
+        \   'whitelist': ['python'],
+        \   'workspace_config': {'pyls': {'plugins': {
+        \     'pycodestyle': {'enabled': v:true },
+        \     'jedi_definition': {
+        \       'follow_imports': v:true,
+        \       'follow_builtin_imports': v:true 
+        \     },
+        \   }}}
         \ })
     endif
 
