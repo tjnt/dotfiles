@@ -657,7 +657,7 @@ if s:plug.is_installed('vim-lsp')
         \       'follow_imports': v:true,
         \       'follow_builtin_imports': v:true 
         \     },
-        \   }}}
+        \   }} }
         \ })
     endif
 
@@ -743,6 +743,28 @@ if s:plug.is_installed('ultisnips')
   endfunction
 
   call s:plug.register_hook('ultisnips')
+endif
+
+" rust.vim {{{1
+"
+if s:plug.is_installed('rust.vim')
+  let g:rust_recommended_style = 1
+  let g:rust_conceal = 1
+  let g:rust_conceal_mod_path = 1
+  let g:rust_conceal_pub = 1
+  let g:rust_clip_command = 'xclip -selection clipboard'
+  let g:rust_fold = 1
+  let g:rust_bang_comment_leader = 1
+  let g:rustfmt_autosave = 0
+  let g:rustfmt_fail_silently = 0
+  let g:rustfmt_options = ''
+
+  function! s:plug_rust_vim()
+    " for :RustPlay
+    call plug#load('webapi-vim')
+  endfunction
+
+  call s:plug.register_hook('rust.vim')
 endif
 
 " haskell-vim {{{1
