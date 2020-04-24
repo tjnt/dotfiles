@@ -211,14 +211,18 @@ command! -nargs=1 HasPlugin echomsg <SID>has_plugin(<q-args>)
 let g:my = {}
 
 " 非同期実行
-function! g:my.async_call(cmd)
+function! g:my.async_call(cmd, args)
   function! Stdout(ch, msg)
     echom 'done.'
   endfunction
   function! Stderr(ch, msg)
-    echom a:msg
+    caddexpr a:msg
+    cwindow
   endfunction
-  call job_start(a:cmd, {'out_cb' : 'Stdout', 'err_cb' : 'Stderr'})
+  let cmd = [a:cmd]
+  call extend(cmd, a:args)
+  call setqflist([])
+  call job_start(cmd, {'out_cb' : 'Stdout', 'err_cb' : 'Stderr'})
 endfunction
 
 " 文字列末尾の改行を削除する
@@ -677,14 +681,20 @@ function! s:buf_only(buffer, bang)
 endfunction
 command! -nargs=? -complete=buffer -bang BufOnly call <SID>buf_only(<q-args>, '<bang>')
 
+" 非同期 Make
+function! s:make_async(...)
+  call g:my.async_call('make', a:000)
+endfunction
+command! -nargs=* Make call <SID>make_async(<f-args>)
+
 " タグファイル生成
 function! s:make_ctags()
-  call g:my.async_call(['ctags', '--recurse=yes', '--sort=yes'])
+  call g:my.async_call('ctags', ['--recurse=yes', '--sort=yes'])
 endfunction
 command! -nargs=0 Ctags call <SID>make_ctags()
 
 function! s:make_gtags()
-  call g:my.async_call(['gtags', '-q'])
+  call g:my.async_call('gtags', ['-q'])
 endfunction
 command! -nargs=0 Gtags call <SID>make_gtags()
 
@@ -788,7 +798,7 @@ augroup _filetype
   au FileType *
         \ setlocal fo+=lmMB fo-=rot
   au FileType c,cpp
-        \ setlocal ts=2 sts=0 sw=2
+        \ setlocal ts=4 sts=0 sw=4
         \ cindent cinoptions=>1s,g0
         \ commentstring=//%s
   au FileType cs,java
