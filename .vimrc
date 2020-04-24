@@ -212,17 +212,17 @@ let g:my = {}
 
 " 非同期実行
 function! g:my.async_call(cmd, args)
-  function! Stdout(ch, msg)
-    echom 'done.'
-  endfunction
-  function! Stderr(ch, msg)
+  function! ErrCB(ch, msg)
     caddexpr a:msg
     cwindow
+  endfunction
+  function! ExitCB(job, status)
+    echom 'done. exit code: '.a:status
   endfunction
   let cmd = [a:cmd]
   call extend(cmd, a:args)
   call setqflist([])
-  call job_start(cmd, {'out_cb' : 'Stdout', 'err_cb' : 'Stderr'})
+  call job_start(cmd, {'err_cb' : 'ErrCB', 'exit_cb': 'ExitCB'})
 endfunction
 
 " 文字列末尾の改行を削除する
