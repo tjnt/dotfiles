@@ -154,6 +154,8 @@ myKeys =
     , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
       -- toggle monitor
     , ("<XF86Display>",          cycleMonitor ("eDP-1", "HDMI-2"))
+      -- toggle wifi
+    , ("<XF86WLAN>",             spawn "wifi toggle")
     ]
 
 -- Layout Hook
