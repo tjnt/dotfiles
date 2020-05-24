@@ -149,9 +149,10 @@ myKeys =
     , ("<XF86MonBrightnessUp>",   brightnessCtrl 10)
     , ("<XF86MonBrightnessDown>", brightnessCtrl (-10))
       -- volume control
+    , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
+    , ("<XF86AudioMicMute>",     spawn "amixer -q set Capture toggle")
     , ("<XF86AudioRaiseVolume>", spawn "amixer -q set Master playback 10%+")
     , ("<XF86AudioLowerVolume>", spawn "amixer -q set Master playback 10%-")
-    , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
       -- toggle monitor
     , ("<XF86Display>",          cycleMonitor ("eDP-1", "HDMI-2"))
       -- toggle wifi
