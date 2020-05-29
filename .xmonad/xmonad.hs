@@ -90,13 +90,10 @@ myTreeSelect =
            , Node (TSNode "Firefox (Private)" "" (spawn "firefox -private-window")) []
            , Node (TSNode "Chromium" "" (spawn "chromium")) []
            ]
-       , Node (TSNode "WPS Office" "" (return ()))
-           [ Node (TSNode "SpreadSheets" "" (spawn "wps-spreadsheets")) []
-             , Node (TSNode "Writer" "" (spawn "wps-writer"))  []
-             , Node (TSNode "Presentation" "" (spawn "wps-presentation"))  []
-           ]
+       , Node (TSNode "WPS Office" "" (spawn "wps")) []
        , Node (TSNode "Tools" "" (return ()))
-           [ Node (TSNode "Calculator" "" (spawn "qalculate"))  []
+           [ Node (TSNode "Xfe" "" (spawn "xfe"))  []
+           , Node (TSNode "Calculator" "" (spawn "qalculate"))  []
            , Node (TSNode "Paint" "" (spawn "pinta"))  []
            , Node (TSNode "Peek" "" (spawn "peek"))  []
            , Node (TSNode "pavucontrol" "" (spawn "pavucontrol"))  []
@@ -143,6 +140,7 @@ myKeys =
     , ("M-c",        kill1)
       -- launch
     , ("M-S-<Return>", spawn "termite")
+    , ("M-e", spawn "xfe")
       -- screenshot
     , ("<Print>", spawn "sleep 0.2; scrot -s ~/Pictures/%Y-%m-%d-%T-shot.png")
       -- volume control
