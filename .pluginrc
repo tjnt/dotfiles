@@ -838,6 +838,13 @@ if s:plug.is_installed('vim-quickrun')
           \            '%s:p:r.exe %a'],
           \ }
 
+    " rust
+    let g:quickrun_config['rust'] = {
+          \   'command': 'cargo',
+          \   'exec': '%c run --bin %s:t:r --quiet',
+          \   'hook/shebang/enable': 0,
+          \ }
+
     " ruby
     let g:quickrun_config['ruby'] = {
           \   'cmdopt': '-w',
