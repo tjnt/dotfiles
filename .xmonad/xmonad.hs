@@ -18,6 +18,7 @@ import           XMonad.Hooks.DynamicLog     (PP (..), statusBar, xmobarColor,
                                               xmobarPP)
 import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
+import           XMonad.Hooks.ManageHelpers  (doCenterFloat)
 import           XMonad.Layout.BoringWindows (boringWindows)
 import           XMonad.Layout.Circle        (Circle (..))
 import           XMonad.Layout.Gaps          (Direction2D (..), gaps)
@@ -148,7 +149,7 @@ myKeys =
     , ("M-S-m", withLastMinimized maximizeWindowAndFocus)
       -- launch
     , ("M-S-<Return>", spawn "termite")
-    , ("M-C-<Return>", spawnAndDo doFloat "termite")
+    , ("M-C-<Return>", spawnAndDo doCenterFloat "termite")
     , ("M-e", spawn "xfe")
       -- screenshot
     , ("<Print>", spawn "sleep 0.2; scrot -s ~/Pictures/%Y-%m-%d-%T-shot.png")
