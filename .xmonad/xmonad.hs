@@ -8,6 +8,7 @@ import           System.IO                   (readFile, writeFile)
 import           Text.Printf                 (printf)
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
+import           XMonad.Actions.SpawnOn      (manageSpawn, spawnAndDo)
 import           XMonad.Actions.TreeSelect   (TSConfig (..), TSNode (..),
                                               defaultNavigation,
                                               treeselectAction, tsDefaultConfig)
@@ -140,6 +141,7 @@ myKeys =
     , ("M-c",        kill1)
       -- launch
     , ("M-S-<Return>", spawn "termite")
+    , ("M-C-<Return>", spawnAndDo doFloat "termite")
     , ("M-e", spawn "xfe")
       -- screenshot
     , ("<Print>", spawn "sleep 0.2; scrot -s ~/Pictures/%Y-%m-%d-%T-shot.png")
@@ -178,7 +180,7 @@ myLayoutHook = toggleLayouts expand normal
 
 -- Manage Hook
 
-myManageHook = manageDocks <+> composeAll
+myManageHook = manageSpawn<+> manageDocks <+> composeAll
     [ className =? "Xmessage" --> doFloat
     , className =? "MPlayer"  --> doFloat
     , className =? "mplayer2" --> doFloat
