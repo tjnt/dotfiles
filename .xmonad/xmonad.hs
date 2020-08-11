@@ -175,17 +175,19 @@ myLayoutHook = toggleLayouts expand normal
     gwL = (L, 4)
     gwR = (R, 4)
     gapW = spacing 2 . gaps [gwU, gwD, gwL, gwR]
-    tall   = smartBorders . avoidStruts . gapW $ ResizableTall 1 (3/100) (3/5) []
-    mirror = smartBorders . avoidStruts . gapW $ Mirror (Tall 1 (3/100) (1/2))
-    circle = Circle
-    full   = noBorders . avoidStruts .gapW $ Full
+    tall   = minimize . boringWindows . smartBorders . avoidStruts . gapW
+           $ ResizableTall 1 (3/100) (3/5) []
+    mirror = minimize . boringWindows . smartBorders . avoidStruts . gapW
+           $ Mirror (Tall 1 (3/100) (1/2))
+    circle = minimize . boringWindows . smartBorders . avoidStruts
+           $ Circle
+    full   = minimize . boringWindows . noBorders . avoidStruts . gapW
+           $ Full
     icon = printf "<icon=%s/>"
-    normal =     minimize . boringWindows $
-                 named (icon "layout-tall-right.xbm") tall
+    normal =     named (icon "layout-tall-right.xbm") tall
              ||| named (icon "layout-im-mirror.xbm")  mirror
              ||| named (icon "layout-im-tall.xbm")    circle
-    expand =     minimize . boringWindows $
-                 named (icon "layout-full.xbm")       full
+    expand =     named (icon "layout-full.xbm")       full
 
 -- Manage Hook
 
