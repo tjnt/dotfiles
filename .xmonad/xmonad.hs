@@ -8,6 +8,8 @@ import           System.IO                   (readFile, writeFile)
 import           Text.Printf                 (printf)
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
+import           XMonad.Actions.Minimize     (maximizeWindowAndFocus,
+                                              minimizeWindow, withLastMinimized)
 import           XMonad.Actions.SpawnOn      (manageSpawn, spawnAndDo)
 import           XMonad.Actions.TreeSelect   (TSConfig (..), TSNode (..),
                                               defaultNavigation,
@@ -16,8 +18,10 @@ import           XMonad.Hooks.DynamicLog     (PP (..), statusBar, xmobarColor,
                                               xmobarPP)
 import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
+import           XMonad.Layout.BoringWindows (boringWindows)
 import           XMonad.Layout.Circle        (Circle (..))
 import           XMonad.Layout.Gaps          (Direction2D (..), gaps)
+import           XMonad.Layout.Minimize      (minimize)
 import           XMonad.Layout.Named         (named)
 import           XMonad.Layout.NoBorders     (noBorders, smartBorders)
 import           XMonad.Layout.ResizableTile (ResizableTall (..))
@@ -139,6 +143,9 @@ myKeys =
     , ("M-s",        treeselectAction myTreeSelectConfig myTreeSelect)
       -- close window
     , ("M-c",        kill1)
+      -- minimize window
+    , ("M-m",   withFocused minimizeWindow)
+    , ("M-S-m", withLastMinimized maximizeWindowAndFocus)
       -- launch
     , ("M-S-<Return>", spawn "termite")
     , ("M-C-<Return>", spawnAndDo doFloat "termite")
@@ -173,10 +180,12 @@ myLayoutHook = toggleLayouts expand normal
     circle = Circle
     full   = noBorders . avoidStruts .gapW $ Full
     icon = printf "<icon=%s/>"
-    normal =     named (icon "layout-tall-right.xbm") tall
+    normal =     minimize . boringWindows $
+                 named (icon "layout-tall-right.xbm") tall
              ||| named (icon "layout-im-mirror.xbm")  mirror
              ||| named (icon "layout-im-tall.xbm")    circle
-    expand =     named (icon "layout-full.xbm")       full
+    expand =     minimize . boringWindows $
+                 named (icon "layout-full.xbm")       full
 
 -- Manage Hook
 
