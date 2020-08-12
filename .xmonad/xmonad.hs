@@ -196,6 +196,7 @@ myManageHook = manageSpawn<+> manageDocks <+> composeAll
     [ className =? "Xmessage" --> doFloat
     , className =? "MPlayer"  --> doFloat
     , className =? "mplayer2" --> doFloat
+    , className =? "Pavucontrol" --> doFloat
     , className =? "Peek" --> doFloat
     ]
 
