@@ -211,6 +211,7 @@ myStartupHook = do
     spawnOnce "feh --randomize --bg-fill $HOME/.wallpaper/*"
     spawnOnce "xbindkeys"
     spawnOnce "nm-tray"
+    spawnOnce "pnmixer"
     spawnOnce "blueman-applet"
     spawnOnce "dropbox start"
     spawnOnce "clipd"
