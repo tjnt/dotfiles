@@ -9,7 +9,9 @@ import           Text.Printf                 (printf)
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
 import           XMonad.Actions.FloatKeys    (keysMoveWindow, keysResizeWindow)
-import           XMonad.Actions.FloatSnap    (snapGrow, snapMove, snapShrink)
+import           XMonad.Actions.FloatSnap    (afterDrag, snapGrow,
+                                              snapMagicMove, snapMagicResize,
+                                              snapMove, snapShrink)
 import           XMonad.Actions.Minimize     (maximizeWindowAndFocus,
                                               minimizeWindow, withLastMinimized)
 import           XMonad.Actions.SpawnOn      (manageSpawn, spawnAndDo)
@@ -34,7 +36,8 @@ import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
                                               bgColor, fgColor, font, height,
                                               position, promptBorderWidth)
 import           XMonad.Prompt.Shell         (shellPrompt)
-import           XMonad.Util.EZConfig        (additionalKeysP)
+import           XMonad.Util.EZConfig        (additionalKeysP,
+                                              additionalMouseBindings)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
 -- import           XMonad.Util.Run             (runProcessWithInput)
 
@@ -186,6 +189,20 @@ myKeys =
     , ("<XF86WLAN>",             spawn "wifi toggle")
     ]
 
+-- Mouse bindings
+
+myMouseBindings =
+    [ ((myModMask, button1), (\w ->
+            focus w >> mouseMoveWindow w >>
+            afterDrag (snapMagicMove (Just 50) (Just 50) w)))
+    , ((myModMask .|. shiftMask, button1), (\w ->
+            focus w >> mouseMoveWindow w >>
+            afterDrag (snapMagicResize [L,R,U,D] (Just 50) (Just 50) w)))
+    , ((myModMask, button3), (\w ->
+            focus w >> mouseResizeWindow w >>
+            afterDrag (snapMagicResize [R,D] (Just 50) (Just 50) w)))
+    ]
+
 -- Layout Hook
 
 myLayoutHook = toggleLayouts expand normal
@@ -271,5 +288,6 @@ myConfig = ewmh def
     , startupHook = myStartupHook
     }
     `additionalKeysP` myKeys
+    `additionalMouseBindings` myMouseBindings
 
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
