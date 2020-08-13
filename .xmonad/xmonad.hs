@@ -8,6 +8,7 @@ import           System.IO                   (readFile, writeFile)
 import           Text.Printf                 (printf)
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
+import           XMonad.Actions.FloatKeys    (keysMoveWindow, keysResizeWindow)
 import           XMonad.Actions.Minimize     (maximizeWindowAndFocus,
                                               minimizeWindow, withLastMinimized)
 import           XMonad.Actions.SpawnOn      (manageSpawn, spawnAndDo)
@@ -151,6 +152,15 @@ myKeys =
     , ("M-S-<Return>", spawn "termite")
     , ("M-C-<Return>", spawnAndDo doCenterFloat "termite")
     , ("M-e",          spawn "xfe")
+      -- float keys
+    , ("M-<Up>",      withFocused $ keysMoveWindow (0,-10))
+    , ("M-<Down>",    withFocused $ keysMoveWindow (0,10))
+    , ("M-<Left>",    withFocused $ keysMoveWindow (-10,0))
+    , ("M-<Right>",   withFocused $ keysMoveWindow (10,0))
+    , ("M-S-<Up>",    withFocused $ keysResizeWindow (0,-10) (0,0))
+    , ("M-S-<Down>",  withFocused $ keysResizeWindow (0, 10) (0,0))
+    , ("M-S-<Left>",  withFocused $ keysResizeWindow (-10,0) (0,0))
+    , ("M-S-<Right>", withFocused $ keysResizeWindow (10,0) (0,0))
       -- screenshot
     , ("<Print>", spawn "sleep 0.2; scrot -s ~/Pictures/%Y-%m-%d-%T-shot.png")
       -- volume control
