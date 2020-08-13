@@ -145,8 +145,8 @@ myKeys =
       -- close window
     , ("M-c",        kill1)
       -- minimize window
-    , ("M-m",   withFocused minimizeWindow)
-    , ("M-S-m", withLastMinimized maximizeWindowAndFocus)
+    , ("M-n",   withFocused minimizeWindow)
+    , ("M-S-n", withLastMinimized maximizeWindowAndFocus)
       -- launch
     , ("M-S-<Return>", spawn "termite")
     , ("M-C-<Return>", spawnAndDo doCenterFloat "termite")
