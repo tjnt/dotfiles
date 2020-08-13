@@ -145,12 +145,12 @@ myKeys =
       -- close window
     , ("M-c",        kill1)
       -- minimize window
-    , ("M-n",   withFocused minimizeWindow)
-    , ("M-S-n", withLastMinimized maximizeWindowAndFocus)
+    , ("M-n",        withFocused minimizeWindow)
+    , ("M-S-n",      withLastMinimized maximizeWindowAndFocus)
       -- launch
     , ("M-S-<Return>", spawn "termite")
     , ("M-C-<Return>", spawnAndDo doCenterFloat "termite")
-    , ("M-e", spawn "xfe")
+    , ("M-e",          spawn "xfe")
       -- screenshot
     , ("<Print>", spawn "sleep 0.2; scrot -s ~/Pictures/%Y-%m-%d-%T-shot.png")
       -- volume control
