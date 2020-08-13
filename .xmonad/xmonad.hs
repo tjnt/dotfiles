@@ -8,6 +8,8 @@ import           System.IO                   (readFile, writeFile)
 import           Text.Printf                 (printf)
 import           XMonad
 import           XMonad.Actions.CopyWindow   (kill1)
+import           XMonad.Actions.CycleWS      (nextWS, prevWS, shiftToNext,
+                                              shiftToPrev, toggleWS)
 import           XMonad.Actions.FloatKeys    (keysMoveWindow, keysResizeWindow)
 import           XMonad.Actions.FloatSnap    (afterDrag, snapGrow,
                                               snapMagicMove, snapMagicResize,
@@ -143,10 +145,16 @@ myTreeSelectConfig = tsDefaultConfig
 myKeys =
     [ -- toggle fullscreen
       ("M-f",        sendMessage ToggleLayout)
+      -- cycle workspaces
+    , ("M-a",        toggleWS)
+    , ("M-d",        nextWS)
+    , ("M-s",        prevWS)
+    , ("M-S-d",      shiftToNext)
+    , ("M-S-s",      shiftToPrev)
       -- shell prompt
     , ("M-p",        shellPrompt myXPConfig)
       -- tree select
-    , ("M-s",        treeselectAction myTreeSelectConfig myTreeSelect)
+    , ("M-o",        treeselectAction myTreeSelectConfig myTreeSelect)
       -- close window
     , ("M-c",        kill1)
       -- minimize window
