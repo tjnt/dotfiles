@@ -24,7 +24,8 @@ import           XMonad.Hooks.DynamicLog     (PP (..), statusBar, xmobarColor,
                                               xmobarPP)
 import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
-import           XMonad.Hooks.ManageHelpers  (doCenterFloat)
+import           XMonad.Hooks.ManageHelpers  (doCenterFloat, doFullFloat,
+                                              isDialog, isFullscreen)
 import           XMonad.Layout.BoringWindows (boringWindows)
 import           XMonad.Layout.Circle        (Circle (..))
 import           XMonad.Layout.Gaps          (Direction2D (..), gaps)
@@ -239,12 +240,14 @@ myLayoutHook = toggleLayouts expand normal
 
 -- Manage Hook
 
-myManageHook = manageSpawn<+> manageDocks <+> composeAll
-    [ className =? "Xmessage" --> doFloat
-    , className =? "MPlayer"  --> doFloat
-    , className =? "mplayer2" --> doFloat
+myManageHook = manageSpawn <+> manageDocks <+> composeAll
+    [ className =? "Xmessage"    --> doFloat
+    , className =? "MPlayer"     --> doFloat
+    , className =? "mplayer2"    --> doFloat
     , className =? "Pavucontrol" --> doFloat
-    , className =? "Peek" --> doFloat
+    , className =? "Peek"        --> doFloat
+    , isFullscreen               --> doFullFloat
+    , isDialog                   --> doCenterFloat
     ]
 
 -- Startup Hook
