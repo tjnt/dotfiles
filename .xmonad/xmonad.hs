@@ -38,6 +38,7 @@ import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
                                               bgColor, fgColor, font, height,
                                               position, promptBorderWidth)
 import           XMonad.Prompt.Shell         (shellPrompt)
+import           XMonad.StackSet             (swapDown, swapUp)
 import           XMonad.Util.EZConfig        (additionalKeysP,
                                               additionalMouseBindings)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
@@ -209,6 +210,8 @@ myMouseBindings =
     , ((myModMask, button3), (\w ->
             focus w >> mouseResizeWindow w >>
             afterDrag (snapMagicResize [R,D] (Just 50) (Just 50) w)))
+    , ((myModMask, button4), (\_ -> windows swapUp))
+    , ((myModMask, button5), (\_ -> windows swapDown))
     ]
 
 -- Layout Hook
