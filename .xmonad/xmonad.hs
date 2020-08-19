@@ -253,7 +253,6 @@ myManageHook = manageSpawn <+> manageDocks <+> composeAll
 -- Startup Hook
 
 myStartupHook = do
-    spawn "rm -f $HOME/.xmonad/xmonad.state"
     spawnOnce "compton -b"
     spawnOnce "trayer --edge top --align right --widthtype request --height 31 \
                \--expand true --transparent true --alpha 0 --tint 0x080808 \
