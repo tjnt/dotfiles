@@ -165,7 +165,6 @@ myKeys =
       -- launch
     , ("M-S-<Return>", spawn "termite")
     , ("M-C-<Return>", spawnAndDo doCenterFloat "termite")
-    , ("M-e",          spawn "xfe")
       -- float keys
     , ("M-<Up>",        withFocused $ keysMoveWindow   (0,-10))
     , ("M-<Down>",      withFocused $ keysMoveWindow   (0,10))
