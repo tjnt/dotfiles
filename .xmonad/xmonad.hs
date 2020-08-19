@@ -230,7 +230,7 @@ myLayoutHook = toggleLayouts expand normal
            $ Mirror (Tall 1 (3/100) (1/2))
     circle = minimize . boringWindows . smartBorders . avoidStruts
            $ Circle
-    full   = minimize . boringWindows . noBorders . avoidStruts . gapW
+    full   = minimize . boringWindows . noBorders . avoidStruts
            $ Full
     icon = printf "<icon=%s/>"
     normal =     named (icon "layout-tall-right.xbm") tall
