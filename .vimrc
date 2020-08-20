@@ -858,11 +858,11 @@ augroup _ins_enter_leave
   au InsertLeave * let g:imstate = &iminsert
         \        | set iminsert=0 imsearch=0
   " Insert modeに入るときに一時的にfoldingをmanualに変更
-  au InsertEnter * let b:foldstate = &l:foldmethod
-        \        | setlocal foldmethod=manual
-  au InsertLeave * if exists('b:foldstate')
-        \        |   let &l:foldmethod = b:foldstate
-        \        | endif
+  " au InsertEnter * let b:foldstate = &l:foldmethod
+  "       \        | setlocal foldmethod=manual
+  " au InsertLeave * if exists('b:foldstate')
+  "       \        |   let &l:foldmethod = b:foldstate
+  "       \        | endif
 augroup END
 
 " 以下のコマンドの結果は常にQuickFixで表示
