@@ -252,7 +252,7 @@ myManageHook = manageSpawn <+> manageDocks <+> composeAll
     , className =? "Pavucontrol" --> doFloat
     , className =? "Peek"        --> doFloat
     , isFullscreen               --> doFullFloat
-    , isDialog                   --> doCenterFloat
+    , isDialog                   --> doFloat
     ]
 
 -- Startup Hook
