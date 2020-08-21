@@ -146,28 +146,29 @@ myTreeSelectConfig = tsDefaultConfig
 -- Keys
 
 myKeys =
-    [ -- toggle fullscreen
-      ("M-f",        sendMessage ToggleLayout)
-      -- cycle workspaces
-    , ("M-a",        toggleWS)
-    , ("M-d",        nextWS)
-    , ("M-s",        prevWS)
-    , ("M-S-d",      shiftToNext)
-    , ("M-S-s",      shiftToPrev)
-    , ("M-u",        sendMessage MirrorExpand)
-    , ("M-n",        sendMessage MirrorShrink)
+    [ -- launch
+      ("M-S-<Return>",  spawn "termite")
+    , ("M-C-<Return>",  spawnAndDo doCenterFloat "termite")
       -- shell prompt
-    , ("M-p",        shellPrompt myXPConfig)
+    , ("M-p",           shellPrompt myXPConfig)
       -- tree select
-    , ("M-o",        treeselectAction myTreeSelectConfig myTreeSelect)
-      -- close window
-    , ("M-c",        kill1)
+    , ("M-o",           treeselectAction myTreeSelectConfig myTreeSelect)
+      -- resizing window ratio
+    , ("M-u",           sendMessage MirrorExpand)
+    , ("M-n",           sendMessage MirrorShrink)
       -- minimize window
-    , ("M-z",        withFocused minimizeWindow)
-    , ("M-x",        withLastMinimized maximizeWindowAndFocus)
-      -- launch
-    , ("M-S-<Return>", spawn "termite")
-    , ("M-C-<Return>", spawnAndDo doCenterFloat "termite")
+    , ("M-z",           withFocused minimizeWindow)
+    , ("M-x",           withLastMinimized maximizeWindowAndFocus)
+      -- close window
+    , ("M-c",           kill1)
+      -- toggle fullscreen
+    , ("M-f",           sendMessage ToggleLayout)
+      -- cycle workspaces
+    , ("M-a",           toggleWS)
+    , ("M-d",           nextWS)
+    , ("M-s",           prevWS)
+    , ("M-S-d",         shiftToNext)
+    , ("M-S-s",         shiftToPrev)
       -- float keys
     , ("M-<Up>",        withFocused $ keysMoveWindow   (0,-10))
     , ("M-<Down>",      withFocused $ keysMoveWindow   (0,10))
