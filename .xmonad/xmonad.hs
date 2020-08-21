@@ -161,6 +161,8 @@ myKeys =
     , ("M-x",           withLastMinimized maximizeWindowAndFocus)
       -- close window
     , ("M-c",           kill1)
+      -- refresh window
+    , ("M-r",           refresh)
       -- toggle fullscreen
     , ("M-f",           sendMessage ToggleLayout)
       -- cycle workspaces
