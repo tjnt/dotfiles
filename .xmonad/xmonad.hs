@@ -32,7 +32,8 @@ import           XMonad.Layout.Gaps          (Direction2D (..), gaps)
 import           XMonad.Layout.Minimize      (minimize)
 import           XMonad.Layout.Named         (named)
 import           XMonad.Layout.NoBorders     (noBorders, smartBorders)
-import           XMonad.Layout.ResizableTile (ResizableTall (..))
+import           XMonad.Layout.ResizableTile (MirrorResize (..),
+                                              ResizableTall (..))
 import           XMonad.Layout.Spacing       (spacing)
 import           XMonad.Layout.ToggleLayouts (ToggleLayout (..), toggleLayouts)
 import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
@@ -153,6 +154,8 @@ myKeys =
     , ("M-s",        prevWS)
     , ("M-S-d",      shiftToNext)
     , ("M-S-s",      shiftToPrev)
+    , ("M-u",        sendMessage MirrorExpand)
+    , ("M-n",        sendMessage MirrorShrink)
       -- shell prompt
     , ("M-p",        shellPrompt myXPConfig)
       -- tree select
