@@ -53,6 +53,13 @@ myWorkspaces = [ show x | x <- [1..5] ]
 
 -- Functions
 
+moveToCenter :: X ()
+moveToCenter = withFocused $ \win -> do
+    floats <- gets $ W.floating . windowset
+    whenX (return (win `M.member` floats)) $ do
+        (_, W.RationalRect _ _ w h) <- floatLocation win
+        windows $ W.float win $ W.RationalRect ((1 - w) / 2) ((1 - h) / 2) w h
+
 toggleFloat :: X ()
 toggleFloat = withFocused $ \win -> do
     floats <- gets $ W.floating . windowset
@@ -178,6 +185,8 @@ myKeys =
     , ("M-f",           sendMessage ToggleLayout)
       -- toggle float on center
     , ("M-t",           toggleFloat)
+      -- move to center
+    , ("M-g",           moveToCenter)
       -- cycle workspaces
     , ("M-a",           toggleWS)
     , ("M-d",           nextWS)
