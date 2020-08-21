@@ -2,6 +2,7 @@ import           ColorScheme.JellyBeans
 import           Control.Applicative         ((<$>))
 import           Control.Exception           (catch)
 import           Data.Default                (def)
+import qualified Data.Map                    as M
 import           Data.Tree                   (Tree (Node))
 import           GHC.IO.Exception            (IOException)
 import           System.IO                   (readFile, writeFile)
@@ -36,11 +37,12 @@ import           XMonad.Layout.ResizableTile (MirrorResize (..),
                                               ResizableTall (..))
 import           XMonad.Layout.Spacing       (spacing)
 import           XMonad.Layout.ToggleLayouts (ToggleLayout (..), toggleLayouts)
+import           XMonad.Operations           (floatLocation)
 import           XMonad.Prompt               (XPPosition (..), alwaysHighlight,
                                               bgColor, fgColor, font, height,
                                               position, promptBorderWidth)
 import           XMonad.Prompt.Shell         (shellPrompt)
-import           XMonad.StackSet             (swapDown, swapUp)
+import qualified XMonad.StackSet             as W
 import           XMonad.Util.EZConfig        (additionalKeysP,
                                               additionalMouseBindings)
 import           XMonad.Util.SpawnOnce       (spawnOnce)
@@ -50,6 +52,15 @@ myModMask = mod4Mask
 myWorkspaces = [ show x | x <- [1..5] ]
 
 -- Functions
+
+toggleFloat :: X ()
+toggleFloat = withFocused $ \win -> do
+    floats <- gets $ W.floating . windowset
+    if win `M.member` floats
+       then withFocused $ windows . W.sink
+       else do
+           (_, W.RationalRect _ _ w h) <- floatLocation win
+           windows $ W.float win $ W.RationalRect ((1 - w) / 2) ((1 - h) / 2) w h
 
 brightnessCtrl :: Int -> X ()
 brightnessCtrl param = do
@@ -165,6 +176,8 @@ myKeys =
     , ("M-r",           refresh)
       -- toggle fullscreen
     , ("M-f",           sendMessage ToggleLayout)
+      -- toggle float on center
+    , ("M-t",           toggleFloat)
       -- cycle workspaces
     , ("M-a",           toggleWS)
     , ("M-d",           nextWS)
@@ -216,8 +229,8 @@ myMouseBindings =
     , ((myModMask, button3), (\w ->
             focus w >> mouseResizeWindow w >>
             afterDrag (snapMagicResize [R,D] (Just 50) (Just 50) w)))
-    , ((myModMask, button4), (\_ -> windows swapUp))
-    , ((myModMask, button5), (\_ -> windows swapDown))
+    , ((myModMask, button4), (\_ -> windows W.swapUp))
+    , ((myModMask, button5), (\_ -> windows W.swapDown))
     ]
 
 -- Layout Hook
