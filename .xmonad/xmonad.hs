@@ -165,8 +165,8 @@ myTreeSelectConfig = tsDefaultConfig
 
 myKeys =
     [ -- launch
-      ("M-S-<Return>",  spawn "termite")
-    , ("M-C-<Return>",  spawnAndDo doCenterFloat "termite")
+      ("M-S-<Return>",  spawn "termite --exec=tmux")
+    , ("M-C-<Return>",  spawnAndDo doCenterFloat "termite --exec=tmux")
       -- shell prompt
     , ("M-p",           shellPrompt myXPConfig)
       -- tree select
