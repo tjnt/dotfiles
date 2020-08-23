@@ -26,7 +26,8 @@ import           XMonad.Hooks.DynamicLog     (PP (..), statusBar, xmobarColor,
 import           XMonad.Hooks.EwmhDesktops   (ewmh, fullscreenEventHook)
 import           XMonad.Hooks.ManageDocks    (avoidStruts, manageDocks)
 import           XMonad.Hooks.ManageHelpers  (doCenterFloat, doFullFloat,
-                                              isDialog, isFullscreen)
+                                              doRectFloat, isDialog,
+                                              isFullscreen)
 import           XMonad.Layout.BoringWindows (boringWindows)
 import           XMonad.Layout.Circle        (Circle (..))
 import           XMonad.Layout.Gaps          (Direction2D (..), gaps)
@@ -171,6 +172,9 @@ myKeys =
     , ("M-p",           shellPrompt myXPConfig)
       -- tree select
     , ("M-o",           treeselectAction myTreeSelectConfig myTreeSelect)
+      -- clipboard history
+    , ("M-y",           spawnAndDo (doRectFloat (W.RationalRect 0 0 0.4 1.0))
+                                   "termite --exec=clip.sh")
       -- resizing window ratio
     , ("M-u",           sendMessage MirrorExpand)
     , ("M-n",           sendMessage MirrorShrink)
