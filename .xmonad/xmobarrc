@@ -71,6 +71,8 @@ Config
             , "--low",      "#d75f5f"
             , "--high",     "#87af5f"
             , "--"
+            , "-a", "notify-send -u critical 'Battery running out!!'"
+            , "-A", "10"
             , "-o",                  "<fc=#808080>(<timeleft>)</fc>"
             , "-O",                  "<fc=#808080>(charge)</fc>"
             , "-i",                  "<fc=#808080>(idle)</fc>"
