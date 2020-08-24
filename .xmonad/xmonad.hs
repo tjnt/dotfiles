@@ -168,15 +168,15 @@ myTreeSelectConfig = tsDefaultConfig
 
 myKeys =
     [ -- launch
-      ("M-S-<Return>",  spawn "termite --exec=tmux")
-    , ("M-C-<Return>",  spawnAndDo doCenterFloat "termite --exec=tmux")
+      ("M-S-<Return>",  spawn "termite --exec=tmux --title=termite")
+    , ("M-C-<Return>",  spawnAndDo doCenterFloat "termite --exec=tmux --title=termite")
       -- shell prompt
     , ("M-p",           shellPrompt myXPConfig)
       -- tree select
     , ("M-o",           treeselectAction myTreeSelectConfig myTreeSelect)
       -- clipboard history
     , ("M-y",           spawnAndDo (doRectFloat (W.RationalRect 0 0 0.4 1.0))
-                                   "termite --exec=clip.sh")
+                                   "termite --exec=clip.sh --title=clipboard")
       -- resizing window ratio
     , ("M-u",           sendMessage MirrorExpand)
     , ("M-n",           sendMessage MirrorShrink)
