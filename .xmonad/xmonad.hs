@@ -137,9 +137,11 @@ myTreeSelect =
            ]
        ]
    , Node (TSNode "System menu" "Open system menu" (return ()))
-       [ Node (TSNode "Standby" "Standby the system" (spawn "xset dpms force standby")) []
-       , Node (TSNode "Shutdown" "Poweroff the system" (spawn "sudo shutdown -h now")) []
-       , Node (TSNode "Reboot"   "Reboot the system"   (spawn "sudo reboot")) []
+       [ Node (TSNode "Monitor OFF" "" (spawn "xset dpms force standby")) []
+       , Node (TSNode "Standby" "" (spawn "systemctl suspend")) []
+       , Node (TSNode "Hibernate" "" (spawn "systemctl hibernate")) []
+       , Node (TSNode "Shutdown" "" (spawn "systemctl poweroff")) []
+       , Node (TSNode "Reboot"   ""   (spawn "systemctl reboot")) []
        ]
    ]
 
