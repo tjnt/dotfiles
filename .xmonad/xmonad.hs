@@ -305,16 +305,18 @@ myBar = "xmobar $HOME/.xmonad/xmobarrc"
 
 myPP = xmobarPP
     { ppOrder           = \(ws:l:t:_)  -> [ws, l, t]
-    , ppCurrent         = xmobarColor color1 colorbg . const "●"
-    , ppUrgent          = xmobarColor color6 colorbg . const "●"
-    , ppVisible         = xmobarColor color1 colorbg . const "⦿"
-    , ppHidden          = xmobarColor color6 colorbg . const "●"
-    , ppHiddenNoWindows = xmobarColor color6 colorbg . const "○"
+    , ppCurrent         = xmobarColor color1 colorbg . clickable "●"
+    , ppUrgent          = xmobarColor color6 colorbg . clickable "●"
+    , ppVisible         = xmobarColor color1 colorbg . clickable "⦿"
+    , ppHidden          = xmobarColor color6 colorbg . clickable "●"
+    , ppHiddenNoWindows = xmobarColor color6 colorbg . clickable "○"
     , ppTitle           = xmobarColor color4 colorbg
     , ppOutput          = putStrLn
     , ppWsSep           = " "
     , ppSep             = "  "
     }
+  where
+    clickable s n = "<action=xdotool key super+" ++ n ++ ">" ++ s ++ "</action>"
 
 toggleStrutsKey XConfig { XMonad.modMask = modMask } = (modMask, xK_b)
 
