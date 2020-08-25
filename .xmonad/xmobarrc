@@ -65,7 +65,7 @@ Config
             , "--offc",     "#d75f5f"
             ] 10
         , Run Battery
-            [ "--template", "<leftipat>  <left>% <acstatus>"
+            [ "--template", "<leftipat>  <left>% <acstatus> <watts>w"
             , "--Low",      "20"
             , "--High",     "80"
             , "--low",      "#d75f5f"
