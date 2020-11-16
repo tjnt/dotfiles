@@ -171,6 +171,7 @@ endif
 set t_vb=
 set noerrorbells
 set novisualbell
+set belloff=all
 " スプラッシュ(起動時のメッセージ)を表示しない
 set shortmess+=I
 
