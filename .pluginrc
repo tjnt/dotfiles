@@ -108,11 +108,16 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim',
       \ { 'for': g:my.enable_completion_lang }
 Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 
-Plug 'SirVer/ultisnips', { 'on': [], 'insert': 1 }
-Plug 'honza/vim-snippets'
+if has('python3')
+  Plug 'SirVer/ultisnips', { 'on': [], 'insert': 1 }
+  Plug 'honza/vim-snippets'
+endif
 
 if executable('fzf')
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
+  Plug 'junegunn/fzf', {
+        \ 'dir': '~/.fzf',
+        \ 'do': { -> fzf#install() }
+        \ }
   Plug 'junegunn/fzf.vim'
 else
   Plug 'ctrlpvim/ctrlp.vim', {
