@@ -626,7 +626,7 @@ if s:plug.is_installed('vim-lsp')
         \   'root_uri': { server_info->s:find_root_uri(
         \     ['compile_commands.json', '.cquery']) },
         \   'initialization_options': { 'cacheDirectory': $CACHE_ROOT.'/cquery' },
-        \   'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+        \   'allowlist': ['c', 'cpp', 'objc', 'objcpp'],
         \ })
     endif
 
@@ -637,7 +637,7 @@ if s:plug.is_installed('vim-lsp')
         \   'cmd': {server_info->['rustup', 'run', 'stable', 'rust-analyzer']},
         \   'workspace_config': {'rust': {'clippy_preference': 'on'}},
         \   'root_uri': { server_info->s:find_root_uri(['Cargo.toml']) },
-        \   'whitelist': ['rust'],
+        \   'allowlist': ['rust'],
         \ })
     elseif executable('rls')
       au User lsp_setup call lsp#register_server({
@@ -645,7 +645,7 @@ if s:plug.is_installed('vim-lsp')
         \   'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
         \   'workspace_config': {'rust': {'clippy_preference': 'on'}},
         \   'root_uri': { server_info->s:find_root_uri(['Cargo.toml']) },
-        \   'whitelist': ['rust'],
+        \   'allowlist': ['rust'],
         \ })
     endif
 
@@ -655,7 +655,7 @@ if s:plug.is_installed('vim-lsp')
         \   'name': 'hie',
         \   'cmd': { server_info->['stack', 'exec', '--', 'hie-wrapper', '--lsp'] },
         \   'root_uri': { server_info->s:find_root_uri(['stack.yaml']) },
-        \   'whitelist': ['haskell'],
+        \   'allowlist': ['haskell'],
         \ })
     endif
 
@@ -664,7 +664,7 @@ if s:plug.is_installed('vim-lsp')
       au User lsp_setup call lsp#register_server({
         \   'name': 'pyls',
         \   'cmd': { server_info -> ['pyls'] },
-        \   'whitelist': ['python'],
+        \   'allowlist': ['python'],
         \   'workspace_config': {'pyls': {'plugins': {
         \     'pycodestyle': {'enabled': v:true },
         \     'jedi_definition': {
@@ -680,7 +680,7 @@ if s:plug.is_installed('vim-lsp')
       au User lsp_setup call lsp#register_server({
         \   'name': 'typescript-language-server',
         \   'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \   'whitelist': ['javascript', 'javascript.jsx', 'typescript', 'typescript.tsx'],
+        \   'allowlist': ['javascript', 'javascript.jsx', 'typescript', 'typescript.tsx'],
         \ })
     endif
 
@@ -763,7 +763,7 @@ if s:plug.is_installed('ultisnips')
     call asyncomplete#register_source(
         \ asyncomplete#sources#ultisnips#get_source_options({
         \   'name': 'ultisnips',
-        \   'whitelist': ['*'],
+        \   'allowlist': ['*'],
         \   'completor': function('s:my_ultisnips_completor'),
         \ }))
         " デフォルトの補完関数
