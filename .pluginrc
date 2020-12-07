@@ -684,20 +684,32 @@ if s:plug.is_installed('vim-lsp')
         \ })
     endif
 
-    nnoremap <buffer><C-]> :<C-u>LspDefinition<CR>
-    nnoremap <buffer>K :<C-u>LspHover<CR>
-    nnoremap <buffer><LEADER>d :<C-u>LspDefinition<CR>
-    nnoremap <buffer><LEADER>D :<C-u>LspDeclaration<CR>
-    nnoremap <buffer><LEADER>t :<C-u>LspTypeDefinition<CR>
-    nnoremap <buffer><LEADER>r :<C-u>LspReferences<CR>
-    nnoremap <buffer><LEADER>s :<C-u>LspDocumentSymbol<CR>
-    nnoremap <buffer><LEADER>S :<C-u>LspWorkspaceSymbol<CR>
-    nnoremap <buffer><LEADER>w :<C-u>LspDocumentDiagnostics<CR>
-    nnoremap <buffer><LEADER>Q :<C-u>LspDocumentFormat<CR>
-    vnoremap <buffer><LEADER>Q :LspDocumentRangeFormat<CR>
-    nnoremap <buffer><LEADER>K :<C-u>LspHover<CR>
-    nnoremap <buffer><LEADER>I :<C-u>LspImplementation<CR>
-    nnoremap <buffer><LEADER>R :<C-u>LspRename<CR>
+    function! s:on_lsp_buffer_enabled() abort
+      setlocal omnifunc=lsp#complete
+      setlocal signcolumn=yes
+      if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+
+      nnoremap <buffer><C-]> :<C-u>LspDefinition<CR>
+      nnoremap <buffer>K :<C-u>LspHover<CR>
+      nnoremap <buffer><LEADER>d :<C-u>LspDefinition<CR>
+      nnoremap <buffer><LEADER>D :<C-u>LspDeclaration<CR>
+      nnoremap <buffer><LEADER>t :<C-u>LspTypeDefinition<CR>
+      nnoremap <buffer><LEADER>r :<C-u>LspReferences<CR>
+      nnoremap <buffer><LEADER>s :<C-u>LspDocumentSymbol<CR>
+      nnoremap <buffer><LEADER>S :<C-u>LspWorkspaceSymbol<CR>
+      nnoremap <buffer><LEADER>w :<C-u>LspDocumentDiagnostics<CR>
+      nnoremap <buffer><LEADER>Q :<C-u>LspDocumentFormat<CR>
+      vnoremap <buffer><LEADER>Q :LspDocumentRangeFormat<CR>
+      nnoremap <buffer><LEADER>K :<C-u>LspHover<CR>
+      nnoremap <buffer><LEADER>I :<C-u>LspImplementation<CR>
+      nnoremap <buffer><LEADER>R :<C-u>LspRename<CR>
+    endfunction
+
+    augroup lsp_install
+      au!
+      " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+      autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    augroup END
 
     " for debug
     " let g:lsp_log_verbose = 1
