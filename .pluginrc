@@ -630,8 +630,16 @@ if s:plug.is_installed('vim-lsp')
         \ })
     endif
 
-    " rls (rust)
-    if executable('rls')
+    " rust-analyzer / rls (rust)
+    if executable('rust-analyzer')
+      au User lsp_setup call lsp#register_server({
+        \   'name': 'rust-analyzer',
+        \   'cmd': {server_info->['rustup', 'run', 'stable', 'rust-analyzer']},
+        \   'workspace_config': {'rust': {'clippy_preference': 'on'}},
+        \   'root_uri': { server_info->s:find_root_uri(['Cargo.toml']) },
+        \   'whitelist': ['rust'],
+        \ })
+    elseif executable('rls')
       au User lsp_setup call lsp#register_server({
         \   'name': 'rls',
         \   'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
