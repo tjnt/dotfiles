@@ -218,7 +218,7 @@ myKeys =
     , ("M-C-S-<Left>" , withFocused $ snapShrink       R Nothing)
     , ("M-C-S-<Right>", withFocused $ snapGrow         R Nothing)
       -- screenshot
-    , ("<Print>", spawn "sleep 0.2; scrot -s ~/Pictures/%Y-%m-%d-%T-shot.png")
+    , ("<Print>", spawn "sleep 0.2; scrot -s $(xdg-user-dir PICTURES)/%Y-%m-%d-%T-shot.png")
       -- volume control
     , ("<XF86AudioMute>",        spawn "amixer -q set Master toggle")
     , ("<XF86AudioMicMute>",     spawn "amixer -q set Capture toggle")
