@@ -130,7 +130,7 @@ myTreeSelect =
            [ Node (TSNode "Xfe" "File manager" (spawn "xfe"))  []
            , Node (TSNode "qalculate" "Calculator" (spawn "qalculate"))  []
            , Node (TSNode "Paint" "Paint tool" (spawn "pinta"))  []
-           , Node (TSNode "Peek" "Screenshot" (spawn "peek"))  []
+           , Node (TSNode "Peek" "Video capture" (spawn "peek"))  []
            , Node (TSNode "Gmtp" "MTP file transfer tool" (spawn "gmtp"))  []
            , Node (TSNode "pavucontrol" "Sound control" (spawn "pavucontrol"))  []
            , Node (TSNode "ARandR" "Monitor configuration tool" (spawn "arandr"))  []
