@@ -86,6 +86,16 @@ if has('printer') && g:is_win
   " set printfont=MS_Mincho:h11:cDEFAULT
 endif
 
+" カラースキーマ {{{1
+"
+if has('kaoriya')
+  try
+    silent exe "colorscheme jellybeans"
+  catch
+    colorscheme default
+  endtry
+endif
+
 " 背景透過 {{{1
 "
 if has('kaoriya') || has('mac')

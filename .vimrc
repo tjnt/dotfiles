@@ -18,9 +18,9 @@ scriptencoding utf-8
 "
 let g:is_win = has('win16') || has('win32') || has('win64')
 " パスの区切り文字に/を使えるようにする
-if g:is_win
-  set shellslash
-endif
+" if g:is_win
+"   set shellslash
+" endif
 " 重複を防ぐため起動時のみ設定
 if has('vim_starting')
   let $VIMLOCAL = expand('$HOME/.vim')
