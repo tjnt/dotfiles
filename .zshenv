@@ -9,12 +9,8 @@ _executable() {
 }
 
 #-------------------------------------------------
-# PATH
+# Enviroment Valiable
 #
-if [[ -d $HOME/.cargo/bin ]]; then
-  path=($HOME/.cargo/bin(N-/) $path)
-fi
-
 path=($HOME/.local/bin(N-/) $path)
 
 if [[ -z "${ld_library_path}" ]]; then
@@ -25,21 +21,28 @@ ld_library_path=(${HOME}/.local/lib(N-/) $ld_library_path)
 typeset -U path ld_library_path
 export PATH LD_LIBRARY_PATH
 
-#-------------------------------------------------
-#
 export EDITOR=vim
 export CVSEDITOR="${EDITOR}"
 export SVN_EDITOR="${EDITOR}"
 export GIT_EDITOR="${EDITOR}"
 export PAGER=less
 
+# 補完
+[[ -d $HOME/.zsh/completion ]] && fpath=(~/.zsh/completion $fpath)
+
 # export JAVA_HOME=$HOME/.local/share/jdk1.8.0_202
 # path=($JAVA_HOME/bin(N-/) $path)
 
+#-------------------------------------------------
+#
+# rust
+# add ./cargo/bin to $path
+[[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
+
 # rbenv initialize
-if _executable rbenv; then
-  eval "$(rbenv init -)"
-fi
+# if _executable rbenv; then
+#   eval "$(rbenv init -)"
+# fi
 
 # nvm
 if [[ -d $HOME/.nvm ]]; then
