@@ -638,7 +638,7 @@ if s:plug.is_installed('vim-lsp')
         \   'workspace_config': {
         \     'rust-analyzer': {
         \       'cargo': { 'allFeatures': 'true' },
-        \       'procMacro': {'enable': 'true'},
+        \       'procMacro': { 'enable': 'true' },
         \       'diagnostics': { 'disabled': [ 'macro-error' ] }
         \     }
         \   },
