@@ -193,6 +193,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'vim-jp/vimdoc-ja'
 
 Plug 'vim-scripts/Colour-Sampler-Pack'
+Plug 'nanotech/jellybeans.vim'
 
 " C/C++
 Plug 'vim-jp/cpp-vim', {
