@@ -345,6 +345,10 @@ vnoremap $ g$
 nnoremap h <Left>zv
 nnoremap l <Right>zv
 
+" xやsではヤンクしない
+nnoremap x "_x
+nnoremap s "_s
+
 " Yで行末までコピー
 nnoremap Y y$
 
@@ -360,6 +364,9 @@ vnoremap ? <ESC>?\%V
 
 " ビジュアルモード選択中の単語を検索
 vnoremap <silent>* "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
+
+" ビジュアルモードで連続ペースト
+xnoremap p "_xP
 
 " 検索結果のハイライトをEsc連打でリセットする
 noremap <silent><ESC><ESC> :<C-u>nohlsearch<CR>
