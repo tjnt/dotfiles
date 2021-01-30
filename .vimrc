@@ -88,6 +88,35 @@ if &t_Co > 2 || has('gui_running')
   syntax on
 endif
 
+" ターミナル表示に関する設定 {{{2
+"
+if !has('gui_running')
+  " enable true color
+  set termguicolors
+  " set Vim-specific sequences for RGB colors
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+  " カラースキーマ設定時に背景透過
+  augroup _remove_background_color
+    au!
+    au ColorScheme *
+          \   highlight! Normal ctermbg=none
+          \ | highlight! NonText ctermbg=none
+          \ | highlight! SpecialKey ctermbg=none
+          \ | highlight! LineNr ctermbg=none
+          \ | highlight! EndOfBuffer ctermbg=none
+    if has('termguicolors') && &termguicolors
+      au ColorScheme * 
+            \   highlight! Normal guibg=NONE
+            \ | highlight! NonText guibg=NONE
+            \ | highlight! SpecialKey guibg=NONE
+            \ | highlight! LineNr guibg=NONE
+            \ | highlight! EndOfBuffer guibg=NONE
+    endif
+  augroup END
+endif
+
 " 編集操作 {{{2
 "
 " タブの画面上での幅
@@ -165,17 +194,8 @@ if has('persistent_undo')
   set undodir=$CACHE_ROOT/undo
 endif
 
-" その他 {{{2
+" マウスに関する設定 {{{2
 "
-" ビープ音とヴィジュアルベルの抑止
-set t_vb=
-set noerrorbells
-set novisualbell
-set belloff=all
-" スプラッシュ(起動時のメッセージ)を表示しない
-set shortmess+=I
-
-" マウスに関する設定
 if has('mouse')
   " どのモードでもマウスを使えるようにする
   set mouse=a
@@ -186,6 +206,36 @@ if has('mouse')
   " tmux上のvimでもマウスによるウィンドウサイズ変更を可能にする
   set ttymouse=xterm2
 endif
+
+" terminalに関する設定 {{{2
+"
+if has('terminal')
+  set termwinkey=<C-q>
+  " ESCでノーマルモードに移行
+  tnoremap <Esc> <C-q><S-n>
+
+  function! s:termbufnew()
+    if &buftype == "terminal" && &filetype == ""
+      setlocal filetype=terminal
+    endif
+  endfunction
+
+  augroup _terminal
+    au!
+    au BufNew * call timer_start(0, { -> s:termbufnew() })
+    au FileType terminal setlocal nonumber
+  augroup END
+endif
+
+" その他 {{{2
+"
+" ビープ音とヴィジュアルベルの抑止
+set t_vb=
+set noerrorbells
+set novisualbell
+set belloff=all
+" スプラッシュ(起動時のメッセージ)を表示しない
+set shortmess+=I
 
 " 関数 {{{1
 "
@@ -425,14 +475,6 @@ endfunction
 noremap <silent><C-n><C-n> :<C-u>call <SID>quickfix_operation('d')<CR>
 " Ctrl+p Ctrl+p QuickFixで前へ
 noremap <silent><C-p><C-p> :<C-u>call <SID>quickfix_operation('u')<CR>
-
-" terminal関連 {{{2
-"
-if has('terminal')
-  set termwinkey=<C-q>
-  " ESCでノーマルモードに移行
-  tnoremap <Esc> <C-q><S-n>
-endif
 
 " 設定トグル {{{2
 "
@@ -830,8 +872,6 @@ augroup _filetype
         \ setlocal list listchars=tab:^\ ,trail:»,nbsp:%
   au FileType markdown
         \ highlight! link SpecialKey Identifier
-  au FileType terminal
-        \ setlocal nonumber
 augroup END
 
 " 拡張子によるファイルタイプの自動決定
@@ -869,18 +909,6 @@ augroup END
 " 以下のコマンドの結果は常にQuickFixで表示
 augroup _cmd_qfopen
   au! QuickfixCmdPost grep,vimgrep,make,copen cw
-augroup END
-
-" terminalのウィンドウにfiletypeを設定する
-function! s:termbufnew()
-  if &buftype == "terminal" && &filetype == ""
-    setlocal filetype=terminal
-  endif
-endfunction
-
-augroup _terminal
-  au!
-  au BufNew * call timer_start(0, { -> s:termbufnew() })
 augroup END
 
 "function! s:file_enc_check()
@@ -1054,18 +1082,6 @@ endfunction
 
 command! -nargs=0 ColorRoll call s:color_roller.roll()
 command! -nargs=0 ColorUnroll call s:color_roller.unroll()
-
-" コンソールではカラースキーマ設定時に背景透過
-if !has('gui_running')
-  augroup _remove_background_color
-    au!
-    au ColorScheme * highlight! Normal ctermbg=none
-    au ColorScheme * highlight! NonText ctermbg=none
-    au ColorScheme * highlight! SpecialKey ctermbg=none
-    au ColorScheme * highlight! LineNr ctermbg=none
-    au ColorScheme * highlight! EndOfBuffer ctermbg=none
-  augroup END
-endif
 
 " ColorRollerの先頭をデフォルトのカラースキーマとして使用する
 try
