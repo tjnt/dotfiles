@@ -218,9 +218,9 @@ calc() {
 
 # ranger
 # Start new ranger instance only if it's not running in current shell
-rg() {
+ra() {
   if [[ -z "$RANGER_LEVEL" ]]; then
-    ranger
+    ranger "$@"
   else
     exit
   fi
