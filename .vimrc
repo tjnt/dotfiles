@@ -346,8 +346,8 @@ nnoremap h <Left>zv
 nnoremap l <Right>zv
 
 " xやsではヤンクしない
-nnoremap x "_x
-nnoremap s "_s
+" nnoremap x "_x
+" nnoremap s "_s
 
 " Yで行末までコピー
 nnoremap Y y$
