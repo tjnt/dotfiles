@@ -278,6 +278,14 @@ anaconda() {
   unset -f anaconda
 }
 
+# pip 全更新
+pip-upgrade() {
+  pip install -U pip
+  for p in $(pip list -o | tail -n +3 | awk '{ print $1 }'); do
+    xargs pip install -U "$p"
+  done
+}
+
 #-------------------------------------------------
 # その他の設定
 #
