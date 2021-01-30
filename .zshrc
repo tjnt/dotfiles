@@ -341,8 +341,8 @@ if [[ -f ~/.zplug/init.zsh ]]; then
   zplug 'zsh-users/zsh-syntax-highlighting', defer:2
   zplug 'zsh-users/zsh-completions'
   zplug 'zsh-users/zsh-autosuggestions'
-  zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf
-  zplug 'junegunn/fzf', as:command, use:bin/fzf-tmux
+  zplug 'junegunn/fzf', as:command, from:gh-r, rename-to:fzf
+  # zplug 'junegunn/fzf', as:command, use:bin/fzf-tmux
   zplug 'junegunn/fzf', use:shell/key-bindings.zsh
   zplug 'junegunn/fzf', use:shell/completion.zsh
 
