@@ -217,13 +217,13 @@ endif
 " true colorと背景透過 {{{2
 "
 if !has('gui_running')
-  if has('termguicolors')
-    " enable true color
-    set termguicolors
-    " set Vim-specific sequences for RGB colors
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  endif
+  " if has('termguicolors')
+  "   " enable true color
+  "   set termguicolors
+  "   " set Vim-specific sequences for RGB colors
+  "   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  "   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  " endif
 
   " カラースキーマ設定時に背景透過
   augroup _remove_background_color
