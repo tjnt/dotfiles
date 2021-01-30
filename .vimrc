@@ -12,7 +12,7 @@ endif
 
 scriptencoding utf-8
 
-" オプション設定 {{{1
+" 基本的な設定 {{{1
 "
 " 環境変数とランタイムパス {{{2
 "
@@ -88,35 +88,6 @@ if &t_Co > 2 || has('gui_running')
   syntax on
 endif
 
-" ターミナル表示に関する設定 {{{2
-"
-if !has('gui_running')
-  " enable true color
-  set termguicolors
-  " set Vim-specific sequences for RGB colors
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-  " カラースキーマ設定時に背景透過
-  augroup _remove_background_color
-    au!
-    au ColorScheme *
-          \   highlight! Normal ctermbg=none
-          \ | highlight! NonText ctermbg=none
-          \ | highlight! SpecialKey ctermbg=none
-          \ | highlight! LineNr ctermbg=none
-          \ | highlight! EndOfBuffer ctermbg=none
-    if has('termguicolors') && &termguicolors
-      au ColorScheme * 
-            \   highlight! Normal guibg=NONE
-            \ | highlight! NonText guibg=NONE
-            \ | highlight! SpecialKey guibg=NONE
-            \ | highlight! LineNr guibg=NONE
-            \ | highlight! EndOfBuffer guibg=NONE
-    endif
-  augroup END
-endif
-
 " 編集操作 {{{2
 "
 " タブの画面上での幅
@@ -153,12 +124,6 @@ set nrformats-=octal
 set hidden
 " ヒストリの保存数
 set history=50
-" クリップボード
-set clipboard-=autoselect
-if has("unix")
-  set clipboard^=unnamedplus
-endif
-set clipboard^=unnamed
 " IMEOFFで起動する
 set iminsert=0 imsearch=0
 " tagsファイルを検索する際に、カレントバッファから上に辿って探す
@@ -194,7 +159,19 @@ if has('persistent_undo')
   set undodir=$CACHE_ROOT/undo
 endif
 
-" マウスに関する設定 {{{2
+" その他 {{{2
+"
+" ビープ音とヴィジュアルベルの抑止
+set t_vb=
+set noerrorbells
+set novisualbell
+set belloff=all
+" スプラッシュ(起動時のメッセージ)を表示しない
+set shortmess+=I
+
+" 拡張機能 {{{1
+"
+" mouse {{{2
 "
 if has('mouse')
   " どのモードでもマウスを使えるようにする
@@ -207,7 +184,17 @@ if has('mouse')
   set ttymouse=xterm2
 endif
 
-" terminalに関する設定 {{{2
+" clipboard {{{2
+"
+if has('clipboard')
+  set clipboard-=autoselect
+  if has("unix")
+    set clipboard^=unnamedplus
+  endif
+  set clipboard^=unnamed
+endif
+
+" terminal {{{2
 "
 if has('terminal')
   set termwinkey=<C-q>
@@ -227,15 +214,36 @@ if has('terminal')
   augroup END
 endif
 
-" その他 {{{2
+" true colorと背景透過 {{{2
 "
-" ビープ音とヴィジュアルベルの抑止
-set t_vb=
-set noerrorbells
-set novisualbell
-set belloff=all
-" スプラッシュ(起動時のメッセージ)を表示しない
-set shortmess+=I
+if !has('gui_running')
+  if has('termguicolors')
+    " enable true color
+    set termguicolors
+    " set Vim-specific sequences for RGB colors
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  endif
+
+  " カラースキーマ設定時に背景透過
+  augroup _remove_background_color
+    au!
+    au ColorScheme *
+          \   highlight! Normal ctermbg=none
+          \ | highlight! NonText ctermbg=none
+          \ | highlight! SpecialKey ctermbg=none
+          \ | highlight! LineNr ctermbg=none
+          \ | highlight! EndOfBuffer ctermbg=none
+    if has('termguicolors') && &termguicolors
+      au ColorScheme * 
+            \   highlight! Normal guibg=NONE
+            \ | highlight! NonText guibg=NONE
+            \ | highlight! SpecialKey guibg=NONE
+            \ | highlight! LineNr guibg=NONE
+            \ | highlight! EndOfBuffer guibg=NONE
+    endif
+  augroup END
+endif
 
 " 関数 {{{1
 "
@@ -988,15 +996,7 @@ if has("unix")
 endif
 
 " environment path for c++
-if has('win32unix')
-  " mingw64
-  let g:my.cpp_path = [
-    \   '.',
-    \   '/mingw64/include/boost',
-    \   '/mingw64/include/c++/*',
-    \   '/mingw64/include'
-    \ ]
-elseif has("unix")
+if has("unix")
   let g:my.cpp_path = [
     \   '.',
     \   '/usr/local/include',
@@ -1004,6 +1004,14 @@ elseif has("unix")
     \   '/usr/include/c++/*',
     \   '/usr/include/*/c++/*',
     \   '/usr/include'
+    \ ]
+elseif has('win32unix')
+  " mingw64
+  let g:my.cpp_path = [
+    \   '.',
+    \   '/mingw64/include/boost',
+    \   '/mingw64/include/c++/*',
+    \   '/mingw64/include'
     \ ]
 else
   let g:my.cpp_path = ['.']
