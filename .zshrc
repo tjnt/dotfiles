@@ -282,8 +282,23 @@ anaconda() {
 pip-upgrade() {
   pip install -U pip
   for p in $(pip list -o | tail -n +3 | awk '{ print $1 }'); do
-    xargs pip install -U "$p"
+    pip install -U "$p"
   done
+}
+
+# いろいろ一括更新
+my-update() {
+  local log="$HOME/.log/myupdate.log"
+  cat /dev/null > "$log"
+  {
+    rustup update
+    cargo install-update --all
+    pip-upgrade
+    zplug update
+    $HOME/repos/git/vim/myupdate.sh
+    $HOME/repos/git/thestinger/myupdate.sh
+    $HOME/repos/git/ranger/myupdate.sh
+  } 2>&1 | tee -a "$log"
 }
 
 #-------------------------------------------------
