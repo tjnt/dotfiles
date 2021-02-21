@@ -403,11 +403,11 @@ endif
 "
 if s:plug.is_installed('vim-quickhl')
   " カーソル下の単語、または選択範囲をハイライト
-  nmap <LEADER>m <Plug>(quickhl-manual-this)
-  xmap <LEADER>m <Plug>(quickhl-manual-this)
+  nmap [toggle]m <Plug>(quickhl-manual-this)
+  xmap [toggle]m <Plug>(quickhl-manual-this)
   " すべてのハイライトをクリア
-  nmap <LEADER>M <Plug>(quickhl-manual-reset)
-  xmap <LEADER>M <Plug>(quickhl-manual-reset)
+  nmap [toggle]M <Plug>(quickhl-manual-reset)
+  xmap [toggle]M <Plug>(quickhl-manual-reset)
 endif
 
 " indent-guides {{{1
@@ -417,7 +417,7 @@ if s:plug.is_installed('vim-indent-guides')
   noremap [toggle]i :<C-u>IndentGuidesToggle<CR>
 
   function! s:plug_vim_indent_guides()
-    " デフォルトは無効にしておく <LEADER><LEADER>iで有効化
+    " デフォルトは無効にしておく [toggle]iで有効化
     let g:indent_guides_enable_on_vim_startup = 0
     " ガイドを見やすく
     let g:indent_guides_color_change_percent = 5
@@ -538,7 +538,7 @@ if s:plug.is_installed('fzf.vim')
   nnoremap <silent><LEADER>b :<C-u>Buffers<CR>
   nnoremap <silent><LEADER>l :<C-u>BLines<CR>
   nnoremap <silent><LEADER>h :<C-u>History<CR>
-  " nnoremap <silent><LEADER>m :Mark<CR>
+  nnoremap <silent><LEADER>m :Mark<CR>
 endif
 
 " ctrlp.vim {{{1

@@ -310,22 +310,22 @@ endfunction
 " キーマッピング {{{1
 "
 " <LEADER>の変更 {{{2
-let g:mapleader = ','
+let g:mapleader = "\<Space>"
 
 " 基本的なキーマップ {{{2
 "
 " スペースキーでスクロール
-nnoremap <Space>   <C-e>
-nnoremap <S-Space> <C-y>
-vnoremap <Space>   <C-e>
-vnoremap <S-Space> <C-y>
+" nnoremap <Space>   <C-e>
+" nnoremap <S-Space> <C-y>
+" vnoremap <Space>   <C-e>
+" vnoremap <S-Space> <C-y>
 
 " Ctrl+SpaceでIME切り替え
-inoremap <C-Space> <C-^>
-cnoremap <C-Space> <C-^>
+" inoremap <C-Space> <C-^>
+" cnoremap <C-Space> <C-^>
 " ノーマルモードでは何もしない
-nnoremap <C-Space> <Nop>
-vnoremap <C-Space> <Nop>
+" nnoremap <C-Space> <Nop>
+" vnoremap <C-Space> <Nop>
 
 " 折り返し行でも見た目の次の行へ移動する
 nnoremap gj j
@@ -495,7 +495,9 @@ noremap <silent><C-p><C-p> :<C-u>call <SID>quickfix_operation('u')<CR>
 "
 " 設定トグルのprefix
 nnoremap [toggle] <Nop>
-nmap     <LEADER><LEADER> [toggle]
+xnoremap [toggle] <Nop>
+nmap     , [toggle]
+xmap     , [toggle]
 " 不可視文字表示のトグル
 noremap [toggle]l :<C-u>set list!<CR>
 " カーソルライン表示のトグル
