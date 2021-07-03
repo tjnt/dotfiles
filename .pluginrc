@@ -906,6 +906,21 @@ if s:plug.is_installed('vim-quickrun')
 
     " rust
     let g:quickrun_config['rust'] = {
+          \   'type':
+          \     empty(g:my.find_parent('Cargo.toml')) ? 'rust/rustc' :
+          \     (expand('%:p:h:t') == 'bin' || !empty(glob('**/bin'))) ? 'rust/cargo-bin' :
+          \     'rust/cargo'
+          \ }
+
+    let g:quickrun_config['rust/rustc'] = {
+          \   'command': 'rustc',
+          \   'exec': ['%c %o %s -o %s:p:r', '%s:p:r %a'],
+          \   'tempfile': '%{fnamemodify(tempname(), ":r")}.rs',
+          \   'hook/shebang/enable': 0,
+          \   'hook/sweep/files': '%S:p:r',
+          \ }
+
+    let g:quickrun_config['rust/cargo-bin'] = {
           \   'command': 'cargo',
           \   'exec': '%c run --bin %s:t:r --quiet',
           \   'hook/shebang/enable': 0,
