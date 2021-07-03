@@ -289,6 +289,16 @@ function! g:my.chomp(str)
   return substitute(a:str, '\n\+$', '', '')
 endfunction
 
+" 階層を上りながらファイル検索
+function! g:my.find_parent(path)
+  let dirpath = fnamemodify(a:path, ':p:h')
+  if filereadable(a:path)
+    return dirpath
+  endif
+  return dirpath == '/' ?
+        \ '' : g:my.find_parent('../' . a:path)
+endfunction
+
 " 条件'pred'を満たすウィンドウを検索し、そのウィンドウ番号を返す
 " 開いていないなら0を返す
 function! g:my.find_window_if(pred)
