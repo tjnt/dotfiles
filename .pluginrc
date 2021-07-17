@@ -613,10 +613,9 @@ if s:plug.is_installed('vim-lsp')
   function! s:plug_vim_lsp()
 
     function! s:find_root_uri(names)
-      let root_uri = lsp#utils#path_to_uri(
-      \  lsp#utils#find_nearest_parent_file_directory(
-      \    lsp#utils#get_buffer_path(), a:names))
-      return empty(root_uri) ? '.' : root_uri
+      let root_uri = lsp#utils#find_nearest_parent_file_directory(
+            \          lsp#utils#get_buffer_path(), a:names)
+      return lsp#utils#path_to_uri(empty(root_uri) ? '.' : root_uri)
     endfunction
 
     " cquery (c/cpp)
