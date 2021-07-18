@@ -39,6 +39,10 @@ export PAGER=less
 # add ./cargo/bin to $path
 [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
 
+# haskell
+# add ghcup
+[[ -f $HOME/.ghcup/env ]] && source $HOME/.ghcup/env
+
 # rbenv initialize
 # if _executable rbenv; then
 #   eval "$(rbenv init -)"
