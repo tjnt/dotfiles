@@ -612,10 +612,14 @@ endif
 if s:plug.is_installed('vim-lsp')
   function! s:plug_vim_lsp()
 
-    function! s:find_root_uri(names)
+    function! s:find_root_dir(names)
       let root_uri = lsp#utils#find_nearest_parent_file_directory(
             \          lsp#utils#get_buffer_path(), a:names)
-      return lsp#utils#path_to_uri(empty(root_uri) ? '.' : root_uri)
+      return empty(root_uri) ? '.' : root_uri
+    endfunction
+
+    function! s:find_root_uri(names)
+      return lsp#utils#path_to_uri(s:find_root_dir(a:names))
     endfunction
 
     " cquery (c/cpp)
@@ -659,7 +663,8 @@ if s:plug.is_installed('vim-lsp')
     if executable('haskell-language-server-wrapper')
       au User lsp_setup call lsp#register_server({
         \   'name': 'haskell-language-server-wrapper',
-        \   'cmd': { server_info->['haskell-language-server-wrapper', '--lsp'] },
+        \   'cmd': { server_info->['haskell-language-server-wrapper', '--lsp', 
+        \                          '--cwd', s:find_root_dir(['hie.yaml', 'stack.yaml'])] },
         \   'root_uri': { server_info->s:find_root_uri(['hie.yaml', 'stack.yaml']) },
         \   'allowlist': ['haskell'],
         \ })
@@ -871,7 +876,8 @@ if s:plug.is_installed('vim-quickrun')
           \   'outputter' : 'error',
           \   'outputter/error/success' : 'buffer',
           \   'outputter/error/error' : 'quickfix',
-          \   'outputter/buffer/split' : ':rightbelow 8sp',
+          \   'outputter/buffer/opener' :
+          \       '%{winwidth(0) * 2 < winheight(0) * 5 ? "10new" : "vnew"}',
           \   'hook/output_encode/enable' : 1,
           \   'hook/output_encode/encoding' : '&termencoding',
           \ }
