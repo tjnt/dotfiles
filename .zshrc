@@ -448,9 +448,14 @@ fi
 if _executable fzf && _executable clipc; then
   alias clip='clip_fzf'
 
-  clip_fzf() {
+  clip_fzf_select() {
     local recid=$(clipc --list | fzf | awk '{print $1}')
     [[ -n $recid ]] && clipc --select $recid
+  }
+
+  clip_fzf_delete() {
+    local recid=$(clipc --list | fzf | awk '{print $1}')
+    [[ -n $recid ]] && clipc --delete $recid
   }
 fi
 
