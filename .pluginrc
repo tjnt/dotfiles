@@ -665,6 +665,7 @@ if s:plug.is_installed('vim-lsp')
         \   'name': 'haskell-language-server-wrapper',
         \   'cmd': { server_info->['haskell-language-server-wrapper', '--lsp', 
         \                          '--cwd', s:find_root_dir(['hie.yaml', 'stack.yaml'])] },
+        \   'workspace_config': {'haskell': {'formattingProvider': 'stylish-haskell'}},
         \   'root_uri': { server_info->s:find_root_uri(['hie.yaml', 'stack.yaml']) },
         \   'allowlist': ['haskell'],
         \ })
