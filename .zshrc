@@ -296,7 +296,7 @@ my-update() {
     pip-upgrade
     zplug update
     $HOME/repos/git/vim/myupdate.sh
-    $HOME/repos/git/thestinger/myupdate.sh
+    # $HOME/repos/git/thestinger/myupdate.sh
     $HOME/repos/git/ranger/myupdate.sh
   } 2>&1 | tee -a "$log"
 }
