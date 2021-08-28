@@ -7,6 +7,19 @@ Xft.hinting:            true
 Xft.hintstyle:          hintslight
 
 !-------------------------------------------------
+! Xterm settings
+!
+XTerm*utf8:     1
+XTerm*locale:   true
+! XTerm*faceSize: 11
+! XTerm*forcePackedFont: false
+! XTerm*cjkWidth:         true
+! xterm*font: 7x13
+XTerm*faceName: xft:RictyDiminished Nerd Font Mono:style=Regular:size=12:antialias=true
+! XTerm*faceNameDoublesize: xft:RictyDiminished Nerd Font Mono:style=Regular:size=12:antialias=true
+! XTerm*fontDoublesize:   true
+
+!-------------------------------------------------
 ! URxvt settings
 !
 ! URxvt.depth:            32
@@ -44,29 +57,29 @@ URxvt.shading:          10
 
 ! Colors
 ! Jellybeans Terminal Colours
-URxvt*background: #151515
-URxvt*foreground: #e8e8d3
+*background: #151515
+*foreground: #e8e8d3
 ! black
-URxvt*color0:     #151515
-URxvt*color8:     #666656
+*color0:     #151515
+*color8:     #666656
 ! red
-URxvt*color1:     #cf6a4c
-URxvt*color9:     #f0a0c0
+*color1:     #cf6a4c
+*color9:     #f0a0c0
 ! green
-URxvt*color2:     #99ad6a
-URxvt*color10:    #c3e6ad
+*color2:     #99ad6a
+*color10:    #c3e6ad
 ! yellow
-URxvt*color3:     #ffb964
-URxvt*color11:    #fad07a
+*color3:     #ffb964
+*color11:    #fad07a
 ! blue
-URxvt*color4:     #8197bf
-URxvt*color12:    #8fbfdc
+*color4:     #8197bf
+*color12:    #8fbfdc
 ! magenta
-URxvt*color5:     #c6b6ee
-URxvt*color13:    #fbdaff
+*color5:     #c6b6ee
+*color13:    #fbdaff
 ! cyan
-URxvt*color6:     #5f8787
-URxvt*color14:    #69b2b2
+*color6:     #5f8787
+*color14:    #69b2b2
 ! white
-URxvt*color7:     #a8a897
-URxvt*color15:    #e8e8d3
+*color7:     #a8a897
+*color15:    #e8e8d3
