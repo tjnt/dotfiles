@@ -55,6 +55,15 @@ URxvt.transparent:      true
 URxvt.shading:          10
 ! URxvt*inheritPixmap:    true
 
+!-------------------------------------------------
+! xmonad settings
+!
+xmonad.font:        xft:VL Gothic-10, Unifont-10, Unifont Upper-10
+! xmonad.font.gtk:
+! xmonad.font.big:
+! xmonad.font.bold:
+! xmonad.font.italic:
+
 ! Colors
 ! Jellybeans Terminal Colours
 *.background: #151515
