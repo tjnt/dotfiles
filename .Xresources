@@ -64,6 +64,12 @@ xmonad.font:        xft:VL Gothic-10, Unifont-10, Unifont Upper-10
 ! xmonad.font.bold:
 ! xmonad.font.italic:
 
+!-------------------------------------------------
+! XMessage
+!
+xmessage.international: true
+xmessage.customization: -none
+
 ! Colors
 ! Jellybeans Terminal Colours
 *.background: #151515
