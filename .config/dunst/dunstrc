@@ -152,7 +152,7 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "<b>%s</b>\n%b"
+    format = "<b>%s %p</b>\n%b"
 
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
@@ -387,9 +387,9 @@
 #
 # Make the handling of transient notifications more strict by making them not
 # be placed in history.
-#[transient_history_ignore]
-#    match_transient = yes
-#    history_ignore = yes
+[transient_history_ignore]
+   match_transient = yes
+   history_ignore = yes
 
 # fullscreen values
 # show: show the notifications, regardless if there is a fullscreen window opened
