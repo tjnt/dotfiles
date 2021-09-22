@@ -21,16 +21,33 @@ let g:is_win = has('win16') || has('win32') || has('win64')
 " if g:is_win
 "   set shellslash
 " endif
-" 重複を防ぐため起動時のみ設定
+
 if has('vim_starting')
-  let $VIMLOCAL = expand('$HOME/.vim')
+  " XDG Base Directory Support
+  if empty($XDG_CONFIG_HOME)
+    let $XDG_CONFIG_HOME = $HOME.'/.config'
+  endif
+  if empty($XDG_DATA_HOME)
+    let $XDG_DATA_HOME = $HOME.'/.local/share'
+  endif
+  if empty($XDG_CACHE_HOME)
+    let $XDG_CACHE_HOME = $HOME.'/.cache'
+  endif
+
+  set runtimepath^=$XDG_CONFIG_HOME/vim
+  set runtimepath+=$XDG_DATA_HOME/vim
+  set runtimepath+=$XDG_CONFIG_HOME/vim/after
+
+  set packpath^=$XDG_DATA_HOME/vim,$XDG_CONFIG_HOME/vim
+  set packpath+=$XDG_CONFIG_HOME/vim/after,$XDG_DATA_HOME/vim/after
+
+  let $VIMLOCAL = $XDG_DATA_HOME.'/vim'
   if g:is_win
-    set runtimepath+=$VIMLOCAL
-    if isdirectory(expand('$VIMLOCAL/bin'))
-      let $PATH = $PATH.';'.expand('$VIMLOCAL/bin')
+    if isdirectory($VIMLOCAL.'/bin')
+      let $PATH = $PATH.';'.$VIMLOCAL.'/bin'
     endif
   endif
-  let $CACHE_ROOT = expand('$HOME/.cache/vim')
+  let $VIMCACHE = $XDG_CACHE_HOME.'/vim'
 endif
 
 " ファイルエンコーディング {{{2
@@ -150,14 +167,18 @@ set autoread
 " バックアップファイルを作成する
 set backup
 " バックアップファイルディレクトリ
-set backupdir=$CACHE_ROOT/backup
+set backupdir=$VIMCACHE/backup
 " スワップファイルの保存先
-set directory=$CACHE_ROOT/swap
+set directory=$VIMCACHE/swap
 " 再読込、vim終了後も継続するアンドゥ
 if has('persistent_undo')
   set undofile
-  set undodir=$CACHE_ROOT/undo
+  set undodir=$VIMCACHE/undo
 endif
+" mkview によるファイルを格納するディレクトリの名前
+set viewdir=$VIMLOCAL/view
+" viminfo の保存先
+set viminfofile=$VIMCACHE/viminfo
 
 " その他 {{{2
 "
@@ -235,7 +256,7 @@ if !has('gui_running')
           \ | highlight! LineNr ctermbg=none
           \ | highlight! EndOfBuffer ctermbg=none
     if has('termguicolors') && &termguicolors
-      au ColorScheme * 
+      au ColorScheme *
             \   highlight! Normal guibg=NONE
             \ | highlight! NonText guibg=NONE
             \ | highlight! SpecialKey guibg=NONE
@@ -249,7 +270,7 @@ endif
 "
 " 設定ファイルのフルパス取得
 function! s:rc_path(name)
-  return expand('$HOME/.'.a:name)
+  return expand('$XDG_CONFIG_HOME/vim/'.a:name)
 endfunction
 
 " ファイルがあったら実行
@@ -1131,6 +1152,7 @@ if has('vim_starting')
   " ディレクトリの自動生成
   call s:auto_mkdir(&backupdir, 1)
   call s:auto_mkdir(&directory, 1)
+  call s:auto_mkdir(&viewdir, 1)
   if has('persistent_undo')
     call s:auto_mkdir(&undodir, 1)
   endif
