@@ -288,7 +288,7 @@ pip-upgrade() {
 
 # いろいろ一括更新
 my-update() {
-  local log="$HOME/.log/myupdate.log"
+  local log="${XDG_CACHE_HOME}/myupdate.log"
   cat /dev/null > "$log"
   {
     rustup update
