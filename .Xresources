@@ -58,7 +58,7 @@ URxvt.shading:          10
 !-------------------------------------------------
 ! xmonad settings
 !
-xmonad.font:        xft:VL Gothic-10, Unifont-10, Unifont Upper-10
+xmonad.font:  xft:Noto Sans Mono CJK JP-8
 ! xmonad.font.gtk:
 ! xmonad.font.big:
 ! xmonad.font.bold:
@@ -67,7 +67,7 @@ xmonad.font:        xft:VL Gothic-10, Unifont-10, Unifont Upper-10
 !-------------------------------------------------
 ! dmenu
 !
-! dmenu.font:        VL Gothic-10
+dmenu.font:  Noto Sans Mono CJK JP-8
 
 !-------------------------------------------------
 ! XMessage
