@@ -39,9 +39,6 @@ export GVIMINIT=":source $XDG_CONFIG_HOME"/vim/gvimrc
 # 補完
 [[ -d $HOME/.zsh/completion ]] && fpath=(~/.zsh/completion $fpath)
 
-# export JAVA_HOME=$HOME/.local/share/jdk1.8.0_202
-# path=($JAVA_HOME/bin(N-/) $path)
-
 #-------------------------------------------------
 #
 # rust
@@ -63,5 +60,8 @@ if [[ -d $HOME/.nvm ]]; then
   [[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
   [[ -s "$NVM_DIR/bash_completion" ]] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
+
+# export JAVA_HOME=$HOME/.local/share/jdk1.8.0_202
+# path=($JAVA_HOME/bin(N-/) $path)
 
 # vim:set expandtab ft=sh ts=2 sts=2 sw=2:
