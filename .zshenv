@@ -34,6 +34,7 @@ export XDG_CACHE_HOME="${HOME}"/.cache
 
 # XDG Base Directory Support
 export VIMINIT=":source $XDG_CONFIG_HOME"/vim/vimrc
+export GVIMINIT=":source $XDG_CONFIG_HOME"/vim/gvimrc
 
 # 補完
 [[ -d $HOME/.zsh/completion ]] && fpath=(~/.zsh/completion $fpath)
