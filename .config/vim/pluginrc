@@ -753,6 +753,24 @@ if s:plug.is_installed('asyncomplete.vim')
   inoremap <expr><C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
   " cancel completion and close popup menu
   inoremap <expr><C-e> pumvisible() ? asyncomplete#cancel_popup() : "\<C-e>"
+
+  " sort by priority
+  function! s:sort_by_priority_preprocessor(options, matches) abort
+    let l:items = []
+    for [l:source_name, l:matches] in items(a:matches)
+      for l:item in l:matches['items']
+        if stridx(l:item['word'], a:options['base']) == 0
+          let l:item['priority'] =
+              \ get(asyncomplete#get_source_info(l:source_name),'priority',0)
+          call add(l:items, l:item)
+        endif
+      endfor
+    endfor
+    let l:items = sort(l:items, {a, b -> b['priority'] - a['priority']})
+    call asyncomplete#preprocess_complete(a:options, l:items)
+  endfunction
+  let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
+
   " for debug
   " let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 endif
@@ -764,11 +782,8 @@ if s:plug.is_installed('ultisnips')
   let g:UltiSnipsJumpForwardTrigger  = '<c-j>'
   let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
-  " load my snippets
-  " let snippets_dir = $VIMLOCAL.'/snippets'
-  " if isdirectory(snippets_dir)
-  "   let g:UltiSnipsSnippetsDir = snippets_dir
-  " endif
+  " UltiSnipsEditで開くディレクトリの指定
+  let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit = $VIMLOCAL.'/UltiSnips/'
 
   " 候補をソートして表示するように変更したもの
   function! s:my_ultisnips_completor(opt, ctx)
@@ -779,7 +794,7 @@ if s:plug.is_installed('ultisnips')
     let l:kw = matchstr(l:typed, '\w\+$')
     let l:kwlen = len(l:kw)
     let l:matches = sort(map(keys(l:snips),
-        \ '{"word":v:val,"dup":1,"icase":1,"menu": "Snips: " . l:snips[v:val]}'))
+        \ '{"word":v:val,"dup":1,"icase":1,"menu": "snips: " . l:snips[v:val]}'))
     let l:startcol = l:col - l:kwlen
     call asyncomplete#complete(a:opt['name'], a:ctx, l:startcol, l:matches)
   endfunction
@@ -789,6 +804,7 @@ if s:plug.is_installed('ultisnips')
         \ asyncomplete#sources#ultisnips#get_source_options({
         \   'name': 'ultisnips',
         \   'allowlist': ['*'],
+        \   'priority': 99,
         \   'completor': function('s:my_ultisnips_completor'),
         \ }))
         " デフォルトの補完関数
