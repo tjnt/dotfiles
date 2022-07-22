@@ -893,8 +893,7 @@ if s:plug.is_installed('vim-quickrun')
           \   'outputter' : 'error',
           \   'outputter/error/success' : 'buffer',
           \   'outputter/error/error' : 'quickfix',
-          \   'outputter/buffer/opener' :
-          \       '%{winwidth(0) * 2 < winheight(0) * 5 ? "10new" : "vnew"}',
+          \   'outputter/buffer/opener' : "10new",
           \   'hook/output_encode/enable' : 1,
           \   'hook/output_encode/encoding' : '&termencoding',
           \ }
