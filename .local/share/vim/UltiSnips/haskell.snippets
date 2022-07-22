@@ -1,98 +1,267 @@
-snippet import "import module"
+priority 0
+clearsnippets
+
+priority 1
+
+snippet lang "#LANGUAGE" b
+{-# LANGUAGE ${0:OverloadedStrings} #-}
+endsnippet
+
+snippet haddock "#OPTIONS_HADDOCK" b
+{-# OPTIONS_HADDOCK ${0:hide} #-}
+endsnippet
+
+snippet ghc "#OPTIONS_GHC" b
+{-# OPTIONS_GHC ${0:-fno-warn-unused-imports} #-}
+endsnippet
+
+snippet inline "#INLINE" b
+{-# INLINE ${0:name} #-}
+endsnippet
+
+snippet imp "import" b
 import ${1:module}
 endsnippet
 
-snippet import_qualified "import qualified"
+snippet import "import" b
+import ${1:module}
+endsnippet
+
+snippet imp2 "selective import" b
+import ${1:module} (${2})
+endsnippet
+
+snippet import2 "selective import" b
+import ${1:module} (${2})
+endsnippet
+
+snippet impq "qualified import" b
 import qualified ${1:module} as ${2:alias}
 endsnippet
 
-snippet import_ByteString
+snippet import_qualified "qualified import" b
+import qualified ${1:module} as ${2:alias}
+endsnippet
+
+snippet impMonad "import Monad" b
+import Control.Monad
+endsnippet
+
+snippet impList "import List" b
+import Data.List
+endsnippet
+
+snippet impArray "import Array" b
+import Data.Array.IArray
+endsnippet
+
+snippet impVector "import Vector" b
+import qualified Data.Vector as V
+endsnippet
+
+snippet impMap "import Map" b
+import qualified Data.Map as M
+endsnippet
+
+snippet impSet "import Set" b
+import qualified Data.Set as S
+endsnippet
+
+snippet impSequence "import Sequence" b
+import Data.Sequence (Seq (Empty, (:<|), (:|>)), (<|), (|>), (><))
+import qualified Data.Sequence as Q
+endsnippet
+
+snippet impByteString "import ByteString" b
 import qualified Data.ByteString.Char8 as BS
 import Data.Maybe (fromJust)
 endsnippet
 
-snippet import_List
-import Data.List
+snippet module "module" b
+module ${1:Module}
+    (
+    ) where
+${0}
 endsnippet
 
-snippet import_Monad
-import Control.Monad
+snippet class "class" b
+class ${1:Class} a where
+    ${0}
 endsnippet
 
-snippet main "main function"
+snippet inst "instance" b
+instance ${1:Class} ${2:Type} where
+    ${0}
+endsnippet
+
+snippet data "data" b
+data ${1:Type} = ${2:$1} ${0:Int}
+endsnippet
+
+snippet newtype "newtype" b
+newtype ${1:Type} = ${2:$1} ${0:Int}
+endsnippet
+
+snippet type "type" b
+type ${1:Type} = ${0:Type}
+endsnippet
+
+snippet => "type constraint"
+(${1:Class} ${2:a}) => $2
+endsnippet
+
+snippet rec "record" b
+${1:Record} { ${2:field} = ${3:undefined}
+            , ${4:field} = ${5:undefined}
+            }
+endsnippet
+
+snippet let "let"
+let ${1:var} = ${2}
+endsnippet
+
+snippet letin "let in"
+let ${1:var} = ${2}
+ in ${0}
+endsnippet
+
+snippet where "where"
+where
+  ${1} = ${0:undefined}
+endsnippet
+
+snippet if "if"
+if ${1:cond} then ${2} else ${3}
+endsnippet
+
+snippet case "case"
+case ${1} of
+    ${2} -> ${0:undefined}
+    _  -> undefined
+endsnippet
+
+snippet \ "\x -> ..."
+\\${1:x} -> ${0}
+endsnippet
+
+snippet main "main function" b
 main :: IO ()
 main = do
-    ${0:code}
+    ${0}
     return ()
 endsnippet
 
-snippet func "function"
-${1:name} :: ${2:type}
+snippet func "function" b
+${1:func} :: ${2:a}
 $1 ${3:args} = ${0:undefined}
 endsnippet
 
-snippet solve "solve function"
-solve :: ${1:type}
+snippet solve "solve function" b
+solve :: ${1:a}
 solve ${2:args} = ${0:undefined}
 endsnippet
 
-snippet readString "入力から文字列を読み込む"
+snippet readString "入力から文字列を読み込む" b
 ${0:var} <- getLine :: IO String
 endsnippet
 
-snippet readStringList "入力から文字列のリストを読み込む"
+snippet readStringList "入力から文字列のリストを読み込む" b
 ${0:var} <- words <$> getLine :: IO [String]
 endsnippet
 
-snippet readInt "入力から数値を読み込む"
+snippet readLinesString "複数行の入力から文字列を読み込む" b
+${0:var} <- lines <$> getContents :: IO [String]
+endsnippet
+
+snippet readInt "入力から数値を読み込む" b
 ${0:var} <- readLn :: IO Int
 endsnippet
 
-snippet readIntList "入力から数値のリストを読み込む"
+snippet readIntList "入力から数値のリストを読み込む" b
 ${0:var} <- map read . words <$> getLine :: IO [Int]
 endsnippet
 
-snippet readLinesInt "複数行の入力から数値を読み込む"
+snippet readIntTuple "入力から数値のタプルを読み込む" b
+${0:var} <- (\[a,b] -> (a,b)) . map read . words
+         <$> getLine :: IO (Int,Int)
+endsnippet
+
+snippet readLinesInt "複数行の入力から数値を読み込む" b
 ${0:var} <- map read . lines <$> getContents :: IO [Int]
 endsnippet
 
-snippet readLinesIntList "複数行の入力から数値のリストを読み込む"
+snippet readLinesIntList "複数行の入力から数値のリストを読み込む" b
 ${0:var} <- map (map read . words) . lines <$> getContents :: IO [[Int]]
 endsnippet
 
-snippet readLinesIntTuple "複数行の入力から数値のタプルを読み込む"
+snippet readLinesIntTuple "複数行の入力から数値のタプルを読み込む" b
 ${0:var} <- map ((\[a,b] -> (a,b)) . (map read . words))
     . lines <$> getContents :: IO [(Int,Int)]
 endsnippet
 
-snippet BSreadIntList "(BS)入力から数値のリストを読み込む"
+snippet BSreadString "(BS)入力から文字列を読み込む" b
+${0:var} <- BS.unpack <$> BS.getLine :: IO String
+endsnippet
+
+snippet BSreadIntList "(BS)入力から数値のリストを読み込む" b
 ${0:var} <- map (fst . fromJust . BS.readInt)
     . BS.words <$> BS.getLine :: IO [Int]
 endsnippet
 
-snippet BSreadLinesInt "(BS)複数行の入力から数値を読み込む"
+snippet BSreadLinesInt "(BS)複数行の入力から数値を読み込む" b
 ${0:var} <- map (fst . fromJust . BS.readInt)
     . BS.lines <$> BS.getContents :: IO [Int]
 endsnippet
 
-snippet BSreadLinesIntList "(BS)複数行の入力から数値のリストを読み込む"
+snippet BSreadLinesIntList "(BS)複数行の入力から数値のリストを読み込む" b
 ${0:var} <- map (map (fst . fromJust . BS.readInt) . BS.words)
     . BS.lines <$> BS.getContents :: IO [[Int]]
 endsnippet
 
-snippet BSreadLinesIntTuple "(BS)数行の入力から数値のタプルを読み込む"
+snippet BSreadLinesIntTuple "(BS)数行の入力から数値のタプルを読み込む" b
 ${0:var} <- map ((\[a,b] -> (a,b)) . map (fst . fromJust . BS.readInt) . BS.words)
     . BS.lines <$> BS.getContents :: IO [(Int,Int)]
 endsnippet
 
-snippet BSreadLinesDoubleTuple "(BS)数行の入力から少数値のタプルを読み込む"
+snippet BSreadLinesDoubleTuple "(BS)数行の入力から少数値のタプルを読み込む" b
 ${0:var} <- map ((\[a,b] -> (a,b)) . map ((read :: String -> Double) . BS.unpack) . BS.words)
     . BS.lines <$> BS.getContents :: IO [(Double,Double)]
 endsnippet
 
-snippet debug "デバッグ関数"
+snippet BSreadMaze "(BS)迷路の入力を読み込む" b
+    maze <- listArray ((0,0),(h-1,w-1)) . BS.unpack . BS.concat . BS.lines
+     <$> BS.getContents :: IO String
+endsnippet
+
+snippet skipLine "入力を一行読み飛ばす" b
+_ <- getLine
+endsnippet
+
+snippet debug "デバッグ関数" b
 import Debug.Trace
 _t x = traceShow x x
+endsnippet
+
+snippet ceilDiv "切り上げ割り算" b
+ceilDiv :: Integral a => a -> a -> a
+ceilDiv t s = (t + s - 1) \`div\` s
+endsnippet
+
+snippet mapM "mapM_" b
+mapM_ (\\${2:i} -> ${0}) ${1}
+endsnippet
+
+snippet forM "forM_" b
+forM_ [${1}] $ \\${2:i} -> do
+    ${0}
+endsnippet
+
+snippet printSolve "print $ solve" b
+print $ solve ${0}
+endsnippet
+
+snippet printSolveMap "print . map $ solve" b
+mapM_ print $ solve ${0}
 endsnippet
 
 # vim:set list expandtab:
