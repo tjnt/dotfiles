@@ -39,6 +39,9 @@ export GVIMINIT=":source $XDG_CONFIG_HOME"/vim/gvimrc
 # 補完
 [[ -d $HOME/.zsh/completion ]] && fpath=(~/.zsh/completion $fpath)
 
+# fzf
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+
 #-------------------------------------------------
 #
 # rust
