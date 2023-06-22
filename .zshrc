@@ -270,11 +270,24 @@ xdg-default-regist() {
   xdg-mime default "${desktop##*/}" "$mime"
 }
 
-# anacondaをパスに追加してプロンプトを変える
+# anaconda環境の起動
 anaconda() {
-  path=($HOME/.local/anaconda3/bin(N-/) $path)
-  PROMPT="%B%F{228}[anaconda] %f%b${PROMPT}"
-  export ANACONDA=1
+  # >>> conda initialize >>>
+  # !! Contents within this block are managed by 'conda init' !!
+  __conda_setup="$('/home/tjnt/.local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+  else
+      if [ -f "/home/tjnt/.local/anaconda3/etc/profile.d/conda.sh" ]; then
+          . "/home/tjnt/.local/anaconda3/etc/profile.d/conda.sh"
+      else
+          export PATH="/home/tjnt/.local/anaconda3/bin:$PATH"
+      fi
+  fi
+  unset __conda_setup
+  # <<< conda initialize <<<
+
+  conda activate
   unset -f anaconda
 }
 
