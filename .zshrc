@@ -291,14 +291,6 @@ anaconda() {
   unset -f anaconda
 }
 
-# pip 全更新
-pip-upgrade() {
-  pip install -U pip
-  for p in $(pip list -o | tail -n +3 | awk '{ print $1 }'); do
-    pip install -U "$p"
-  done
-}
-
 # いろいろ一括更新
 my-update() {
   local log="${XDG_CACHE_HOME}/myupdate.log"
@@ -306,7 +298,6 @@ my-update() {
   {
     rustup update
     cargo install-update --all
-    pip-upgrade
     zplug update
     $HOME/repos/git/vim/myupdate.sh
     # $HOME/repos/git/thestinger/myupdate.sh
