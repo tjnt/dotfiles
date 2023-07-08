@@ -758,6 +758,10 @@ if s:plug.is_installed('vim-lsp')
       autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
     augroup END
 
+    " diagnostics
+    let g:lsp_diagnostics_virtual_text_enabled = 0
+    let g:lsp_diagnostics_float_cursor = 1
+
     " for debug
     " let g:lsp_log_verbose = 1
     " let g:lsp_log_file = expand('~/vim-lsp.log')
