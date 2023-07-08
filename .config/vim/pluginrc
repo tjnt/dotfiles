@@ -750,6 +750,8 @@ if s:plug.is_installed('vim-lsp')
       nmap <buffer><leader>Q  <plug>(lsp-document-format)
       vmap <buffer><leader>Q  <plug>(lsp-document-format)
       nmap <buffer><leader>R  <plug>(lsp-rename)
+      nnoremap <buffer> <expr><C-j> lsp#document_hover_preview_winid() ? lsp#scroll(+4) : "\<C-w>j"
+      nnoremap <buffer> <expr><C-k> lsp#document_hover_preview_winid() ? lsp#scroll(-4) : "\<C-w>k"
     endfunction
 
     augroup lsp_install
